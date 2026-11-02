@@ -112,7 +112,16 @@ button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visibl
 .card{background:var(--panel);border:1px solid var(--line);border-radius:1.25rem;padding:1rem;box-shadow:var(--sh)}
 .prof{display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:center}
 .av{--avc:var(--blue);width:3.5rem;height:3.5rem;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:1.4rem;color:#fff;background:var(--avc);border:3px solid var(--gold);box-shadow:0 4px 12px rgba(0,0,0,.3);flex:none;text-shadow:0 1px 2px rgba(0,0,0,.3)}
-.prof .nm{font-weight:800;font-size:1.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prof .nm{display:block;max-width:100%;text-align:left;font-weight:800;font-size:1.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prof .nm::after{content:" ✏️";font-size:.72em;opacity:.7}
+/* foto de perfil: llena el círculo; sin foto se ve la inicial */
+.av.ph{padding:0;overflow:hidden;background:var(--panel2)}
+.av img,.mav img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;pointer-events:none;-webkit-user-drag:none}
+.avw{position:relative;flex:none;display:grid}
+.cam{position:absolute;right:-.25rem;bottom:-.15rem;width:1.4rem;height:1.4rem;border-radius:50%;background:var(--gold);color:var(--goldink);display:grid;place-items:center;font-size:.72rem;box-shadow:0 2px 6px rgba(0,0,0,.45);pointer-events:none}
+.mav{display:inline-grid;place-items:center;vertical-align:middle;width:1.35rem;height:1.35rem;margin-right:.4rem;border-radius:50%;overflow:hidden;font-style:normal;font-size:.7rem;font-weight:800;color:#fff;background:var(--avc,var(--blue));text-shadow:0 1px 1px rgba(0,0,0,.3);flex:none;position:relative;top:-.06rem}
+.srow .av{width:3rem;height:3rem;font-size:1.2rem}
+.srow+.two{margin-bottom:.3rem}
 .prof .rk{color:var(--goldtxt);font-size:.9rem;font-weight:700}
 .xp{height:.6rem;border-radius:1rem;background:rgba(127,127,170,.28);overflow:hidden;margin-top:.45rem}
 .xp i{display:block;height:100%;width:var(--w,0%);background:linear-gradient(90deg,var(--gold2),var(--gold));border-radius:inherit;transition:width .9s ease}
@@ -393,6 +402,7 @@ noscript{display:block;padding:2rem;text-align:center;color:var(--ink)}
   <button type="button" data-go="settings"><span>⚙️</span>Ajustes</button>
 </div></nav>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
+<input type="file" id="pf" accept="image/*" tabindex="-1" aria-hidden="true" style="position:fixed;left:-200px;top:0;width:1px;height:1px;opacity:0;pointer-events:none">
 <noscript>Esta app necesita JavaScript para funcionar.</noscript>
 <script>
 "use strict";
@@ -401,7 +411,11 @@ noscript{display:block;padding:2rem;text-align:center;color:var(--ink)}
    Secciones: núcleo · inicio / logros / ajustes · partida solo ·
               ruleta · en línea · arranque (PWA)
    ============================================================ */
-const APPV="3.1.0";
+const APPV="3.2.0";
+/* NETV = versión del juego EN LÍNEA (preguntas y reglas). Súbela solo cuando cambien las
+   preguntas o las reglas del juego: así quien tenga la app un poco más vieja puede seguir
+   jugando con los demás. (La 3.2 solo agregó fotos de perfil, por eso sigue en 3.1.0.) */
+const NETV="3.1.0";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const A=$("#app");
 const esc=s=>String(s).replace(/[&<>"']/g,c=>"&#"+c.charCodeAt(0)+";");
@@ -413,8 +427,14 @@ const hstr=s=>{let h=7;for(const c of s)h=(h*31+c.charCodeAt(0))|0;return h};
 const hh=s=>{let h=5381;for(const c of s)h=((h*33)^c.charCodeAt(0))>>>0;return h.toString(36)};
 function shade(hex,a){const n=parseInt(hex.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;const f=a<0?0:255,p=Math.abs(a);r=Math.round((f-r)*p+r);g=Math.round((f-g)*p+g);b=Math.round((f-b)*p+b);return"#"+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1)}
 
+/* ---------- foto de perfil: un JPEG diminuto guardado como texto (data URL) ---------- */
+const PIC_RE=/^data:image\/jpeg;base64,[A-Za-z0-9+\/]{20,}={0,2}$/;
+/* max: la foto de 160 px (la tuya, en tu teléfono) puede ser más grande que la de 80 px que viaja por internet */
+const okPic=(s,max=40000)=>typeof s==="string"&&s.length<=max&&PIC_RE.test(s);
+
 /* ---------- estado global ---------- */
 let G=null,R=null,RM=null,F=-1,IP=null,VIEW="home";
+const PICS={}; /* fotos de los amigos de la sala: id del jugador → {h: huella, u: foto} */
 
 /* ---------- datos: bloques, preguntas, versículos ---------- */
 const BLK=[
@@ -1341,9 +1361,9 @@ const VOD=["Juan 3:16","Salmos 23:1","Proverbios 3:5","Isaías 40:31","Filipense
 function verseOfDay(){const n=new Date(),i=Math.floor((new Date(n.getFullYear(),n.getMonth(),n.getDate())-new Date(2026,0,1))/864e5);const r=VOD[((i%VOD.length)+VOD.length)%VOD.length];return{r,t:V[r]||"",url:"https://www.biblegateway.com/passage/?search="+encodeURIComponent(r)+"&version=RVR1960"}}
 
 /* ---------- progreso guardado ---------- */
-const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",miss:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0}});
+const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",pic:"",picS:"",miss:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0}});
 let D=DEF();
-try{const s=JSON.parse(localStorage.getItem("tb")||"{}");Object.assign(D,s);D.set=Object.assign(DEF().set,s.set||{});if(!Array.isArray(D.pass))D.pass=[0,0,0];if(!D.medals||typeof D.medals!=="object")D.medals={};if(!D.bk)D.bk={};if(!D.st)D.st={};if(!D.miss||typeof D.miss!=="object")D.miss={}}catch(e){}
+try{const s=JSON.parse(localStorage.getItem("tb")||"{}");Object.assign(D,s);D.set=Object.assign(DEF().set,s.set||{});if(!Array.isArray(D.pass))D.pass=[0,0,0];if(!D.medals||typeof D.medals!=="object")D.medals={};if(!D.bk)D.bk={};if(!D.st)D.st={};if(!D.miss||typeof D.miss!=="object")D.miss={};if(!okPic(D.pic)||!okPic(D.picS,12000)){D.pic="";D.picS=""}}catch(e){}
 const sv=()=>{try{localStorage.setItem("tb",JSON.stringify(D))}catch(e){}};
 function applyTheme(){const t=D.set.theme,r=document.documentElement;if(t==="auto")r.removeAttribute("data-theme");else r.dataset.theme=t;r.classList.toggle("big",!!D.set.big);
   const dark=t==="dark"||(t==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);const m=$('meta[name="theme-color"]');if(m)m.content=dark?"#0b1536":"#f6efd9"}
@@ -1375,6 +1395,9 @@ function checkMedals(){const nw=[];for(const m of MEDALS)if(!D.medals[m.id]&&m.o
 const AVC=["#3e82f7","#2fbf7e","#e5484d","#9b5de5","#e49b12","#d2601f","#14a39a","#d6409f"];
 const avc=n=>AVC[Math.abs(hstr(String(n)))%AVC.length];
 const ini=n=>(String(n).trim()[0]||"?").toUpperCase();
+/* círculo de jugador: foto si la hay, si no la inicial del nombre */
+const avCls=p=>okPic(p)?"av ph":"av";
+const avIn=(n,p)=>okPic(p)?`<img src="${p}" alt="" draggable="false">`:esc(ini(n));
 
 /* ---------- sonido y vibración ---------- */
 const Snd=(()=>{let c=null;
@@ -1435,7 +1458,7 @@ addEventListener("popstate",()=>{if(VIEW==="home")return;if(VIEW==="play"){pushV
 let wl=null;
 async function wake(on){try{if(on){if(!wl&&navigator.wakeLock){wl=await navigator.wakeLock.request("screen");wl.addEventListener("release",()=>{wl=null})}}else if(wl){const w=wl;wl=null;await w.release()}}catch(e){}}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&(G||R||RM)&&!wl)wake(true)});
-function stopAll(){wake(false);Tm.stop();closeModal();if(G){clearTimeout(G.rtm);clearTimeout(G.adv);G=null}if(R){clearTimeout(R.bt);R=null}if(RM){try{RM.leave()}catch(e){}RM=null}}
+function stopAll(){wake(false);Tm.stop();closeModal();if(G){clearTimeout(G.rtm);clearTimeout(G.adv);G=null}if(R){clearTimeout(R.bt);R=null}if(RM){try{RM.leave()}catch(e){}RM=null}for(const k in PICS)delete PICS[k]}
 const standalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
 const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
 
@@ -1455,8 +1478,8 @@ function home(){
   <header class="top"><div class="brand"><img src="icons/icon-192.png" alt="" width="40" height="40"><b>Trivia Bíblica</b></div>
     <button class="ibtn" id="snd" aria-label="${D.set.snd?"Silenciar":"Activar sonido"}">${D.set.snd?"🔊":"🔇"}</button>
     <button class="ibtn" id="hlp" aria-label="Cómo jugar">❓</button></header>
-  <section class="card"><div class="prof"><button class="av" id="avb" style="--avc:${avc(me)}" aria-label="Cambiar mi nombre">${esc(ini(me))}</button>
-    <div style="min-width:0"><div class="nm">${esc(me)}</div><div class="rk">${rk.e} ${rk.n}</div><div class="xp"><i style="--w:${rk.pct}%"></i></div>
+  <section class="card"><div class="prof"><div class="avw"><button class="${avCls(D.pic)}" id="avb" style="--avc:${avc(me)}" aria-label="Elegir mi foto de perfil">${avIn(me,D.pic)}</button><span class="cam" aria-hidden="true">📷</span></div>
+    <div style="min-width:0"><button class="nm" id="nmb" type="button" aria-label="Cambiar mi nombre">${esc(me)}</button><div class="rk">${rk.e} ${rk.n}</div><div class="xp"><i style="--w:${rk.pct}%"></i></div>
     <div class="xpl"><span>${D.pts.toLocaleString("es")} pts</span><span>${rk.next?"Sigue: "+rk.next:"¡Rango máximo!"}</span></div></div></div>
     <div class="stats3"><div class="st3"><b>🔥 ${streakNow()}</b><span>Racha diaria</span></div><div class="st3"><b>👑 ${D.crowns}</b><span>Coronas</span></div><div class="st3"><b>${acc}%</b><span>Aciertos</span></div></div></section>
   <section class="vod"><small>Versículo del día</small><p>«${esc(vr.t.replace(/^\(\d+:\d+\)\s*/,""))}»</p><div class="vr"><span>${esc(vr.r)} · RV 1909</span><span><a href="${vr.url}" target="_blank" rel="noopener">Leer ↗</a> &nbsp; <button id="vsh" type="button" aria-label="Compartir versículo como imagen">Compartir</button></span></div></section>
@@ -1477,7 +1500,8 @@ function home(){
   <div class="pills" role="group" aria-label="Filtrar por bloque"><button class="pill ${F<0?"on":""}" data-f="-1">📖 Toda la Biblia</button>${BLK.map((b,i)=>`<button class="pill ${F===i?"on":""}" data-f="${i}">${b.e} ${b.s}</button>`).join("")}</div>`,"home");
   $("#snd").onclick=()=>{D.set.snd=D.set.snd?0:1;sv();Snd.play("click");home()};
   $("#hlp").onclick=help;
-  $("#avb").onclick=()=>askName(home);
+  $("#avb").onclick=()=>pickPhoto(home);
+  $("#nmb").onclick=()=>askName(home);
   $("#vsh").onclick=()=>shareVerse(vr.r,vr.t.replace(/^\(\d+:\d+\)\s*/,""));
   $("#rl").onclick=()=>{Snd.play("click");rSetup()};
   $("#daily").onclick=()=>{if(D.last===todayS())return;const q=shuffle(QS,rng(hstr(todayS())));startGame(q,"daily")};
@@ -1496,6 +1520,27 @@ const pool=l=>{const b=inF();return[...shuffle(b.filter(q=>q.l===l)),...shuffle(
 async function installApp(){
   if(IP){IP.prompt();try{const r=await IP.userChoice;if(r.outcome==="accepted")toast("¡Instalando! 🎉")}catch(e){}IP=null;if(VIEW==="home")home();return}
   modal(`<h3>Instalar la app</h3><p>${isIOS?"En iPhone/iPad: toca el botón <b>Compartir</b> (el cuadrado con la flecha) y elige <b>«Añadir a pantalla de inicio»</b>.":"En Android: abre el menú <b>⋮</b> del navegador y elige <b>«Instalar aplicación»</b> o <b>«Añadir a pantalla de inicio»</b>."}</p>`,[{t:"Entendido",cls:"gold"}])}
+/* ---------- foto de perfil: elegir de la galería, recortar al centro y achicar ---------- */
+function squareJpeg(src,n,q){
+  const w=src.naturalWidth||src.width,h=src.naturalHeight||src.height,s=Math.min(w,h),c=document.createElement("canvas");
+  c.width=c.height=n;const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,n,n);
+  x.imageSmoothingEnabled=true;x.imageSmoothingQuality="high";
+  x.drawImage(src,(w-s)/2,(h-s)/2,s,s,0,0,n,n);return c.toDataURL("image/jpeg",q)}
+function loadImg(file){return new Promise((ok,no)=>{const u=URL.createObjectURL(file),i=new Image();
+  i.onload=()=>{URL.revokeObjectURL(u);ok(i)};i.onerror=()=>{URL.revokeObjectURL(u);no(new Error("img"))};i.src=u})}
+/* si la foto tiene mucho detalle (una captura con texto, por ejemplo) se baja la calidad hasta que quede liviana */
+function fitJpeg(img,n,qs,max){let u="";for(const q of qs){u=squareJpeg(img,n,q);if(u.length<=max)break}return u}
+/* dos tamaños: 160 px para verte bien tú, 80 px para mandar a los amigos (pesa ~2-4 KB) */
+async function setPhoto(file){
+  try{const img=await loadImg(file);if(!(img.naturalWidth>0&&img.naturalHeight>0))throw 0;
+    const big=fitJpeg(img,160,[.82,.7,.58,.46,.36],24000),small=fitJpeg(img,80,[.7,.55,.42,.3],6000);if(!okPic(big)||!okPic(small,12000))throw 0;
+    D.pic=big;D.picS=small;sv();return true}
+  catch(e){toast("No se pudo usar esa foto. Prueba con otra.");return false}}
+function pickPhoto(after){
+  const f=$("#pf");if(!f)return;f.value="";
+  f.onchange=async()=>{const file=f.files&&f.files[0];if(!file)return;const ok=await setPhoto(file);f.value="";if(ok){Snd.play("ok");toast("Foto guardada ✓");after&&after()}};
+  f.click()}
+function dropPhoto(after){D.pic="";D.picS="";sv();toast("Foto quitada");after&&after()}
 function askName(after){
   modal(`<h3>¿Cómo te llamas?</h3><p>Tu nombre se usa en la ruleta y en las salas con amigos.</p><input id="nmi" maxlength="14" autocomplete="nickname" placeholder="Tu nombre" value="${esc(D.name||"")}">`,
     [{t:"Ahora no",cls:"ghost",fn:()=>{D.skipName=1;sv();after&&after()}},{t:"Guardar",cls:"gold",fn:()=>{const v=($("#nmi")||{}).value;D.name=(v||"").trim().slice(0,14);sv();after&&after()}}]);
@@ -1523,7 +1568,9 @@ function settings(){
   pushView();const s=D.set,inst=!standalone()&&(IP||isIOS);
   const sw=(id,on,t,sm)=>`<div class="srow"><div><b>${t}</b><small>${sm}</small></div><button class="switch" role="switch" id="${id}" aria-checked="${!!on}" aria-label="${t}"></button></div>`;
   view(`<h1 class="h1">Ajustes</h1><p class="sub">Personaliza tu experiencia</p>
-  <div class="card"><label class="lbl" for="sname" style="margin-top:0">Mi nombre</label><input id="sname" maxlength="14" placeholder="Tu nombre" value="${esc(D.name||"")}">
+  <div class="card"><div class="srow" style="padding-top:0"><span class="${avCls(D.pic)}" id="sav" style="--avc:${avc(D.name||"Jugador")}">${avIn(D.name||"Jugador",D.pic)}</span><div style="flex:1;min-width:0"><b>Foto de perfil</b><small>La ven tus amigos en la ruleta, los duelos y las salas</small></div></div>
+  <div class="two"><button class="btn ghost sm" id="sPic">📷 ${D.pic?"Cambiar foto":"Elegir foto"}</button><button class="btn ghost sm" id="sPicX" ${D.pic?"":"disabled"}>Quitar foto</button></div>
+  <label class="lbl" for="sname">Mi nombre</label><input id="sname" maxlength="14" placeholder="Tu nombre" value="${esc(D.name||"")}">
   ${sw("sSnd",s.snd,"Sonidos","Efectos de acierto, error y ruleta")}${sw("sVib",s.vib,"Vibración","Al responder (solo en celulares compatibles)")}${sw("sBig",s.big,"Texto grande","Letras más grandes en toda la app")}
   <div class="srow" style="display:block"><b>Tema</b><div class="seg" id="sTh"><button data-v="auto">Automático</button><button data-v="light">Claro</button><button data-v="dark">Oscuro</button></div></div>
   <div class="srow" style="display:block"><b>Tiempo por pregunta</b><small>Normal: 15 s · Relajado: 30 s. En línea siempre son 15 s</small><div class="seg" id="sTm"><button data-v="15">15 s</button><button data-v="30">30 s</button><button data-v="0">Sin tiempo</button></div></div></div>
@@ -1531,13 +1578,15 @@ function settings(){
   <p class="sub" style="margin-top:1.2rem;font-size:.8rem">Versión ${APPV} · ${QS.length} preguntas</p>`,"settings");
   const seg=(id,cur,fn)=>{const mark=()=>$$("#"+id+" button").forEach(b=>b.classList.toggle("on",b.dataset.v===String(cur())));mark();$$("#"+id+" button").forEach(b=>b.onclick=()=>{fn(b.dataset.v);sv();Snd.play("click");mark()})};
   $("#sname").onchange=e=>{D.name=e.target.value.trim().slice(0,14);sv();toast("Nombre guardado ✓")};
+  const paintPic=()=>{const a=$("#sav");if(a){a.className=avCls(D.pic);a.innerHTML=avIn(D.name||"Jugador",D.pic)}$("#sPic").textContent="📷 "+(D.pic?"Cambiar foto":"Elegir foto");$("#sPicX").disabled=!D.pic};
+  $("#sPic").onclick=()=>pickPhoto(paintPic);$("#sPicX").onclick=()=>dropPhoto(paintPic);
   const tg=(id,k,fn)=>$("#"+id).onclick=e=>{D.set[k]=D.set[k]?0:1;sv();e.currentTarget.setAttribute("aria-checked",!!D.set[k]);fn&&fn();Snd.play("click");if(k==="vib")vib(40)};
   tg("sSnd","snd");tg("sVib","vib");tg("sBig","big",applyTheme);
   seg("sTh",()=>D.set.theme,v=>{D.set.theme=v;applyTheme()});seg("sTm",()=>D.set.time,v=>D.set.time=+v);
   if($("#sIn"))$("#sIn").onclick=installApp;
   $("#sSh").onclick=()=>shareTxt("✝️ Trivia Bíblica: pon a prueba tu conocimiento de la Palabra. ¡Juega conmigo!",APPURL);
   $("#sHl").onclick=help;$("#sAb").onclick=about;
-  $("#sRs").onclick=()=>confirmBox("¿Borrar todo tu progreso?","Se borrarán tus puntos, rachas, logros y ajustes. No se puede deshacer.","Borrar todo",()=>{D=DEF();sv();applyTheme();toast("Progreso borrado");home()});
+  $("#sRs").onclick=()=>confirmBox("¿Borrar todo tu progreso?","Se borrarán tus puntos, rachas, logros, foto y ajustes. No se puede deshacer.","Borrar todo",()=>{D=DEF();sv();applyTheme();toast("Progreso borrado");home()});
 }
 function help(){
   modal(`<div class="help"><h3>Cómo jugar</h3>
@@ -1546,6 +1595,7 @@ function help(){
   <h3>🎲 Rápida y ⚔️ Duelo</h3><p>10 preguntas al azar. En el duelo compites contra un rival simulado.</p>
   <h3>📚 Niveles</h3><p>Saca 7 de 10 para desbloquear el siguiente nivel.</p>
   <h3>🌍 Con amigos</h3><p>Crea una sala con nombre y contraseña; tus amigos entran con los mismos datos. Puedes jugar solo preguntas o ruleta por turnos.</p>
+  <h3>📷 Tu foto</h3><p>En el inicio, toca tu círculo para elegir una foto de tu galería. Tus amigos la verán en la ruleta, los duelos y las salas. Para cambiar tu nombre, toca tu nombre.</p>
   <h3>💡 Comodines</h3><p>En partidas individuales tienes uno de cada uno: <b>50/50</b> quita dos respuestas, <b>+10 s</b> suma tiempo y <b>Cambiar</b> te da otra pregunta.</p>
   <h3>⭐ Puntos</h3><p>Cada acierto suma 100 puntos, más hasta 50 por rapidez y un bonus si encadenas aciertos.</p></div>`,[{t:"¡A jugar!",cls:"gold"}])}
 function about(){
@@ -1640,7 +1690,7 @@ function ask(){
   const dots=G.qs.map((_,i)=>`<i class="${i<G.i?(G.res[i]?"ok":"bad"):i===G.i?"cur":""}"></i>`).join("");
   const ring=tl?`<div class="ring" id="ring" aria-hidden="true"><svg viewBox="0 0 40 40"><circle class="tr" cx="20" cy="20" r="16"/><circle class="pg" id="pg" cx="20" cy="20" r="16"/></svg><b id="rn">${tl}</b></div>`:"";
   const lf=(online||rush)?"":`<div class="life"><button class="lf" data-k="f" ${G.life.f?"":"disabled"}><span>✂️</span>50/50<em>${G.life.f}</em></button>${tl?`<button class="lf" data-k="t" ${G.life.t?"":"disabled"}><span>⏱️</span>+10 s<em>${G.life.t}</em></button>`:""}<button class="lf" data-k="s" ${G.life.s&&G.spare.length?"":"disabled"}><span>🔄</span>Cambiar<em>${G.life.s}</em></button></div>`;
-  const me=D.name||"Tú",vs=duel?`<div class="vs"><div class="p"><span class="av" style="--avc:${avc(me)}">${esc(ini(me))}</span><b>${esc(me)}</b><span class="sc" id="my">${G.pts}</span></div><span class="x">VS</span><div class="p" id="rvp"><span class="av" style="--avc:${avc(G.rn)}">${esc(ini(G.rn))}</span><b>${esc(G.rn)}</b><span class="sc" id="rv">${G.rv}</span></div></div>`:"";
+  const me=D.name||"Tú",vs=duel?`<div class="vs"><div class="p"><span class="${avCls(D.pic)}" style="--avc:${avc(me)}">${avIn(me,D.pic)}</span><b>${esc(me)}</b><span class="sc" id="my">${G.pts}</span></div><span class="x">VS</span><div class="p" id="rvp"><span class="av" style="--avc:${avc(G.rn)}">${esc(ini(G.rn))}</span><b>${esc(G.rn)}</b><span class="sc" id="rv">${G.rv}</span></div></div>`:"";
   const rl=rush&&G.i>0?Math.max(0,Tm.left):60;
   const bar=rush?`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="rbar" role="timer" aria-label="Tiempo restante"><i id="gbar" style="width:${(rl/60*100).toFixed(1)}%"></i><b id="gtime">${Math.ceil(rl)}</b></div><div class="pill gold" id="sc">✅ ${G.ok}</div></div>`
     :`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="dots" role="img" aria-label="Pregunta ${G.i+1} de ${G.n}">${dots}</div>${duel?"":`<div class="pill gold" id="sc">⭐ ${G.pts}</div>`}</div>`;
@@ -1761,7 +1811,9 @@ function spinWheel(idx,done){
 
 const crownsHTML=(n,w)=>"👑".repeat(n)+(w>n?`<span class="off">${"👑".repeat(w-n)}</span>`:"");
 const rBar=()=>`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="ttl">🎡 Ruleta de coronas</div><span style="width:2.75rem"></span></div>`;
-const board=()=>`<div class="board">${R.ps.map((p,i)=>`<div class="pl${i===R.t?" on":""}"><span class="av" style="background:${PCOL[i%4]}">${esc(ini(p.n))}</span><b>${esc(p.n)}${p.bot?" 🤖":""}${R.on&&i===R.mi?" (tú)":""}</b><span class="cr" aria-label="${p.cr} de ${R.win} coronas">${crownsHTML(p.cr,R.win)}</span></div>`).join("")}</div>`;
+/* foto de cada jugador: en línea se busca entre los de la sala; en local viene con el jugador */
+const picOf=(p,i)=>R.on?(i===R.mi?D.pic:peerPic(p.n)):(p.pic||"");
+const board=()=>`<div class="board">${R.ps.map((p,i)=>{const pc=picOf(p,i);return`<div class="pl${i===R.t?" on":""}"><span class="${avCls(pc)}"${okPic(pc)?"":` style="background:${PCOL[i%4]}"`}>${avIn(p.n,pc)}</span><b>${esc(p.n)}${p.bot?" 🤖":""}${R.on&&i===R.mi?" (tú)":""}</b><span class="cr" aria-label="${p.cr} de ${R.win} coronas">${crownsHTML(p.cr,R.win)}</span></div>`}).join("")}</div>`;
 const pips=()=>`<div class="pips" aria-label="Racha ${R.row} de 3">${[0,1,2].map(i=>`<i class="${i<R.row?"on":""}"></i>`).join("")}<span style="margin-left:.4rem">${R.row>=3?"¡Desafío de corona!":"3 seguidas = desafío de corona"}</span></div>`;
 const legend=()=>`<div class="legend">${BLK.map(b=>`<span style="--cc:${b.c}"><i></i>${b.e} ${b.s}</span>`).join("")}</div>`;
 const humanTurn=()=>R.on?R.t===R.mi:!R.ps[R.t].bot;
@@ -1783,11 +1835,11 @@ function rSetup(){
   $$("#rw button").forEach(b=>b.onclick=()=>{keep();win=+b.dataset.v;Snd.play("click");draw()});
   draw();$("#bk").onclick=goHome;
   $("#gs").onclick=()=>{keep();let ps;
-    if(mode==="bot"){const me=(names[0]||"").trim()||"Jugador";D.name=(names[0]||"").trim()||D.name;sv();let bn=BOTS[Math.random()*BOTS.length|0];if(bn===me)bn=BOTS[(BOTS.indexOf(bn)+1)%BOTS.length];ps=[{n:me},{n:bn,bot:true}]}
-    else{const seen={};ps=names.slice(0,n).map((x,i)=>{let v=(x||"").trim()||"Jugador "+(i+1);if(seen[v.toLowerCase()])v+=" "+(i+1);seen[v.toLowerCase()]=1;return{n:v}});if((names[0]||"").trim()){D.name=names[0].trim();sv()}}
+    if(mode==="bot"){const me=(names[0]||"").trim()||"Jugador";D.name=(names[0]||"").trim()||D.name;sv();let bn=BOTS[Math.random()*BOTS.length|0];if(bn===me)bn=BOTS[(BOTS.indexOf(bn)+1)%BOTS.length];ps=[{n:me,pic:D.pic},{n:bn,bot:true}]}
+    else{const seen={};ps=names.slice(0,n).map((x,i)=>{let v=(x||"").trim()||"Jugador "+(i+1);if(seen[v.toLowerCase()])v+=" "+(i+1);seen[v.toLowerCase()]=1;return{n:v,pic:i===0?D.pic:""}});if((names[0]||"").trim()){D.name=names[0].trim();sv()}}
     ruleta(ps,win,false)}}
 function ruleta(ps,win,on,seed,mi){
-  EV=[];R={on:!!on,ps:ps.map(p=>({n:p.n,cr:0,k:0,bot:!!p.bot})),t:0,row:0,used:new Set(),win:win||3,rg:on?rng(seed):Math.random,mi:mi||0,me:on?mi:0,phase:"turn",q:null};
+  EV=[];R={on:!!on,ps:ps.map(p=>({n:p.n,cr:0,k:0,bot:!!p.bot,pic:p.pic||""})),t:0,row:0,used:new Set(),win:win||3,rg:on?rng(seed):Math.random,mi:mi||0,me:on?mi:0,phase:"turn",q:null};
   wake(true);pushView();rTurn("¡Comienza la partida!")}
 function emit(e){if(!R)return;if(R.on){EV.push(e);R.ps[R.mi].k++;if(RM)RM.presence({ev:EV.slice()})}rApply(e)}
 function pickQ(b,min){const all=QS.filter(q=>q.b===b&&q.l>=min);let p=all.filter(q=>!R.used.has(q.q));if(!p.length){all.forEach(q=>R.used.delete(q.q));p=all}const q=p[Math.floor(R.rg()*p.length)];R.used.add(q.q);return q}
@@ -1849,7 +1901,7 @@ function rEnd(p){
   R.phase="end";clearTimeout(R.bt);const won=p===R.ps[R.me];
   D.games++;if(won)D.wins++;if(R.on)D.online++;const nm=checkMedals();sv();
   view(`<div class="res"><div class="trophy">🏆</div><h1 class="h1" style="font-size:1.9rem">¡${esc(p.n)} ganó!</h1><p class="sub">${won?"¡Felicidades, buen trabajo!":"¡Buena partida!"}</p>
-  <div class="card rank">${R.ps.map(q=>`<div class="${q===p?"me":""}"><span>${esc(q.n)}${q.bot?" 🤖":""}</span><span>${"👑".repeat(q.cr)||"—"}</span></div>`).join("")}</div>
+  <div class="card rank">${R.ps.map((q,i)=>`<div class="${q===p?"me":""}"><span><i class="mav" style="--avc:${avc(q.n)}">${avIn(q.n,picOf(q,i))}</i>${esc(q.n)}${q.bot?" 🤖":""}</span><span>${"👑".repeat(q.cr)||"—"}</span></div>`).join("")}</div>
   <div class="chips">${nm.map(m=>`<span class="chip new">${m.e} ${m.t}</span>`).join("")}</div></div>
   <button class="btn gold" id="ag">${R.on?"Volver a la sala":"Revancha"}</button><button class="btn ghost" id="hm">Inicio</button>`,"result");
   if(won){confetti();Snd.play("win")}else Snd.play("lose");
@@ -1876,6 +1928,8 @@ const FBURL=window.__TB_FB||"https://trivia-biblica-ea536-default-rtdb.firebasei
 const STALE=window.__TB_STALE||60000,GONE=window.__TB_GONE||25000;
 const FB={async join(name){
   const id=Math.random().toString(36).slice(2,10),url=FBURL+"/rooms/"+name,SV={".sv":"timestamp"};
+  /* las fotos viven en una "sala hermana" (…-av) para que NO se descarguen en cada actualización de la sala */
+  const avUrl=url+"-av";let avSent=0;
   let pr={},data={},cbs=[],q=Promise.resolve(),busy=0,again=0,dead=0,es=null,t1=0,t2=0,ok=true;
   const put=d=>{q=q.then(()=>dead?0:fetch(url+"/"+id+".json",{method:"PATCH",body:JSON.stringify(d)}).then(r=>{ok=r.ok}).catch(()=>{ok=false}));return q};
   const fire=()=>cbs.forEach(f=>{try{f()}catch(e){console.error(e)}});
@@ -1890,8 +1944,11 @@ const FB={async join(name){
     onPeers:f=>{cbs.push(f)},
     presence:d=>{if(dead)return;Object.assign(pr,d);for(const k in pr)if(pr[k]===null)delete pr[k];put(Object.assign({},d,{t:SV}));setTimeout(fire,0)},
     peers:()=>all().filter(p=>p.isMe||!p.stale),
-    leaveNow(){try{fetch(url+"/"+id+".json",{method:"DELETE",keepalive:true}).catch(()=>{})}catch(e){}},
-    leave(){if(dead)return;dead=1;clearInterval(t1);clearInterval(t2);try{es&&es.close()}catch(e){}cbs=[];q=q.then(()=>fetch(url+"/"+id+".json",{method:"DELETE"})).catch(()=>{})}}
+    /* sube mi foto chiquita una sola vez y avisa a los demás con una huella (ap) para que la bajen */
+    setAvatar:u=>{const h=hh(u);avSent=1;q=q.then(()=>dead?0:fetch(avUrl+"/"+id+".json",{method:"PUT",body:JSON.stringify(u)}).then(r=>{if(!r.ok||dead)return;pr.ap=h;return fetch(url+"/"+id+".json",{method:"PATCH",body:JSON.stringify({ap:h,t:SV})}).then(()=>{setTimeout(fire,0)})}).catch(()=>{}));return q},
+    getAvatar:async pid=>{const r=await fetch(avUrl+"/"+pid+".json");return r.ok?await r.json():null},
+    leaveNow(){try{fetch(url+"/"+id+".json",{method:"DELETE",keepalive:true}).catch(()=>{});if(avSent)fetch(avUrl+"/"+id+".json",{method:"DELETE",keepalive:true}).catch(()=>{})}catch(e){}},
+    leave(){if(dead)return;dead=1;clearInterval(t1);clearInterval(t2);try{es&&es.close()}catch(e){}cbs=[];q=q.then(()=>fetch(url+"/"+id+".json",{method:"DELETE"})).then(()=>avSent?fetch(avUrl+"/"+id+".json",{method:"DELETE"}):0).catch(()=>{})}}
 }};
 let ME="",CUR=null,MODE="q",seen=0,lobbyHTML="";
 function lobby(inv){
@@ -1914,7 +1971,8 @@ function lobby(inv){
     let room;try{room=await FB.join("trivia-"+cd+"-"+hh(pw))}catch(e){msg("No se pudo conectar. Revisa tu internet e inténtalo otra vez.");lock(false);return}
     if(VIEW!=="menu"){try{room.leave()}catch(e){}return}
     RM=room;{const g0=RM.all().map(p=>p.presence.go).find(x=>x&&x.s);if(g0)seen=g0.s}
-    RM.presence({name:nm,v:APPV,score:0,i:0,done:0,go:null,ev:[],host:host?{m:MODE}:null});
+    RM.presence({name:nm,v:NETV,score:0,i:0,done:0,go:null,ev:[],host:host?{m:MODE}:null});
+    if(okPic(D.picS,12000))RM.setAvatar(D.picS);
     EV=[];lobbyHTML="";wake(true);RM.onPeers(upd);VIEW="lobby";renderLobby();
     if(!host)setTimeout(()=>{if(VIEW==="lobby"&&RM&&!RM.peers().some(p=>p.presence.host)){try{RM.leave()}catch(e){}RM=null;lobby();setTimeout(()=>msg("Sala no encontrada o contraseña incorrecta."),60)}},3500)};
   $("#cr").onclick=()=>enter(true);$("#jn").onclick=()=>enter(false)}
@@ -1923,15 +1981,15 @@ function renderLobby(){
   const ps=RM.peers().filter(p=>p.isMe||!p.gone),h=ps.find(p=>p.presence.host),mo=h?h.presence.host.m:MODE,me=ps.find(p=>p.isMe);
   if(me&&ps.some(p=>!p.isMe&&p.presence.name===me.presence.name)){ME=ME.replace(/\d+$/,"")+Math.floor(Math.random()*90+10);RM.presence({name:ME})}
   if(!h&&me&&ps.length>=2&&ps.map(p=>p.id).sort()[0]===me.id)RM.presence({host:{m:MODE}});
-  const iHost=!!(me&&me.presence.host),bad=ps.filter(p=>p.presence.v!==APPV),code=RM.name.slice(7).replace(/-[^-]*$/,"");
+  const iHost=!!(me&&me.presence.host),bad=ps.filter(p=>p.presence.v!==NETV),code=RM.name.slice(7).replace(/-[^-]*$/,"");
   const html=`<h1 class="h1">Sala</h1><div class="card room"><div class="code">${esc(code)}</div><p class="sub" style="margin:.2rem 0 0">Modo: <b>${mo==="r"?"🎡 Ruleta de coronas":"❓ Solo preguntas"}</b> · ${ps.length} conectado${ps.length>1?"s":""}</p>
-  <div class="plist">${ps.map(p=>`<div class="prow"><span class="av" style="--avc:${avc(p.presence.name||"Amigo")}">${esc(ini(p.presence.name||"A"))}</span><b>${esc(p.presence.name||"Amigo")}${p.isMe?" (tú)":""}</b>${p.presence.host?"<small>👑 anfitrión</small>":""}</div>`).join("")}</div></div>
+  <div class="plist">${ps.map(p=>`<div class="prow"><span class="${avCls(pic4(p))}" style="--avc:${avc(p.presence.name||"Amigo")}">${avIn(p.presence.name||"A",pic4(p))}</span><b>${esc(p.presence.name||"Amigo")}${p.isMe?" (tú)":""}</b>${p.presence.host?"<small>👑 anfitrión</small>":""}</div>`).join("")}</div></div>
   ${bad.length?`<div class="warn">⚠️ ${bad.map(p=>esc(p.presence.name||"Alguien")).join(", ")} tiene otra versión de la app. Pídele que cierre y vuelva a abrir la app para poder jugar juntos.</div>`:""}
   <div style="margin-top:1rem">${iHost?(ps.length<2?'<p class="sub" style="margin:0 0 .8rem">Esperando a que entre al menos un jugador más…</p><button class="btn gold" disabled>Empezar partida</button>':`<button class="btn gold" id="st" ${bad.length?"disabled":""}>Empezar partida</button>`):'<p class="sub" style="margin:0 0 .8rem">Esperando a que el anfitrión empiece la partida…</p>'}
   <button class="btn" id="inv">📣 Invitar amigos</button><button class="btn ghost" id="bk">Salir de la sala</button></div>`;
   if(html===lobbyHTML&&$("#lobbyroot"))return;lobbyHTML=html;
   if($("#lobbyroot"))$("#lobbyroot").innerHTML=html;else view(`<div id="lobbyroot">${html}</div>`,"lobby");
-  const st=$("#st");if(st)st.onclick=()=>{Snd.play("click");RM.presence({go:{s:Math.floor(Math.random()*1e9)+1,m:mo,pl:ps.map(p=>p.presence.name),v:APPV}})};
+  const st=$("#st");if(st)st.onclick=()=>{Snd.play("click");RM.presence({go:{s:Math.floor(Math.random()*1e9)+1,m:mo,pl:ps.map(p=>p.presence.name),v:NETV}})};
   $("#inv").onclick=()=>{if(!CUR)return;shareTxt(`🎮 ¡Juega conmigo en Trivia Bíblica!\nSala: ${CUR.cd}\nContraseña: ${CUR.pw}\n${APPURL}#sala=${encodeURIComponent(CUR.cd)}&clave=${encodeURIComponent(CUR.pw)}`)};
   $("#bk").onclick=goHome}
 function startFromGo(g){
@@ -1939,14 +1997,29 @@ function startFromGo(g){
   if(g.m==="r"){const mi=g.pl.indexOf(ME);if(mi<0)return;ruleta(g.pl.map(n=>({n})),3,true,g.s,mi)}
   else startGame(shuffle(QS,rng(g.s)),"online")}
 function upd(){
-  if(!RM)return;
+  if(!RM)return;wantPics();
   if(R&&R.on&&VIEW==="play"){rSync();return}
-  if(VIEW==="lobby"){const g=RM.peers().map(p=>p.presence.go).find(x=>x&&x.s);if(g&&g.s!==seen&&(g.m!=="r"||g.pl.includes(ME))&&g.v===APPV){startFromGo(g);return}renderLobby();return}
+  if(VIEW==="lobby"){const g=RM.peers().map(p=>p.presence.go).find(x=>x&&x.s);if(g&&g.s!==seen&&(g.m!=="r"||g.pl.includes(ME))&&g.v===NETV){startFromGo(g);return}renderLobby();return}
+  if(G&&G.mode==="online"&&VIEW==="play")updSB();
+  if(VIEW==="result"&&$("#rk"))updRank()}
+/* ---- fotos de los amigos: se bajan una sola vez cuando aparece su huella (ap) ---- */
+const pic4=p=>p.isMe?D.pic:((PICS[p.id]||{}).u||"");
+const mini=p=>{const n=p.presence.name||"Amigo";return`<i class="mav" style="--avc:${avc(n)}">${avIn(n,pic4(p))}</i>`};
+function peerPic(n){if(!RM)return"";const p=RM.peers().find(x=>x.presence.name===n)||RM.all().find(x=>x.presence.name===n);return p?pic4(p):""}
+function wantPics(){
+  if(!RM)return;const rm=RM;
+  rm.peers().filter(p=>!p.gone).forEach(p=>{const h=p.presence.ap;if(p.isMe||!h)return;const c=PICS[p.id];if(c&&c.h===h)return;
+    PICS[p.id]={h,u:""};const id=p.id;
+    rm.getAvatar(id).then(u=>{if(RM!==rm)return;PICS[id]={h,u:okPic(u,12000)?u:""};if(okPic(u,12000))paintPics()}).catch(()=>{})})}
+function paintPics(){
+  if(!RM)return;
+  if(VIEW==="lobby"){renderLobby();return}
+  if(R&&R.on&&VIEW==="play"){const b=$(".board");if(b)b.outerHTML=board();return}
   if(G&&G.mode==="online"&&VIEW==="play")updSB();
   if(VIEW==="result"&&$("#rk"))updRank()}
 const byScore=()=>[...RM.peers().filter(p=>p.isMe||!p.gone)].sort((a,b)=>(b.presence.score||0)-(a.presence.score||0));
-function updSB(){const sb=$("#sb");if(!sb||!RM)return;sb.innerHTML=byScore().map(p=>`<span class="${p.isMe?"me":""}">${esc(p.presence.name||"Amigo")} · ${p.presence.score||0}</span>`).join("")}
-function updRank(){const rk=$("#rk");if(!rk||!RM)return;rk.innerHTML="<b>Clasificación</b>"+byScore().map((p,i)=>`<div class="${p.isMe?"me":""}"><span>${["🥇","🥈","🥉"][i]||(i+1)+"."} ${esc(p.presence.name||"Amigo")}${p.presence.done?"":" · jugando…"}</span><b>${p.presence.score||0}</b></div>`).join("")}
+function updSB(){const sb=$("#sb");if(!sb||!RM)return;sb.innerHTML=byScore().map(p=>`<span class="${p.isMe?"me":""}">${mini(p)}${esc(p.presence.name||"Amigo")} · ${p.presence.score||0}</span>`).join("")}
+function updRank(){const rk=$("#rk");if(!rk||!RM)return;rk.innerHTML="<b>Clasificación</b>"+byScore().map((p,i)=>`<div class="${p.isMe?"me":""}"><span>${["🥇","🥈","🥉"][i]||(i+1)+"."} ${mini(p)}${esc(p.presence.name||"Amigo")}${p.presence.done?"":" · jugando…"}</span><b>${p.presence.score||0}</b></div>`).join("")}
 
 
 /* ============================================================
@@ -1975,7 +2048,7 @@ if("serviceWorker" in navigator&&location.protocol.startsWith("http")){
     let had=!!navigator.serviceWorker.controller;
     navigator.serviceWorker.register("sw.js").catch(()=>{});
     navigator.serviceWorker.addEventListener("controllerchange",()=>{if(had)toast("Hay una versión nueva de la app",{act:"Actualizar",fn:()=>location.reload(),ms:15000});had=true})})}
-window.__tb={get G(){return G},get R(){return R},get D(){return D},get RM(){return RM},get VIEW(){return VIEW},QS,BLK,V,home,startGame,rSetup,lobby,stats,settings,optsOf,APPV};
+window.__tb={get G(){return G},get R(){return R},get D(){return D},get RM(){return RM},get VIEW(){return VIEW},QS,BLK,V,home,startGame,rSetup,lobby,stats,settings,optsOf,APPV,NETV,PICS};
 try{history.replaceState({tb:0},"")}catch(e){}
 home();
 const routed=route();

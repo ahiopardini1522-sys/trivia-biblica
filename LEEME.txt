@@ -1,5 +1,14 @@
-TRIVIA BÍBLICA · versión 3.1.0
+TRIVIA BÍBLICA · versión 3.2.0
 ==============================
+
+NOVEDADES DE LA 3.2
+  - Foto de perfil: en el inicio toca tu círculo y elige una foto de tu galería.
+    La ven tus amigos en la ruleta, el duelo y las salas con amigos. Sin foto se
+    ve tu inicial. En Ajustes puedes cambiarla o quitarla. Para cambiar tu
+    nombre, toca tu nombre.
+  - En línea la foto viaja chiquita (2 a 4 KB, una sola vez) y aparte de la
+    sala, para no gastar tus datos ni los de tus amigos.
+  - La 3.2 puede jugar en línea con la 3.1 (quien tenga la 3.1 no verá fotos).
 
 NOVEDADES DE LA 3.1
   - Repaso de errores: practica solo las preguntas que fallaste.
@@ -30,8 +39,13 @@ CÓMO PUBLICARLA O ACTUALIZARLA (GitHub Pages, desde el celular)
 
 
 PARA JUGAR CON AMIGOS (EN LÍNEA)
-  - Todos los jugadores deben tener la misma versión de la app. Si alguien tiene
-    una más vieja, la sala lo avisa y no deja empezar.
+  - Todos los jugadores deben tener la misma versión del juego en línea (NETV).
+    Si alguien tiene una más vieja, la sala lo avisa y no deja empezar. NETV solo
+    cambia cuando cambian las preguntas o las reglas; por eso la 3.2 y la 3.1
+    pueden jugar juntas.
+  - Las fotos se guardan en la misma base de datos, en salas con el final «-av»,
+    y se borran cuando el jugador sale. No hace falta cambiar las reglas de
+    Firebase: las de abajo ya las permiten.
   - Usa tu base de datos de Firebase (Realtime Database). Si "Con amigos" dice
     "No se pudo conectar" teniendo internet, entra a la consola de Firebase →
     Realtime Database → Reglas. Estas reglas permiten jugar y no dejan listar
@@ -60,5 +74,6 @@ PARA AGREGAR PREGUNTAS
   Biblia (por ejemplo: 1 Samuel 17:49). Si agregas texto de un versículo, va en
   la lista que empieza en  const VERSES=
   Importante: cada vez que cambies las preguntas, sube también el número de
-  versión (APPV en index.html y VER en sw.js), así todos se actualizan y el modo
-  con amigos sigue sincronizado.
+  versión (APPV y NETV en index.html, y VER en sw.js), así todos se actualizan y
+  el modo con amigos sigue sincronizado. Si solo cambias el diseño, sube APPV y
+  VER pero deja NETV como está.
