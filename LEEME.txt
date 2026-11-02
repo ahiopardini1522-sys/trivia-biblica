@@ -1,5 +1,18 @@
-TRIVIA BÍBLICA · versión 3.5.0
+TRIVIA BÍBLICA · versión 3.5.1
 ==============================
+
+NOVEDADES DE LA 3.5.1
+  - El botón «📖 Leer en la Reina-Valera 1960» ahora aparece solo si YouVersion
+    realmente deja leer un versículo con esta clave (antes bastaba con ver los
+    datos de la Biblia). También respeta la lista de libros que YouVersion dice
+    tener y, si un libro falla, deja de ofrecerlo en esa sesión.
+  - Si un versículo no se puede leer, el cuadro explica el motivo (licencia sin
+    aceptar, versículo inexistente…) y muestra una línea de «Detalle» con el
+    código de error, para saber exactamente qué pasó.
+  - Ajustes → «Reina-Valera 1960 dentro de la app» → Probar ahora da un informe
+    completo: qué Biblia es, cuántos libros tiene, si manda el aviso de derechos,
+    prueba un versículo del Nuevo y otro del Antiguo Testamento, y dice qué hacer
+    si falta aceptar la licencia en platform.youversion.com/platform/licenses.
 
 NOVEDADES DE LA 3.5
   - La clave de YouVersion ya está puesta (const YVK en index.html). Al abrir la
