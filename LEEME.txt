@@ -1,7 +1,16 @@
-TRIVIA BÍBLICA · versión 3.5.1
+TRIVIA BÍBLICA · versión 3.5.2
 ==============================
 
-NOVEDADES DE LA 3.5.1
+NOVEDADES DE LA 3.5.2
+  - La lectura de la Reina-Valera 1960 dentro de la app quedó APAGADA: se probó con
+    la clave de la app y YouVersion contesta «404 No encontrada» a esa Biblia (no
+    la ofrece en su Plataforma; es un texto con derechos de la American Bible
+    Society). Por eso la app ya no consulta a YouVersion al abrirse, no muestra el
+    botón y Ajustes ya no tiene el bloque «Reina-Valera 1960 dentro de la app».
+    Todo queda como en la 3.4: texto exacto de la RV 1909 dentro de la app y el
+    enlace para leer la RVR1960 en YouVersion / BibleGateway.
+
+NOVEDADES DE LA 3.5.1 (código que sigue en reserva)
   - El botón «📖 Leer en la Reina-Valera 1960» ahora aparece solo si YouVersion
     realmente deja leer un versículo con esta clave (antes bastaba con ver los
     datos de la Biblia). También respeta la lista de libros que YouVersion dice
@@ -101,21 +110,24 @@ PARA JUGAR CON AMIGOS (EN LÍNEA)
     (Las reglas del "modo de prueba" de Firebase vencen a los 30 días.)
 
 
-LEER LA REINA-VALERA 1960 DENTRO DE LA APP (OPCIONAL)
-  El texto de la RVR1960 tiene derechos de autor (Sociedades Bíblicas Unidas), por
-  eso NO está dentro de la app. Se puede mostrar bajándolo de la Plataforma de
-  YouVersion, que es gratuita para apps sin fines de lucro y sin anuncios:
-  1. Regístrate y crea tu app en platform.youversion.com. Acepta la licencia de la
-     Reina-Valera 1960 si te la ofrece. Copia la clave (App Key); no es secreta.
-  2. En la app: Ajustes → «Reina-Valera 1960 dentro de la app (avanzado)» → pega la
-     clave → Probar. Si dice ✅ funciona en tu teléfono.
-  3. Para que les funcione a todos, la clave va en index.html, en  const YVK="…"
-     (entre las comillas); subes de versión (APPV y VER). Si cambias de clave,
-     cambia ese texto. Mientras tanto cada persona puede pegarla en su Ajustes.
-  El texto se baja al tocar el botón, se muestra con el aviso de derechos que manda
-  YouVersion y no se guarda en el teléfono. Para usar la RVR1960 de otra forma
-  (por ejemplo, dentro de la app sin internet) hay que pedir permiso por escrito a
-  la American Bible Society (licensing@americanbible.org).
+LA REINA-VALERA 1960 DENTRO DE LA APP
+  El texto de la RVR1960 tiene derechos de autor (Sociedades Bíblicas Unidas /
+  American Bible Society), por eso NO está dentro de la app: se lee con el enlace.
+  Lo que se probó el 02/11/2026:
+  - La Plataforma de YouVersion (gratuita) NO ofrece la RVR1960: para la clave de
+    la app contesta 404 «Not Found» a la Biblia 149. Otro desarrollador reporta lo
+    mismo. Las Biblias en español que sí ve esa clave son spaPdDpt (3365),
+    RVES (147, Reina-Valera Antigua) y VBL (3291, Versión Biblia Libre).
+  - La API de Logos (Biblia) lista la «RVR60», pero sus términos aclaran que que
+    el texto esté disponible no da derecho a mostrarlo: igual hace falta permiso.
+  - La vía legal para mostrar la RVR1960 dentro de la app es pedir permiso por
+    escrito a la American Bible Society (licensing@americanbible.org).
+  El código del lector sigue en index.html pero apagado (const YV_ON=false). Para
+  volver a encenderlo (si algún día YouVersion ofrece la RVR1960, o para leer otra
+  versión que sí vea la clave): YV_ON=true, la clave en const YVK="…" (o pegada en
+  Ajustes) y subir de versión (APPV y VER). El texto se baja al tocar el botón, se
+  muestra con el aviso de derechos que manda YouVersion y no se guarda en el
+  teléfono. Ajustes → «Probar» hace un informe completo de lo que ve la clave.
 
 
 PARA AGREGAR PREGUNTAS

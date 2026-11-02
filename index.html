@@ -420,7 +420,7 @@ noscript{display:block;padding:2rem;text-align:center;color:var(--ink)}
    Secciones: núcleo · inicio / logros / ajustes · partida solo ·
               ruleta · en línea · arranque (PWA)
    ============================================================ */
-const APPV="3.5.1";
+const APPV="3.5.2";
 /* NETV = versión del juego EN LÍNEA (preguntas y reglas). Súbela solo cuando cambien las
    preguntas o las reglas del juego: así quien tenga la app un poco más vieja puede seguir
    jugando con los demás. (La 3.2 y la 3.3 solo agregaron fotos y el lector de la RVR1960, por eso
@@ -2063,11 +2063,14 @@ const isNum=s=>/^\d[\d.,]*$/.test(s);
 function optsOf(q,r){const o=[q.a,...q.d];return o.every(isNum)?o.sort((x,y)=>parseFloat(x.replace(/\./g,""))-parseFloat(y.replace(/\./g,""))):shuffle(o,r)}
 function verseInfo(q){let t=V[q.r]||"",label=q.r;const m=t.match(/^\((\d+:\d+)\)\s*(.*)$/);if(m){label=bookOf(q.r)+" "+m[1];t=m[2]}
   return{label,text:t,url:"https://www.biblegateway.com/passage/?search="+encodeURIComponent(label)+"&version=RVR1960"}}
-/* ---------- Lector de la Reina-Valera 1960 (opcional, con la Plataforma de YouVersion) ----------
-   El texto de la RVR1960 tiene derechos de autor (Sociedades Bíblicas Unidas). Solo se muestra si hay una clave de
-   YouVersion (YVK; no es secreta, también se puede pegar en Ajustes) y su licencia lo permite. Se baja al tocar el
-   botón, se muestra con el aviso de derechos que entrega YouVersion y NO se guarda en el teléfono.
-   Sin clave la app sigue con la RV 1909 (dominio público) y el enlace de siempre. */
+/* ---------- Lector de la Reina-Valera 1960 con la Plataforma de YouVersion: APAGADO (YV_ON=false) ----------
+   Se probó con la clave de la app el 02/11/2026: YouVersion contesta «404 No encontrada» a la Biblia 149 (Reina-Valera 1960),
+   o sea que no la ofrece en su Plataforma (el texto es de la American Bible Society / Sociedades Bíblicas Unidas); otro
+   desarrollador reporta lo mismo. Con YV_ON en false la app no consulta a YouVersion ni muestra el botón o el bloque de
+   Ajustes: queda la RV 1909 (dominio público) y el enlace a la RVR1960. El código queda por si algún día la ofrecen o para leer
+   otra versión que sí tenga la clave: con YV_ON=true (o window.__TB_YVON=true) y una clave (YVK o la de Ajustes) vuelve a andar.
+   Si se activa: el texto se baja al tocar el botón, se muestra con el aviso de derechos que entrega YouVersion y NO se guarda. */
+const YV_ON=window.__TB_YVON!==undefined?!!window.__TB_YVON:false;
 const YVK=window.__TB_YVK!==undefined?window.__TB_YVK:"ZC1gLTPf0VB6lOY5QackRks9fihjAyq5HBtGaknra29koG2l"; /* clave de la app en YouVersion (no es secreta) */
 const YVURL=window.__TB_YV||"https://api.youversion.com/v1",YVMS=window.__TB_YVMS||10000,YVID=149; /* 149 = Reina-Valera 1960 */
 const USFM={};{const UC="GEN EXO LEV NUM DEU JOS JDG RUT 1SA 2SA 1KI 2KI 1CH 2CH EZR NEH EST JOB PSA PRO ECC SNG ISA JER LAM EZK DAN HOS JOL AMO OBA JON MIC NAM HAB ZEP HAG ZEC MAL MAT MRK LUK JHN ACT ROM 1CO 2CO GAL EPH PHP COL 1TH 2TH 1TI 2TI TIT PHM HEB JAS 1PE 2PE 1JN 2JN 3JN JUD REV".split(" ");
@@ -2093,7 +2096,7 @@ function yvDone(m,p){ /* guarda lo que se supo de la Biblia y dice si se puede u
   const good=!!(m&&(m.copyright||m.promotional_content))&&!!String(p&&p.content||"").trim();
   RVR_OK=good;RVR_BOOKS=good?booksOf(m):null;RVR_BAD.clear();RVR_FAIL.clear();RVR_GOOD.clear();return good}
 async function yvProbe(){
-  if(!yvKey()){RVR_OK=false;return false}
+  if(!YV_ON||!yvKey()){RVR_OK=false;return false}
   try{const[m,p]=await Promise.all([yvGet(`/bibles/${YVID}`),yvPassage("JHN.3.16")]);yvDone(m,p)}catch(e){RVR_OK=false}
   return RVR_OK}
 async function yvGet(path){
@@ -2122,7 +2125,7 @@ async function yvPassage(u){
 function yvMsg(e){const s=e&&e.status;
   if(s===401)return"La clave de YouVersion no es válida (error 401).";
   if(s===403)return"Falta aceptar la licencia de la Reina-Valera 1960 en platform.youversion.com (error 403).";
-  if(s===404)return"YouVersion no tiene ese pasaje en la Reina-Valera 1960 (error 404).";
+  if(s===404)return e.path===`/bibles/${YVID}`?"YouVersion no ofrece la Reina-Valera 1960 en su Plataforma (error 404).":"YouVersion no tiene ese pasaje en la Reina-Valera 1960 (error 404).";
   if(s===412)return"La aplicación está archivada en YouVersion (error 412).";
   if(s===429)return"Hay demasiadas consultas. Espera un momento y vuelve a intentar.";
   if(s)return"YouVersion respondió con un error ("+s+").";
@@ -2158,7 +2161,7 @@ async function yvTest(out){
     return r.e?r:{v:Array.isArray(r.v)?r.v:r.v&&r.v.data||[]}};
   const meta=await T(yvGet,`/bibles/${YVID}`);
   if(meta.e){RVR_OK=false;const l=await lst("");
-    say("❌ "+yvMsg(meta.e)+"\nDetalle: "+yvDet(meta.e)+(l.v&&l.v.length?"\nBiblias en español que sí ve tu clave: "+l.v.slice(0,8).map(b=>`${b.abbreviation||b.title} (${b.id})`).join(", ")+".":""),"bad");return}
+    say("❌ "+(meta.e.status===404?"YouVersion no ofrece la Reina-Valera 1960 en su Plataforma (la Biblia "+YVID+" no existe para tu clave).":yvMsg(meta.e))+"\nDetalle: "+yvDet(meta.e)+(l.v&&l.v.length?"\nBiblias en español que sí ve tu clave: "+l.v.slice(0,8).map(b=>`${b.abbreviation||b.title} (${b.id})`).join(", ")+".":""),"bad");return}
   const m=meta.v||{};
   const[jn,ps,pc,vis,all,lic]=await Promise.all([T(yvPassage,"JHN.3.16"),T(yvPassage,"PSA.37.4"),T(yvGet,`/bibles/${YVID}/passages/PSA.37?format=text`),lst(""),lst("&all_available=true"),T(yvGet,`/licenses?bible_id=${YVID}`)]);
   const good=yvDone(m,jn.e?null:jn.v),bk=booksOf(m),cp=String(m.copyright||m.promotional_content||"").trim();
@@ -2401,19 +2404,20 @@ function settings(){
   ${sw("sSnd",s.snd,"Sonidos","Efectos de acierto, error y ruleta")}${sw("sVib",s.vib,"Vibración","Al responder (solo en celulares compatibles)")}${sw("sBig",s.big,"Texto grande","Letras más grandes en toda la app")}
   <div class="srow" style="display:block"><b>Tema</b><div class="seg" id="sTh"><button data-v="auto">Automático</button><button data-v="light">Claro</button><button data-v="dark">Oscuro</button></div></div>
   <div class="srow" style="display:block"><b>Tiempo por pregunta</b><small>Normal: 15 s · Relajado: 30 s. En línea siempre son 15 s</small><div class="seg" id="sTm"><button data-v="15">15 s</button><button data-v="30">30 s</button><button data-v="0">Sin tiempo</button></div></div></div>
-  <details class="card adv"><summary>📖 Reina-Valera 1960 dentro de la app (avanzado)</summary>
+  ${YV_ON?`<details class="card adv"><summary>📖 Reina-Valera 1960 dentro de la app (avanzado)</summary>
     <p class="sub" style="text-align:left;margin:.6rem 0 0">Para leer el versículo en la Reina-Valera 1960 sin salir de la app hace falta una clave gratuita de la Plataforma de YouVersion (platform.youversion.com) y que su licencia lo permita. Estado: <b id="yvS">${yvState()}</b>.</p>
     <label class="lbl" for="yvk">Clave de YouVersion</label><input id="yvk" placeholder="Pega aquí la clave" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(D.yvk||"")}">
     <div class="two" style="margin-top:.7rem"><button class="btn ghost sm" id="yvT">Probar</button><button class="btn ghost sm" id="yvX" ${D.yvk?"":"disabled"}>Quitar clave</button></div>
-    <p class="note" id="yvR" role="status"></p></details>
+    <p class="note" id="yvR" role="status"></p></details>`:""}
   <div style="margin-top:1rem">${inst?'<button class="btn green" id="sIn">📲 Instalar la app</button>':""}<button class="btn gold" id="sSh">📣 Compartir la app</button><button class="btn ghost" id="sHl">❓ Cómo jugar</button><button class="btn ghost" id="sAb">ℹ️ Acerca de</button><button class="btn ghost" id="sRs" style="color:var(--bad)">🗑️ Borrar mi progreso</button></div>
   <p class="sub" style="margin-top:1.2rem;font-size:.8rem">Versión ${APPV} · ${QS.length} preguntas</p>`,"settings");
   const seg=(id,cur,fn)=>{const mark=()=>$$("#"+id+" button").forEach(b=>b.classList.toggle("on",b.dataset.v===String(cur())));mark();$$("#"+id+" button").forEach(b=>b.onclick=()=>{fn(b.dataset.v);sv();Snd.play("click");mark()})};
   $("#sname").onchange=e=>{D.name=e.target.value.trim().slice(0,14);sv();toast("Nombre guardado ✓")};
   const paintPic=()=>{const a=$("#sav");if(a){a.className=avCls(D.pic);a.innerHTML=avIn(D.name||"Jugador",D.pic)}$("#sPic").textContent="📷 "+(D.pic?"Cambiar foto":"Elegir foto");$("#sPicX").disabled=!D.pic};
   $("#sPic").onclick=()=>pickPhoto(paintPic);$("#sPicX").onclick=()=>dropPhoto(paintPic);
-  $("#yvT").onclick=()=>{D.yvk=($("#yvk").value||"").replace(/["'\s]/g,"");$("#yvk").value=D.yvk;sv();$("#yvX").disabled=!D.yvk;RVR_OK=null;$("#yvS").textContent=yvState();if(!D.yvk){$("#yvR").textContent="Pega primero la clave.";return}yvTest($("#yvR")).then(()=>{const s=$("#yvS");if(s)s.textContent=yvState()})};
-  $("#yvX").onclick=()=>{D.yvk="";sv();$("#yvk").value="";$("#yvX").disabled=true;$("#yvR").textContent="";RVR_OK=null;$("#yvS").textContent=yvState();toast("Clave quitada");yvProbe().then(()=>{const s=$("#yvS");if(s)s.textContent=yvState()})};
+  if(YV_ON){
+    $("#yvT").onclick=()=>{D.yvk=($("#yvk").value||"").replace(/["'\s]/g,"");$("#yvk").value=D.yvk;sv();$("#yvX").disabled=!D.yvk;RVR_OK=null;$("#yvS").textContent=yvState();if(!D.yvk){$("#yvR").textContent="Pega primero la clave.";return}yvTest($("#yvR")).then(()=>{const s=$("#yvS");if(s)s.textContent=yvState()})};
+    $("#yvX").onclick=()=>{D.yvk="";sv();$("#yvk").value="";$("#yvX").disabled=true;$("#yvR").textContent="";RVR_OK=null;$("#yvS").textContent=yvState();toast("Clave quitada");yvProbe().then(()=>{const s=$("#yvS");if(s)s.textContent=yvState()})};}
   const tg=(id,k,fn)=>$("#"+id).onclick=e=>{D.set[k]=D.set[k]?0:1;sv();e.currentTarget.setAttribute("aria-checked",!!D.set[k]);fn&&fn();Snd.play("click");if(k==="vib")vib(40)};
   tg("sSnd","snd");tg("sVib","vib");tg("sBig","big",applyTheme);
   seg("sTh",()=>D.set.theme,v=>{D.set.theme=v;applyTheme()});seg("sTm",()=>D.set.time,v=>D.set.time=+v);
