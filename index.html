@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trivia Bíblica</title>
+<meta name="description" content="Trivia bíblica con ruleta de coronas, duelos, desafío diario y partidas con amigos. Preguntas de los 66 libros de la Biblia.">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0b1536">
+<meta name="color-scheme" content="dark light">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Trivia Bíblica">
+<meta property="og:title" content="Trivia Bíblica">
+<meta property="og:description" content="Pon a prueba tu conocimiento de la Palabra: ruleta de coronas, duelos y partidas con amigos.">
+<meta property="og:type" content="website">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<style>
+/* ========== Trivia Bíblica · estilos ========== */
+:root{
+  --f-ui:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --f-disp:"Iowan Old Style","Palatino Linotype",Palatino,"Noto Serif","Book Antiqua",Georgia,serif;
+  --bg0:#070e26;--bg1:#0e1b49;--bg2:#183079;
+  --panel:rgba(255,255,255,.075);--panel2:rgba(255,255,255,.14);--line:rgba(255,255,255,.16);
+  --ink:#f7f2e4;--mut:#b6c1e4;--soft:#8c99c6;
+  --paper:#fcf6e4;--paper2:#f2e6c4;--paperink:#18244f;--papermut:#4d5885;
+  --gold:#f6c350;--gold2:#e49b12;--goldd:#9a6407;--goldtxt:#f6c350;--goldink:#3a2500;
+  --blue:#4388ff;--blued:#2058c4;
+  --ok:#2fbf7e;--bad:#ef5a5a;
+  --glow:rgba(246,195,80,.28);
+  --sheetbg:#15214d;--navbg:rgba(12,22,58,.92);
+  --titleA:#ffd466;--titleB:#fff0c4;
+  --sh:0 12px 28px rgba(0,0,0,.38);
+  --pat:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88'%3E%3Cpath d='M44 36v16M36 44h16' stroke='%23fff' stroke-opacity='.035' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){html:not([data-theme]){--bg0:#efe2bf;--bg1:#f9f1dc;--bg2:#fdf8ea;
+--panel:rgba(255,255,255,.82);--panel2:#f6ecd0;--line:rgba(24,36,79,.17);
+--ink:#16224b;--mut:#4f5b88;--soft:#7a86b0;
+--paper:#ffffff;--paper2:#fbf3dc;--paperink:#16224b;--papermut:#56628f;
+--gold:#e8a817;--gold2:#c98300;--goldd:#8a5a00;--goldtxt:#8a5700;--goldink:#3a2500;
+--blue:#2f6fe0;--blued:#1a4aa8;
+--ok:#178a55;--bad:#d64040;--onok:#ffffff;
+--glow:rgba(232,168,23,.3);
+--sheetbg:#fffdf5;--navbg:rgba(255,252,242,.95);
+--titleA:#8f5a00;--titleB:#b07200;
+--sh:0 10px 24px rgba(70,50,10,.18);
+--pat:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88'%3E%3Cpath d='M44 36v16M36 44h16' stroke='%2316224b' stroke-opacity='.05' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+color-scheme:light;}}
+html[data-theme="light"]{--bg0:#efe2bf;--bg1:#f9f1dc;--bg2:#fdf8ea;
+--panel:rgba(255,255,255,.82);--panel2:#f6ecd0;--line:rgba(24,36,79,.17);
+--ink:#16224b;--mut:#4f5b88;--soft:#7a86b0;
+--paper:#ffffff;--paper2:#fbf3dc;--paperink:#16224b;--papermut:#56628f;
+--gold:#e8a817;--gold2:#c98300;--goldd:#8a5a00;--goldtxt:#8a5700;--goldink:#3a2500;
+--blue:#2f6fe0;--blued:#1a4aa8;
+--ok:#178a55;--bad:#d64040;--onok:#ffffff;
+--glow:rgba(232,168,23,.3);
+--sheetbg:#fffdf5;--navbg:rgba(255,252,242,.95);
+--titleA:#8f5a00;--titleB:#b07200;
+--sh:0 10px 24px rgba(70,50,10,.18);
+--pat:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88'%3E%3Cpath d='M44 36v16M36 44h16' stroke='%2316224b' stroke-opacity='.05' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+color-scheme:light;}
+html[data-theme="dark"]{color-scheme:dark}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:16px;-webkit-text-size-adjust:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+html.big{font-size:19px}
+body{margin:0;min-height:100vh;min-height:100dvh;font-family:var(--f-ui);color:var(--ink);line-height:1.4;overflow-x:hidden;
+  background:radial-gradient(900px 480px at 50% -140px,var(--glow),transparent 70%),radial-gradient(560px 460px at 110% 105%,rgba(67,136,255,.16),transparent 70%),linear-gradient(180deg,var(--bg1),var(--bg0)) fixed;
+  background-color:var(--bg0)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:var(--pat);z-index:0}
+#app{position:relative;z-index:1;max-width:30rem;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + .9rem) 1rem calc(env(safe-area-inset-bottom,0px) + 1.6rem)}
+#app:focus{outline:none}
+body.hasnav #app{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 6.2rem)}
+body.sheeted #app{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 14rem)}
+h1,h2,h3{font-family:var(--f-disp);margin:0}
+p{margin:0}
+a{color:var(--goldtxt)}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+button:disabled{cursor:default}
+button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.screen{animation:in .32s ease both}
+.center{text-align:center}
+.sub{color:var(--mut);text-align:center;margin:.35rem 0 1rem;font-size:.95rem}
+.h1{font-size:1.7rem;text-align:center;margin:.2rem 0 .3rem;background:linear-gradient(90deg,var(--titleA),var(--titleB));-webkit-background-clip:text;background-clip:text;color:transparent}
+.h2{font-size:1.15rem;margin:1.5rem 0 .65rem;display:flex;justify-content:space-between;align-items:baseline}
+.h2 small{font:600 .8rem var(--f-ui);color:var(--mut)}
+
+/* ---- botones ---- */
+.btn{--c1:#2f6fe0;--c2:#2459c0;--d:#16408f;display:flex;align-items:center;justify-content:center;gap:.6rem;width:100%;min-height:3.4rem;padding:.8rem 1.1rem;border-radius:1.15rem;color:#fff;font-weight:800;font-size:1.06rem;letter-spacing:.2px;background:linear-gradient(180deg,var(--c1),var(--c2));box-shadow:0 5px 0 var(--d),0 12px 20px rgba(0,0,0,.28);transition:transform .08s,box-shadow .08s,filter .15s;text-shadow:0 1px 0 rgba(0,0,0,.18);text-decoration:none}
+.btn+.btn{margin-top:.85rem}
+.btn:active:not(:disabled){transform:translateY(4px);box-shadow:0 1px 0 var(--d),0 4px 10px rgba(0,0,0,.25)}
+.btn:disabled{filter:grayscale(.7) brightness(.85);opacity:.65}
+.btn.gold{--c1:#ffd870;--c2:#f2a916;--d:#a86d07;color:var(--goldink);text-shadow:0 1px 0 rgba(255,255,255,.35)}
+.btn.green{--c1:#46dc9a;--c2:#22a869;--d:#13724a;color:#052e1b;text-shadow:0 1px 0 rgba(255,255,255,.3)}
+.btn.red{--c1:#cf3d44;--c2:#b32b31;--d:#7d1b20}
+.btn.purple{--c1:#b98af4;--c2:#8545d8;--d:#5a2ba0}
+.btn.ghost{--c1:var(--panel2);--c2:var(--panel);--d:transparent;color:var(--ink);box-shadow:none;border:1px solid var(--line);text-shadow:none}
+.btn.ghost:active:not(:disabled){transform:scale(.98);box-shadow:none}
+.btn.sm{min-height:2.7rem;font-size:.95rem;padding:.55rem .9rem;border-radius:.95rem;box-shadow:0 4px 0 var(--d)}
+.btn.sm.ghost{box-shadow:none}
+.link{display:block;margin:1rem auto 0;color:var(--mut);text-decoration:underline;font-weight:600}
+.ibtn{width:2.75rem;height:2.75rem;border-radius:50%;display:grid;place-items:center;background:var(--panel);border:1px solid var(--line);font-size:1.15rem;flex:none;transition:transform .1s}
+.ibtn:active{transform:scale(.92)}
+
+/* ---- cabecera / perfil ---- */
+.top{display:flex;align-items:center;gap:.6rem;margin-bottom:.9rem}
+.brand{display:flex;align-items:center;gap:.6rem;flex:1;min-width:0}
+.brand img{width:2.5rem;height:2.5rem;border-radius:.75rem;box-shadow:0 3px 10px rgba(0,0,0,.35)}
+.brand b{font-family:var(--f-disp);font-size:1.5rem;line-height:1;background:linear-gradient(90deg,var(--titleA),var(--titleB));-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:1.25rem;padding:1rem;box-shadow:var(--sh)}
+.prof{display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:center}
+.av{--avc:var(--blue);width:3.5rem;height:3.5rem;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:1.4rem;color:#fff;background:var(--avc);border:3px solid var(--gold);box-shadow:0 4px 12px rgba(0,0,0,.3);flex:none;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.prof .nm{font-weight:800;font-size:1.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prof .rk{color:var(--goldtxt);font-size:.9rem;font-weight:700}
+.xp{height:.6rem;border-radius:1rem;background:rgba(127,127,170,.28);overflow:hidden;margin-top:.45rem}
+.xp i{display:block;height:100%;width:var(--w,0%);background:linear-gradient(90deg,var(--gold2),var(--gold));border-radius:inherit;transition:width .9s ease}
+.xpl{font-size:.74rem;color:var(--mut);margin-top:.25rem;display:flex;justify-content:space-between;gap:.5rem}
+.stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.9rem}
+.st3{background:var(--panel);border:1px solid var(--line);border-radius:.95rem;padding:.55rem .3rem;text-align:center}
+.st3 b{display:block;font-size:1.2rem;font-family:var(--f-disp);color:var(--goldtxt);line-height:1.2}
+.st3 span{font-size:.72rem;color:var(--mut)}
+
+/* ---- versículo del día ---- */
+.vod{margin-top:.9rem;padding:1rem 1.15rem;border-radius:1.25rem;background:linear-gradient(135deg,var(--paper),var(--paper2));color:var(--paperink);position:relative;overflow:hidden;box-shadow:var(--sh)}
+.vod:before{content:"“";position:absolute;top:-.9rem;left:.5rem;font:900 6rem/1 var(--f-disp);color:#e0a21c;opacity:.28;pointer-events:none}
+.vod small{font-weight:800;text-transform:uppercase;letter-spacing:.09em;font-size:.68rem;color:#8a5a06;position:relative}
+.vod p{margin:.3rem 0 .5rem;font-family:var(--f-disp);font-size:1.1rem;line-height:1.38;position:relative}
+.vod .vr{display:flex;justify-content:space-between;align-items:center;gap:.5rem;font-size:.85rem;color:var(--papermut);font-weight:700;position:relative}
+.vod .vr a,.vod .vr button{color:#7a4f05;font-weight:800;text-decoration:none;padding:.2rem .1rem}
+
+/* ---- CTA y fichas ---- */
+.cta{display:flex;align-items:center;gap:1rem;width:100%;margin-top:1rem;padding:1rem 1.1rem;border-radius:1.5rem;text-align:left;color:var(--goldink);background:linear-gradient(135deg,#ffd870,#f2a916);box-shadow:0 6px 0 #a86d07,0 16px 26px rgba(0,0,0,.35);position:relative;overflow:hidden;transition:transform .08s,box-shadow .08s}
+.cta:active{transform:translateY(5px);box-shadow:0 1px 0 #a86d07,0 4px 10px rgba(0,0,0,.3)}
+.cta:after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-18deg);animation:shine 4.5s ease-in-out infinite}
+.cta svg{width:4.6rem;height:4.6rem;flex:none;animation:spin 16s linear infinite;filter:drop-shadow(0 4px 6px rgba(0,0,0,.3))}
+.cta b{display:block;font-family:var(--f-disp);font-size:1.5rem;line-height:1.1}
+.cta span{font-size:.92rem;font-weight:600;opacity:.85}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.9rem}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:.1rem;padding:.9rem;border-radius:1.2rem;background:var(--panel);border:1px solid var(--line);text-align:left;position:relative;min-height:6.4rem;transition:transform .1s,background .2s}
+.tile:active:not(:disabled){transform:scale(.97)}
+.tile .ic{--tc:var(--blue);font-size:1.5rem;width:2.7rem;height:2.7rem;border-radius:.9rem;display:grid;place-items:center;background:var(--tc);box-shadow:0 3px 0 rgba(0,0,0,.28)}
+.tile b{font-weight:800;margin-top:.4rem;line-height:1.15}
+.tile small{display:block;color:var(--mut);font-size:.78rem;line-height:1.25}
+.tile.wide{grid-column:1/-1;flex-direction:row;align-items:center;gap:.9rem;min-height:0}
+.tile.wide b{margin-top:0;display:block}
+.tile:disabled{opacity:.7}
+.tile .tag{position:absolute;top:.7rem;right:.7rem;font-size:.7rem;font-weight:800;padding:.15rem .5rem;border-radius:1rem;background:var(--gold);color:var(--goldink)}
+.lvls{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+.lv{--lc:var(--blue);padding:.85rem .3rem .7rem;text-align:center;border-radius:1.15rem;background:var(--panel);border:1px solid var(--line);border-bottom:4px solid var(--lc);position:relative;transition:transform .1s}
+.lv i{font-style:normal;font-size:1.8rem;display:block;line-height:1.2}
+.lv b{display:block;font-size:.92rem;margin-top:.1rem}
+.lv small{display:block;font-size:.7rem;color:var(--mut);line-height:1.25;margin-top:.1rem}
+.lv:not(:disabled):active{transform:scale(.96)}
+.lv:disabled{opacity:.55;border-bottom-color:var(--line)}
+.pills{display:flex;gap:.45rem;overflow-x:auto;margin:0 -1rem;padding:.15rem 1rem .6rem;scrollbar-width:none}
+.pills::-webkit-scrollbar{display:none}
+.pill{flex:none;padding:.45rem .8rem;border-radius:2rem;background:var(--panel);border:1px solid var(--line);font-size:.85rem;font-weight:700;white-space:nowrap}
+.pill.on{background:var(--gold);color:var(--goldink);border-color:transparent}
+.pill.gold{background:linear-gradient(180deg,#ffd870,#f2a916);color:var(--goldink);border:0;font-weight:800;padding:.4rem .8rem}
+
+/* ---- navegación inferior ---- */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;padding:.4rem .8rem calc(.45rem + env(safe-area-inset-bottom,0px));pointer-events:none}
+.nav[hidden]{display:none}
+.nav>div{pointer-events:auto;display:flex;gap:.25rem;width:100%;max-width:28.5rem;background:var(--navbg);border:1px solid var(--line);border-radius:1.5rem;padding:.35rem;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:.05rem;padding:.4rem 0;border-radius:1.15rem;font-size:.72rem;font-weight:700;color:var(--mut);transition:background .2s}
+.nav button span{font-size:1.3rem;line-height:1.2}
+.nav button.on{background:var(--gold);color:var(--goldink)}
+
+/* ---- partida ---- */
+.gtop{display:flex;align-items:center;gap:.7rem;margin-bottom:.85rem}
+.gtop .ttl{flex:1;text-align:center;font-family:var(--f-disp);font-weight:700;font-size:1.1rem}
+.dots{flex:1;display:flex;gap:.28rem;justify-content:center}
+.dots i{flex:1;max-width:1.25rem;height:.5rem;border-radius:1rem;background:rgba(127,127,170,.32);transition:background .3s}
+.dots i.ok{background:var(--ok)}.dots i.bad{background:var(--bad)}
+.dots i.cur{background:var(--gold);box-shadow:0 0 0 3px var(--glow)}
+.qcard{--cc:var(--gold);--on:#fff;background:linear-gradient(180deg,var(--paper),var(--paper2));color:var(--paperink);border-radius:1.4rem;padding:0 0 1.2rem;box-shadow:var(--sh);overflow:hidden;animation:pop .35s both}
+.qhead{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.5rem .8rem .5rem 1.05rem;min-height:3.4rem;background:linear-gradient(180deg,var(--cc),var(--ccd,var(--cc)));color:var(--on);font-weight:800;font-size:.95rem}
+.qhead .qn{opacity:.85;font-weight:700;font-size:.78rem;display:block}
+.q{font-family:var(--f-disp);font-size:1.38rem;line-height:1.3;margin:1rem 1.1rem 0;font-weight:700}
+.ring{position:relative;width:2.8rem;height:2.8rem;flex:none}
+.ring:before{content:"";position:absolute;inset:-1px;border-radius:50%;background:rgba(0,0,0,.28)}
+.ring svg{position:relative;width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:4.5}
+.ring .tr{stroke:rgba(255,255,255,.3)}
+.ring .pg{stroke:#fff;stroke-linecap:round;stroke-dasharray:100.53;stroke-dashoffset:0;transition:stroke-dashoffset .12s linear,stroke .3s}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:.95rem;font-weight:900;color:#fff}
+.ring.warn{animation:pulse .6s infinite}
+.ring.warn .pg{stroke:#ffd23f}.ring.warn b{color:#ffd23f}
+.combo{display:flex;justify-content:center;min-height:1.9rem;margin-top:.3rem}
+.combo span{padding:.25rem .8rem;border-radius:2rem;background:linear-gradient(180deg,#d4531a,#bf410d);color:#fff;font-weight:900;font-size:.85rem;animation:pop .4s both;box-shadow:0 3px 0 #9b3208}
+.opts{display:grid;gap:.65rem;margin-top:.4rem}
+.opt{display:flex;align-items:center;gap:.8rem;width:100%;text-align:left;padding:.8rem .9rem;min-height:3.6rem;border-radius:1.1rem;background:var(--panel);border:2px solid var(--line);box-shadow:0 4px 0 rgba(0,0,0,.2);font-size:1.05rem;font-weight:650;transition:transform .08s,background .2s,border-color .2s,opacity .25s;line-height:1.25;animation:in .35s both}
+.opt:nth-child(2){animation-delay:.05s}.opt:nth-child(3){animation-delay:.1s}.opt:nth-child(4){animation-delay:.15s}
+.opt:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.2)}
+.opt .ltr{flex:none;width:2.1rem;height:2.1rem;border-radius:.7rem;display:grid;place-items:center;font-weight:900;background:var(--gold);color:var(--goldink)}
+.opt.ok{background:linear-gradient(180deg,#46dc9a,#22a869);border-color:#178a58;color:#052e1b;animation:bounce .5s}
+.opt.ok .ltr{background:#0b5a37;color:#fff}
+.opt.bad{background:linear-gradient(180deg,#d23f45,#b92b32);border-color:#8f1f25;color:#fff;animation:shake .45s}
+.opt.bad .ltr{background:#fff;color:#a02027}
+.opt.dim{opacity:.42}
+.opt.gone{opacity:.12;pointer-events:none;transform:scale(.96)}
+.life{display:flex;justify-content:center;gap:.7rem;margin-top:1.1rem}
+.lf{position:relative;display:flex;flex-direction:column;align-items:center;gap:.1rem;min-width:4.8rem;padding:.5rem .6rem;border-radius:1rem;background:var(--panel);border:1px solid var(--line);font-size:.7rem;font-weight:700;color:var(--mut);transition:transform .1s}
+.lf:active:not(:disabled){transform:scale(.94)}
+.lf span{font-size:1.35rem;line-height:1.1}
+.lf em{position:absolute;top:-.4rem;right:-.2rem;font-style:normal;min-width:1.25rem;height:1.25rem;border-radius:1rem;background:var(--gold);color:var(--goldink);font-size:.72rem;font-weight:900;display:grid;place-items:center}
+.lf:disabled{opacity:.35}
+.vs{display:grid;grid-template-columns:1fr auto 1fr;gap:.5rem;align-items:center;margin-bottom:.8rem}
+.vs .p{display:flex;align-items:center;gap:.5rem;padding:.4rem .55rem;border-radius:1rem;background:var(--panel);border:1px solid var(--line);min-width:0;transition:background .3s}
+.vs .p .av{width:2rem;height:2rem;font-size:.85rem;border-width:2px}
+.vs .p b{font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vs .p .sc{margin-left:auto;font-weight:900;color:var(--goldtxt)}
+.vs .p.hit{background:var(--panel2);animation:pulse .5s}
+.vs .x{font-family:var(--f-disp);font-weight:900;color:var(--goldtxt)}
+.live{display:flex;gap:.4rem;overflow-x:auto;margin-bottom:.8rem;scrollbar-width:none}
+.live::-webkit-scrollbar{display:none}
+.live span{flex:none;padding:.3rem .65rem;border-radius:2rem;background:var(--panel);border:1px solid var(--line);font-size:.78rem;font-weight:700}
+.live span.me{background:var(--gold);color:var(--goldink);border-color:transparent}
+
+/* ---- contrarreloj, libros, imagen de versículo ---- */
+.rbar{flex:1;position:relative;height:2.2rem;border-radius:1.1rem;background:rgba(127,127,170,.28);overflow:hidden;border:1px solid var(--line)}
+.rbar i{position:absolute;left:0;top:0;bottom:0;width:100%;background:linear-gradient(90deg,var(--gold2),var(--gold));transition:width .12s linear}
+.rbar b{position:absolute;inset:0;display:grid;place-items:center;font-weight:900;color:var(--goldink)}
+.rbar.warn i{background:linear-gradient(90deg,#b32b31,#d2481f)}
+.rbar.warn b{color:#fff}
+.bkl{display:flex;flex-wrap:wrap;gap:.5rem}
+.bkc{--cc:var(--blue);display:flex;align-items:center;gap:.45rem;padding:.55rem .8rem;border-radius:2rem;background:var(--panel);border:1px solid var(--line);border-left:6px solid var(--cc);font-weight:700;font-size:.88rem;transition:transform .1s}
+.bkc:active{transform:scale(.95)}
+.bkc small{min-width:1.35rem;height:1.35rem;padding:0 .3rem;border-radius:1rem;background:var(--cc);color:#fff;font-size:.72rem;font-weight:800;display:grid;place-items:center}
+.vimg{width:100%;display:block;border-radius:1rem;margin:.6rem 0;box-shadow:var(--sh)}
+.verse .vsh{display:block;margin-top:.45rem;color:var(--goldtxt);font-weight:800}
+
+/* ---- hoja de respuesta ---- */
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:center;pointer-events:none;--sc:var(--ok)}
+.sheet.bad{--sc:var(--bad)}
+.sheet>div{pointer-events:auto;width:100%;max-width:30rem;max-height:64vh;overflow:auto;padding:1rem 1.1rem calc(1rem + env(safe-area-inset-bottom,0px));background:var(--sheetbg);color:var(--ink);border-top:4px solid var(--sc);border-radius:1.6rem 1.6rem 0 0;box-shadow:0 -14px 40px rgba(0,0,0,.45);animation:up .3s cubic-bezier(.2,.9,.3,1)}
+.sheet h3{font-size:1.35rem;display:flex;align-items:center;gap:.5rem;color:var(--sc);margin-bottom:.25rem}
+.sheet h3 b{background:var(--sc);color:var(--onok,#042515);border-radius:2rem;padding:.05rem .6rem;font:800 .95rem var(--f-ui)}
+.sheet .ans{margin:.1rem 0 .2rem}
+.verse{margin:.5rem 0 .8rem;padding:.65rem .85rem;border-left:4px solid var(--gold);background:var(--panel);border-radius:.7rem;font-size:.9rem}
+.verse i{font-family:var(--f-disp);font-size:1rem;display:block;margin:.2rem 0;font-style:italic;line-height:1.35}
+.verse small{font:600 .72rem var(--f-ui);color:var(--mut);font-style:normal}
+.verse a{display:block;margin-top:.3rem;color:var(--goldtxt);font-weight:800;text-decoration:none}
+
+/* ---- resultado ---- */
+.res{text-align:center;padding:.6rem 0 0}
+.trophy{font-size:4.6rem;line-height:1.1;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 8px 10px rgba(0,0,0,.3))}
+.stars{display:flex;justify-content:center;gap:.4rem;font-size:2.5rem;margin:.2rem 0}
+.stars span{filter:grayscale(1) opacity(.3)}
+.stars span.on{filter:none;animation:pop .55s both}
+.score{font-family:var(--f-disp);font-size:4.4rem;font-weight:900;color:var(--goldtxt);line-height:1.1;text-shadow:0 4px 0 rgba(0,0,0,.22)}
+.res .msg{font-family:var(--f-disp);font-size:1.25rem;margin:.3rem 0 .2rem}
+.chips{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin:.8rem 0 1.1rem}
+.chip{padding:.4rem .8rem;border-radius:2rem;background:var(--panel);border:1px solid var(--line);font-size:.85rem;font-weight:700}
+.chip.new{background:var(--gold);color:var(--goldink);border-color:transparent;animation:pop .5s both}
+.rank{margin:.6rem 0;padding:.8rem 1rem;text-align:left}
+.rank div{display:flex;justify-content:space-between;gap:.5rem;padding:.3rem 0;font-weight:700}
+.rank div+div{border-top:1px solid var(--line)}
+.rank .me{color:var(--goldtxt)}
+
+/* ---- ruleta ---- */
+.board{display:flex;gap:.5rem;margin-bottom:.4rem}
+.pl{--pc:var(--blue);flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:.15rem;padding:.55rem .3rem;border-radius:1.05rem;background:var(--panel);border:2px solid var(--line);transition:all .25s;position:relative}
+.pl .av{width:2.4rem;height:2.4rem;font-size:1rem;border-width:2px;background:var(--pc)}
+.pl b{font-size:.8rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pl .cr{font-size:.95rem;letter-spacing:.04rem;line-height:1.2}
+.pl .cr .off{opacity:.22;filter:grayscale(1)}
+.pl.on{border-color:var(--gold);background:var(--panel2);box-shadow:0 0 0 3px var(--glow),0 6px 18px rgba(0,0,0,.3);transform:translateY(-2px)}
+.turn{text-align:center;color:var(--mut);margin:.5rem 0 .2rem;font-size:.95rem}
+.turn b{color:var(--ink);font-size:1.05rem}
+.pips{display:flex;gap:.45rem;justify-content:center;align-items:center;margin:.35rem 0;color:var(--mut);font-size:.8rem;font-weight:700}
+.pips i{width:.95rem;height:.95rem;border-radius:50%;background:rgba(127,127,170,.3);border:2px solid var(--line);transition:all .3s}
+.pips i.on{background:var(--gold);border-color:var(--gold2);box-shadow:0 0 10px var(--glow)}
+.wheelbox{position:relative;width:min(100%,19.5rem);margin:.5rem auto .8rem}
+.wheel{display:block;width:100%;height:auto;filter:drop-shadow(0 14px 18px rgba(0,0,0,.45))}
+.bulb{animation:blink 1s steps(1) infinite}
+.bulb.b2{animation-delay:.5s}
+.spinning .bulb{animation-duration:.25s}
+.catpill{--cc:var(--gold);--on:#fff;display:flex;align-items:center;justify-content:center;gap:.6rem;min-height:3.4rem;border-radius:1.15rem;background:var(--cc);color:var(--on);font-weight:900;font-size:1.15rem;animation:pop .4s both;box-shadow:0 5px 0 var(--ccd,rgba(0,0,0,.3))}
+.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-top:1rem}
+.legend span{display:flex;align-items:center;gap:.35rem;font-size:.72rem;font-weight:700;color:var(--mut);padding:.3rem .45rem;border-radius:.7rem;background:var(--panel)}
+.legend i{width:.7rem;height:.7rem;border-radius:50%;background:var(--cc);flex:none}
+.cats{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.9rem}
+.cat{--cc:var(--blue);--on:#fff;padding:1rem .5rem;border-radius:1.2rem;text-align:center;font-weight:800;color:var(--on);background:linear-gradient(180deg,var(--ccl,var(--cc)),var(--cc));box-shadow:0 5px 0 var(--ccd,rgba(0,0,0,.3)),0 12px 18px rgba(0,0,0,.25);transition:transform .08s;line-height:1.2}
+.cat i{display:block;font-style:normal;font-size:2rem;margin-bottom:.15rem}
+.cat:active:not(:disabled){transform:translateY(4px)}
+.cat:disabled{filter:grayscale(.6);opacity:.6}
+
+/* ---- sala en línea ---- */
+.room{text-align:center}
+.room .code{font-family:var(--f-disp);font-size:1.7rem;font-weight:900;letter-spacing:.04em;color:var(--goldtxt)}
+.plist{margin-top:.9rem}
+.prow{display:flex;align-items:center;gap:.7rem;padding:.55rem 0}
+.prow+.prow{border-top:1px solid var(--line)}
+.prow .av{width:2.4rem;height:2.4rem;font-size:1rem;border-width:2px}
+.prow b{flex:1;min-width:0;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow small{color:var(--mut);font-weight:700}
+.dot{display:inline-block;width:.6rem;height:.6rem;border-radius:50%;background:var(--ok);margin-right:.3rem;box-shadow:0 0 8px var(--ok)}
+.dot.off{background:var(--bad);box-shadow:0 0 8px var(--bad)}
+.warn{padding:.7rem .9rem;border-radius:1rem;background:rgba(239,90,90,.16);border:1px solid rgba(239,90,90,.5);font-size:.88rem;margin-top:.8rem}
+.note{padding:.7rem .9rem;border-radius:1rem;background:var(--panel);border:1px solid var(--line);font-size:.86rem;color:var(--mut);margin-top:.8rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.two .btn+.btn{margin-top:0}
+
+/* ---- formularios ---- */
+label.lbl{display:block;font-size:.8rem;font-weight:800;color:var(--mut);margin:1rem 0 0;letter-spacing:.03em;text-transform:uppercase}
+input{width:100%;font:inherit;font-size:1rem;color:var(--ink);background:var(--panel);border:2px solid var(--line);border-radius:1rem;padding:.8rem 1rem;margin-top:.45rem;outline:0;transition:border-color .2s}
+input:focus{border-color:var(--gold)}
+input::placeholder{color:var(--soft)}
+.seg{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:1rem;padding:.2rem;gap:.2rem;margin-top:.5rem}
+.seg button{flex:1;padding:.55rem .4rem;border-radius:.8rem;font-size:.82rem;font-weight:800;color:var(--mut);transition:background .2s}
+.seg button.on{background:var(--gold);color:var(--goldink)}
+.srow{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 0}
+.srow+.srow{border-top:1px solid var(--line)}
+.srow b{display:block}
+.srow small{color:var(--mut);font-size:.8rem}
+.switch{width:3.2rem;height:1.85rem;border-radius:1rem;background:rgba(127,127,170,.45);position:relative;transition:background .2s;flex:none}
+.switch:after{content:"";position:absolute;top:.2rem;left:.2rem;width:1.45rem;height:1.45rem;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 2px 4px rgba(0,0,0,.3)}
+.switch[aria-checked=true]{background:var(--ok)}
+.switch[aria-checked=true]:after{transform:translateX(1.35rem)}
+
+/* ---- logros ---- */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.9rem}
+.sbox{padding:.8rem;border-radius:1.1rem;background:var(--panel);border:1px solid var(--line);text-align:center}
+.sbox b{display:block;font-family:var(--f-disp);font-size:1.6rem;color:var(--goldtxt);line-height:1.2}
+.sbox span{font-size:.78rem;color:var(--mut)}
+.bk{display:grid;grid-template-columns:2rem 1fr 3rem;align-items:center;gap:.6rem;padding:.4rem 0;font-size:.85rem;font-weight:700}
+.bk .bar{height:.7rem;border-radius:1rem;background:rgba(127,127,170,.28);overflow:hidden}
+.bk .bar i{display:block;height:100%;width:var(--w,0%);background:var(--cc);border-radius:inherit;transition:width .9s ease}
+.bk em{font-style:normal;text-align:right;color:var(--mut)}
+.medals{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+.md{padding:.75rem .3rem;border-radius:1.05rem;background:var(--panel);border:1px solid var(--line);text-align:center}
+.md i{font-style:normal;font-size:2.1rem;display:block;line-height:1.2}
+.md b{font-size:.78rem;display:block;line-height:1.2;margin-top:.1rem}
+.md small{font-size:.66rem;color:var(--mut);display:block;line-height:1.25;margin-top:.15rem}
+.md.off{opacity:.5}
+.md.off i{filter:grayscale(1)}
+.md.on{border-color:var(--gold);background:var(--panel2)}
+
+/* ---- ayuda ---- */
+.help h3{font-size:1.05rem;margin:1.1rem 0 .25rem;color:var(--goldtxt)}
+.help p,.help li{color:var(--ink);font-size:.93rem}
+.help ul{margin:.2rem 0;padding-left:1.1rem}
+
+/* ---- modal / aviso / confeti ---- */
+.ov{position:fixed;inset:0;z-index:50;background:rgba(3,8,25,.68);display:grid;place-items:center;padding:1.2rem;animation:fade .2s both}
+.md2{width:100%;max-width:23.5rem;background:var(--sheetbg);color:var(--ink);border:1px solid var(--line);border-radius:1.5rem;padding:1.3rem;box-shadow:var(--sh);animation:pop .28s both;max-height:88vh;overflow:auto}
+.md2 h3{font-size:1.3rem;margin-bottom:.4rem}
+.md2 p{color:var(--mut);margin-bottom:.6rem}
+.mbtns{display:flex;gap:.6rem;margin-top:1rem}
+.mbtns .btn{margin:0!important}
+.toast{position:fixed;left:50%;bottom:calc(6.2rem + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:60;max-width:92vw;padding:.7rem 1rem;border-radius:1rem;background:#0b1536;color:#fff;border:1px solid rgba(255,255,255,.22);font-weight:700;font-size:.92rem;box-shadow:var(--sh);transition:opacity .25s,transform .25s;display:flex;gap:.8rem;align-items:center}
+.toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast button{color:#ffd470;font-weight:900;white-space:nowrap}
+.confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:70}
+
+/* ---- animaciones ---- */
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{0%{opacity:0;transform:scale(.7)}70%{transform:scale(1.06)}100%{opacity:1;transform:none}}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes bounce{0%{transform:scale(1)}40%{transform:scale(1.04)}100%{transform:scale(1)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes blink{0%{opacity:1}50%{opacity:.25}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shine{0%,60%{left:-60%}100%{left:130%}}
+
+@media (min-width:640px){
+  #app{padding-top:2rem}
+  .nav>div{max-width:28.5rem}
+}
+@media (max-width:350px){
+  html{font-size:15px}
+  .tiles{gap:.5rem}
+  .lvls{gap:.4rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+noscript{display:block;padding:2rem;text-align:center;color:var(--ink)}
+
+</style>
+</head>
+<body>
+<div id="app" role="main" tabindex="-1"></div>
+<nav id="nav" class="nav" hidden aria-label="Navegación principal"><div>
+  <button type="button" data-go="home"><span>🏠</span>Inicio</button>
+  <button type="button" data-go="stats"><span>🏅</span>Logros</button>
+  <button type="button" data-go="settings"><span>⚙️</span>Ajustes</button>
+</div></nav>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<noscript>Esta app necesita JavaScript para funcionar.</noscript>
+<script>
+"use strict";
+/* ============================================================
+   Trivia Bíblica · v3
+   Secciones: núcleo · inicio / logros / ajustes · partida solo ·
+              ruleta · en línea · arranque (PWA)
+   ============================================================ */
+const APPV="3.1.0";
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const A=$("#app");
+const esc=s=>String(s).replace(/[&<>"']/g,c=>"&#"+c.charCodeAt(0)+";");
+const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function rng(seed){let a=seed;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function shuffle(arr,r=Math.random){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const day=d=>d.toLocaleDateString("sv"),todayS=()=>day(new Date());
+const hstr=s=>{let h=7;for(const c of s)h=(h*31+c.charCodeAt(0))|0;return h};
+const hh=s=>{let h=5381;for(const c of s)h=((h*33)^c.charCodeAt(0))>>>0;return h.toString(36)};
+function shade(hex,a){const n=parseInt(hex.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;const f=a<0?0:255,p=Math.abs(a);r=Math.round((f-r)*p+r);g=Math.round((f-g)*p+g);b=Math.round((f-b)*p+b);return"#"+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1)}
+
+/* ---------- estado global ---------- */
+let G=null,R=null,RM=null,F=-1,IP=null,VIEW="home";
+
+/* ---------- datos: bloques, preguntas, versículos ---------- */
+const BLK=[
+ {n:"Pentateuco",s:"Pentateuco",e:"📜",c:"#F2B01E",on:"#3a2500",b:"Génesis,Éxodo,Levítico,Números,Deuteronomio"},
+ {n:"Históricos",s:"Históricos",e:"🏰",c:"#BF521A",on:"#fff",b:"Josué,Jueces,Rut,1 Samuel,2 Samuel,1 Reyes,2 Reyes,1 Crónicas,2 Crónicas,Esdras,Nehemías,Ester"},
+ {n:"Sabiduría",s:"Sabiduría",e:"🕊️",c:"#127850",on:"#fff",b:"Job,Salmos,Proverbios,Eclesiastés,Cantares"},
+ {n:"Profetas",s:"Profetas",e:"🔥",c:"#D93A40",on:"#fff",b:"Isaías,Jeremías,Lamentaciones,Ezequiel,Daniel,Oseas,Joel,Amós,Abdías,Jonás,Miqueas,Nahúm,Habacuc,Sofonías,Hageo,Zacarías,Malaquías"},
+ {n:"Evangelios y Hechos",s:"Evangelios",e:"✝️",c:"#2F6FE0",on:"#fff",b:"Mateo,Marcos,Lucas,Juan,Hechos"},
+ {n:"Cartas y Apocalipsis",s:"Cartas",e:"💌",c:"#8B47D9",on:"#fff",b:"Romanos,1 Corintios,2 Corintios,Gálatas,Efesios,Filipenses,Colosenses,1 Tesalonicenses,2 Tesalonicenses,1 Timoteo,2 Timoteo,Tito,Filemón,Hebreos,Santiago,1 Pedro,2 Pedro,1 Juan,2 Juan,3 Juan,Judas,Apocalipsis"}
+];
+BLK.forEach(k=>{k.d=shade(k.c,-.38);k.l=shade(k.c,.22)});
+const B2I={};BLK.forEach((k,i)=>k.b.split(",").forEach(b=>B2I[b]=i));
+const bookOf=r=>r.replace(/\s+[\d:\-–]+$/,"");
+const catStyle=b=>`--cc:${b.c};--ccd:${b.d};--ccl:${b.l};--on:${b.on}`;
+const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|Génesis 7:12
+0|¿Quién fue vendido por sus hermanos como esclavo?|José|Benjamín;Rubén;Judá|Génesis 37
+0|¿Qué mar abrió Dios para que pasara su pueblo?|Mar Rojo|Mar Muerto;Mar de Galilea;Mar Mediterráneo|Éxodo 14
+0|¿Cuál es el primer libro de la Biblia?|Génesis|Éxodo;Salmos;Job|Génesis 1:1
+0|¿Cuántos mandamientos están en las tablas de la ley?|10|7;12;5|Éxodo 20
+0|¿Quién derrotó al gigante Goliat?|David|Saúl;Sansón;Jonatán|1 Samuel 17
+0|¿Quién pasó tres días dentro de un gran pez?|Jonás|Elías;Noé;Job|Jonás 1:17
+0|¿Qué rey pidió a Dios sabiduría?|Salomón|David;Ezequías;Josías|1 Reyes 3
+0|¿En qué ciudad nació Jesús?|Belén|Nazaret;Jerusalén;Capernaúm|Mateo 2:1
+0|¿Cuántos apóstoles eligió Jesús?|12|7;10;70|Lucas 6:13
+0|¿Quién bautizó a Jesús?|Juan el Bautista|Pedro;Andrés;Santiago|Mateo 3:13
+0|¿Qué apóstol negó a Jesús tres veces?|Pedro|Juan;Tomás;Judas|Mateo 26:75
+0|¿Cuál es el último libro de la Biblia?|Apocalipsis|Judas;Hebreos;Hechos|Apocalipsis 22
+0|¿Cómo se llamaba Pablo antes de su conversión?|Saulo|Simón;Silas;Bernabé|Hechos 9
+0|¿Quién escribió el libro de los Hechos?|Lucas|Pablo;Marcos;Pedro|Hechos 1:1
+0|¿Cuándo resucitó Jesús?|Al tercer día|Al segundo día;A los siete días;A los cuarenta días|1 Corintios 15:4
+0|¿Cómo se llamaba la esposa de Abraham?|Sara|Rebeca;Raquel;Lea|Génesis 17
+0|¿Cómo se llamó el primer hombre?|Adán|Abel;Set;Noé|Génesis 2
+0|¿Quién construyó el arca?|Noé|Moisés;Abraham;Matusalén|Génesis 6
+0|¿Quién fue arrojado al foso de los leones?|Daniel|José;Elías;Jeremías|Daniel 6
+0|¿Qué patriarca recibió el nombre de Israel?|Jacob|Isaac;Abraham;Esaú|Génesis 32:28
+0|¿Qué mujer fue jueza de Israel?|Débora|Ester;Rut;Miriam|Jueces 4
+0|¿Qué reina arriesgó su vida por salvar a su pueblo?|Ester|Rut;Noemí;Betsabé|Ester 4
+0|¿Quién fue la madre de Jesús?|María|Marta;Isabel;Ana|Lucas 1:31
+0|¿Con cuántos panes y peces alimentó Jesús a 5000?|5 panes y 2 peces|7 panes y 3 peces;3 panes y 5 peces;12 panes y 2 peces|Mateo 14:17
+0|¿Cuál fue el primer milagro de Jesús?|Agua en vino|Sanar a un ciego;Calmar la tormenta;Resucitar a Lázaro|Juan 2:1-11
+0|¿A quién resucitó Jesús después de cuatro días en el sepulcro?|Lázaro|Jairo;Bartimeo;Nicodemo|Juan 11
+0|¿Qué apóstol caminó sobre el agua hacia Jesús?|Pedro|Juan;Andrés;Tomás|Mateo 14:29
+0|¿Quién ayudó al hombre herido en el camino de Jericó?|Un samaritano|Un sacerdote;Un levita;Un fariseo|Lucas 10:33
+0|En la parábola, ¿cuántas ovejas dejó el pastor para buscar la perdida?|99|10;50;100|Lucas 15:4
+0|De diez leprosos sanados, ¿cuántos volvieron a dar gracias?|1|3;5;Todos|Lucas 17:15
+0|¿Qué hizo Jesús con la tormenta en el mar?|La calmó con su palabra|Huyó de ella;Oró tres días;Pidió ayuda|Marcos 4:39
+0|¿En qué monte recibió Moisés la ley?|Sinaí|Carmelo;Hermón;Sión|Éxodo 19
+0|¿En qué río fue bautizado Jesús?|Jordán|Nilo;Éufrates;Tigris|Mateo 3:13
+0|¿Qué ciudad vio caer sus muros ante Josué?|Jericó|Hai;Belén;Gaza|Josué 6
+0|¿En qué huerto oró Jesús antes de ser arrestado?|Getsemaní|Edén;Betania;Gólgota|Mateo 26:36
+0|¿En qué isla recibió Juan la visión del Apocalipsis?|Patmos|Creta;Malta;Chipre|Apocalipsis 1:9
+0|¿A qué ciudad fue enviado Jonás?|Nínive|Babilonia;Tarsis;Damasco|Jonás 1:2
+0|¿Cómo se llamaba la tierra prometida?|Canaán|Egipto;Moab;Edom|Génesis 12:5
+0|¿Cerca de qué ciudad se convirtió Pablo?|Damasco|Antioquía;Éfeso;Roma|Hechos 9:3
+1|¿Cuál fue el hijo menor de Jacob?|Benjamín|José;Judá;Neftalí|Génesis 35:18
+1|¿Con qué plaga final salió Israel de Egipto?|Muerte de los primogénitos|Ranas;Langostas;Granizo|Éxodo 12
+2|¿Cómo se llama la fiesta anual del perdón de los pecados de Israel?|Día de la Expiación|Pascua;Pentecostés;Purim|Levítico 16
+1|¿Cuántos espías envió Moisés a Canaán?|12|10;7;40|Números 13
+1|¿Quién murió en el monte Nebo viendo la tierra prometida?|Moisés|Aarón;Josué;Caleb|Deuteronomio 34
+1|¿Qué se detuvo en Gabaón a la orden de Josué?|El sol|La lluvia;El río;El viento|Josué 10:12
+0|¿Qué juez perdió su fuerza al cortarle el cabello?|Sansón|Gedeón;Jefté;Barac|Jueces 16
+1|¿Cómo se llamaba la suegra de Rut?|Noemí|Orfa;Ana;Débora|Rut 1
+0|¿Quién fue el primer rey de Israel?|Saúl|David;Samuel;Salomón|1 Samuel 10
+1|¿Con quién se casó David después de la muerte de Urías?|Betsabé|Abigail;Mical;Abisag|2 Samuel 11
+1|¿Qué profeta desafió a los profetas de Baal en el Carmelo?|Elías|Eliseo;Isaías;Natán|1 Reyes 18
+1|¿Quién sucedió a Elías como profeta?|Eliseo|Jeremías;Amós;Joel|2 Reyes 2
+2|¿Qué rey preparó los materiales para el templo que construiría su hijo?|David|Ezequías;Josías;Asa|1 Crónicas 22
+2|¿Qué rey de Judá subió al trono a los ocho años y buscó a Dios?|Josías|Ezequías;Manasés;Acaz|2 Crónicas 34:1
+1|¿Qué rey persa permitió el regreso de los judíos a Jerusalén?|Ciro|Darío;Nabucodonosor;Artajerjes|Esdras 1
+1|¿Qué reconstruyó Nehemías?|Los muros de Jerusalén|El templo;El arca;El palacio|Nehemías 2
+1|¿Quién quiso exterminar a los judíos en Persia?|Amán|Mardoqueo;Asuero;Joab|Ester 3
+2|¿En qué tierra vivía Job?|Uz (Hus)|Edom;Moab;Canaán|Job 1:1
+0|¿Qué rey escribió la mayoría de los Salmos?|David|Salomón;Moisés;Josías|Salmos 23
+1|¿A qué rey se atribuye la mayor parte de Proverbios?|Salomón|David;Josías;Moisés|Proverbios 1:1
+2|¿Qué palabra repite Eclesiastés al hablar de la vida sin Dios?|Vanidad|Gozo;Victoria;Soledad|Eclesiastés 1:2
+1|¿Qué libro poético celebra el amor entre esposos?|Cantares|Salmos;Proverbios;Lamentaciones|Cantares 1
+1|¿Qué profeta anunció que una virgen daría a luz un hijo?|Isaías|Jeremías;Ezequiel;Daniel|Isaías 7:14
+1|¿Qué profeta es llamado el profeta llorón?|Jeremías|Isaías;Oseas;Amós|Jeremías 9:1
+1|¿Sobre qué ciudad lloran las Lamentaciones?|Jerusalén|Babilonia;Nínive;Samaria|Lamentaciones 1
+1|¿Qué visión tuvo Ezequiel en un valle?|Huesos secos|Una zarza ardiente;Una escalera;Una higuera|Ezequiel 37
+1|¿Cómo se llamaron los tres amigos de Daniel arrojados al horno?|Sadrac, Mesac y Abed-nego|Sem, Cam y Jafet;Pedro, Santiago y Juan;Set, Enós y Cainán|Daniel 3
+2|¿Qué simbolizó el matrimonio de Oseas con Gomer?|La infidelidad de Israel a Dios|El pacto con Noé;La caída de Egipto;El nacimiento del Mesías|Oseas 1
+2|¿Qué plaga describe el profeta Joel?|Langostas|Ranas;Piojos;Granizo|Joel 1
+2|¿A qué se dedicaba el profeta Amós antes de que Dios lo llamara?|Pastor de ganado|Sacerdote;Pescador;Carpintero|Amós 1:1
+2|¿Contra qué nación profetizó Abdías?|Edom|Moab;Amón;Egipto|Abdías 1
+2|¿Qué planta creció sobre Jonás para darle sombra?|Una calabacera|Una vid;Un olivo;Una palmera|Jonás 4:6
+1|¿Qué ciudad señaló Miqueas como origen del futuro gobernante?|Belén|Nazaret;Jerusalén;Hebrón|Miqueas 5:2
+2|¿Qué ciudad condena el profeta Nahúm?|Nínive|Tiro;Gaza;Samaria|Nahúm 1
+2|Según Habacuc, ¿quién por su fe vivirá?|El justo|El pobre;El sabio;El rey|Habacuc 2:4
+2|¿Cómo llama Sofonías al día del juicio?|Día de Jehová|Día de paz;Día de fiesta;Día de reposo|Sofonías 1:14
+2|¿Qué pidió Hageo que se reconstruyera?|El templo|Los muros;El palacio;El altar de Betel|Hageo 1
+1|¿En qué animal profetizó Zacarías que entraría el rey a Jerusalén?|Un asno|Un caballo;Un camello;Un buey|Zacarías 9:9
+1|¿Cuál es el último libro del Antiguo Testamento?|Malaquías|Zacarías;Hageo;Nahúm|Malaquías 4
+0|¿Dónde pronunció Jesús las Bienaventuranzas?|En un monte|En el templo;En una sinagoga;En el desierto|Mateo 5:1
+1|¿Cuál es el evangelio más breve?|Marcos|Mateo;Lucas;Juan|Marcos 1
+0|¿Qué cobrador de impuestos subió a un sicómoro para ver a Jesús?|Zaqueo|Bartimeo;Nicodemo;Jairo|Lucas 19
+0|¿Qué versículo dice: «De tal manera amó Dios al mundo»?|Juan 3:16|Juan 1:1;Romanos 8:28;Salmo 23:1|Juan 3:16
+1|¿Qué fiesta judía se celebraba cuando vino el Espíritu Santo?|Pentecostés|Pascua;Purim;Tabernáculos|Hechos 2
+1|Según Romanos 3:23, ¿qué hicieron todos?|Pecaron|Creyeron;Oraron;Sirvieron|Romanos 3:23
+0|¿De qué trata 1 Corintios 13?|El amor|La fe;La esperanza;El bautismo|1 Corintios 13
+2|¿Qué dijo Pablo que tenía en la carne en 2 Corintios 12?|Un aguijón|Una cadena;Una herida;Una espada|2 Corintios 12:7
+1|¿Cuál es un fruto del Espíritu en Gálatas 5?|Templanza|Orgullo;Envidia;Ira|Gálatas 5:23
+1|¿Qué parte de la armadura de Dios es la Palabra de Dios?|La espada del Espíritu|El escudo de la fe;El yelmo;El cinto|Efesios 6:17
+2|¿Dónde estaba Pablo cuando escribió a los filipenses?|Preso|En Jerusalén;En Atenas;En un barco|Filipenses 1:13
+2|Según Colosenses 1:15, ¿quién es la imagen del Dios invisible?|Cristo|Moisés;Juan;El ángel Gabriel|Colosenses 1:15
+2|¿Cómo vendrá el día del Señor según 1 Tesalonicenses?|Como ladrón en la noche|Con trompetas de oro;En el invierno;Sin ser visto jamás|1 Tesalonicenses 5:2
+2|Según 2 Tesalonicenses 3:10, el que no quiera trabajar, tampoco...|Coma|Duerma;Hable;Viaje|2 Tesalonicenses 3:10
+2|¿Qué era Timoteo para Pablo?|Un hijo en la fe|Un hermano de sangre;Un esclavo;Un rival|1 Timoteo 1:2
+2|Según 2 Timoteo 4:7, ¿qué dijo Pablo que había guardado?|La fe|El pan;La ley;El templo|2 Timoteo 4:7
+2|¿En qué isla dejó Pablo a Tito?|Creta|Chipre;Malta;Patmos|Tito 1:5
+2|¿Qué esclavo huyó de Filemón?|Onésimo|Epafras;Tíquico;Demas|Filemón 10
+1|Según Hebreos 11:1, la fe es la certeza de lo que...|Se espera|Se ve;Se sabe;Se logra|Hebreos 11:1
+1|¿Qué dice Santiago de la fe sin obras?|Está muerta|Es fuerte;Es suficiente;Es eterna|Santiago 2:26
+2|¿Cómo llama 1 Pedro 2:9 a los creyentes?|Linaje escogido|Siervos de Roma;Gentiles sin Dios;Hijos de Abraham solamente|1 Pedro 2:9
+2|Según 2 Pedro 3:8, para el Señor un día es como...|Mil años|Cien años;Un año;Diez mil años|2 Pedro 3:8
+0|Según 1 Juan 4:8, el que no ama no conoce a Dios porque Dios es...|Amor|Temor;Ira;Silencio|1 Juan 4:8
+2|¿A quién escribió Juan en su segunda carta?|A la señora elegida|A Timoteo;A Gayo;A Tito|2 Juan 1
+2|¿A quién está dirigida la tercera carta de Juan?|A Gayo|Demetrio;Diótrefes;Timoteo|3 Juan 1
+2|¿De qué arcángel habla la carta de Judas?|Miguel|Gabriel;Rafael;Uriel|Judas 9
+1|¿Cuántas iglesias reciben cartas en Apocalipsis?|7|12;3;10|Apocalipsis 2-3
+0|¿Qué creó Dios el primer día?|La luz|Los animales;El hombre;El sol|Génesis 1:3
+0|¿De qué formó Dios a Eva?|De una costilla de Adán|Del polvo;Del agua;De una nube|Génesis 2:22
+0|¿Quién mató a su hermano Abel?|Caín|Set;Lamec;Esaú|Génesis 4:8
+0|¿Qué señal puso Dios en el cielo después del diluvio?|El arco iris|Una estrella;Un cometa;Una nube de fuego|Génesis 9:13
+1|¿Qué torre intentaron construir los hombres hasta el cielo?|Babel|Sodoma;Ur;Harán|Génesis 11:4
+1|¿De qué ciudad llamó Dios a Abram?|Ur de los caldeos|Babel;Nínive;Damasco|Génesis 15:7
+1|¿En qué se convirtió la esposa de Lot al mirar atrás?|En estatua de sal|En piedra;En ceniza;En un árbol|Génesis 19:26
+1|¿Quién recibió la bendición de Isaac en lugar de Esaú?|Jacob|Labán;José;Judá|Génesis 27
+2|¿Cuántos años en total trabajó Jacob para casarse con Raquel y Lea?|14|7;10;20|Génesis 29
+2|¿Cómo se llamó la esposa que el faraón dio a José?|Asenat|Tamar;Séfora;Raquel|Génesis 41:45
+2|¿Cuántos años de abundancia anunció el sueño del faraón?|7|3;12;10|Génesis 41:29
+0|¿En qué vio Moisés a Dios en Madián?|En una zarza ardiente|En una nube;En un terremoto;En una estrella|Éxodo 3:2
+1|¿Cuántas plagas cayeron sobre Egipto?|10|7;12;3|Éxodo 7-12
+1|¿Cómo se llamó el alimento que cayó del cielo cada mañana?|Maná|Dátiles;Miel;Pan de cebada|Éxodo 16:15
+1|¿Qué hermano de Moisés fue su vocero ante el faraón?|Aarón|Caleb;Josué;Hur|Éxodo 4:14
+1|¿Qué se puso en los dinteles de las casas en la Pascua?|Sangre de un cordero|Sangre de un toro;Aceite;Agua del Nilo|Éxodo 12:7
+2|¿Qué ídolo hizo el pueblo mientras Moisés estaba en el monte?|Un becerro de oro|Una serpiente de bronce;Un carnero;Un águila|Éxodo 32:4
+2|¿Cómo se llamaba el suegro de Moisés, sacerdote de Madián?|Jetro|Labán;Balac;Elifaz|Éxodo 3:1
+2|¿Qué artesano fue llenado del Espíritu para construir el tabernáculo?|Bezaleel|Hiram;Nadab;Caleb|Éxodo 31:2
+1|Según Levítico 19:18, ¿cómo debes amar a tu prójimo?|Como a ti mismo|Más que a ti;Sin condiciones;Con tus fuerzas|Levítico 19:18
+2|¿Qué animal se enviaba al desierto cargado con los pecados del pueblo?|El macho cabrío|El cordero;El becerro;La paloma|Levítico 16:21
+2|¿Cada cuántos años se celebraba el jubileo?|50|7;40;70|Levítico 25:10
+1|¿Qué dos espías confiaron en conquistar Canaán?|Josué y Caleb|Moisés y Aarón;Aarón y Hur;Nadab y Abiú|Números 14:6-9
+1|¿Qué animal habló con Balaam?|Su asna|Un camello;Un buey;Un perro|Números 22:28
+1|¿Qué levantó Moisés para sanar a los mordidos por serpientes?|Una serpiente de bronce|Un cayado;Un altar de oro;Un estandarte|Números 21:9
+1|¿Cuántos años vagó Israel por el desierto?|40|12;20;70|Números 14:33
+2|¿Qué levita se rebeló contra Moisés y fue tragado por la tierra?|Coré|Nadab;Hur;Zimri|Números 16:31
+1|¿Qué manda amar con todo el corazón el Shemá?|A Jehová tu Dios|A tu prójimo;A tus enemigos;A tu rey|Deuteronomio 6:5
+1|Según Deuteronomio 8:3, ¿de qué no solo vive el hombre?|De pan|De agua;De oro;De carne|Deuteronomio 8:3
+0|¿Quién sucedió a Moisés como líder de Israel?|Josué|Caleb;Aarón;Eleazar|Deuteronomio 34:9
+2|¿Cuántos años tenía Moisés al morir?|120|100;80;140|Deuteronomio 34:7
+0|¿Quiénes siguieron la estrella hasta encontrar a Jesús?|Los magos de Oriente|Los pastores;Los sacerdotes;Los fariseos|Mateo 2:1-2
+0|¿Qué regalos trajeron los magos?|Oro, incienso y mirra|Oro, plata y bronce;Pan, vino y aceite;Incienso, nardo y mirra|Mateo 2:11
+0|¿Cuántos días ayunó Jesús en el desierto?|40|3;7;21|Mateo 4:2
+1|¿Qué oración enseñó Jesús a sus discípulos?|El Padre Nuestro|El Shemá;El Magníficat;El Credo|Mateo 6:9
+1|¿Sobre qué dijo Jesús que edificaría su iglesia?|Sobre esta roca|Sobre el templo;Sobre el monte Sión;Sobre la ley|Mateo 16:18
+1|¿Qué cobrador de impuestos fue llamado por Jesús a ser apóstol?|Mateo|Tomás;Felipe;Bartolomé|Mateo 9:9
+2|¿Cuántas veces dijo Jesús que hay que perdonar a un hermano?|Setenta veces siete|Siete veces;Tres veces;Cien veces|Mateo 18:22
+2|¿Cuántas monedas de plata recibió Judas por entregar a Jesús?|Treinta|Diez;Cincuenta;Doce|Mateo 26:15
+2|¿Cuántas vírgenes eran prudentes en la parábola de las diez vírgenes?|5|10;3;7|Mateo 25:2
+1|¿Qué hizo Jesús con la hija de Jairo?|La resucitó|La envió lejos;La bautizó;La ignoró|Marcos 5:41-42
+1|¿Qué dijo Jesús al mar durante la tormenta?|Calla, enmudece|Ven y sígueme;Levántate;Ve y no peques más|Marcos 4:39
+2|¿Qué ciego clamó «Hijo de David» cerca de Jericó?|Bartimeo|Zaqueo;Lázaro;Nicodemo|Marcos 10:46
+2|¿Quién llevó la cruz de Jesús?|Simón de Cirene|José de Arimatea;Pedro;Barrabás|Marcos 15:21
+2|¿Qué discípulos acompañaron a Jesús en la transfiguración?|Pedro, Santiago y Juan|Pedro, Andrés y Felipe;Juan, Tomás y Mateo;Santiago, Judas y Simón|Marcos 9:2
+0|¿Qué ángel anunció a María que sería madre de Jesús?|Gabriel|Miguel;Rafael;Uriel|Lucas 1:26
+0|¿Quiénes fueron los primeros en visitar al niño Jesús en el pesebre?|Los pastores|Los magos;Los sacerdotes;Los reyes|Lucas 2:15-16
+1|¿Cómo se llamaba la madre de Juan el Bautista?|Elisabet|Ana;María;Marta|Lucas 1:13
+1|¿Qué hermana escogió la buena parte, sentada a los pies de Jesús?|María|Marta;Salomé;Dorcas|Lucas 10:42
+2|¿Qué pidió a su padre el hijo pródigo?|La parte de la herencia|Un trabajo;Un viaje;Un caballo|Lucas 15:12
+2|¿Cuántos años tenía Jesús cuando se quedó en el templo?|12|8;15;30|Lucas 2:42
+2|¿Qué dijo uno de los crucificados con Jesús?|Acuérdate de mí cuando vengas en tu reino|Bajad de la cruz;Dios es grande;Perdónanos a todos|Lucas 23:42
+1|¿Quién visitó a Jesús de noche?|Nicodemo|Zaqueo;José de Arimatea;Bartimeo|Juan 3:2
+1|¿A quién pidió Jesús agua en un pozo?|A una mujer samaritana|A Marta;A María Magdalena;A Rahab|Juan 4:7
+1|El versículo más corto de la Biblia, Juan 11:35, dice...|Jesús lloró|Jesús oró;Jesús calló;Jesús sanó|Juan 11:35
+1|¿Qué lavó Jesús a sus discípulos en la última cena?|Los pies|Las manos;Los ojos;Las vestiduras|Juan 13:5
+1|Según Juan 10:11, ¿qué da el buen pastor por sus ovejas?|Su vida|Su bastón;Su abrigo;Su sueldo|Juan 10:11
+2|¿Qué discípulo dudó de la resurrección hasta ver las heridas?|Tomás|Felipe;Andrés;Natanael|Juan 20:25
+2|¿Cuántos peces grandes sacaron los discípulos tras la resurrección?|153|100;99;120|Juan 21:11
+1|¿Quién ocupó el lugar de Judas entre los apóstoles?|Matías|Bernabé;Silas;Timoteo|Hechos 1:26
+1|¿Quién fue el primer mártir cristiano?|Esteban|Pedro;Felipe;Bernabé|Hechos 7:59
+1|¿En qué ciudad fueron llamados cristianos por primera vez los discípulos?|Antioquía|Jerusalén;Roma;Éfeso|Hechos 11:26
+2|¿A quién bautizó Felipe en el camino del desierto?|A un eunuco etíope|A un centurión;A un fariseo;A un publicano|Hechos 8:38
+2|¿Qué centurión romano recibió a Pedro y creyó?|Cornelio|Julio;Claudio;Festo|Hechos 10
+2|¿Qué discípula de Jope fue resucitada por Pedro?|Dorcas (Tabita)|Lidia;Priscila;Rode|Hechos 9:40
+2|¿En qué ciudad hubo un terremoto mientras Pablo y Silas estaban presos?|Filipos|Corinto;Éfeso;Atenas|Hechos 16:26
+2|¿Qué vendedora de púrpura creyó en Filipos?|Lidia|Dorcas;Priscila;Febe|Hechos 16:14
+2|¿Qué joven cayó de una ventana mientras Pablo predicaba?|Eutico|Timoteo;Tito;Marcos|Hechos 20:9
+2|¿En qué isla naufragó Pablo camino a Roma?|Malta|Creta;Chipre;Patmos|Hechos 28:1
+1|¿Quién escondió a los espías israelitas en Jericó?|Rahab|Débora;Rut;Jael|Josué 2:4
+1|¿Cuántas veces rodearon Jericó el séptimo día?|7|3;12;10|Josué 6:15
+1|¿Qué río cruzó Israel en seco bajo Josué?|Jordán|Arnón;Nilo;Jaboc|Josué 3:17
+2|¿Quién fue castigado por tomar botín prohibido de Jericó?|Acán|Zimri;Coré;Nadab|Josué 7
+2|¿Qué consiguieron los gabaonitas engañando a Josué?|Un tratado de paz|Una guerra;Un tributo;Una herencia|Josué 9
+0|¿Quién traicionó a Sansón?|Dalila|Jael;Ester;Betsabé|Jueces 16:19
+1|¿A qué juez dio Dios la señal del vellón de lana?|Gedeón|Sansón;Jefté;Barac|Jueces 6:37
+2|¿Con cuántos hombres venció Gedeón al ejército de Madián?|300|100;1000;3000|Jueces 7:7
+1|¿Qué mujer mató a Sísara con una estaca?|Jael|Débora;Rahab;Dalila|Jueces 4:21
+2|¿Qué juez hizo un voto imprudente sobre su hija?|Jefté|Gedeón;Aod;Otoniel|Jueces 11:30
+1|¿Qué trabajo hacía Rut en el campo de Booz?|Espigaba|Pastoreaba;Tejía;Molía|Rut 2:3
+2|¿De qué tierra era Rut?|Moab|Edom;Amón;Egipto|Rut 1:4
+1|¿Qué rey famoso fue bisnieto de Rut?|David|Salomón;Saúl;Josías|Rut 4:17
+0|¿Qué usó David para vencer a Goliat?|Una honda y una piedra|Una espada;Una lanza;Un arco|1 Samuel 17:49
+1|¿Cómo se llamaba la madre de Samuel?|Ana|Elisabet;Penina;Mical|1 Samuel 1:20
+1|¿Qué sacerdote crió a Samuel en el templo?|Elí|Aarón;Abiatar;Sadoc|1 Samuel 3
+1|¿Cuál fue el mejor amigo de David, hijo de Saúl?|Jonatán|Abner;Joab;Mefiboset|1 Samuel 18:1
+2|¿En qué lugar consultó Saúl a una adivina?|Endor|Gat;Silo;Ramá|1 Samuel 28:7
+1|¿Qué mandó David llevar a Jerusalén con danzas?|El arca del pacto|El tabernáculo;Las tablas rotas;El maná|2 Samuel 6
+1|¿Qué profeta confrontó a David por su pecado con Betsabé?|Natán|Samuel;Elías;Gad|2 Samuel 12
+2|¿Qué hijo de David se rebeló y quedó colgado de un árbol?|Absalón|Amnón;Adonías;Salomón|2 Samuel 18:9
+2|¿A quién cuidó David por amor a Jonatán?|Mefiboset|Absalón;Uzías;Joab|2 Samuel 9
+2|¿Cuántos años tardó Salomón en construir el templo?|7|3;12;20|1 Reyes 6:38
+1|¿Qué reina visitó a Salomón atraída por su fama?|La reina de Sabá|Jezabel;Atalía;Ester|1 Reyes 10
+1|¿Qué reina malvada era esposa de Acab?|Jezabel|Atalía;Vasti;Dalila|1 Reyes 16:31
+2|¿Qué rey dividió el reino al seguir a sus jóvenes consejeros?|Roboam|Jeroboam;Acab;Asa|1 Reyes 12
+2|¿Qué viña quiso comprar Acab?|La de Nabot|La de Booz;La de Isaí;La de Urías|1 Reyes 21
+0|¿Qué profeta subió al cielo en un carro de fuego?|Elías|Eliseo;Isaías;Jeremías|2 Reyes 2:11
+1|¿Qué comandante sirio fue sanado de lepra en el Jordán?|Naamán|Ben-adad;Hazael;Sísara|2 Reyes 5:14
+2|¿A qué rey de Judá añadió Dios quince años de vida?|Ezequías|Josías;Acaz;Uzías|2 Reyes 20:6
+2|¿Qué rey de Judá fue herido de lepra por querer quemar incienso en el templo?|Uzías|Acaz;Joás;Asa|2 Crónicas 26:19
+2|¿Qué rey puso cantores al frente del ejército y venció sin pelear?|Josafat|Ezequías;Asa;Joram|2 Crónicas 20
+2|¿Qué sacerdote y escriba enseñó la ley a los judíos que regresaron?|Esdras|Zorobabel;Hageo;Josué|Esdras 7:10
+2|¿En cuántos días se terminó el muro de Jerusalén?|52|30;70;100|Nehemías 6:15
+1|¿Qué rey persa se casó con Ester?|Asuero|Ciro;Darío;Nabucodonosor|Ester 2:17
+1|¿Cómo se llamaba el primo que crió a Ester?|Mardoqueo|Amán;Esdras;Daniel|Ester 2:7
+2|¿Qué fiesta judía recuerda la salvación del pueblo en tiempos de Ester?|Purim|Pascua;Janucá;Pentecostés|Ester 9:26
+1|¿Quién puso a prueba a Job con el permiso de Dios?|Satanás|Elifaz;Elíu;Behemot|Job 1:12
+2|¿Cuántos hijos e hijas tenía Job en total?|10|7;12;3|Job 1:2
+2|Según Job 19:25, ¿qué sabe Job que vive?|Su Redentor|Su amigo;Su hijo;Su rey|Job 19:25
+0|¿Qué salmo comienza con «Jehová es mi pastor»?|Salmo 23|Salmo 1;Salmo 91;Salmo 150|Salmos 23:1
+1|¿Cuántos salmos hay en el libro de los Salmos?|150|100;66;119|Salmos
+2|¿Cuál es el salmo más largo?|Salmo 119|Salmo 23;Salmo 91;Salmo 150|Salmos 119
+2|¿Qué salmo dice «Alzaré mis ojos a los montes»?|Salmo 121|Salmo 23;Salmo 91;Salmo 1|Salmos 121:1
+1|Según Proverbios 9:10, ¿qué es el principio de la sabiduría?|El temor de Jehová|El oro;La fuerza;La fama|Proverbios 9:10
+1|Según Proverbios 22:6, ¿qué se debe hacer con el niño en su camino?|Instruirlo|Esconderlo;Dejarlo;Premiarlo|Proverbios 22:6
+1|¿Qué animal pone Proverbios como ejemplo de trabajo?|La hormiga|La abeja;El buey;La paloma|Proverbios 6:6
+1|Según Eclesiastés 3:1, ¿qué hay para todo lo que se quiere debajo del cielo?|Su tiempo|Su precio;Su fin;Su dueño|Eclesiastés 3:1
+2|¿Con qué flor se compara la amada en Cantares 2:1?|La rosa de Sarón|El lirio de Egipto;La palma de Judea;El olivo de Belén|Cantares 2:1
+1|¿Qué nombre llevará el hijo de la virgen según Isaías 7:14?|Emanuel|Elías;Josué;Natán|Isaías 7:14
+1|¿Qué profeta vio a Dios sentado en un trono alto y sublime?|Isaías|Jeremías;Amós;Oseas|Isaías 6:1
+2|¿Cuántas alas tenían los serafines en la visión de Isaías?|6|2;4;8|Isaías 6:2
+2|Según Isaías 53:7, ¿cómo fue llevado el Siervo?|Como cordero al matadero|Como un rey;Como un guerrero;Como un pastor|Isaías 53:7
+1|¿Qué profeta fue arrojado a una cisterna de lodo?|Jeremías|Isaías;Daniel;Ezequiel|Jeremías 38:6
+2|¿Qué dijo Dios a Jeremías sobre su llamado?|Que lo conoció antes de formarlo|Que sería rey;Que sería sacerdote;Que viviría en Babilonia|Jeremías 1:5
+2|¿Cuántos años de cautiverio profetizó Jeremías?|70|40;50;100|Jeremías 25:11
+2|¿Qué vio Ezequiel junto al río Quebar?|Seres vivientes y ruedas|Una zarza ardiente;Un monte en llamas;Un ángel con espada|Ezequiel 1
+2|¿Qué comió Ezequiel que fue dulce como miel?|Un rollo|Un pan;Una fruta;Un pez|Ezequiel 3:3
+0|¿Qué animales no dañaron a Daniel en el foso?|Los leones|Los lobos;Las serpientes;Los osos|Daniel 6:22
+1|¿Qué rey de Babilonia soñó con una gran estatua?|Nabucodonosor|Ciro;Belsasar;Darío|Daniel 2
+2|¿Qué apareció escrito en la pared en el banquete de Belsasar?|Mene, Mene, Tekel, Uparsin|Alfa y Omega;Santo, Santo, Santo;Amén|Daniel 5:25
+2|¿Cómo llamaron a Daniel en Babilonia?|Beltsasar|Abed-nego;Sadrac;Mesac|Daniel 1:7
+2|¿Cómo se llamaba la esposa del profeta Oseas?|Gomer|Rahab;Rut;Noemí|Oseas 1:3
+1|Según Joel 2:28, ¿qué derramaría Dios sobre toda carne?|Su Espíritu|Su ira;Su aceite;Su maná|Joel 2:28
+2|Según Amós 5:24, ¿qué debe correr como impetuoso arroyo?|La justicia|La riqueza;La guerra;La venganza|Amós 5:24
+1|¿Qué profeta huyó a Tarsis en vez de ir a Nínive?|Jonás|Joel;Amós;Nahúm|Jonás 1:3
+2|Según Miqueas 6:8, ¿qué pide Dios al hombre?|Hacer justicia, amar misericordia y andar humildemente|Ofrecer mil becerros;Construir templos;Ayunar cuarenta días|Miqueas 6:8
+1|Según Malaquías 3:10, ¿qué debían traer al alfolí?|Los diezmos|Los becerros;Las vestiduras;Los esclavos|Malaquías 3:10
+2|¿Quién sería enviado antes del día de Jehová según Malaquías 4:5?|Elías|Moisés;Eliseo;Samuel|Malaquías 4:5
+2|Según Zacarías 4:6, «No con ejército ni con fuerza, sino con...»|Mi Espíritu|Mi espada;Mi pueblo;Mi ley|Zacarías 4:6
+1|Según Romanos 6:23, ¿cuál es la dádiva de Dios?|La vida eterna|El oro;La sabiduría;La salud|Romanos 6:23
+2|Según Romanos 8:28, ¿a quiénes todas las cosas les ayudan a bien?|A los que aman a Dios|A los ricos;A los sabios;A los reyes|Romanos 8:28
+1|Según Romanos 10:17, ¿la fe viene por...?|El oír la Palabra de Dios|Las obras;La edad;La ley|Romanos 10:17
+2|¿A qué no debemos conformarnos según Romanos 12:2?|A este siglo|A la ley;A la iglesia;A la familia|Romanos 12:2
+1|¿Qué es lo mayor según 1 Corintios 13:13?|El amor|La fe;La esperanza;El conocimiento|1 Corintios 13:13
+2|¿Cuántos hermanos vieron a Jesús resucitado a la vez según Pablo?|Más de quinientos|Doce;Setenta;Tres|1 Corintios 15:6
+1|¿A qué compara Pablo a la iglesia en 1 Corintios 12?|A un cuerpo|A un ejército;A un barco;A un huerto|1 Corintios 12:12
+1|Según 2 Corintios 5:17, el que está en Cristo es...|Nueva criatura|Gran rey;Siervo;Peregrino|2 Corintios 5:17
+1|Según 2 Corintios 9:7, ¿a quién ama Dios?|Al dador alegre|Al rico;Al sabio;Al fuerte|2 Corintios 9:7
+2|Según Gálatas 2:20, ¿quién vive en Pablo?|Cristo|La ley;Moisés;Su maestro|Gálatas 2:20
+2|¿Cuántos frutos del Espíritu enumera Gálatas 5?|9|7;12;5|Gálatas 5:22-23
+1|Según Efesios 2:8, ¿por qué somos salvos?|Por gracia, mediante la fe|Por obras;Por la ley;Por herencia|Efesios 2:8
+1|Según Efesios 6:1, ¿qué deben hacer los hijos con sus padres?|Obedecerlos|Ignorarlos;Mantenerlos;Corregirlos|Efesios 6:1
+0|Completa: Todo lo puedo en...|Cristo que me fortalece|Mi propia fuerza;La ley;Mis obras|Filipenses 4:13
+1|Según Filipenses 4:6, ¿por nada estemos...?|Afanosos|Contentos;Solos;Quietos|Filipenses 4:6
+2|Según Colosenses 3:23, ¿cómo debemos hacer lo que hagamos?|De corazón, como para el Señor|Con prisa;Por dinero;Para ser vistos|Colosenses 3:23
+1|Según 1 Tesalonicenses 5:17, ¿qué debemos hacer sin cesar?|Orar|Cantar;Predicar;Ayunar|1 Tesalonicenses 5:17
+2|Según 1 Timoteo 6:10, ¿qué es raíz de todos los males?|El amor al dinero|El dinero mismo;La ciencia;El trabajo|1 Timoteo 6:10
+1|Según 2 Timoteo 3:16, toda la Escritura es...|Inspirada por Dios|Escrita por ángeles;Solo para sacerdotes;Antigua e inútil|2 Timoteo 3:16
+2|¿Quién es el gran sumo sacerdote según Hebreos 4:14?|Jesús, el Hijo de Dios|Aarón;Melquisedec;Moisés|Hebreos 4:14
+1|Según Hebreos 13:8, Jesucristo es el mismo ayer, hoy y...|Por los siglos|Mañana solo;En el cielo;En la fe|Hebreos 13:8
+1|Según Santiago 1:5, ¿qué debe pedir a Dios el que tiene falta?|Sabiduría|Riquezas;Salud;Poder|Santiago 1:5
+1|Según Santiago 4:7, ¿qué huirá si resistimos al diablo?|El diablo|La muerte;El hambre;La enfermedad|Santiago 4:7
+1|Según 1 Pedro 5:7, ¿qué debemos echar sobre Dios?|Toda nuestra ansiedad|Nuestras armas;Nuestras riquezas;Nuestros ídolos|1 Pedro 5:7
+2|Según 2 Pedro 3:9, ¿qué no quiere Dios?|Que ninguno perezca|Que haya guerra;Que haya templos;Que haya riquezas|2 Pedro 3:9
+2|Según 1 Juan 1:9, si confesamos nuestros pecados, Dios es fiel y...|Justo para perdonarnos|Lento para oír;Cercano solo a justos;Poderoso para castigar|1 Juan 1:9
+0|¿Quién escribió el Apocalipsis?|Juan|Pablo;Pedro;Santiago|Apocalipsis 1:1
+1|¿Cómo se llama la ciudad celestial que desciende en Apocalipsis 21?|La nueva Jerusalén|Babilonia;Sion antigua;Belén|Apocalipsis 21:2
+2|¿Cuántos jinetes aparecen con los primeros sellos?|4|7;12;3|Apocalipsis 6:1-8
+2|¿Cuántos sellados hay de las tribus de Israel?|144.000|12.000;7.000;100.000|Apocalipsis 7:4
+1|Según Apocalipsis 3:20, ¿qué hace Jesús a la puerta?|Llama|Espera sentado;Se va;La rompe|Apocalipsis 3:20
+1|¿Quién dice «Yo soy el Alfa y la Omega»?|Dios, el Señor|El ángel;Juan;Satanás|Apocalipsis 1:8
+2|¿Qué hijos de Aarón ofrecieron fuego extraño y murieron?|Nadab y Abiú|Eleazar e Itamar;Coré y Datán;Hofni y Finees|Levítico 10:1
+1|¿Qué animal de Levítico 11 se consideraba inmundo?|El cerdo|La oveja;El buey;La cabra|Levítico 11:7
+2|Según Levítico 17:11, ¿dónde está la vida de la carne?|En la sangre|En el corazón;En el aliento;En los huesos|Levítico 17:11
+2|¿Cuántos capítulos tiene Abdías, el libro más corto del Antiguo Testamento?|1|2;3;4|Abdías 1
+2|¿Qué rey de Judá reinaba en tiempos de Sofonías?|Josías|Acaz;Joás;Manasés|Sofonías 1:1
+2|Según Habacuc 3:18, aunque la higuera no florezca, ¿qué hará el profeta?|Se alegrará en Jehová|Huirá;Dudará;Callará|Habacuc 3:18
+2|¿Qué profeta predicó en Nínive y vio que la ciudad se arrepintió?|Jonás|Nahúm;Abdías;Joel|Jonás 3:5
+2|¿Quién era el gobernador de Judá en tiempos de Hageo?|Zorobabel|Nehemías;Esdras;Gedalías|Hageo 1:1
+2|Según Hageo 2:8, ¿qué es de Dios?|La plata y el oro|El desierto;El mar;Las ciudades|Hageo 2:8
+2|¿Quién fue más honorable que sus hermanos y pidió a Dios ensanchar su territorio?|Jabes|Obed;Aser;Caleb|1 Crónicas 4:10
+2|¿Qué rey de Judá convocó una gran Pascua y restauró el templo?|Ezequías|Joás;Acaz;Manasés|2 Crónicas 30
+1|¿A quién rogó Pablo que perdonara a Onésimo?|Filemón|Tito;Timoteo;Epafras|Filemón 10
+2|¿Para qué dejó Pablo a Tito en Creta?|Para organizar la iglesia|Para predicar en Roma;Para construir un templo;Para cuidar presos|Tito 1:5
+2|Según Judas 3, ¿qué debemos hacer por la fe?|Contender ardientemente|Huir;Callar;Vender|Judas 3
+2|Según 3 Juan 2, ¿qué desea Juan que tenga Gayo?|Salud y prosperidad|Poder y fama;Un reino;Una familia|3 Juan 2
+2|¿Qué libro dice «Grande es tu fidelidad»?|Lamentaciones|Salmos;Isaías;Job|Lamentaciones 3:23
+2|Según Cantares 8:6, ¿qué es fuerte como la muerte?|El amor|La fe;La ley;La guerra|Cantares 8:6
+2|Según Eclesiastés 12:13, ¿cuál es el fin del discurso?|Temer a Dios y guardar sus mandamientos|Disfrutar la vida;Ser rico;Callar|Eclesiastés 12:13
+2|¿Quién leyó la ley al pueblo en la plaza en Nehemías 8?|Esdras|Aarón;Zorobabel;Josué|Nehemías 8:2
+1|¿Cómo se llamó el hijo de Abraham y Agar?|Ismael|Isaac;Esaú;Madián|Génesis 16:15
+1|¿Por cuántas piezas de plata vendieron a José?|20|10;30;50|Génesis 37:28
+2|¿Qué hermano de José quedó como rehén en Egipto?|Simeón|Rubén;Leví;Judá|Génesis 42:24
+1|¿Qué hermana de Moisés vigiló la canasta en el Nilo?|Miriam|Séfora;Débora;Raquel|Éxodo 2:4
+1|¿Qué hermanos pescadores eran hijos de Zebedeo?|Santiago y Juan|Pedro y Andrés;Felipe y Natanael;Mateo y Tomás|Marcos 1:19
+1|¿Quién fue la primera en ver a Jesús resucitado?|María Magdalena|Marta;Salomé;Juana|Juan 20:14
+1|¿Desde qué monte ascendió Jesús al cielo?|Monte de los Olivos|Sinaí;Carmelo;Hermón|Hechos 1:12
+2|¿Qué iglesia de Apocalipsis fue llamada tibia?|Laodicea|Esmirna;Éfeso;Filadelfia|Apocalipsis 3:16
+1|Según Salmos 119:105, ¿qué es la Palabra de Dios?|Lámpara a mis pies|Escudo de oro;Río de vida;Espada de fuego|Salmos 119:105
+1|Según Isaías 40:31, los que esperan en Jehová levantarán alas como...|Las águilas|Las palomas;Los gorriones;Los pavos|Isaías 40:31
+0|Según Proverbios 3:5, ¿en quién debemos confiar de todo corazón?|En Jehová|En los reyes;En la riqueza;En los sabios|Proverbios 3:5
+1|Según Mateo 5:13, ¿qué somos de la tierra?|La sal|El oro;El pan;La lluvia|Mateo 5:13
+1|Según Mateo 28:19, ¿qué debemos hacer con todas las naciones?|Hacer discípulos|Conquistarlas;Aislarlas;Juzgarlas|Mateo 28:19
+0|¿Qué hizo Dios el séptimo día de la creación?|Reposó|Creó al hombre;Hizo las estrellas;Separó las aguas|Génesis 2:2
+0|¿Cuál fue el primer hogar de Adán y Eva?|El huerto del Edén|La tierra de Canaán;El monte Sinaí;La ciudad de Babel|Génesis 2:8
+0|¿Qué animal engañó a Eva en el huerto?|La serpiente|El león;El cuervo;El cordero|Génesis 3:1
+0|¿Qué nombre le dio Dios a Abram?|Abraham|Isaac;Israel;Moisés|Génesis 17:5
+0|¿Cómo se llamaba el hermano gemelo de Jacob?|Esaú|Ismael;Labán;Rubén|Génesis 25:25-26
+0|¿Cómo se llamaban los tres hijos de Noé?|Sem, Cam y Jafet|Caín, Abel y Set;Abraham, Isaac y Jacob;Rubén, Simeón y Leví|Génesis 6:10
+0|¿Qué prenda especial le regaló Jacob a José?|Una túnica de colores|Un anillo de oro;Un manto de pieles;Una corona|Génesis 37:3
+0|¿Qué fiesta recuerda la salida de Israel de Egipto?|La Pascua|Pentecostés;Purim;Los Tabernáculos|Éxodo 12:11
+1|¿Qué animal soltó Noé primero para ver si las aguas habían bajado?|Un cuervo|Una paloma;Un águila;Una golondrina|Génesis 8:7
+1|¿Qué llevó la paloma a Noé cuando volvió al arca?|Una hoja de olivo|Una espiga de trigo;Una flor;Una rama de higuera|Génesis 8:11
+1|¿Qué ciudades fueron destruidas con fuego del cielo en tiempos de Abraham?|Sodoma y Gomorra|Babel y Nínive;Jericó y Hai;Tiro y Sidón|Génesis 19:24
+1|¿Cómo se llamaba el padre de Abraham?|Taré|Nacor;Harán;Lot|Génesis 11:26
+1|¿Cómo se llamaba el sobrino de Abraham que se fue con él?|Lot|Nacor;Isaac;Ismael|Génesis 12:5
+1|¿Qué animal proveyó Dios para el sacrificio en lugar de Isaac?|Un carnero|Un cordero;Un becerro;Una paloma|Génesis 22:13
+1|¿Qué comida le costó la primogenitura a Esaú?|Un guisado de lentejas|Pan y miel;Carne asada;Higos secos|Génesis 25:34
+1|¿Qué soñó Jacob en Betel?|Una escalera que llegaba al cielo|Siete vacas gordas;Una gran estatua;Un horno de fuego|Génesis 28:12
+1|¿Cuántos hijos varones tuvo Jacob?|12|7;10;13|Génesis 35:22
+1|¿Quién interpretó el sueño del copero y del panadero del faraón?|José|Moisés;Aarón;Daniel|Génesis 40:12
+1|¿Cuál fue la primera plaga que cayó sobre Egipto?|El agua se convirtió en sangre|Las ranas;Los piojos;La oscuridad|Éxodo 7:20
+1|¿Cuántos días y noches estuvo Moisés con Dios en el monte Sinaí?|40|7;12;100|Éxodo 24:18
+1|¿Quién fue el primer sumo sacerdote de Israel?|Aarón|Moisés;Eleazar;Finees|Éxodo 28:1
+1|¿Qué hizo Moisés con las tablas de la ley al ver el becerro de oro?|Las rompió|Las escondió;Las quemó;Se las dio a Aarón|Éxodo 32:19
+1|¿Qué río no pudo cruzar Moisés para entrar a la tierra prometida?|El Jordán|El Nilo;El Arnón;El Éufrates|Deuteronomio 3:27
+2|¿Cuántos años tenía Abraham cuando nació Isaac?|100|75;90;120|Génesis 21:5
+2|¿En qué tierra de Egipto se estableció Jacob con su familia?|Gosén|Madián;Moab;Edom|Génesis 47:6
+2|¿Cuántos años tenía Moisés cuando habló al faraón?|80|40;60;100|Éxodo 7:7
+2|¿De qué estaba hecha el arca del pacto?|Madera de acacia recubierta de oro|Cedro recubierto de plata;Bronce macizo;Piedra y oro|Éxodo 25:10-11
+2|¿A los cuántos días del mes séptimo se celebraba el Día de la Expiación?|A los diez|A los quince;Al primero;A los veinte|Levítico 16:29
+2|¿Qué no podía cortarse un nazareo mientras duraba su voto?|El cabello|Las uñas;La barba;Las vestiduras|Números 6:5
+2|¿Qué le pasó a la vara de Aarón en Números 17?|Floreció y dio almendras|Se volvió serpiente;Se cubrió de oro;Se secó|Números 17:8
+2|¿Qué se sabe de la tumba de Moisés según Deuteronomio 34?|Nadie conoce el lugar|Está en Hebrón;Está en Jerusalén;Fue llevada a Egipto|Deuteronomio 34:6
+2|Según Deuteronomio 6, ¿dónde debían escribirse las palabras de Dios?|En los postes de la casa y en las puertas|En las murallas de la ciudad;En las ropas de los sacerdotes;En el techo del templo|Deuteronomio 6:9
+2|¿Sobre qué monte se pronunciaron las bendiciones de la ley?|Gerizim|Ebal;Sinaí;Hermón|Deuteronomio 11:29
+0|¿Qué instrumento tocaba David para calmar a Saúl?|El arpa|La flauta;El tambor;La trompeta|1 Samuel 16:23
+0|¿Cuál era el trabajo de David cuando Samuel lo buscó?|Pastor de ovejas|Soldado;Escriba;Pescador|1 Samuel 16:11
+0|¿A quién ungió Samuel como rey en lugar de Saúl?|David|Jonatán;Absalón;Salomón|1 Samuel 16:13
+0|¿Qué animal mató Sansón con sus propias manos?|Un león|Un oso;Un lobo;Una serpiente|Jueces 14:6
+0|¿Quién construyó el primer templo de Jerusalén?|Salomón|David;Acab;Roboam|1 Reyes 6:1
+0|¿A quién decidió servir Josué junto con su casa?|A Jehová|A Baal;A los dioses de Egipto;A los dioses de los amorreos|Josué 24:15
+1|¿Cuántas piedras sacaron del Jordán para levantar un monumento?|12|7;10;40|Josué 4:3
+1|¿Qué usaron los 300 hombres de Gedeón para sorprender a Madián?|Trompetas, cántaros y antorchas|Espadas, escudos y lanzas;Arcos y flechas;Carros y caballos|Jueces 7:16
+1|¿Con qué arma mató Sansón a mil filisteos?|Una quijada de asno|Una espada;Una honda;Una lanza|Jueces 15:15
+1|¿Cómo murió Sansón?|Derribó las columnas del templo filisteo|Murió preso en una cárcel de Gaza;Murió en una batalla contra Israel;Murió de hambre en el desierto|Jueces 16:30
+1|¿Cómo se llamaba el pariente que se casó con Rut?|Booz|Obed;Elimelec;Mahlón|Rut 4:13
+1|¿Quién dijo «Tu pueblo será mi pueblo, y tu Dios mi Dios»?|Rut|Noemí;Orfa;Ester|Rut 1:16
+1|¿Qué objeto sagrado capturaron los filisteos en tiempos de Elí?|El arca del pacto|Las tablas rotas;El candelabro;El altar de oro|1 Samuel 4:11
+1|¿Cuántas piedras lisas tomó David del arroyo para enfrentar a Goliat?|5|1;3;7|1 Samuel 17:40
+1|¿Qué propuso Salomón para descubrir a la verdadera madre del niño?|Partirlo en dos con una espada|Echar suertes;Entregarlo al sacerdote;Esperar tres días|1 Reyes 3:25
+1|¿Qué alimento llevaban los cuervos a Elías?|Pan y carne|Higos y miel;Pescado;Frutas|1 Reyes 17:6
+1|¿En qué ciudad una viuda alimentó a Elías con harina y aceite que no se acababan?|Sarepta|Sunem;Endor;Betel|1 Reyes 17:9
+1|¿Qué oficio tenía Nehemías en la corte del rey de Persia?|Copero|Escriba;Sacerdote;General|Nehemías 1:11
+1|¿Qué reina fue destituida antes de que Ester llegara a ser reina?|Vasti|Jezabel;Atalía;Abigail|Ester 1:19
+2|¿Quién fue el primer juez de Israel?|Otoniel|Aod;Gedeón;Sansón|Jueces 3:9
+2|¿Qué juez zurdo mató al rey Eglón de Moab?|Aod|Gedeón;Barac;Samgar|Jueces 3:15
+2|¿Cuántos hijos de Isaí pasaron delante de Samuel antes que David?|7|3;5;12|1 Samuel 16:10
+2|¿Quién fue el último juez de Israel antes de los reyes?|Samuel|Elí;Sansón;Gedeón|1 Samuel 7:15
+2|¿Quién era general del ejército del rey David?|Joab|Abner;Abisai;Benaía|2 Samuel 8:16
+2|¿Cuántos años reinó David en total?|40|20;33;70|1 Reyes 2:11
+2|¿Qué rey de Tiro envió cedros a David y a Salomón?|Hiram|Ben-adad;Hazael;Ciro|1 Reyes 5:1
+2|¿Cómo se manifestó Dios a Elías en el monte Horeb?|En un silbo apacible y delicado|En un fuerte viento;En un terremoto;En un fuego|1 Reyes 19:12
+2|¿Qué hizo flotar el profeta Eliseo en el Jordán?|Un hacha de hierro|Una espada;Una piedra;Un cántaro|2 Reyes 6:6
+2|¿Qué rey asirio sitió Jerusalén en tiempos del rey Ezequías?|Senaquerib|Salmanasar;Nabucodonosor;Tiglat-pileser|2 Reyes 18:13
+2|¿Cuál era el nombre hebreo de la reina Ester?|Hadasa|Vasti;Séfora;Raquel|Ester 2:7
+0|¿Qué libro de la Biblia tiene más capítulos?|Salmos|Isaías;Génesis;Jeremías|Salmos
+1|¿Cómo reaccionó Job al perder sus bienes y sus hijos?|Adoró a Dios|Maldijo a Dios;Huyó al desierto;Acusó a sus amigos|Job 1:20
+1|¿Qué recibió Job de Dios al final de su prueba?|El doble de lo que tenía antes|La mitad de sus bienes;Un palacio nuevo;Una corona|Job 42:10
+1|¿Con qué palabra de alabanza termina el último salmo?|Aleluya|Amén;Hosanna;Gloria|Salmos 150:6
+1|¿Qué salmo comienza diciendo «Bienaventurado el varón»?|Salmo 1|Salmo 23;Salmo 91;Salmo 100|Salmos 1:1
+1|Según Salmos 37:4, ¿qué debemos hacer en Jehová?|Deleitarnos|Escondernos;Gloriarnos;Dormir|Salmos 37:4
+1|Según Salmos 46:10, ¿qué dice Dios que debemos hacer?|Estar quietos y reconocer que él es Dios|Correr y no detenernos nunca;Construir un templo para él;Guardar silencio ante los reyes|Salmos 46:10
+1|Según Proverbios 15:1, ¿qué hace la blanda respuesta?|Quita la ira|Provoca más enojo;Gana dinero;Calla al sabio|Proverbios 15:1
+1|Según Proverbios 18:10, ¿qué es el nombre de Jehová?|Torre fuerte|Escudo de oro;Río de vida;Lámpara encendida|Proverbios 18:10
+1|Según Proverbios 22:1, ¿qué es de más estima que las muchas riquezas?|El buen nombre|La fuerza;La fama;La belleza|Proverbios 22:1
+1|Según Proverbios 16:18, ¿qué va antes del quebrantamiento?|La soberbia|La envidia;La pereza;La ira|Proverbios 16:18
+1|¿Qué capítulo de Proverbios describe a la mujer virtuosa?|El 31|El 1;El 10;El 25|Proverbios 31:10
+1|¿Qué rey se presenta como «el Predicador» en Eclesiastés?|Salomón|David;Josías;Ezequías|Eclesiastés 1:1
+1|Según Eclesiastés 3:4, hay tiempo de llorar y tiempo de...|Reír|Viajar;Descansar;Sembrar|Eclesiastés 3:4
+1|Según Eclesiastés 4:9, «Mejores son dos que...»|Uno|Tres;Mil;Ninguno|Eclesiastés 4:9
+1|¿Quién es el autor tradicional del Cantar de los Cantares?|Salomón|David;Isaías;Esdras|Cantares 1:1
+2|¿Quiénes eran los tres amigos de Job que fueron a consolarlo?|Elifaz, Bildad y Zofar|Sadrac, Mesac y Abed-nego;Pedro, Jacobo y Juan;Set, Enós y Cainán|Job 2:11
+2|¿Desde dónde respondió Dios a Job?|Desde un torbellino|Desde una nube de fuego;Desde un monte;Por medio de un ángel|Job 38:1
+2|¿Cuál es el salmo más corto?|Salmo 117|Salmo 23;Salmo 100;Salmo 150|Salmos 117
+2|¿Qué salmo es una oración de arrepentimiento de David después de su pecado?|Salmo 51|Salmo 1;Salmo 100;Salmo 150|Salmos 51:1
+2|¿Qué salmo comienza «El que habita al abrigo del Altísimo»?|Salmo 91|Salmo 23;Salmo 46;Salmo 121|Salmos 91:1
+2|¿Qué salmo dice «Dios es nuestro amparo y fortaleza»?|Salmo 46|Salmo 23;Salmo 91;Salmo 121|Salmos 46:1
+2|¿A quién se atribuye el Salmo 90, «Oración de varón de Dios»?|Moisés|David;Salomón;Asaf|Salmos 90:1
+2|¿Con qué compara Proverbios 27:17 la influencia entre amigos?|Con el hierro que afila al hierro|Con el vino que alegra;Con la lluvia que riega;Con la sal que sazona|Proverbios 27:17
+2|¿Con qué árbol compara la amada a su amado en Cantares 2:3?|Con un manzano|Con un olivo;Con una palmera;Con una higuera|Cantares 2:3
+1|Según Isaías 9:6, ¿cuál es uno de los nombres del hijo que nos es dado?|Príncipe de paz|Rey de la guerra;Juez de Israel;Pastor de ovejas|Isaías 9:6
+1|Cuando Dios preguntó «¿A quién enviaré?», ¿qué respondió Isaías?|Heme aquí, envíame a mí|Envía a otro;Soy muy joven;Espera hasta mañana|Isaías 6:8
+1|Según Isaías 11:6, ¿con qué animal morará el lobo?|El cordero|El león;El oso;El buey|Isaías 11:6
+1|Según Jeremías 29:11, ¿qué pensamientos tiene Dios hacia su pueblo?|De paz y no de mal|De juicio y castigo;De guerra y conquista;De silencio y olvido|Jeremías 29:11
+1|¿Qué profeta dijo «no sé hablar, porque soy niño» cuando Dios lo llamó?|Jeremías|Isaías;Ezequiel;Daniel|Jeremías 1:6
+1|¿Qué comieron Daniel y sus amigos en lugar de la comida del rey?|Legumbres|Carne;Pasteles;Pescado|Daniel 1:12
+1|¿Qué rey echó a Daniel al foso de los leones?|Darío|Nabucodonosor;Belsasar;Ciro|Daniel 6:16
+1|¿Qué rey comió hierba como los bueyes hasta reconocer a Dios?|Nabucodonosor|Belsasar;Darío;Ciro|Daniel 4:33
+1|¿Qué hizo Jonás dentro del gran pez?|Oró a Jehová|Durmió;Cantó con alegría;Intentó huir nadando|Jonás 2:1
+2|Según Isaías 53:5, ¿por qué fuimos nosotros curados?|Por su llaga|Por su corona;Por nuestras obras;Por su silencio|Isaías 53:5
+2|¿Qué compró Jeremías como señal de que Israel volvería a su tierra?|Un campo|Una espada;Una viña;Un cántaro|Jeremías 32:9
+2|Cuando Dios preguntó a Jeremías «¿Qué ves?» por primera vez, ¿qué vio?|Una vara de almendro|Una higuera;Un carro de fuego;Una zarza|Jeremías 1:11
+2|¿Qué salía del templo en la visión de Ezequiel 47?|Un río de agua|Un fuego;Una nube;Una escalera|Ezequiel 47:1
+2|¿De qué lugar era el profeta Amós?|Tecoa|Belén;Nazaret;Hebrón|Amós 1:1
+2|¿Cuántos días de plazo dio Jonás a Nínive para arrepentirse?|40|3;7;70|Jonás 3:4
+2|¿Qué rodeaba al candelabro de oro en la visión de Zacarías 4?|Dos olivos|Dos leones;Dos ángeles;Dos columnas|Zacarías 4:3
+0|¿En qué ciudad creció Jesús?|Nazaret|Belén;Jericó;Caná|Lucas 2:39
+0|¿Qué oficio tenía Pedro antes de seguir a Jesús?|Pescador|Carpintero;Pastor;Cobrador de impuestos|Mateo 4:18
+0|¿Qué oficio tenía José, el padre terrenal de Jesús?|Carpintero|Pescador;Pastor;Soldado|Mateo 13:55
+0|¿Qué comía Juan el Bautista en el desierto?|Langostas y miel silvestre|Pan y pescado;Higos y dátiles;Maná del cielo|Mateo 3:4
+0|¿Quién entregó a Jesús con un beso?|Judas Iscariote|Pedro;Juan;Tomás|Mateo 26:48
+0|¿Qué animal cantó después de que Pedro negó a Jesús?|El gallo|El asno;La paloma;El cordero|Mateo 26:74
+0|¿Qué gobernador romano entregó a Jesús para ser crucificado?|Poncio Pilato|Herodes;Félix;Festo|Mateo 27:26
+0|¿Qué compartió Jesús con sus discípulos en la última cena?|Pan y una copa|Pescado y miel;Higos y dátiles;Carne asada|Mateo 26:26-27
+1|¿Cuántas veces preguntó Jesús a Pedro «¿me amas?» después de resucitar?|3|1;2;7|Juan 21:17
+1|¿Qué soldado romano reconoció a Jesús como Hijo de Dios junto a la cruz?|El centurión|Pilato;Herodes;Barrabás|Marcos 15:39
+1|¿Quién era el hermano de Marta y María?|Lázaro|Jairo;Simón;Bartimeo|Juan 11:1
+1|¿Quién dijo de Jesús «He aquí el Cordero de Dios»?|Juan el Bautista|Pedro;Pablo;Andrés|Juan 1:29
+1|¿Cómo se llamaba el padre de Juan el Bautista?|Zacarías|Zebedeo;Jairo;Simeón|Lucas 1:13
+1|¿Qué hizo Jesús al encontrar cambistas y vendedores en el templo?|Los echó fuera con un azote de cuerdas|Compró sus animales;Les dio la bienvenida;Se retiró en silencio|Juan 2:15
+1|¿Quién predicó el sermón de Pentecostés?|Pedro|Pablo;Juan;Esteban|Hechos 2:14
+1|¿Quiénes caminaban hacia Emaús con Jesús resucitado sin reconocerlo?|Dos discípulos|Los once apóstoles;Las mujeres;Los sacerdotes|Lucas 24:13-16
+1|¿A qué apóstol sacó un ángel de la cárcel mientras dormía entre dos soldados?|Pedro|Pablo;Juan;Santiago|Hechos 12:7
+2|¿Cuántos años tenía la hija de Jairo?|12|7;10;14|Marcos 5:42
+2|¿Qué sobrenombre dio Jesús a Santiago y a Juan, hijos de Zebedeo?|Hijos del trueno|Hijos de paz;Hijos de luz;Hijos del reino|Marcos 3:17
+2|¿Qué apóstol era llamado «el zelote»?|Simón|Judas Iscariote;Tomás;Mateo|Lucas 6:15
+2|¿Qué significa el nombre de Bernabé?|Hijo de consolación|Hijo del trueno;Hijo de paz;Hijo de promesa|Hechos 4:36
+2|¿Qué les pasó a Ananías y Safira por mentir a los apóstoles?|Murieron|Fueron encarcelados;Quedaron ciegos;Fueron desterrados|Hechos 5:5
+2|¿A quién sanó Jesús junto al estanque de Betesda tras treinta y ocho años de enfermedad?|A un paralítico|A un ciego;A un leproso;A un endemoniado|Juan 5:5
+2|¿Cuántas personas se añadieron a la iglesia el día de Pentecostés?|Unas tres mil|Unas cien;Unas quinientas;Unas doce mil|Hechos 2:41
+0|¿Qué apóstol escribió la mayor parte de las cartas del Nuevo Testamento?|Pablo|Pedro;Juan;Santiago|Romanos 1:1
+1|¿A qué ciudad escribió Pablo la carta sobre la justificación por la fe?|Roma|Éfeso;Atenas;Antioquía|Romanos 1:7
+1|Según Romanos 5:8, ¿qué demostró Dios hacia nosotros siendo aún pecadores?|Su amor|Su ira;Su silencio;Su justicia|Romanos 5:8
+1|Según Romanos 8:38-39, ¿qué puede separarnos del amor de Dios en Cristo?|Nada ni nadie|Solo la muerte;Solo el pecado;Solo las dudas|Romanos 8:38-39
+1|En Efesios 6, ¿con qué se apagan los dardos de fuego del maligno?|Con el escudo de la fe|Con la espada del Espíritu;Con el yelmo de la salvación;Con la coraza de justicia|Efesios 6:16
+1|Según Filipenses 2:10, ante el nombre de Jesús se doblará toda...|Rodilla|Cabeza;Mano;Voz|Filipenses 2:10
+1|Según Gálatas 6:7, ¿qué segará el hombre?|Lo que sembrare|Lo que desee;Lo que otro siembre;Nada|Gálatas 6:7
+1|Según 1 Juan 4:19, ¿por qué amamos a Dios?|Porque él nos amó primero|Porque nos da bienes;Porque es poderoso;Porque lo merecemos|1 Juan 4:19
+1|Según Apocalipsis 21:4, ¿qué enjugará Dios de los ojos de su pueblo?|Toda lágrima|Todo pecado;Toda deuda;Toda sombra|Apocalipsis 21:4
+1|¿Cuántos candeleros de oro vio Juan en la visión de Apocalipsis 1?|7|3;10;12|Apocalipsis 1:12
+1|Según Santiago 1:19, todo hombre sea pronto para oír y tardo para...|Hablar|Comer;Caminar;Orar|Santiago 1:19
+1|¿A qué ciudad escribió Pablo sobre el amor y los dones espirituales?|Corinto|Éfeso;Filipos;Tesalónica|1 Corintios 1:2
+2|Según 1 Corintios 10:13, ¿qué hace Dios con la tentación?|No permite más de lo que podemos resistir|Siempre la quita de nuestro camino;La hace mayor cada día que pasa;La envía para castigar a los injustos|1 Corintios 10:13
+2|Según Hebreos 12:1, ¿cómo debemos correr la carrera que tenemos por delante?|Con paciencia|Con prisa;En silencio;Con temor|Hebreos 12:1
+2|Según Santiago 1:2, ¿cómo debemos considerar las diversas pruebas?|Como sumo gozo|Como un castigo;Como casualidad;Como motivo de tristeza|Santiago 1:2
+2|Según Hebreos 11:5, ¿quién fue traspuesto para no ver muerte?|Enoc|Noé;Abel;Moisés|Hebreos 11:5
+2|¿A qué iglesia escribió Pablo «Regocijaos en el Señor siempre»?|Filipos|Corinto;Roma;Galacia|Filipenses 4:4
+2|¿A qué ciudad dirigió Jesús el mensaje «Has dejado tu primer amor»?|Éfeso|Esmirna;Pérgamo;Sardis|Apocalipsis 2:4
+2|¿Qué iglesia recibió la promesa «Sé fiel hasta la muerte»?|Esmirna|Éfeso;Tiatira;Sardis|Apocalipsis 2:10
+2|¿Cuál es la carta más corta de Pablo?|Filemón|Tito;2 Tesalonicenses;Colosenses|Filemón 1
+2|¿Cuál es la carta más larga de Pablo?|Romanos|1 Corintios;Hebreos;Efesios|Romanos 1:1
+0|Completa: «Jehová es mi ___; nada me faltará»|pastor|rey;escudo;juez|Salmos 23:1
+0|Completa: «En el principio crió Dios los cielos y la ___»|tierra|luz;noche;mar|Génesis 1:1
+0|Completa: «Padre nuestro que estás en los ___»|cielos|montes;mares;campos|Mateo 6:9
+0|Completa: «Fíate de Jehová de todo tu ___»|corazón|espíritu;poder;tiempo|Proverbios 3:5
+0|Completa: «No sólo de ___ vivirá el hombre»|pan|oro;agua;carne|Deuteronomio 8:3
+1|Completa: «Lámpara es a mis pies tu ___, y lumbrera a mi camino»|palabra|ley;gracia;sombra|Salmos 119:105
+1|Completa: «Alzaré mis ojos a los ___, de donde vendrá mi socorro»|montes|cielos;mares;valles|Salmos 121:1
+1|Completa: «De tal manera amó Dios al mundo, que ha dado a su Hijo ___»|unigénito|primogénito;escogido;amado|Juan 3:16
+1|Completa: «Levantarán las alas como las ___»|águilas|palomas;golondrinas;gaviotas|Isaías 40:31
+1|Completa: «Mía es la plata, y mío es el ___»|oro|pan;aceite;vino|Hageo 2:8
+2|Completa: «Yo soy la rosa de ___, y el lirio de los valles»|Sarón|Jericó;Judea;Galilea|Cantares 2:1
+2|Completa: «Nuevas son cada mañana: grande es tu ___»|fidelidad|justicia;bondad;paciencia|Lamentaciones 3:23
+1|¿Qué nombre abre la lista de generaciones de 1 Crónicas?|Adán|Set;Noé;Abraham|1 Crónicas 1:1
+2|¿Qué rey hizo un censo del pueblo que desagradó a Dios?|David|Salomón;Saúl;Ezequías|1 Crónicas 21:1-7
+1|¿Qué comenzaron a reconstruir los judíos al volver de Babilonia?|El templo|El palacio;La torre de David;El muro de Jerusalén|Esdras 3:8
+2|Según Oseas 11:1, ¿a quién llamó Dios de Egipto?|A su hijo|A sus siervos;A los profetas;A los reyes|Oseas 11:1
+1|Según Joel 2:13, ¿qué debían rasgar los israelitas y no sus vestidos?|El corazón|El velo;Las tiendas;Los rollos|Joel 2:13
+2|¿Qué pueblo descendía de Esaú, según Abdías?|Edom|Moab;Amón;Madián|Abdías 1:6
+1|Según Miqueas 4:3, ¿en qué convertirán sus espadas?|En rejas de arado|En azadones;En escudos;En campanas|Miqueas 4:3
+2|Según Nahúm 1:7, ¿qué es Jehová en el día de la angustia?|Fortaleza|Un juez distante;Una nube de fuego;Un silencio|Nahúm 1:7
+2|¿Qué significa el nombre Nahúm?|Consolador|Juez;Fiel;Fuerte|Nahúm 1:1
+2|Según Habacuc 2:2, ¿qué mandó Dios al profeta?|Escribir la visión y declararla en tablas|Guardarla en secreto;Cantarla en el templo;Enviarla a Egipto|Habacuc 2:2
+2|Según Sofonías 3:17, ¿qué hará Jehová con su pueblo?|Se gozará sobre él con cánticos|Lo olvidará;Lo dispersará;Lo castigará sin fin|Sofonías 3:17
+1|Según Colosenses 3:2, ¿en qué debemos poner la mira?|En las cosas de arriba|En las cosas de la tierra;En las riquezas;En las obras de la ley|Colosenses 3:2
+2|¿Quién llevó la carta de Pablo a los colosenses junto con Onésimo?|Tíquico|Timoteo;Epafras;Silas|Colosenses 4:7-9
+1|Según 1 Tesalonicenses 5:16, ¿cómo debemos estar siempre?|Gozosos|Tristes;Callados;Temerosos|1 Tesalonicenses 5:16
+2|Según 2 Tesalonicenses 3:13, «no os canséis de...»|Hacer bien|Esperar;Orar;Predicar|2 Tesalonicenses 3:13
+1|¿Qué esperaban los tesalonicenses, según las cartas de Pablo?|La venida del Señor|El fin del imperio;La construcción del templo;El regreso de Pablo|2 Tesalonicenses 2:1
+2|¿Dónde dejó Pablo a Timoteo para que se quedara?|En Éfeso|En Corinto;En Roma;En Creta|1 Timoteo 1:3
+2|¿Cómo se llamaban la abuela y la madre de Timoteo?|Loida y Eunice|Lidia y Dorcas;Marta y María;Ana y Elisabet|2 Timoteo 1:5
+1|Según Tito 2:11, ¿qué se manifestó para salvación a todos los hombres?|La gracia de Dios|La ley de Moisés;El templo;La sabiduría humana|Tito 2:11
+2|Según 1 Pedro 3:15, debemos estar siempre preparados para...|Dar razón de nuestra esperanza|Pelear con los incrédulos;Huir de la persecución;Guardar silencio|1 Pedro 3:15
+1|Según 2 Pedro 3:13, ¿qué esperamos conforme a su promesa?|Cielos nuevos y tierra nueva|Un nuevo templo;Un rey terrenal;Una nueva ley|2 Pedro 3:13
+2|Según 2 Juan 6, ¿en qué consiste el amor?|En andar según sus mandamientos|En hablar bien de todos;En dar ofrendas;En orar mucho|2 Juan 6
+2|¿Cuántos versículos tiene la segunda carta de Juan?|13|7;21;25|2 Juan 1
+2|¿Qué hombre amaba tener el primer lugar en la iglesia, según 3 Juan?|Diótrefes|Gayo;Demetrio;Timoteo|3 Juan 9
+2|¿Cómo se identifica el autor de la carta de Judas?|Siervo de Jesucristo y hermano de Jacobo|Apóstol de Jesucristo;Anciano de la iglesia;Hijo de Zebedeo|Judas 1
+0|En el Salmo 23, ¿qué no temerá David aunque ande en valle de sombra de muerte?|Mal alguno|A los hombres;A los leones;A la noche|Salmos 23:4
+0|Según Proverbios 17:17, ¿cuándo ama el amigo?|En todo tiempo|Solo en la fiesta;Cuando recibe algo;Solo de día|Proverbios 17:17
+0|Según Eclesiastés 12:1, ¿de quién debemos acordarnos en los días de la juventud?|De nuestro Creador|De nuestros amigos;De nuestros reyes;De nuestros maestros|Eclesiastés 12:1
+0|Según Job 1:1, ¿cómo era Job?|Perfecto y recto|Rico y orgulloso;Joven y fuerte;Sabio y poderoso|Job 1:1
+0|¿Qué libro viene después de Salmos?|Proverbios|Job;Eclesiastés;Cantares|Proverbios 1:1
+0|¿Qué libro viene después de Isaías?|Jeremías|Ezequiel;Daniel;Oseas|Jeremías 1:1
+0|¿En qué viajó Jonás cuando huyó hacia Tarsis?|En un barco|En un camello;En una carreta;En un caballo|Jonás 1:3
+0|¿Qué profeta fue llevado joven a Babilonia y llegó a ser gobernante?|Daniel|Isaías;Jeremías;Amós|Daniel 1:6
+1|¿Qué profeta vio un valle lleno de huesos secos?|Ezequiel|Isaías;Jeremías;Daniel|Ezequiel 37:1
+0|¿Qué libro viene después de Génesis?|Éxodo|Levítico;Números;Job|Éxodo 1:1
+0|¿Cuál es el primer libro del Nuevo Testamento?|Mateo|Marcos;Lucas;Juan|Mateo 1:1
+0|¿Quiénes ofrecían los sacrificios en el tabernáculo?|Los sacerdotes|Los reyes;Los profetas;Los jueces|Levítico 1:5
+1|¿En qué fiesta vivían los israelitas siete días en enramadas?|La fiesta de los Tabernáculos|La fiesta de la Pascua;La fiesta de Pentecostés;La fiesta de Purim|Levítico 23:42
+1|¿Qué debía hacer el pueblo con la tierra cada séptimo año?|Dejarla descansar|Venderla;Sembrarla el doble;Dividirla otra vez|Levítico 25:4
+1|Según Levítico 27:30, ¿qué parte del fruto de la tierra es de Jehová?|El diezmo|La mitad;Una cuarta parte;Todo|Levítico 27:30
+1|¿Qué tribu no recibió territorio sino que se dedicó al servicio de Dios?|Leví|Judá;Dan;Benjamín|Números 18:20
+2|¿Qué hizo Moisés en Meriba que desagradó a Dios?|Golpeó la peña en lugar de hablarle|Rompió las tablas de la ley;Hizo un becerro de oro;Se negó a guiar al pueblo|Números 20:11
+2|¿Cómo se llamaban los dos hombres que profetizaron en el campamento sin ir al tabernáculo?|Eldad y Medad|Nadab y Abiú;Coré y Datán;Hur y Caleb|Números 11:26
+1|¿Cuántos días tardaron los espías en reconocer la tierra de Canaán?|40|7;12;30|Números 13:25
+1|¿Qué mujer, hermana de Moisés, fue herida de lepra por murmurar?|Miriam|Séfora;Débora;Raquel|Números 12:10
+2|Según Deuteronomio 28:13, ¿qué promete Dios al pueblo obediente?|Ponerlo por cabeza y no por cola|Hacerlo vivir en Egipto;Darle un rey extranjero;Quitarle la tierra|Deuteronomio 28:13
+2|¿Cómo se llamaba la pieza del sumo sacerdote con doce piedras, una por cada tribu?|El pectoral|El cinto;La mitra;El manto|Éxodo 28:15-21
+0|¿Qué guiaba a Israel de día en el desierto?|Una columna de nube|Una estrella;Un ángel con espada;Una montaña|Éxodo 13:21
+2|¿Cómo se llamaba la madre de Moisés?|Jocabed|Miriam;Séfora;Elisabet|Éxodo 6:20
+0|¿Dónde puso su madre al bebé Moisés para salvarlo?|En una canasta sobre el Nilo|En una cueva;En una barca de oro;En el templo|Éxodo 2:3
+0|¿Qué le sopló Dios al hombre que formó del polvo?|Aliento de vida|Una corona;Una espada;Un nombre nuevo|Génesis 2:7
+1|¿Quién pidió Hebrón como herencia a los 85 años?|Caleb|Josué;Aarón;Otoniel|Josué 14:10-13
+2|¿Qué tribus se establecieron al oriente del Jordán?|Rubén, Gad y media tribu de Manasés|Judá, Dan y media tribu de Aser;Leví, Isacar y Neftalí;Benjamín, Simeón y Zabulón|Josué 13:8
+0|¿Quién fue el hijo de David y Betsabé que llegó a ser rey?|Salomón|Absalón;Adonías;Amnón|2 Samuel 12:24
+2|¿Quién se burló de David por bailar delante del arca?|Mical|Abigail;Betsabé;Tamar|2 Samuel 6:16
+1|¿Cómo se llamaba el esposo de Betsabé?|Urías|Joab;Abner;Ahimelec|2 Samuel 11:3
+2|¿Qué reina mató a la descendencia real de Judá y reinó seis años?|Atalía|Jezabel;Vasti;Ester|2 Reyes 11:1-3
+1|¿Qué mujer de Sunem hospedó al profeta Eliseo?|La sunamita|La viuda de Sarepta;Rahab;Abigail|2 Reyes 4:8
+2|¿Cuántos soldados asirios hirió el ángel de Jehová en una sola noche?|185.000|85.000;120.000;300.000|2 Reyes 19:35
+1|¿Quién quiso edificar el templo pero Dios dijo que lo haría su hijo?|David|Saúl;Natán;Joab|1 Crónicas 17:1-12
+2|¿Cuántos años reinó Salomón sobre Israel?|40|20;33;50|2 Crónicas 9:30
+2|¿Qué rey de Judá restauró el templo, donde se halló el libro de la ley?|Josías|Ezequías;Asa;Josafat|2 Crónicas 34:14-15
+2|¿Qué dos profetas animaron a los judíos a reconstruir el templo?|Hageo y Zacarías|Isaías y Jeremías;Amós y Oseas;Joel y Abdías|Esdras 5:1
+2|¿Qué hizo Nehemías justo antes de responder al rey Artajerjes?|Oró al Dios de los cielos|Se arrodilló ante el rey;Pidió consejo a sus amigos;Ayunó siete días|Nehemías 2:4
+2|Según Nehemías 4:17, ¿cómo trabajaban los que reconstruían el muro?|Con una mano en la obra y la otra en un arma|Solo de noche y en silencio;Con ayuda de los ángeles;Sin descansar ni un solo día|Nehemías 4:17
+1|¿A qué profeta se atribuye tradicionalmente el libro de Lamentaciones?|Jeremías|Isaías;Ezequiel;Daniel|Lamentaciones 1:1
+1|Según Lamentaciones 3:22, ¿qué nunca decayeron?|Sus misericordias|Sus ejércitos;Sus castigos;Sus templos|Lamentaciones 3:22
+2|¿Qué tarea dio Dios a Ezequiel en Ezequiel 3:17?|Ser atalaya de Israel|Ser rey de Judá;Construir el templo;Guiar el ejército|Ezequiel 3:17
+2|¿Dónde estaba Ezequiel cuando recibió sus visiones?|Entre los cautivos junto al río Quebar|En el templo de Jerusalén;En el desierto de Judea;En una cárcel de Egipto|Ezequiel 1:1
+2|¿Qué le mandó Dios a Oseas tomar por mujer?|Una mujer infiel|Una reina extranjera;Una viuda;Una sacerdotisa|Oseas 1:2
+1|Según Oseas 6:6, ¿qué quiere Dios más que sacrificio?|Misericordia|Ofrendas;Silencio;Diezmos|Oseas 6:6
+2|Según Joel 2:25, ¿qué promete Dios restituir?|Los años que comió la langosta|Los reinos perdidos;Las ciudades destruidas;Los tesoros del templo|Joel 2:25
+2|¿Qué profecía de Joel citó Pedro el día de Pentecostés?|La del derramamiento del Espíritu|La de las langostas;La del valle de la decisión;La del templo|Hechos 2:16-17
+2|¿A qué reino envió Dios a Amós aunque él era de Judá?|Israel|Egipto;Siria;Edom|Amós 7:15
+2|¿Qué sacerdote de Bet-el mandó callar a Amós?|Amasías|Elí;Sadoc;Abiatar|Amós 7:12
+2|¿Por qué fue juzgado Edom según Abdías?|Por la violencia contra su hermano Jacob|Por adorar ídolos de otras naciones;Por quemar el templo de Jerusalén;Por negar la ley de Moisés|Abdías 1:10
+2|Según Abdías 1:3, ¿qué había engañado a Edom?|La soberbia de su corazón|Su inmensa riqueza;Sus fuertes ejércitos;Sus falsos sacerdotes|Abdías 1:3
+2|Según Miqueas 4:4, ¿debajo de qué se sentará cada uno?|De su vid y de su higuera|De su palmera y de su olivo;De su tienda y de su carro;De su escudo y de su lanza|Miqueas 4:4
+2|¿De qué lugar era el profeta Miqueas?|Moreset (Morasti)|Belén de Judea;Tecoa del desierto;Anatot de Benjamín|Miqueas 1:1
+2|Según Nahúm 1:3, Jehová es tardo para...|La ira|El perdón;La justicia;La bendición|Nahúm 1:3
+2|Según Nahúm 1:15, ¿qué anuncia el que trae buenas nuevas?|Paz|Guerra;Juicio;Tinieblas|Nahúm 1:15
+2|¿Qué reclama Habacuc a Dios al comenzar su libro?|Que no escucha ni salva ante la violencia|Que no le dio descendencia en su vejez;Que lo envió a predicar a Nínive;Que destruyó el templo de Jerusalén|Habacuc 1:2
+2|Según Habacuc 2:14, ¿de qué se llenará la tierra?|Del conocimiento de la gloria de Jehová|De la sabiduría de los reyes;Del oro y la plata de las naciones;De los ejércitos de Israel|Habacuc 2:14
+2|Según Sofonías 2:3, ¿qué debían buscar los humildes de la tierra?|Justicia y mansedumbre|Riquezas y poder;Un escondite en los montes;Aliados extranjeros|Sofonías 2:3
+1|Según Hageo 2:9, ¿cómo sería la gloria postrera de esta casa?|Mayor que la primera|Igual que la primera;Menor que la primera;Escondida|Hageo 2:9
+2|¿Qué vio Zacarías en su primera visión?|Un varón montado en un caballo rojo|Un candelabro todo de oro;Un rollo que volaba;Cuatro carros que salían de entre dos montes|Zacarías 1:8
+2|Según Zacarías 2:8, ¿qué toca el que toca a su pueblo?|La niña de su ojo|El hijo de su casa;El tesoro del templo;El escudo de su ejército|Zacarías 2:8
+1|Según Malaquías 3:10, ¿qué promete Dios derramar a quienes traen los diezmos?|Bendición hasta que sobreabunde|Fuego del cielo;Maná cada mañana;Aceite sin medida|Malaquías 3:10
+2|Según Malaquías 4:2, ¿qué nacerá para los que temen su nombre?|El sol de justicia|La estrella de la mañana;La rosa de Sarón;La vara de Aarón|Malaquías 4:2
+1|Según 2 Corintios 12:9, ¿qué le dijo el Señor a Pablo?|Bástate mi gracia|Te daré fuerza;Hallarás descanso;Nada te faltará|2 Corintios 12:9
+2|Según 2 Corintios 4:7, ¿en qué tenemos este tesoro?|En vasos de barro|En cofres de oro;En el templo;En un pergamino|2 Corintios 4:7
+1|Según Gálatas 3:28, en Cristo no hay judío ni griego, ni esclavo ni libre, ni...|Varón ni mujer|Rico ni pobre;Sabio ni necio;Joven ni anciano|Gálatas 3:28
+2|¿A quién fue Pablo a ver a Jerusalén tres años después de su conversión?|A Pedro|A Santiago solamente;A Juan;A Bernabé|Gálatas 1:18
+1|Según Efesios 4:32, ¿cómo debemos tratarnos unos a otros?|Benignos y perdonándonos|Con dureza;Con indiferencia;Con desconfianza|Efesios 4:32
+1|Según Efesios 5:25, ¿cómo deben amar los maridos a sus esposas?|Como Cristo amó a la iglesia|Como a sus siervas más fieles;Como el mundo ama a los suyos;Como a un tesoro escondido|Efesios 5:25
+2|Según Filipenses 2:5, ¿qué sentir debemos tener?|El mismo sentir que hubo en Cristo Jesús|La misma fuerza de Pablo;El mismo oficio de los apóstoles;La misma riqueza de los reyes|Filipenses 2:5
+2|Según Colosenses 3:12, ¿de qué debemos vestirnos?|De entrañable misericordia|De ropas de oro y lino;De una armadura completa;De sacos y ceniza|Colosenses 3:12
+2|Según 1 Tesalonicenses 4:16, ¿con qué voz descenderá el Señor del cielo?|Con voz de arcángel|Con voz de trueno;Con voz de niño;Con voz de multitud|1 Tesalonicenses 4:16
+1|Según 1 Tesalonicenses 5:21, ¿qué debemos hacer con todo?|Examinarlo todo y retener lo bueno|Aceptarlo todo sin preguntar;Rechazarlo todo por temor;Callar ante todo para evitar problemas|1 Tesalonicenses 5:21
+1|Según 2 Tesalonicenses 3:3, ¿cómo es el Señor que nos guardará del mal?|Fiel|Lento;Callado;Lejano|2 Tesalonicenses 3:3
+1|¿Qué pidió Pablo a los tesalonicenses que hicieran por él?|Orar|Enviarle dinero;Visitarlo;Escribirle cartas|2 Tesalonicenses 3:1
+1|Según 1 Timoteo 4:12, ¿qué no debía permitir Timoteo?|Que nadie menospreciara su juventud|Que lo llamaran maestro;Que lo siguieran muchos;Que lo visitaran en Éfeso|1 Timoteo 4:12
+1|Según 1 Timoteo 2:5, ¿quién es el único mediador entre Dios y los hombres?|Jesucristo hombre|Moisés;Los sacerdotes;Los ángeles|1 Timoteo 2:5
+1|Según 2 Timoteo 1:7, ¿qué no nos ha dado Dios?|Espíritu de cobardía (temor)|Espíritu de poder;Espíritu de amor;Espíritu de dominio propio|2 Timoteo 1:7
+2|¿Quién abandonó a Pablo por amar este siglo?|Demas|Lucas;Marcos;Tíquico|2 Timoteo 4:10
+1|Según Tito 3:5, ¿cómo nos salvó Dios?|Por su misericordia|Por nuestras obras de justicia;Por la ley;Por nuestro linaje|Tito 3:5
+2|Según Tito 2:7, ¿qué debía mostrar Tito en todo?|Ejemplo de buenas obras|Su autoridad;Su riqueza;Su conocimiento|Tito 2:7
+1|¿Qué le pidió Pablo a Filemón sobre Onésimo?|Que lo recibiera como a un hermano amado|Que lo castigara con severidad;Que lo vendiera a otro amo;Que lo enviara de vuelta a Roma|Filemón 16
+1|Según 1 Pedro 5:8, ¿a qué compara a nuestro adversario el diablo?|A un león rugiente|A una serpiente;A un lobo;A un dragón|1 Pedro 5:8
+1|Según 1 Pedro 4:8, ¿qué cubrirá multitud de pecados?|El amor|El dinero;La ley;El tiempo|1 Pedro 4:8
+2|Según 2 Pedro 1:19, ¿a qué se compara la palabra profética?|A una antorcha que alumbra en lugar oscuro|A un río que corre en el desierto;A una torre fuerte en la batalla;A un escudo de bronce pulido|2 Pedro 1:19
+1|Según 2 Pedro 3:18, ¿en qué debemos crecer?|En la gracia y el conocimiento de Jesucristo|En riquezas, fama y honra;En fuerza y poder terrenal;En sabiduría de este mundo|2 Pedro 3:18
+1|Según 1 Juan 1:5, ¿qué no hay en Dios?|Tinieblas|Cansancio;Misericordia;Silencio|1 Juan 1:5
+1|Según 1 Juan 2:1, ¿quién es nuestro abogado ante el Padre?|Jesucristo el justo|Moisés el legislador;El arcángel Miguel;El apóstol Pedro|1 Juan 2:1
+2|¿Cómo se presenta el autor de la segunda carta de Juan?|El anciano|El apóstol;El pastor;El profeta|2 Juan 1
+2|¿De quién dan buen testimonio todos, según 3 Juan?|De Demetrio|De Gayo;De Diótrefes;De Timoteo|3 Juan 12
+2|¿Cómo termina la carta de Judas?|Con alabanza a Dios, que puede guardarnos sin caída|Con una larga lista de saludos;Con una profecía sobre la guerra;Con una oración atribuida a Moisés|Judas 24-25
+1|Según Hebreos 4:12, ¿cómo es la palabra de Dios?|Viva y eficaz|Escondida y lejana;Dura e inflexible;Antigua y cansada|Hebreos 4:12
+0|Según Santiago 3:5, ¿qué pequeño miembro se jacta de grandes cosas?|La lengua|La mano;El ojo;El pie|Santiago 3:5
+0|¿Qué hizo Jesús con los niños que le traían?|Los bendijo|Los envió lejos;Los ignoró;Les dio dinero|Marcos 10:16
+0|¿Qué anunciaron los ángeles a los pastores la noche del nacimiento de Jesús?|Gloria a Dios en las alturas y paz en la tierra|Ha nacido el rey de los romanos;Id y haced discípulos a todas las naciones;Bienaventurados los pobres de espíritu|Lucas 2:14
+0|Según Juan 14:6, Jesús dijo: «Yo soy el camino, la verdad y...»|La vida|La luz;El pan;La puerta|Juan 14:6
+0|¿Sobre qué edificó su casa el hombre prudente de la parábola de Jesús?|Sobre la roca|Sobre la arena;Sobre el monte;Sobre el agua|Mateo 7:24
+1|¿Qué parábola compara el reino con la más pequeña de las semillas?|El grano de mostaza|El grano de trigo;La semilla de la higuera;La semilla de la viña|Mateo 13:31-32
+2|¿Cómo ayudaron los discípulos a Pablo a escapar de Damasco?|Lo bajaron por el muro en una canasta|Lo escondieron en un barco;Lo disfrazaron de soldado;Lo llevaron en un carro|Hechos 9:25
+1|Según Proverbios 3:6, ¿qué hará Dios si lo reconocemos en todos nuestros caminos?|Enderezará nuestras veredas|Nos dará riquezas;Nos quitará las pruebas;Nos hará reyes|Proverbios 3:6`;
+const VERSES=`Génesis 1:1|En el principio crió Dios los cielos y la tierra.
+Génesis 1:3|Y dijo Dios: Sea la luz: y fue la luz.
+Génesis 2:22|Y de la costilla que Jehová Dios tomó del hombre, hizo una mujer, y la trajo al hombre.
+Génesis 4:8|Y dijo Caín a su hermano Abel: Salgamos al campo. Y aconteció que estando ellos en el campo, Caín se levantó contra su hermano Abel, y le mató.
+Génesis 7:12|Y hubo lluvia sobre la tierra cuarenta días y cuarenta noches.
+Génesis 9:13|Mi arco he puesto en las nubes, el cual será por señal de convenio entre mí y la tierra.
+Génesis 19:26|Y su mujer miró atrás, a espaldas de él, y se volvió estatua de sal.
+Génesis 41:29|He aquí vienen siete años de grande abundancia en toda la tierra de Egipto.
+Levítico 19:18|Amarás a tu prójimo como a ti mismo: Yo Jehová.
+Números 21:9|Y Moisés hizo una serpiente de metal, y la puso sobre un asta; y fue, que cuando alguna serpiente mordía a alguno, miraba a la serpiente de metal, y vivía.
+Deuteronomio 6:5|Y amarás a Jehová tu Dios de todo tu corazón, y de toda tu alma, y con todas tus fuerzas.
+Deuteronomio 8:3|No sólo de pan vivirá el hombre, mas de todo lo que sale de la boca de Jehová vivirá el hombre.
+2 Reyes 2:11|He aquí un carro de fuego con caballos de fuego apartó a los dos; y Elías subió al cielo en un torbellino.
+2 Reyes 20:6|Y añadiré a tus días quince años.
+Job 19:25|Yo sé que mi Redentor vive, y al fin se levantará sobre el polvo.
+Salmos 23:1|Jehová es mi pastor; nada me faltará.
+Salmos 119:105|Lámpara es a mis pies tu palabra, y lumbrera a mi camino.
+Salmos 121:1|Alzaré mis ojos a los montes, de donde vendrá mi socorro.
+Proverbios 3:5|Fíate de Jehová de todo tu corazón, y no estribes en tu prudencia.
+Proverbios 6:6|Ve a la hormiga, oh perezoso, mira sus caminos, y sé sabio.
+Proverbios 9:10|El principio de la sabiduría es el temor de Jehová; y la ciencia de los santos es inteligencia.
+Proverbios 22:6|Instruye al niño en su carrera: aun cuando fuere viejo no se apartará de ella.
+Eclesiastés 3:1|Todo tiene su tiempo, y todo lo que se quiere debajo del cielo tiene su hora.
+Eclesiastés 12:13|El fin de todo el discurso oído es este: Teme a Dios, y guarda sus mandamientos; porque esto es el todo del hombre.
+Cantares 2:1|Yo soy la rosa de Sarón, y el lirio de los valles.
+Isaías 7:14|El mismo Señor os dará señal: He aquí que la virgen concebirá, y parirá un hijo, y llamará su nombre Emanuel.
+Isaías 40:31|Mas los que esperan a Jehová tendrán nuevas fuerzas; levantarán las alas como las águilas; correrán, y no se cansarán; caminarán, y no se fatigarán.
+Jeremías 1:5|Antes que te formase en el vientre, te conocí; y antes que nacieses, te santifiqué, te di por profeta a las gentes.
+Jeremías 25:11|Y toda esta tierra será puesta en desierto, en espanto; y servirán estas gentes al rey de Babilonia setenta años.
+Daniel 5:25|Y esta es la escritura que trazaron: MENE, MENE, TEKEL, UPARSIN.
+Joel 2:28|Y será que después de esto derramaré mi espíritu sobre toda carne.
+Amós 5:24|Mas corra el juicio como las aguas, y la justicia como impetuoso arroyo.
+Jonás 1:17|Mas Jehová tenía preparado un gran pez que tragase a Jonás: y estuvo Jonás en el vientre del pez tres días y tres noches.
+Miqueas 6:8|Oh hombre, él te ha declarado qué sea lo bueno, y qué pida de ti Jehová: solamente hacer juicio, y amar misericordia, y humillarte para andar con tu Dios.
+Habacuc 2:4|Mas el justo por su fe vivirá.
+Habacuc 3:18|Con todo, yo me alegraré en Jehová, y me gozaré en el Dios de mi salud.
+Hageo 2:8|Mía es la plata, y mío es el oro, dice Jehová de los ejércitos.
+Zacarías 4:6|No con ejército, ni con fuerza, sino con mi espíritu, ha dicho Jehová de los ejércitos.
+Malaquías 3:10|Traed todos los diezmos al alfolí y haya alimento en mi casa.
+Malaquías 4:5|He aquí, yo os envío el profeta Elías, antes que venga el día de Jehová, grande y terrible.
+Lamentaciones 3:23|Nuevas son cada mañana: grande es tu fidelidad.
+Mateo 4:2|Y habiendo ayunado cuarenta días y cuarenta noches, después tuvo hambre.
+Mateo 5:13|Vosotros sois la sal de la tierra.
+Mateo 6:9|Vosotros, pues, oraréis así: Padre nuestro que estás en los cielos, santificado sea tu nombre.
+Mateo 18:22|Jesús le dice: No te digo hasta siete, mas aun hasta setenta veces siete.
+Mateo 26:15|Y les dijo: ¿Qué me queréis dar, y yo os lo entregaré? Y ellos le señalaron treinta piezas de plata.
+Marcos 4:39|Y levantándose, increpó al viento, y dijo a la mar: Calla, enmudece. Y cesó el viento, y fue hecha grande bonanza.
+Lucas 2:42|Y cuando fue de doce años, subieron ellos a Jerusalem conforme a la costumbre de la fiesta.
+Lucas 10:42|Pero una cosa es necesaria: y María ha escogido la buena parte, la cual no le será quitada.
+Lucas 15:12|Y dijo el más joven de ellos a su padre: Padre, dame la parte de la hacienda que me pertenece.
+Juan 3:16|Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.
+Juan 10:11|Yo soy el buen pastor: el buen pastor su vida da por las ovejas.
+Juan 11:35|Y lloró Jesús.
+Hechos 11:26|Los discípulos fueron llamados cristianos primeramente en Antioquía.
+Romanos 3:23|Por cuanto todos pecaron, y están destituidos de la gloria de Dios.
+Romanos 6:23|Porque el salario del pecado es muerte; mas la dádiva de Dios, vida eterna en Cristo Jesús Señor nuestro.
+Romanos 8:28|Y sabemos que a los que a Dios aman, todas las cosas les ayudan a bien, es a saber, a los que conforme al propósito son llamados.
+Romanos 10:17|Luego la fe es por el oír; y el oír por la palabra de Dios.
+Romanos 12:2|Y no os conforméis a este siglo; mas reformaos por la renovación de vuestro entendimiento.
+2 Corintios 5:17|De modo que si alguno está en Cristo, nueva criatura es; las cosas viejas pasaron; he aquí todas son hechas nuevas.
+2 Corintios 9:7|Dios ama al dador alegre.
+Efesios 2:8|Porque por gracia sois salvos por la fe; y esto no de vosotros, pues es don de Dios.
+Efesios 6:17|Y tomad el yelmo de salud, y la espada del Espíritu; que es la palabra de Dios.
+Filipenses 4:6|Por nada estéis afanosos; sino sean notorias vuestras peticiones delante de Dios en toda oración y ruego, con hacimiento de gracias.
+Filipenses 4:13|Todo lo puedo en Cristo que me fortalece.
+Colosenses 1:15|El cual es la imagen del Dios invisible, el primogénito de toda criatura.
+Colosenses 3:23|Y todo lo que hagáis, hacedlo de ánimo, como al Señor, y no a los hombres.
+1 Tesalonicenses 5:2|Porque vosotros sabéis perfectamente que el día del Señor vendrá así como ladrón en la noche.
+1 Tesalonicenses 5:17|Orad sin cesar.
+2 Tesalonicenses 3:10|Si alguno no quisiere trabajar, que tampoco coma.
+1 Timoteo 6:10|Porque raíz de todos los males es el amor del dinero.
+2 Timoteo 3:16|Toda la Escritura es inspirada divinamente, y útil para enseñar.
+2 Timoteo 4:7|He peleado la buena batalla, he acabado la carrera, he guardado la fe.
+Hebreos 11:1|Es, pues, la fe la sustancia de las cosas que se esperan, la demostración de las cosas que no se ven.
+Hebreos 13:8|Jesucristo es el mismo ayer, y hoy, y por los siglos.
+Santiago 1:5|Y si alguno de vosotros tiene falta de sabiduría, pídala a Dios, el cual da a todos abundantemente, y no zahiere; y le será dada.
+Santiago 2:26|Porque como el cuerpo sin espíritu está muerto, así también la fe sin obras está muerta.
+Santiago 4:7|Someteos, pues, a Dios; resistid al diablo, y de vosotros huirá.
+1 Pedro 2:9|Mas vosotros sois linaje escogido, real sacerdocio, gente santa, pueblo adquirido.
+1 Pedro 5:7|Echando toda vuestra solicitud sobre él, porque él tiene cuidado de vosotros.
+2 Pedro 3:8|Un día delante del Señor es como mil años, y mil años como un día.
+1 Juan 1:9|Si confesamos nuestros pecados, él es fiel y justo para que nos perdone los pecados, y nos limpie de toda maldad.
+1 Juan 4:8|El que no ama, no ha conocido a Dios; porque Dios es amor.
+Apocalipsis 1:8|Yo soy el Alpha y la Omega, principio y fin, dice el Señor, el que es y que era y que ha de venir, el Todopoderoso.
+Apocalipsis 3:16|Mas porque eres tibio, y no frío ni caliente, te vomitaré de mi boca.
+Apocalipsis 3:20|He aquí, yo estoy a la puerta y llamo: si alguno oyere mi voz y abriere la puerta, entraré a él, y cenaré con él, y él conmigo.
+Apocalipsis 7:4|Y oí el número de los señalados: ciento cuarenta y cuatro mil señalados de todas las tribus de los hijos de Israel.
+Apocalipsis 21:2|Y yo Juan vi la santa ciudad, la nueva Jerusalem, que descendía del cielo, de Dios, ataviada como una esposa ataviada para su marido.
+Génesis 35:18|Y aconteció que al salir su alma (pues murió), llamó su nombre Benoni; mas su padre lo llamó Benjamín.
+Éxodo 12|(12:29) Jehová hirió a todos los primogénitos en la tierra de Egipto.
+Levítico 16|(16:30) En este día se hará expiación por vosotros, para limpiaros.
+Números 13|(13:2) Envía tú hombres que reconozcan la tierra de Canaán.
+Deuteronomio 34|(34:5) Y murió allí Moisés, siervo de Jehová, en la tierra de Moab.
+Josué 10:12|Sol, detente en Gabaón; y tú, luna, en el valle de Ajalón.
+Jueces 16|(16:19) Ella comenzó a afligirlo, pues su fuerza se apartó de él.
+Rut 1|(1:16) Dondequiera que tú fueres, iré yo; y donde vivieres, viviré.
+1 Samuel 10|(10:1) ¿No te ha ungido Jehová por capitán sobre su heredad?
+2 Samuel 11|(11:3) ¿No es ésta Betsabé, hija de Eliam, mujer de Urías heteo?
+1 Reyes 18|(18:39) ¡Jehová es el Dios, Jehová es el Dios!
+2 Reyes 2|(2:15) El espíritu de Elías reposa sobre Eliseo.
+2 Crónicas 34:1|De ocho años era Josías cuando comenzó a reinar, y reinó en Jerusalem treinta y un años.
+Esdras 1|(1:1) Jehová excitó el espíritu de Ciro rey de Persia.
+Nehemías 2|(2:17) Venid, y edifiquemos el muro de Jerusalem.
+Ester 3|(3:6) Amán procuró destruir a todos los judíos que había en el reino de Asuero.
+Salmos 23|(23:1) Jehová es mi pastor; nada me faltará.
+Proverbios 1:1|Los proverbios de Salomón, hijo de David, rey de Israel.
+Eclesiastés 1:2|Vanidad de vanidades, dijo el Predicador; vanidad de vanidades, todo vanidad.
+Jeremías 9:1|¡Oh si mi cabeza se hiciese aguas, y mis ojos fuentes de lágrimas, para que llore día y noche!
+Lamentaciones 1|(1:1) ¡Cómo está sola la ciudad populosa! La grande entre las naciones se ha vuelto como viuda.
+Ezequiel 37|(37:1) Me puso en medio de un campo que estaba lleno de huesos.
+Daniel 3|(3:25) Veo cuatro varones sueltos, que se pasean en medio del fuego sin daño alguno.
+Oseas 1|(1:3) Fue, pues, y tomó a Gomer, hija de Diblaim.
+Joel 1|(1:4) Lo que quedó de la oruga comió la langosta.
+Abdías 1|(1:1) Visión de Abdías. Jehová el Señor ha dicho así cerca de Edom.
+Jonás 4:6|Y Jehová Dios preparó una calabacera, la cual creció sobre Jonás, para que hiciese sombra sobre su cabeza.
+Miqueas 5:2|Pero tú, Bethlehem Ephrata, pequeña para ser en los millares de Judá, de ti me saldrá el que será Señor en Israel.
+Nahúm 1|(1:1) Carga de Nínive. Libro de la visión de Nahúm de Elcos.
+Sofonías 1:14|Cercano está el día grande de Jehová, cercano y muy presuroso.
+Hageo 1|(1:8) Subid al monte, y traed madera, y reedificad la casa.
+Zacarías 9:9|He aquí tu rey vendrá a ti, justo y salvador, humilde, y cabalgando sobre un asno.
+Malaquías 4|(4:5) He aquí, yo os envío el profeta Elías, antes que venga el día de Jehová, grande y terrible.
+Mateo 5:1|Y viendo las gentes, subió al monte; y sentándose, se llegaron a él sus discípulos.
+Marcos 1|(1:17) Venid en pos de mí, y haré que seais hechos pescadores de hombres.
+Lucas 19|(19:5) Zaqueo, date priesa, desciende, porque hoy es necesario que pose yo en tu casa.
+Hechos 2|(2:4) Y fueron todos llenos del Espíritu Santo.
+1 Corintios 13|(13:4) La caridad es sufrida, es benígna; la caridad no tiene envidia.
+2 Corintios 12:7|Me fue dado un aguijón en mi carne, un mensajero de Satanás que me abofetee.
+Gálatas 5:23|Mansedumbre, templanza: contra tales cosas no hay ley.
+Filipenses 1:13|De manera que mis prisiones han sido célebres en Cristo en todo el pretorio.
+1 Timoteo 1:2|A Timoteo, verdadero hijo en la fe: Gracia, misericordia y paz de Dios nuestro Padre.
+Tito 1:5|Por esta causa te dejé en Creta, para que corrigieses lo que falta, y pusieses ancianos por las ciudades.
+Filemón 10|Te ruego por mi hijo Onésimo, el cual he engendrado en mis prisiones.
+2 Juan 1|El anciano a la señora elegida y a sus hijos, a los cuales yo amo en verdad.
+3 Juan 1|El anciano al muy amado Gayo, al cual yo amo en verdad.
+Judas 9|Cuando el arcángel Miguel contendía con el diablo disputando sobre el cuerpo de Moisés, no se atrevió a usar juicio de maldición contra él.
+Apocalipsis 2-3|(3:22) El que tiene oído, oiga lo que el Espíritu dice a las iglesias.
+Génesis 11:4|Y dijeron: Vamos, edifiquémonos una ciudad y una torre, cuya cúpide llegue al cielo.
+Génesis 15:7|Yo soy Jehová, que te saqué de Ur de los caldeos, para darte a heredar esta tierra.
+Génesis 29|(29:20) Sirvió Jacob por Raquel siete años; y le parecieron como pocos días, porque la amaba.
+Éxodo 3:2|Y le apareció el Ángel de Jehová en una llama de fuego en medio de una zarza; y la zarza no se consumía.
+Éxodo 16:15|Este es el pan que Jehová os da para comer.
+Éxodo 4:14|¿No conozco yo a tu hermano Aarón, levita, y que él hablará?
+Éxodo 12:7|Y tomarán de la sangre, y la pondrán en los dos postes y en el dintel de las casas.
+Éxodo 32:4|Y él lo tomó de las manos de ellos, e hizo de ello un becerro de fundición.
+Éxodo 31:2|Mira, yo he llamado por su nombre a Bezaleel, hijo de Uri, hijo de Hur, de la tribu de Judá.
+Levítico 16:21|Y pondrá Aarón ambas manos sobre la cabeza del macho cabrío vivo, y confesará sobre él todas las iniquidades de los hijos de Israel.
+Levítico 25:10|Y santificaréis el año cincuenta, y pregonaréis libertad en la tierra a todos sus moradores.
+Números 22:28|Y Jehová abrió la boca al asna, la cual dijo a Balaam: ¿Qué te he hecho, que me has herido estas tres veces?
+Números 14:33|Y vuestros hijos serán pastores en el desierto cuarenta años.
+Deuteronomio 34:9|Y Josué hijo de Nun fue lleno de espíritu de sabiduría, porque Moisés había puesto sobre él sus manos.
+Deuteronomio 34:7|Era Moisés de edad de ciento y veinte años cuando murió.
+Mateo 2:1-2|Como Jesús hubo nacido en Bethlehem de Judea, en días del rey Herodes, he aquí unos magos vinieron del oriente a Jerusalem.
+Mateo 2:1|Como Jesús hubo nacido en Bethlehem de Judea, en días del rey Herodes, he aquí unos magos vinieron del oriente a Jerusalem.
+Mateo 2:11|Abiertos sus tesoros, le ofrecieron presentes: oro, e incienso, y mirra.
+Mateo 9:9|Vio a un hombre que se llamaba Mateo, sentado al banco de los públicos tributos, y le dice: Sígueme.
+Mateo 25:2|Y las cinco de ellas eran prudentes, y las otras cinco fatuas.
+Mateo 26:36|Entonces llegó Jesús con ellos a la heredad que se llama Gethsemani.
+Mateo 26:75|Y Pedro se acordó de las palabras de Jesús, que le dijo: Antes que cante el gallo, me negarás tres veces. Y saliendo fuera, lloró amargamente.
+Mateo 14:17|Y ellos dijeron: No tenemos aquí sino cinco panes y dos peces.
+Mateo 14:29|Y él dijo: Ven. Y descendiendo Pedro del barco, andaba sobre las aguas para ir a Jesús.
+Mateo 3:13|Entonces Jesús vino de Galilea a Juan al Jordán, para ser bautizado de él.
+Marcos 5:41-42|Y tomando la mano de la niña, le dice: Niña, a ti digo, levántate. Y luego la niña se levantó, y andaba.
+Marcos 10:46|Y saliendo él de Jericó, Bartimeo el ciego, hijo de Timeo, estaba sentado junto al camino mendigando.
+Marcos 15:21|Y cargaron a uno que pasaba, Simón Cireneo, que venía del campo, para que llevase la cruz.
+Marcos 1:19|Vio a Jacobo, hijo de Zebedeo, y a Juan su hermano.
+Lucas 1:26|Al sexto mes fue enviado el ángel Gabriel de Dios a una ciudad de Galilea, llamada Nazaret.
+Lucas 1:13|Zacarías, no temas; porque tu oración ha sido oida, y tu mujer Elisabet te parirá un hijo.
+Lucas 1:31|Y he aquí, concebirás en tu vientre, y parirás un hijo, y llamarás su nombre JESÚS.
+Lucas 2:15-16|Vinieron apresuradamente, y hallaron a María y a José, y al niño acostado en el pesebre.
+Lucas 6:13|Llamó a sus discípulos, y escogió doce de ellos, a los cuales también llamó apóstoles.
+Lucas 23:42|Y dijo a Jesús: Acuérdate de mí cuando vengas a tu reino.
+Lucas 10:33|Pero un samaritano, que iba su camino, vino cerca de él, y viendole, fue movido a misericordia.
+Lucas 15:4|¿Qué hombre de vosotros, teniendo cien ovejas, si pierde una de ellas, no deja las noventa y nueve en el desierto, y va a la que se perdió?
+Lucas 17:15|Uno de ellos, como se vio que estaba sano, volvió, glorificando a Dios a gran voz.
+Juan 3:2|Este vino a Jesús de noche, y le dijo: Rabbí, sabemos que has venido de Dios por maestro.
+Juan 4:7|Vino una mujer de Samaria a sacar agua: y Jesús le dice: Dame de beber.
+Juan 13:5|Luego puso agua en un lebrillo, y comenzó a lavar los pies de los discípulos.
+Juan 20:25|Si no viere en sus manos la señal de los clavos, no creeré.
+Juan 21:11|Subió Simón Pedro, y trajo la red a tierra, llena de grandes peces, ciento cincuenta y tres.
+Juan 20:14|Se volvió atrás, y vio a Jesús que estaba allí; mas no sabía que era Jesús.
+Juan 2:1-11|(2:11) Este principio de señales hizo Jesús en Caná de Galilea, y manifestó su gloria.
+Juan 11|(11:43) Clamó a gran voz: Lázaro, ven fuera.
+Hechos 1:1|El primer tratado hice, oh Teófilo, de todas las cosas que Jesús comenzó a hacer y a enseñar.
+Hechos 1:26|Y les echaron suertes, y cayó la suerte sobre Matías; y fue contado con los once apóstoles.
+Hechos 1:12|Entonces se volvieron a Jerusalem del monte que se llama del Olivar.
+Hechos 7:59|Y apedrearon a Esteban, invocando él y diciendo: Señor Jesús, recibe mi espíritu.
+Hechos 8:38|Y mandó parar el carro; y descendieron ambos al agua, Felipe y el eunuco; y le bautizó.
+Hechos 9|(9:4) Saulo, Saulo, ¿por qué me persigues?
+Hechos 9:3|Yendo por el camino, aconteció que llegando cerca de Damasco, súbitamente le cercó un resplandor de luz del cielo.
+Hechos 9:40|Se volvió al cuerpo, y dijo: Tabita, levántate. Y ella abrió los ojos, y viendo a Pedro, se incorporó.
+Hechos 10|(10:1) Había un hombre en Cesarea, llamado Cornelio, centurión de la compañía llamada la Italiana.
+Hechos 16:26|Y de repente fue hecho un gran terremoto, de tal manera que los fundamentos de la cárcel se sacudían.
+Hechos 16:14|Una mujer llamada Lidia, vendedora de púrpura, de la ciudad de Tiatira, estaba oyendo.
+Hechos 20:9|Un mancebo llamado Eutico, que estaba sentado en una ventana, cayó del tercer piso abajo.
+1 Corintios 15:4|Y que fue sepultado, y que resucitó al tercer día, conforme a las Escrituras.
+1 Corintios 15:6|Después fue visto por más de quinientos hermanos juntos.
+1 Corintios 12:12|De la manera que el cuerpo es uno, y tiene muchos miembros, así también Cristo.
+Gálatas 2:20|Con Cristo estoy juntamente crucificado, y vivo no ya yo, mas Cristo vive en mí.
+Gálatas 5:22-23|El fruto del Espíritu es: caridad, gozo, paz, tolerancia, benignidad, bondad, fe, mansedumbre, templanza.
+Efesios 6:1|Hijos, obedeced en el Señor a vuestros padres; porque esto es justo.
+Hebreos 4:14|Teniendo, pues, un gran Sumo Sacerdote, que penetró los cielos, Jesús, el Hijo de Dios, retengamos nuestra profesión.
+2 Pedro 3:9|El Señor no tarda su promesa; es paciente para con nosotros, no queriendo que algunos perezcan, sino que todos procedan al arrepentimiento.
+Apocalipsis 1:1|La revelación de Jesucristo, que Dios le dio; la declaró enviandola por su ángel a Juan su siervo.
+Apocalipsis 1:9|Yo Juan estaba en la isla que se llama Patmos, por la palabra de Dios.
+Apocalipsis 22|(22:20) Ciertamente vengo en breve. Amén, sí, ven, Señor Jesús.
+Apocalipsis 6:1-8|(6:2) Y miré, y he aquí un caballo blanco; y el que estaba sentado sobre él tenía un arco.
+Josué 2:4|Mas la mujer había tomado los dos hombres y los había escondido.
+Josué 6:15|Al séptimo día rodearon la ciudad de la misma manera siete veces.
+Josué 6|(6:20) El muro cayó plano, y tomaron la ciudad.
+Josué 3:17|Todo Israel pasó en seco, hasta que toda la gente hubo acabado de pasar el Jordán.
+Jueces 16:19|Ella hizo que él se durmiese sobre sus rodillas, y le hizo rapar las siete guedejas de su cabeza; y su fuerza se apartó de él.
+Jueces 6:37|He aquí que yo pondré un vellón de lana en la era; si el rocío estuviere en el vellón solamente, entenderé que salvarás a Israel por mi mano.
+Jueces 7:7|Con estos trescientos hombres que lamieron el agua os salvaré.
+Jueces 4:21|Jael, mujer de Heber, tomó una estaca de la tienda, puso un mazo en su mano, y se la hincó en la sien.
+Jueces 4|(4:4) Gobernaba en aquel tiempo a Israel una mujer, Debora, profetisa.
+Rut 2:3|Y fue, y llegando, espigó en el campo en pos de los segadores.
+Rut 4:17|Y llamáronle Obed. Este es padre de Isaí, padre de David.
+1 Samuel 17:49|David metió su mano en la bolsa, tomó de allí una piedra, y tírosela con la honda, e hirió al filisteo en la frente.
+1 Samuel 17|(17:50) Así venció David al filisteo con honda y piedra.
+1 Samuel 1:20|Dio a luz un hijo, y le puso por nombre Samuel.
+1 Samuel 3|(3:10) Habla, que tu siervo oye.
+1 Samuel 18:1|El alma de Jonatán fue ligada con la de David, y lo amó Jonatán como a su alma.
+1 Samuel 28:7|Y Saúl dijo a sus criados: Buscadme una mujer que tenga espíritu de pitón, para que yo vaya a ella.
+2 Samuel 12|(12:7) Entonces dijo Natán a David: Tú eres aquel hombre.
+2 Samuel 18:9|Absalón iba sobre un mulo, y el mulo se metió debajo de las ramas espesas de una grande encina, y se le asió la cabeza a la encina.
+1 Reyes 6:38|Y lo edificó en siete años.
+1 Reyes 3|(3:9) Da, pues, a tu siervo corazón entendido para juzgar a tu pueblo.
+1 Reyes 16:31|Tomó por mujer a Jezabel, hija de Ethbaal rey de los Sidonios.
+2 Reyes 5:14|Descendió entonces, y se zambulló siete veces en el Jordán; y su carne se volvió como la carne de un niño, y quedó limpio.
+2 Crónicas 26:19|Uzías se enojó, teniendo en su mano el incensario; y la lepra le salió en la frente.
+Esdras 7:10|Esdras había preparado su corazón para inquirir la ley de Jehová, y para cumplir, y para enseñar en Israel sus estatutos y decretos.
+Nehemías 6:15|Fue acabado el muro el veinte y cinco del mes de Elul, en cincuenta y dos días.
+Nehemías 8:2|Esdras sacerdote trajo la ley delante de la congregación, así de hombres como de mujeres.
+Ester 2:17|El rey amó a Esther más que a todas las otras mujeres, y puso la corona real en su cabeza.
+Ester 4|(4:14) ¿Y quién sabe si para esta hora has llegado al reino?
+Ester 9:26|Por esto llamaron a estos días Purim, del nombre Pur.
+Job 1:12|Y Jehová dijo a Satanás: He aquí, todo lo que tiene está en tu mano; solamente no pongas tu mano sobre él.
+Job 1:2|Y le nacieron siete hijos y tres hijas.
+Isaías 6:1|En el año que murió el rey Uzías vi yo al Señor sentado sobre un trono alto y sublime.
+Isaías 6:2|Por encima de él había serafines; cada uno tenía seis alas.
+Isaías 53:7|Angustiado él, y afligido, no abrió su boca: como cordero fue llevado al matadero.
+Jeremías 38:6|Y Jeremías se hundió en el cieno.
+Ezequiel 1|(1:5) Y en medio de ella la figura de cuatro seres vivientes.
+Ezequiel 3:3|Y lo comí, y fue en mi boca dulce como miel.
+Daniel 6:22|Mi Dios envió su ángel, el cual cerró la boca de los leones, para que no me hiciesen mal.
+Daniel 2|(2:31) Tú, oh rey, veías, y he aquí una grande imagen.
+Daniel 6|(6:16) El Dios tuyo, a quien tú continuamente sirves, él te libre.
+Oseas 1:3|Fue, pues, y tomó a Gomer, hija de Diblaim.
+Jonás 1:3|Y Jonás se levantó para huir de la presencia de Jehová a Tarsis.
+Jonás 1:2|Levántate, y ve a Nínive, aquella gran ciudad, y pregona contra ella.
+Jonás 3:5|Los hombres de Nínive creyeron a Dios, y pregonaron ayuno, y se vistieron de sacos.
+Hageo 1:1|Vino palabra de Jehová por el profeta Haggeo a Zorobabel, hijo de Salatiel, gobernador de Judá.
+Sofonías 1:1|Palabra de Jehová que fue a Sofonías, en días de Josías, hijo de Amón, rey de Judá.
+1 Crónicas 4:10|E invocó Jabes al Dios de Israel, diciendo: ¡Oh, si me dieras bendición, y ensancharas mi término!
+2 Crónicas 30|(30:1) Envió Ezechías por todo Israel y Judá, para que viniesen a la casa de Jehová a celebrar la pascua.
+Judas 3|Me fue necesario escribiros amonestándoos que contendáis eficazmente por la fe que ha sido una vez dada a los santos.
+3 Juan 2|Amado, yo deseo que seas prosperado en todas las cosas, y que tengas salud, así como tu alma tiene prosperidad.
+Cantares 8:6|Porque fuerte es como la muerte el amor.
+Levítico 10:1|Nadab y Abiú tomaron cada uno su incensario, y pusieron fuego en ellos, y ofrecieron delante de Jehová fuego extraño.
+Levítico 11:7|Asimismo el cerdo, porque tiene pezuña, mas no rumia, lo tendréis por inmundo.
+Levítico 17:11|Porque la vida de la carne en la sangre está.
+Génesis 16:15|Y Agar parió a Abram un hijo; y llamó Abram el nombre del hijo, Ismael.
+Génesis 37:28|Sacaron a José de la cisterna, y vendieron a José a los ismaelitas por veinte pesos de plata.
+Génesis 37|(37:28) Vendieron a José a los ismaelitas por veinte pesos de plata.
+Génesis 42:24|Y tomó de entre ellos a Simeón, y lo aprisionó a vista de ellos.
+Génesis 17|(17:15) A Sarai tu mujer no la llamarás Sarai, mas Sara será su nombre.
+Génesis 2|(2:7) Entonces Jehová Dios formó al hombre del polvo de la tierra.
+Génesis 6|(6:14) Hazte un arca de madera de gofer.
+Génesis 32:28|No se dirá más tu nombre Jacob, sino Israel.
+Génesis 12:5|Salieron para ir a tierra de Canaán; y a tierra de Canaán llegaron.
+Éxodo 2:4|Y se paró una hermana suya a lo lejos, para saber lo que le acontecería.
+Éxodo 14|(14:21) Jehová hizo volver el mar con un recio viento oriental, y las aguas quedaron divididas.
+Éxodo 19|(19:20) Y descendió Jehová sobre el monte de Sinaí, sobre la cumbre del monte.
+Éxodo 20|(20:3) No tendrás dioses ajenos delante de mí.
+1 Crónicas 22|(22:5) Yo le haré preparativos. Y preparó David antes de su muerte en gran abundancia.
+Job 1:1|Hubo en la tierra de Hus un varón llamado Job; y era este hombre perfecto y recto, temeroso de Dios y apartado del mal.
+Cantares 1|(1:2) Béseme con besos de su boca; porque mejores son tus amores que el vino.
+Amós 7:14|Respondió Amós, y dijo a Amasías: No soy profeta, ni soy hijo de profeta, sino que soy boyero, y cogedor de higos silvestres.
+Génesis 27|(27:27) He aquí, el olor de mi hijo como el olor del campo que Jehová ha bendecido.
+Génesis 41:45|Y llamó Faraón el nombre de José Zaphnat-paanea; y le dio por mujer a Asenat, hija de Potipherah, sacerdote de On.
+Éxodo 7-12|(12:29) Jehová hirió a todos los primogénitos en la tierra de Egipto.
+Éxodo 3:1|Apacentando Moisés las ovejas de Jethro su suegro, sacerdote de Madián, llevó las ovejas a la parte trasera del desierto.
+Números 14:6-9|(14:7) La tierra por donde pasamos para reconocerla, es en gran manera buena.
+Números 16:31|Y aconteció que como cesó él de hablar todas estas palabras, la tierra que estaba debajo de ellos se hendió.
+Mateo 16:18|Y yo también te digo, que tú eres Pedro, y sobre esta piedra edificaré mi iglesia; y las puertas del infierno no prevalecerán contra ella.
+Mateo 28:19|Por tanto, id, y doctrinad a todos los gentiles, baptizándolos en el nombre del Padre, y del Hijo, y del Espíritu Santo.
+Marcos 9:2|Seis días después toma Jesús a Pedro, y a Jacobo, y a Juan, y los lleva aparte solos a un monte alto; y se transfiguró delante de ellos.
+Hechos 28:1|Y escapados ya, entonces supieron que la isla se llamaba Melita.
+Josué 7|(7:21) Vi entre los despojos un manto babilónico muy bueno, y lo codicié, y lo tomé.
+Josué 9|(9:15) Y Josué hizo paz con ellos, y concertó con ellos alianza para dejarlos con vida.
+Jueces 11:30|Y Jephthé hizo voto a Jehová, diciendo: Si entregares a los hijos de Ammon en mis manos, cualquiera que me saliere a recibir será de Jehová.
+Rut 1:4|Los cuales tomaron para sí mujeres de las de Moab; el nombre de la una fue Orfa, y el nombre de la otra Ruth.
+2 Samuel 6|(6:12) Fue David, e hizo subir el arca de Dios a la ciudad de David, con alegría.
+2 Samuel 9|(9:7) No tengas temor, porque a la verdad yo haré contigo misericordia por amor de Jonathán tu padre.
+1 Reyes 10|(10:1) Oyendo la reina de Sheba la fama de Salomón, vino a probarle con preguntas.
+1 Reyes 12|(12:13) El rey respondió al pueblo duramente, dejado el consejo que los ancianos le habían dado.
+1 Reyes 21|(21:2) Dame tu viña para un huerto de legumbres, porque está cercana, junto a mi casa.
+2 Crónicas 20|(20:21) Alabad a Jehová, porque su misericordia es para siempre.
+Ester 2:7|Y había criado a Hadassa, que es Esther, hija de su tío; porque era huérfana.
+Salmos|(150:6) Todo lo que respira alabe a JAH. Aleluya.
+Salmos 119|(119:105) Lámpara es a mis pies tu palabra, y lumbrera a mi camino.
+Daniel 1:7|A los cuales el príncipe de los eunucos puso nombres: puso a Daniel, Beltsasar; y a Ananias, Sadrach; y a Misael, Mesach; y a Azarias, Abed-nego.
+1 Corintios 13:13|Y ahora permanecen la fe, la esperanza, y la caridad, estas tres: mas la mayor de ellas es la caridad.`;
+const QS=BANK.trim().split("\n").map(l=>{const p=l.split("|"),b=B2I[bookOf(p[4])];return{q:p[1],a:p[2],d:p[3].split(";"),r:p[4],l:+p[0],b:b===undefined?5:b,id:(hstr(p[1])>>>0).toString(36)}});
+const BOOKN={};QS.forEach(q=>{const k=bookOf(q.r);BOOKN[k]=(BOOKN[k]||0)+1});
+const V={};VERSES.trim().split("\n").forEach(l=>{const i=l.indexOf("|");V[l.slice(0,i)]=l.slice(i+1)});
+const LN=["Fácil","Intermedio","Difícil"],LE=["🌱","📖","🔥"],LC=["#2fbf7e","#3e82f7","#ef5a5a"];
+const isNum=s=>/^\d[\d.,]*$/.test(s);
+function optsOf(q,r){const o=[q.a,...q.d];return o.every(isNum)?o.sort((x,y)=>parseFloat(x.replace(/\./g,""))-parseFloat(y.replace(/\./g,""))):shuffle(o,r)}
+function verseInfo(q){let t=V[q.r]||"",label=q.r;const m=t.match(/^\((\d+:\d+)\)\s*(.*)$/);if(m){label=bookOf(q.r)+" "+m[1];t=m[2]}
+  return{label,text:t,url:"https://www.biblegateway.com/passage/?search="+encodeURIComponent(label)+"&version=RVR1960"}}
+const verseHTML=q=>{const v=verseInfo(q);return`<div class="verse">📖 <b>${esc(v.label)}</b>${v.text?`<i>«${esc(v.text)}» <small>(RV 1909)</small></i>`:""}<a href="${v.url}" target="_blank" rel="noopener">Leer en Reina-Valera 1960 ↗</a>${v.text?'<button class="vsh" type="button">🖼️ Compartir como imagen</button>':""}</div>`};
+const VOD=["Juan 3:16","Salmos 23:1","Proverbios 3:5","Isaías 40:31","Filipenses 4:13","Romanos 8:28","Salmos 119:105","Jeremías 1:5","2 Corintios 5:17","Efesios 2:8","Romanos 12:2","1 Juan 4:8","Hebreos 11:1","Santiago 1:5","1 Pedro 5:7","Apocalipsis 3:20","Miqueas 6:8","Zacarías 4:6","Salmos 121:1","Mateo 6:9","Proverbios 9:10","Romanos 6:23","2 Timoteo 3:16","Hebreos 13:8","Lamentaciones 3:23","Habacuc 3:18","Eclesiastés 3:1","Isaías 53:7","Mateo 5:13","Juan 10:11","1 Tesalonicenses 5:17","Colosenses 3:23"];
+function verseOfDay(){const n=new Date(),i=Math.floor((new Date(n.getFullYear(),n.getMonth(),n.getDate())-new Date(2026,0,1))/864e5);const r=VOD[((i%VOD.length)+VOD.length)%VOD.length];return{r,t:V[r]||"",url:"https://www.biblegateway.com/passage/?search="+encodeURIComponent(r)+"&version=RVR1960"}}
+
+/* ---------- progreso guardado ---------- */
+const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",miss:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0}});
+let D=DEF();
+try{const s=JSON.parse(localStorage.getItem("tb")||"{}");Object.assign(D,s);D.set=Object.assign(DEF().set,s.set||{});if(!Array.isArray(D.pass))D.pass=[0,0,0];if(!D.medals||typeof D.medals!=="object")D.medals={};if(!D.bk)D.bk={};if(!D.st)D.st={};if(!D.miss||typeof D.miss!=="object")D.miss={}}catch(e){}
+const sv=()=>{try{localStorage.setItem("tb",JSON.stringify(D))}catch(e){}};
+function applyTheme(){const t=D.set.theme,r=document.documentElement;if(t==="auto")r.removeAttribute("data-theme");else r.dataset.theme=t;r.classList.toggle("big",!!D.set.big);
+  const dark=t==="dark"||(t==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);const m=$('meta[name="theme-color"]');if(m)m.content=dark?"#0b1536":"#f6efd9"}
+applyTheme();
+try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",applyTheme)}catch(e){}
+
+/* ---------- rangos y logros ---------- */
+const RANKS=[[0,"🌱","Semilla de mostaza"],[1500,"🕊️","Discípulo"],[4000,"🎣","Pescador de hombres"],[9000,"🐑","Pastor"],[16000,"📜","Escriba"],[28000,"🦉","Sabio"],[45000,"👑","Erudito bíblico"]];
+function rank(p=D.pts){let i=0;while(i<RANKS.length-1&&p>=RANKS[i+1][0])i++;const[from,e,n]=RANKS[i],nx=RANKS[i+1];return{i,e,n,from,next:nx?nx[2]:null,pct:nx?Math.min(100,Math.round((p-from)/(nx[0]-from)*100)):100}}
+const MEDALS=[
+ {id:"first",e:"🌱",t:"Primer paso",d:"Termina tu primera partida",ok:()=>D.games>=1},
+ {id:"perfect",e:"💯",t:"Perfecto",d:"Acierta 10 de 10",ok:()=>D.perfect>=1},
+ {id:"ok100",e:"📖",t:"Estudioso",d:"100 respuestas correctas",ok:()=>D.ok>=100},
+ {id:"ok500",e:"🎓",t:"Erudito",d:"500 respuestas correctas",ok:()=>D.ok>=500},
+ {id:"s3",e:"🔥",t:"Constante",d:"3 días seguidos en el desafío diario",ok:()=>D.best>=3},
+ {id:"s7",e:"🕯️",t:"Fiel",d:"7 días seguidos en el desafío diario",ok:()=>D.best>=7},
+ {id:"crown1",e:"👑",t:"Primera corona",d:"Gana una corona en la ruleta",ok:()=>D.crowns>=1},
+ {id:"win1",e:"🏆",t:"Coronado",d:"Gana una partida de ruleta",ok:()=>D.wins>=1},
+ {id:"duel1",e:"⚔️",t:"Duelista",d:"Gana un duelo",ok:()=>D.duels>=1},
+ {id:"lvl2",e:"🔓",t:"Subiendo",d:"Desbloquea el nivel Intermedio",ok:()=>!!D.pass[0]},
+ {id:"lvl3",e:"🦁",t:"Valiente",d:"Desbloquea el nivel Difícil",ok:()=>!!D.pass[1]},
+ {id:"all",e:"🌍",t:"Toda la Biblia",d:"Acierta en los 6 bloques",ok:()=>BLK.every((_,i)=>(D.bk[i]||[0])[0]>0)},
+ {id:"combo",e:"⚡",t:"Imparable",d:"10 aciertos seguidos",ok:()=>D.combo>=10},
+ {id:"friends",e:"🤝",t:"En comunidad",d:"Termina una partida con amigos",ok:()=>D.online>=1},
+ {id:"rev10",e:"🔁",t:"Aprendiz",d:"Corrige 10 preguntas que habías fallado",ok:()=>D.fixed>=10},
+ {id:"rush15",e:"⏱️",t:"Rayo",d:"15 aciertos en Contrarreloj",ok:()=>D.rush>=15}
+];
+function checkMedals(){const nw=[];for(const m of MEDALS)if(!D.medals[m.id]&&m.ok()){D.medals[m.id]=todayS();nw.push(m)}if(nw.length)sv();return nw}
+const AVC=["#3e82f7","#2fbf7e","#e5484d","#9b5de5","#e49b12","#d2601f","#14a39a","#d6409f"];
+const avc=n=>AVC[Math.abs(hstr(String(n)))%AVC.length];
+const ini=n=>(String(n).trim()[0]||"?").toUpperCase();
+
+/* ---------- sonido y vibración ---------- */
+const Snd=(()=>{let c=null;
+  const ctx=()=>{if(!c){try{c=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(c&&c.state==="suspended")c.resume().catch(()=>{});return c};
+  const tone=(f,t,d,type="sine",v=.13,f2)=>{const x=ctx();if(!x)return;const o=x.createOscillator(),g=x.createGain(),s=x.currentTime+t;o.type=type;o.frequency.setValueAtTime(f,s);if(f2)o.frequency.exponentialRampToValueAtTime(f2,s+d);g.gain.setValueAtTime(.0001,s);g.gain.exponentialRampToValueAtTime(v,s+.015);g.gain.exponentialRampToValueAtTime(.0001,s+d);o.connect(g);g.connect(x.destination);o.start(s);o.stop(s+d+.03)};
+  const S={click:()=>tone(720,0,.045,"square",.035),
+    ok:()=>[523.25,659.25,783.99].forEach((f,i)=>tone(f,i*.085,.18,"triangle",.16)),
+    bad:()=>tone(233,0,.3,"sawtooth",.09,117),
+    tick:()=>tone(1500,0,.022,"square",.03),
+    time:()=>tone(880,0,.06,"square",.045),
+    crown:()=>[523.25,659.25,783.99,1046.5].forEach((f,i)=>tone(f,i*.1,.3,"triangle",.17)),
+    win:()=>[392,523.25,659.25,783.99,1046.5].forEach((f,i)=>tone(f,i*.12,i==4?.7:.2,"triangle",.18)),
+    lose:()=>[392,330,262].forEach((f,i)=>tone(f,i*.16,.24,"triangle",.13))};
+  return{play(n){if(D.set.snd&&S[n]){try{S[n]()}catch(e){}}},unlock:ctx}})();
+addEventListener("pointerdown",()=>Snd.unlock(),{once:true,passive:true});
+const vib=p=>{if(D.set.vib&&navigator.vibrate){try{navigator.vibrate(p)}catch(e){}}};
+
+/* ---------- temporizador (se pausa si la app se oculta) ---------- */
+const Tm={id:0,left:0,tot:0,last:0,tick:null,end:null,
+  start(s,tick,end){this.stop();this.tot=this.left=s;this.last=performance.now();this.tick=tick;this.end=end;this.id=setInterval(()=>this.step(),100);tick&&tick(this.left,this.tot)},
+  step(){const n=performance.now();if(document.hidden){this.last=n;return}this.left-=(n-this.last)/1000;this.last=n;if(this.left<=0){this.left=0;const e=this.end;this.stop();this.tick&&this.tick(0,this.tot);e&&e()}else this.tick&&this.tick(this.left,this.tot)},
+  add(s){this.left+=s;this.tot=Math.max(this.tot,this.left)},
+  stop(){clearInterval(this.id);this.id=0}};
+document.addEventListener("visibilitychange",()=>{Tm.last=performance.now()});
+
+/* ---------- avisos, ventanas, confeti ---------- */
+let toastT=0;
+function toast(msg,o={}){const t=$("#toast");t.innerHTML=`<span>${msg}</span>${o.act?`<button type="button">${o.act}</button>`:""}`;t.classList.add("on");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("on"),o.ms||2600);
+  if(o.act)$("button",t).onclick=()=>{t.classList.remove("on");o.fn&&o.fn()}}
+const closeModal=()=>{const o=$("#modal");if(o)o.remove()};
+function modal(html,btns){closeModal();const o=document.createElement("div");o.className="ov";o.id="modal";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");
+  o.innerHTML=`<div class="md2">${html}<div class="mbtns">${btns.map((b,i)=>`<button type="button" class="btn ${b.cls||""} sm" data-i="${i}">${b.t}</button>`).join("")}</div></div>`;
+  document.body.appendChild(o);
+  $$("button[data-i]",o).forEach(b=>b.onclick=()=>{const x=btns[+b.dataset.i];try{x.fn&&x.fn(o)}finally{if($("#modal")===o)closeModal()}});
+  const f=$("input",o);if(f)f.focus();return o}
+const confirmBox=(title,msg,okT,okFn,cls="red")=>modal(`<h3>${title}</h3><p>${msg}</p>`,[{t:"Cancelar",cls:"ghost"},{t:okT,cls,fn:okFn}]);
+function confetti(n=140){if(REDUCED)return;const c=document.createElement("canvas");c.className="confetti";const W=c.width=innerWidth,H=c.height=innerHeight;document.body.appendChild(c);const x=c.getContext("2d");
+  const cols=BLK.map(b=>b.c).concat(["#ffd466","#ffffff"]),T0=performance.now();
+  const P=Array.from({length:n},()=>({x:W/2+(Math.random()-.5)*W*.4,y:H*.38,vx:(Math.random()-.5)*12,vy:-Math.random()*14-3,s:6+Math.random()*7,r:Math.random()*6.28,vr:(Math.random()-.5)*.4,c:cols[Math.random()*cols.length|0]}));
+  let last=T0;(function f(t){const dt=Math.min(32,t-last)/16;last=t;x.clearRect(0,0,W,H);let alive=0;
+    for(const p of P){p.vy+=.36*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.r+=p.vr*dt;p.vx*=.995;if(p.y<H+30)alive++;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/3,p.s,p.s*.6);x.restore()}
+    if(alive&&t-T0<4500)requestAnimationFrame(f);else c.remove()})(T0)}
+async function shareTxt(text,url){
+  try{if(navigator.share){await navigator.share(url?{text,url}:{text});return}}catch(e){if(e&&e.name==="AbortError")return}
+  try{await navigator.clipboard.writeText(url?text+"\n"+url:text);toast("Copiado ✓ Ya puedes pegarlo")}catch(e){toast("No se pudo compartir")}}
+const APPURL=location.origin+location.pathname.replace(/index\.html$/,"");
+
+/* ---------- pantallas y botón «atrás» ---------- */
+function view(html,name,cls=""){
+  VIEW=name;A.className=cls;$$(".sheet").forEach(s=>s.remove());document.body.classList.remove("sheeted");
+  A.innerHTML=`<div class="screen">${html}</div>`;window.scrollTo(0,0);try{A.focus({preventScroll:true})}catch(e){}
+  const top=name==="home"||name==="stats"||name==="settings",nv=$("#nav");nv.hidden=!top;document.body.classList.toggle("hasnav",top);
+  if(top)$$("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.go===name))}
+function pushView(){try{if(!(history.state&&history.state.tb))history.pushState({tb:1},"")}catch(e){}}
+function goHome(){const sub=history.state&&history.state.tb;VIEW="home";if(sub){try{history.back()}catch(e){}}home()}
+function confirmExit(){confirmBox("¿Salir de la partida?","Se perderá el avance de esta partida.","Salir",goHome)}
+addEventListener("popstate",()=>{if(VIEW==="home")return;if(VIEW==="play"){pushView();confirmExit();return}home()});
+let wl=null;
+async function wake(on){try{if(on){if(!wl&&navigator.wakeLock){wl=await navigator.wakeLock.request("screen");wl.addEventListener("release",()=>{wl=null})}}else if(wl){const w=wl;wl=null;await w.release()}}catch(e){}}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&(G||R||RM)&&!wl)wake(true)});
+function stopAll(){wake(false);Tm.stop();closeModal();if(G){clearTimeout(G.rtm);clearTimeout(G.adv);G=null}if(R){clearTimeout(R.bt);R=null}if(RM){try{RM.leave()}catch(e){}RM=null}}
+const standalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+
+const streakNow=()=>{const y=day(new Date(Date.now()-864e5));return D.last===todayS()||D.last===y?D.streak:0};
+/* ============================================================
+   INICIO
+   ============================================================ */
+const lk=i=>i>0&&!D.pass[i-1];
+const miniWheel=()=>{let s='<svg viewBox="-50 -50 100 100" aria-hidden="true"><circle r="49" fill="#7a4a00"/><circle r="46" fill="#fff6d6"/>';
+  for(let i=0;i<6;i++){const a=(i*60-90)*Math.PI/180,b=((i+1)*60-90)*Math.PI/180;s+=`<path d="M0 0L${(42*Math.cos(a)).toFixed(1)} ${(42*Math.sin(a)).toFixed(1)}A42 42 0 0 1 ${(42*Math.cos(b)).toFixed(1)} ${(42*Math.sin(b)).toFixed(1)}Z" fill="${BLK[i].c}" stroke="#fff" stroke-width="1.5"/>`}
+  return s+'<circle r="10" fill="#fff6d6" stroke="#7a4a00" stroke-width="2"/><path d="M-1.8-6h3.6v4.2h4.2v3.6h-4.2v6.6h-3.6v-6.6h-4.2v-3.6h4.2z" fill="#7a4a00"/></svg>'};
+function home(){
+  stopAll();
+  const rk=rank(),me=D.name||"Jugador",done=D.last===todayS(),vr=verseOfDay(),acc=D.tot?Math.round(100*D.ok/D.tot):0,nmiss=missed().length;
+  const canInstall=!standalone()&&(IP||isIOS);
+  view(`
+  <header class="top"><div class="brand"><img src="icons/icon-192.png" alt="" width="40" height="40"><b>Trivia Bíblica</b></div>
+    <button class="ibtn" id="snd" aria-label="${D.set.snd?"Silenciar":"Activar sonido"}">${D.set.snd?"🔊":"🔇"}</button>
+    <button class="ibtn" id="hlp" aria-label="Cómo jugar">❓</button></header>
+  <section class="card"><div class="prof"><button class="av" id="avb" style="--avc:${avc(me)}" aria-label="Cambiar mi nombre">${esc(ini(me))}</button>
+    <div style="min-width:0"><div class="nm">${esc(me)}</div><div class="rk">${rk.e} ${rk.n}</div><div class="xp"><i style="--w:${rk.pct}%"></i></div>
+    <div class="xpl"><span>${D.pts.toLocaleString("es")} pts</span><span>${rk.next?"Sigue: "+rk.next:"¡Rango máximo!"}</span></div></div></div>
+    <div class="stats3"><div class="st3"><b>🔥 ${streakNow()}</b><span>Racha diaria</span></div><div class="st3"><b>👑 ${D.crowns}</b><span>Coronas</span></div><div class="st3"><b>${acc}%</b><span>Aciertos</span></div></div></section>
+  <section class="vod"><small>Versículo del día</small><p>«${esc(vr.t.replace(/^\(\d+:\d+\)\s*/,""))}»</p><div class="vr"><span>${esc(vr.r)} · RV 1909</span><span><a href="${vr.url}" target="_blank" rel="noopener">Leer ↗</a> &nbsp; <button id="vsh" type="button" aria-label="Compartir versículo como imagen">Compartir</button></span></div></section>
+  <button class="cta" id="rl">${miniWheel()}<div><b>Ruleta de coronas</b><span>Gira, responde y gana ${3} coronas</span></div></button>
+  <div class="tiles">
+    <button class="tile" id="daily" ${done?"disabled":""}><span class="ic" style="--tc:#e49b12">⭐</span><b>Desafío diario</b><small>${done?"¡Completado! Vuelve mañana":"10 preguntas · una vez al día"}</small>${done?"":'<span class="tag">Nuevo</span>'}</button>
+    <button class="tile" id="duel"><span class="ic" style="--tc:#d93a40">⚔️</span><b>Duelo</b><small>Contra un rival</small></button>
+    <button class="tile" id="mix"><span class="ic" style="--tc:#8b47d9">🎲</span><b>Partida rápida</b><small>10 preguntas al azar</small></button>
+    <button class="tile" id="rush"><span class="ic" style="--tc:#d4531a">⏱️</span><b>Contrarreloj</b><small>${D.rush?"Tu récord: "+D.rush+" aciertos":"60 segundos, ¡a toda!"}</small></button>
+    <button class="tile" id="onl"><span class="ic" style="--tc:#127850">🌍</span><b>Con amigos</b><small>Juega en línea</small></button>
+    <button class="tile" id="lib"><span class="ic" style="--tc:#2f6fe0">📚</span><b>Por libro</b><small>Practica un libro</small></button>
+    <button class="tile wide" id="rev" ${nmiss?"":"disabled"}><span class="ic" style="--tc:#0f8a8a">🔁</span><span><b>Repaso de errores</b><small>${nmiss?nmiss+" pregunta"+(nmiss>1?"s":"")+" por repasar":"¡Sin errores pendientes!"}</small></span></button>
+  </div>
+  ${canInstall?`<button class="tile" id="inst" style="width:100%;margin-top:.7rem;min-height:0;flex-direction:row;align-items:center;gap:.8rem"><span class="ic" style="--tc:#2f6fe0">📲</span><span><b style="display:block">Instalar la app</b><small>Ábrela desde tu pantalla de inicio, incluso sin internet</small></span></button>`:""}
+  <h2 class="h2">Niveles <small>10 preguntas · saca 7 para avanzar</small></h2>
+  <div class="lvls">${LN.map((n,i)=>{const s=D.st[n]||[0,0],l=lk(i);return`<button class="lv" data-l="${i}" style="--lc:${LC[i]}" ${l?"disabled":""}><i>${l?"🔒":LE[i]}</i><b>${n}</b><small>${l?"Saca 7/10 en "+LN[i-1]:s[1]?Math.round(100*s[0]/s[1])+"% aciertos":"Sin jugar"}</small></button>`}).join("")}</div>
+  <h2 class="h2">Tema <small>aplica a niveles, rápida, duelo y contrarreloj</small></h2>
+  <div class="pills" role="group" aria-label="Filtrar por bloque"><button class="pill ${F<0?"on":""}" data-f="-1">📖 Toda la Biblia</button>${BLK.map((b,i)=>`<button class="pill ${F===i?"on":""}" data-f="${i}">${b.e} ${b.s}</button>`).join("")}</div>`,"home");
+  $("#snd").onclick=()=>{D.set.snd=D.set.snd?0:1;sv();Snd.play("click");home()};
+  $("#hlp").onclick=help;
+  $("#avb").onclick=()=>askName(home);
+  $("#vsh").onclick=()=>shareVerse(vr.r,vr.t.replace(/^\(\d+:\d+\)\s*/,""));
+  $("#rl").onclick=()=>{Snd.play("click");rSetup()};
+  $("#daily").onclick=()=>{if(D.last===todayS())return;const q=shuffle(QS,rng(hstr(todayS())));startGame(q,"daily")};
+  $("#duel").onclick=()=>startGame(shuffle(inF()),"duel");
+  $("#rush").onclick=()=>startGame(shuffle(inF()),"rush");
+  $("#lib").onclick=()=>{Snd.play("click");libros()};
+  $("#rev").onclick=()=>{const m=missed();if(m.length)startGame(shuffle(m),"rev")};
+  $("#mix").onclick=()=>startGame(shuffle(inF()),"mix");
+  $("#onl").onclick=()=>{Snd.play("click");lobby()};
+  if($("#inst"))$("#inst").onclick=installApp;
+  $$(".lv").forEach(b=>b.onclick=()=>{const l=+b.dataset.l;startGame(pool(l),String(l))});
+  $$(".pill[data-f]").forEach(b=>b.onclick=()=>{F=+b.dataset.f;Snd.play("click");home()});
+}
+const inF=()=>QS.filter(q=>F<0||q.b===F);
+const pool=l=>{const b=inF();return[...shuffle(b.filter(q=>q.l===l)),...shuffle(b.filter(q=>q.l!==l))]};
+async function installApp(){
+  if(IP){IP.prompt();try{const r=await IP.userChoice;if(r.outcome==="accepted")toast("¡Instalando! 🎉")}catch(e){}IP=null;if(VIEW==="home")home();return}
+  modal(`<h3>Instalar la app</h3><p>${isIOS?"En iPhone/iPad: toca el botón <b>Compartir</b> (el cuadrado con la flecha) y elige <b>«Añadir a pantalla de inicio»</b>.":"En Android: abre el menú <b>⋮</b> del navegador y elige <b>«Instalar aplicación»</b> o <b>«Añadir a pantalla de inicio»</b>."}</p>`,[{t:"Entendido",cls:"gold"}])}
+function askName(after){
+  modal(`<h3>¿Cómo te llamas?</h3><p>Tu nombre se usa en la ruleta y en las salas con amigos.</p><input id="nmi" maxlength="14" autocomplete="nickname" placeholder="Tu nombre" value="${esc(D.name||"")}">`,
+    [{t:"Ahora no",cls:"ghost",fn:()=>{D.skipName=1;sv();after&&after()}},{t:"Guardar",cls:"gold",fn:()=>{const v=($("#nmi")||{}).value;D.name=(v||"").trim().slice(0,14);sv();after&&after()}}]);
+  const i=$("#nmi");if(i){i.focus();i.onkeydown=e=>{if(e.key==="Enter"){const b=$$(".mbtns button")[1];b&&b.click()}}}}
+
+/* ============================================================
+   LOGROS
+   ============================================================ */
+function stats(){
+  pushView();const rk=rank(),acc=D.tot?Math.round(100*D.ok/D.tot):0,got=MEDALS.filter(m=>D.medals[m.id]).length;
+  view(`<h1 class="h1">Tu progreso</h1><p class="sub">${rk.e} ${rk.n}${rk.next?" · siguiente: "+rk.next:""}</p>
+  <div class="card"><div class="xp" style="height:.8rem"><i style="--w:${rk.pct}%"></i></div><div class="xpl"><span>${D.pts.toLocaleString("es")} puntos</span><span>${rk.pct}%</span></div></div>
+  <div class="sgrid"><div class="sbox"><b>${D.games}</b><span>Partidas</span></div><div class="sbox"><b>${D.ok}</b><span>Respuestas correctas</span></div>
+    <div class="sbox"><b>${acc}%</b><span>Precisión</span></div><div class="sbox"><b>🔥 ${D.best}</b><span>Mejor racha diaria</span></div>
+    <div class="sbox"><b>👑 ${D.crowns}</b><span>Coronas ganadas</span></div><div class="sbox"><b>🏆 ${D.wins}</b><span>Ruletas ganadas</span></div></div>
+  <h2 class="h2">Aciertos por bloque</h2><div class="card">${BLK.map((b,i)=>{const s=D.bk[i]||[0,0],p=s[1]?Math.round(100*s[0]/s[1]):0;return`<div class="bk" style="--cc:${b.c};--w:${p}%"><span>${b.e}</span><div><div style="margin-bottom:.25rem">${b.n}</div><div class="bar"><i></i></div></div><em>${s[1]?p+"%":"—"}</em></div>`}).join("")}</div>
+  <h2 class="h2">Logros <small>${got} de ${MEDALS.length}</small></h2>
+  <div class="medals">${MEDALS.map(m=>`<div class="md ${D.medals[m.id]?"on":"off"}"><i>${m.e}</i><b>${m.t}</b><small>${m.d}</small></div>`).join("")}</div>`,"stats");
+}
+
+/* ============================================================
+   AJUSTES Y AYUDA
+   ============================================================ */
+function settings(){
+  pushView();const s=D.set,inst=!standalone()&&(IP||isIOS);
+  const sw=(id,on,t,sm)=>`<div class="srow"><div><b>${t}</b><small>${sm}</small></div><button class="switch" role="switch" id="${id}" aria-checked="${!!on}" aria-label="${t}"></button></div>`;
+  view(`<h1 class="h1">Ajustes</h1><p class="sub">Personaliza tu experiencia</p>
+  <div class="card"><label class="lbl" for="sname" style="margin-top:0">Mi nombre</label><input id="sname" maxlength="14" placeholder="Tu nombre" value="${esc(D.name||"")}">
+  ${sw("sSnd",s.snd,"Sonidos","Efectos de acierto, error y ruleta")}${sw("sVib",s.vib,"Vibración","Al responder (solo en celulares compatibles)")}${sw("sBig",s.big,"Texto grande","Letras más grandes en toda la app")}
+  <div class="srow" style="display:block"><b>Tema</b><div class="seg" id="sTh"><button data-v="auto">Automático</button><button data-v="light">Claro</button><button data-v="dark">Oscuro</button></div></div>
+  <div class="srow" style="display:block"><b>Tiempo por pregunta</b><small>Normal: 15 s · Relajado: 30 s. En línea siempre son 15 s</small><div class="seg" id="sTm"><button data-v="15">15 s</button><button data-v="30">30 s</button><button data-v="0">Sin tiempo</button></div></div></div>
+  <div style="margin-top:1rem">${inst?'<button class="btn green" id="sIn">📲 Instalar la app</button>':""}<button class="btn gold" id="sSh">📣 Compartir la app</button><button class="btn ghost" id="sHl">❓ Cómo jugar</button><button class="btn ghost" id="sAb">ℹ️ Acerca de</button><button class="btn ghost" id="sRs" style="color:var(--bad)">🗑️ Borrar mi progreso</button></div>
+  <p class="sub" style="margin-top:1.2rem;font-size:.8rem">Versión ${APPV} · ${QS.length} preguntas</p>`,"settings");
+  const seg=(id,cur,fn)=>{const mark=()=>$$("#"+id+" button").forEach(b=>b.classList.toggle("on",b.dataset.v===String(cur())));mark();$$("#"+id+" button").forEach(b=>b.onclick=()=>{fn(b.dataset.v);sv();Snd.play("click");mark()})};
+  $("#sname").onchange=e=>{D.name=e.target.value.trim().slice(0,14);sv();toast("Nombre guardado ✓")};
+  const tg=(id,k,fn)=>$("#"+id).onclick=e=>{D.set[k]=D.set[k]?0:1;sv();e.currentTarget.setAttribute("aria-checked",!!D.set[k]);fn&&fn();Snd.play("click");if(k==="vib")vib(40)};
+  tg("sSnd","snd");tg("sVib","vib");tg("sBig","big",applyTheme);
+  seg("sTh",()=>D.set.theme,v=>{D.set.theme=v;applyTheme()});seg("sTm",()=>D.set.time,v=>D.set.time=+v);
+  if($("#sIn"))$("#sIn").onclick=installApp;
+  $("#sSh").onclick=()=>shareTxt("✝️ Trivia Bíblica: pon a prueba tu conocimiento de la Palabra. ¡Juega conmigo!",APPURL);
+  $("#sHl").onclick=help;$("#sAb").onclick=about;
+  $("#sRs").onclick=()=>confirmBox("¿Borrar todo tu progreso?","Se borrarán tus puntos, rachas, logros y ajustes. No se puede deshacer.","Borrar todo",()=>{D=DEF();sv();applyTheme();toast("Progreso borrado");home()});
+}
+function help(){
+  modal(`<div class="help"><h3>Cómo jugar</h3>
+  <h3>🎡 Ruleta de coronas</h3><p>Gira la ruleta: cae en un bloque de la Biblia y respondes una pregunta. Con <b>3 aciertos seguidos</b> consigues un <b>desafío de corona</b>: eliges el bloque y la pregunta es más difícil. Si fallas, pasa el turno. Gana quien reúna primero las coronas acordadas.</p>
+  <h3>⭐ Desafío diario</h3><p>10 preguntas, las mismas para todos cada día. Juega todos los días para mantener tu racha 🔥.</p>
+  <h3>🎲 Rápida y ⚔️ Duelo</h3><p>10 preguntas al azar. En el duelo compites contra un rival simulado.</p>
+  <h3>📚 Niveles</h3><p>Saca 7 de 10 para desbloquear el siguiente nivel.</p>
+  <h3>🌍 Con amigos</h3><p>Crea una sala con nombre y contraseña; tus amigos entran con los mismos datos. Puedes jugar solo preguntas o ruleta por turnos.</p>
+  <h3>💡 Comodines</h3><p>En partidas individuales tienes uno de cada uno: <b>50/50</b> quita dos respuestas, <b>+10 s</b> suma tiempo y <b>Cambiar</b> te da otra pregunta.</p>
+  <h3>⭐ Puntos</h3><p>Cada acierto suma 100 puntos, más hasta 50 por rapidez y un bonus si encadenas aciertos.</p></div>`,[{t:"¡A jugar!",cls:"gold"}])}
+function about(){
+  modal(`<h3>✝️ Trivia Bíblica</h3><p>Versión ${APPV} · ${QS.length} preguntas de los 66 libros de la Biblia.</p><p>Los versículos que se muestran son de la Reina-Valera 1909 (dominio público). Con el enlace de cada pregunta puedes leer el pasaje en la Reina-Valera 1960.</p><p>Hecha para crecer juntos en la Palabra.</p>`,[{t:"Cerrar",cls:"gold"}])}
+
+
+/* ============================================================
+   PARTIDA INDIVIDUAL: niveles, rápida, diaria, duelo, contrarreloj,
+   repaso de errores, por libro y «solo preguntas» en línea
+   ============================================================ */
+const MAXQ=10,BOTS=["Mateo","Lidia","Samuel","Rut","Daniel","Débora","Pablo","Ana"];
+const MODEN={daily:"⭐ Desafío diario",mix:"🎲 Partida rápida",duel:"⚔️ Duelo",online:"🌍 Con amigos",rush:"⏱️ Contrarreloj",rev:"🔁 Repaso","0":"🌱 Fácil","1":"📖 Intermedio","2":"🔥 Difícil"};
+const modeLabel=g=>g.mode==="book"?"📖 "+g.book:MODEN[g.mode];
+const missed=()=>QS.filter(q=>D.miss[q.id]);
+const booksQ=k=>QS.filter(q=>bookOf(q.r)===k);
+let lastSec=0;
+
+function logAnswer(q,good){
+  D.tot++;if(good)D.ok++;const bk=D.bk[q.b]||[0,0];bk[1]++;if(good)bk[0]++;D.bk[q.b]=bk;const c=LN[q.l],s=D.st[c]||[0,0];s[1]++;if(good)s[0]++;D.st[c]=s;
+  if(good){if(D.miss[q.id]){delete D.miss[q.id];D.fixed=(D.fixed||0)+1}}
+  else{D.miss[q.id]=Date.now();const ks=Object.keys(D.miss);if(ks.length>150)ks.sort((a,b)=>D.miss[a]-D.miss[b]).slice(0,ks.length-150).forEach(k=>delete D.miss[k])}}
+function ringTick(l,t){const pg=$("#pg"),r=$("#ring");if(!pg)return;pg.style.strokeDashoffset=(100.53*(1-l/t)).toFixed(2);$("#rn").textContent=Math.ceil(l);
+  const w=l<=5&&l>0;r.classList.toggle("warn",w);if(w&&Math.ceil(l)!==lastSec){lastSec=Math.ceil(l);Snd.play("time")}}
+function rushTick(l,t){const b=$("#gbar"),g=$("#gtime"),r=$(".rbar");if(b)b.style.width=Math.max(0,l/t*100).toFixed(1)+"%";if(g)g.textContent=Math.ceil(l);if(r){r.classList.toggle("warn",l<=10);if(l<=5&&l>0&&Math.ceil(l)!==lastSec){lastSec=Math.ceil(l);Snd.play("time")}}}
+function rushEnd(){if(!G||G.over)return;G.over=1;clearTimeout(G.adv);Tm.stop();endGame()}
+function showSheet({good,title,q,btn,btnCls,wait,next}){
+  document.body.classList.add("sheeted");
+  const el=document.createElement("div");el.className="sheet "+(good?"ok":"bad");el.setAttribute("role","status");
+  el.innerHTML=`<div><h3>${title}</h3>${good||!q?"":`<p class="ans">Respuesta correcta: <b>${q.a}</b></p>`}${q?verseHTML(q):""}${btn?`<button class="btn ${btnCls||"blue"}" id="nx">${btn}</button>`:`<p class="sub" style="margin:.2rem 0 0">${wait||""}</p>`}</div>`;
+  document.body.appendChild(el);
+  const vb=$(".vsh",el);if(vb&&q){const v=verseInfo(q);vb.onclick=()=>shareVerse(v.label,v.text)}
+  const b=$("#nx");if(b){b.onclick=()=>{b.disabled=true;next&&next()};b.focus({preventScroll:true})}
+  setTimeout(()=>{const ok=$(".opt.ok"),sh=$(".sheet>div");if(ok&&sh){const r=ok.getBoundingClientRect(),s=sh.getBoundingClientRect();if(r.bottom>s.top-10)window.scrollBy({top:r.bottom-s.top+18,behavior:REDUCED?"auto":"smooth"})}},60)}
+
+/* ---------- versículo como imagen (para WhatsApp, estados, etc.) ---------- */
+function wrapText(x,t,maxW){const w=t.split(/\s+/),L=[];let cur="";for(const word of w){const test=cur?cur+" "+word:word;if(x.measureText(test).width>maxW&&cur){L.push(cur);cur=word}else cur=test}if(cur)L.push(cur);return L}
+function wheelMini(x,cx,cy,r){x.save();x.translate(cx,cy);x.beginPath();x.arc(0,0,r+7,0,6.2832);x.fillStyle="#e8a317";x.fill();
+  for(let i=0;i<6;i++){x.beginPath();x.moveTo(0,0);x.arc(0,0,r,(i*60-90)*Math.PI/180,((i+1)*60-90)*Math.PI/180);x.closePath();x.fillStyle=BLK[i].c;x.fill();x.strokeStyle="#fff";x.lineWidth=2.5;x.stroke()}
+  x.beginPath();x.arc(0,0,r*.3,0,6.2832);x.fillStyle="#fff6d6";x.fill();x.restore()}
+function verseCanvas(label,text){
+  const W=1080,H=1350,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
+  const SER='"Iowan Old Style","Palatino Linotype",Palatino,"Noto Serif","Book Antiqua",Georgia,serif',SANS='system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
+  let g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,"#1c3d95");g.addColorStop(.5,"#0f1d4d");g.addColorStop(1,"#070e26");x.fillStyle=g;x.fillRect(0,0,W,H);
+  g=x.createRadialGradient(W/2,300,10,W/2,300,820);g.addColorStop(0,"rgba(246,195,80,.22)");g.addColorStop(1,"rgba(246,195,80,0)");x.fillStyle=g;x.fillRect(0,0,W,H);
+  x.strokeStyle="rgba(255,255,255,.045)";x.lineWidth=5;x.lineCap="round";
+  for(let i=0;i<W;i+=130)for(let j=0;j<H;j+=130){const cx=i+65,cy=j+65;x.beginPath();x.moveTo(cx,cy-16);x.lineTo(cx,cy+16);x.moveTo(cx-16,cy);x.lineTo(cx+16,cy);x.stroke()}
+  const rr=(a,b,w,h,r)=>{x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()};
+  x.strokeStyle="#f6c350";x.lineWidth=6;rr(44,44,W-88,H-88,44);x.stroke();
+  x.strokeStyle="rgba(246,195,80,.4)";x.lineWidth=2;rr(68,68,W-136,H-136,32);x.stroke();
+  x.fillStyle="#f6c350";x.fillRect(W/2-9,150,18,84);x.fillRect(W/2-34,172,68,18);x.fillRect(W/2-250,196,190,3);x.fillRect(W/2+60,196,190,3);
+  x.textAlign="center";x.textBaseline="alphabetic";
+  const t="«"+text+"»";let size=72,lines=[];
+  for(;size>=34;size-=2){x.font=`italic 600 ${size}px ${SER}`;lines=wrapText(x,t,800);if(lines.length*size*1.38<=680)break}
+  const lh=size*1.38,top=625-lines.length*lh/2+size*.9;
+  x.fillStyle="#fff4d6";lines.forEach((l,i)=>x.fillText(l,W/2,top+i*lh));
+  const ry=Math.min(1050,top+lines.length*lh+58);
+  x.fillStyle="#f6c350";x.font=`bold 50px ${SANS}`;x.fillText(label,W/2,ry);
+  x.fillStyle="rgba(255,244,214,.7)";x.font=`500 30px ${SANS}`;x.fillText("Reina-Valera 1909",W/2,ry+50);
+  const cx=W/2-190,cy=1190;wheelMini(x,cx,cy,40);x.textAlign="left";x.fillStyle="#f6c350";x.font=`bold 52px ${SER}`;x.fillText("Trivia Bíblica",cx+66,cy+18);
+  return c}
+let svBusy=0;
+async function shareVerse(label,text){
+  if(svBusy)return;svBusy=1;toast("Preparando la imagen…",{ms:2500});
+  try{
+    let blob=null;try{blob=await new Promise(r=>verseCanvas(label,text).toBlob(r,"image/jpeg",.92))}catch(e){}
+    if(!blob)return shareTxt(`«${text}» — ${label} (RV 1909)\n✝️ Trivia Bíblica`,APPURL);
+    const file=new File([blob],"versiculo.jpg",{type:"image/jpeg"}),url=URL.createObjectURL(blob);
+    const can=!!(navigator.canShare&&navigator.canShare({files:[file]}));
+    modal(`<h3>Versículo para compartir</h3><img class="vimg" src="${url}" alt="${esc(label)}"><p>${can?"Compártelo por WhatsApp, en tus estados o donde quieras.":"Mantén presionada la imagen para guardarla."}</p>`,
+      [{t:"Cerrar",cls:"ghost"},can?{t:"Compartir",cls:"gold",fn:()=>{navigator.share({files:[file],text:`«${text}» — ${label}`}).catch(()=>{})}}:{t:"Guardar",cls:"gold",fn:()=>{const a=document.createElement("a");a.href=url;a.download="versiculo.jpg";document.body.appendChild(a);a.click();a.remove()}}]);
+  }finally{svBusy=0;$("#toast").classList.remove("on")}}
+
+/* ---------- elegir un libro ---------- */
+function libros(){
+  pushView();
+  view(`<h1 class="h1">📚 Por libro</h1><p class="sub">Elige un libro y practica solo con sus preguntas.</p>
+  ${BLK.map(b=>`<h2 class="h2"><span>${b.e} ${b.n}</span></h2><div class="bkl">${b.b.split(",").map(k=>`<button class="bkc" style="--cc:${b.c}" data-b="${esc(k)}">${esc(k)}<small>${BOOKN[k]||0}</small></button>`).join("")}</div>`).join("")}
+  <button class="btn ghost" id="bk" style="margin-top:1.4rem">Volver</button>`,"libros");
+  $$(".bkc").forEach(b=>b.onclick=()=>{const k=b.dataset.b;Snd.play("click");startGame(shuffle(booksQ(k)),"book",{book:k})});
+  $("#bk").onclick=goHome}
+
+function startGame(qs,mode,x={}){
+  const online=mode==="online",rush=mode==="rush",max=rush?qs.length:MAXQ;
+  G=Object.assign({qs:qs.slice(0,max),spare:rush?[]:qs.slice(max,max+3),mode,i:0,pts:0,ok:0,combo:0,best:0,rv:0,rn:BOTS[Math.random()*BOTS.length|0],res:[],tl:online?15:rush?0:D.set.time,life:{f:1,t:1,s:1},over:0},x);
+  G.n=G.qs.length;wake(true);pushView();ask();
+  if(rush)Tm.start(60,rushTick,rushEnd)}
+
+function ask(){
+  clearTimeout(G.rtm);
+  const q=G.qs[G.i],b=BLK[q.b],online=G.mode==="online",duel=G.mode==="duel",rush=G.mode==="rush",tl=G.tl;
+  G.q=q;G.o=optsOf(q);G.done=0;G.gone=[];lastSec=0;
+  const dots=G.qs.map((_,i)=>`<i class="${i<G.i?(G.res[i]?"ok":"bad"):i===G.i?"cur":""}"></i>`).join("");
+  const ring=tl?`<div class="ring" id="ring" aria-hidden="true"><svg viewBox="0 0 40 40"><circle class="tr" cx="20" cy="20" r="16"/><circle class="pg" id="pg" cx="20" cy="20" r="16"/></svg><b id="rn">${tl}</b></div>`:"";
+  const lf=(online||rush)?"":`<div class="life"><button class="lf" data-k="f" ${G.life.f?"":"disabled"}><span>✂️</span>50/50<em>${G.life.f}</em></button>${tl?`<button class="lf" data-k="t" ${G.life.t?"":"disabled"}><span>⏱️</span>+10 s<em>${G.life.t}</em></button>`:""}<button class="lf" data-k="s" ${G.life.s&&G.spare.length?"":"disabled"}><span>🔄</span>Cambiar<em>${G.life.s}</em></button></div>`;
+  const me=D.name||"Tú",vs=duel?`<div class="vs"><div class="p"><span class="av" style="--avc:${avc(me)}">${esc(ini(me))}</span><b>${esc(me)}</b><span class="sc" id="my">${G.pts}</span></div><span class="x">VS</span><div class="p" id="rvp"><span class="av" style="--avc:${avc(G.rn)}">${esc(ini(G.rn))}</span><b>${esc(G.rn)}</b><span class="sc" id="rv">${G.rv}</span></div></div>`:"";
+  const rl=rush&&G.i>0?Math.max(0,Tm.left):60;
+  const bar=rush?`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="rbar" role="timer" aria-label="Tiempo restante"><i id="gbar" style="width:${(rl/60*100).toFixed(1)}%"></i><b id="gtime">${Math.ceil(rl)}</b></div><div class="pill gold" id="sc">✅ ${G.ok}</div></div>`
+    :`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="dots" role="img" aria-label="Pregunta ${G.i+1} de ${G.n}">${dots}</div>${duel?"":`<div class="pill gold" id="sc">⭐ ${G.pts}</div>`}</div>`;
+  view(`${bar}${vs}${online?'<div class="live" id="sb"></div>':""}
+  <div class="qcard" style="${catStyle(b)}"><div class="qhead"><div><span class="qn">${modeLabel(G)} · ${rush?"#"+(G.i+1):(G.i+1)+"/"+G.n}</span>${b.e} ${b.n}</div>${ring}</div><p class="q">${q.q}</p></div>
+  <div class="combo" id="cb" aria-live="polite">${G.combo>=3&&!rush?`<span>🔥 Racha de ${G.combo}</span>`:""}</div>
+  <div class="opts" role="group" aria-label="Respuestas">${G.o.map((o,i)=>`<button class="opt" data-i="${i}"><span class="ltr">${"ABCD"[i]}</span><span>${o}</span></button>`).join("")}</div>${lf}`,"play");
+  $("#ex").onclick=confirmExit;
+  $$(".opt").forEach(x=>x.onclick=()=>pick(+x.dataset.i));
+  $$(".lf").forEach(x=>x.onclick=()=>useLife(x.dataset.k));
+  if(tl)Tm.start(tl,ringTick,()=>pick(-1));
+  if(online)updSB();
+  if(duel){G.rdone=0;G.rt=3+Math.random()*9;G.rc=Math.random()<[.85,.7,.5][q.l];G.rtm=setTimeout(rivalAnswer,G.rt*1000)}
+}
+function rivalAnswer(){
+  if(!G||G.rdone)return;G.rdone=1;
+  if(G.rc)G.rv+=100+Math.round(Math.max(0,1-G.rt/(G.tl||15))*50);
+  const e=$("#rv");if(e)e.textContent=G.rv;const p=$("#rvp");if(p){p.classList.remove("hit");void p.offsetWidth;p.classList.add("hit")}}
+function useLife(k){
+  if(!G||G.done||!G.life[k])return;
+  if(k==="s"){if(!G.spare.length)return;G.life.s--;G.qs[G.i]=G.spare.shift();Snd.play("click");ask();return}
+  G.life[k]--;Snd.play("click");
+  if(k==="f"){const w=G.o.map((_,x)=>x).filter(x=>G.o[x]!==G.q.a&&!G.gone.includes(x));shuffle(w).slice(0,2).forEach(x=>{G.gone.push(x);const o=$$(".opt")[x];o.classList.add("gone");o.disabled=true})}
+  if(k==="t")Tm.add(10);
+  const b=$(`.lf[data-k="${k}"]`);if(b){b.disabled=true;$("em",b).textContent=G.life[k]}}
+
+function pick(i){
+  if(!G||G.done||G.over)return;G.done=1;const rush=G.mode==="rush";if(!rush)Tm.stop();
+  if(G.mode==="duel"&&!G.rdone){clearTimeout(G.rtm);rivalAnswer()}
+  const q=G.q,good=i>=0&&G.o[i]===q.a;
+  $$(".opt").forEach((o,x)=>{o.disabled=true;if(G.o[x]===q.a)o.classList.add("ok");else if(x===i)o.classList.add("bad");else o.classList.add("dim")});
+  $$(".lf").forEach(b=>b.disabled=true);
+  let gain=0,bonus=0;
+  if(good){G.combo++;G.best=Math.max(G.best,G.combo);D.combo=Math.max(D.combo||0,G.combo);
+    const tb=rush?0:G.tl?Math.round(Math.min(1,Tm.left/G.tl)*50):25;bonus=G.combo>=2?Math.min(5,G.combo-1)*10:0;gain=100+tb+bonus;G.pts+=gain;G.ok++;Snd.play("ok");vib(30)}
+  else{G.combo=0;Snd.play("bad");vib([60,40,60]);if(rush)Tm.left=Math.max(0,Tm.left-4)}
+  G.res[G.i]=good?1:0;logAnswer(q,good);
+  if(G.mode==="online"&&RM)RM.presence({score:G.pts,i:G.i+1});
+  const sc=$("#sc");if(sc)sc.textContent=rush?"✅ "+G.ok:"⭐ "+G.pts;const my=$("#my");if(my)my.textContent=G.pts;
+  if(rush){const cb=$("#cb");if(cb)cb.innerHTML=good?`<span>✅ +${gain}${G.combo>=3?" · 🔥 x"+G.combo:""}</span>`:'<span style="background:linear-gradient(180deg,#d23f45,#b92b32);box-shadow:0 3px 0 #7d1b20">❌ −4 s</span>';
+    G.adv=setTimeout(()=>{if(!G||G.over)return;G.i++;G.i<G.qs.length?ask():rushEnd()},good?420:950);return}
+  if(good&&G.combo>=3)$("#cb").innerHTML=`<span>🔥 Racha de ${G.combo} · +${bonus}</span>`;else $("#cb").innerHTML="";
+  const last=G.i+1>=G.n;
+  showSheet({good,q,title:good?`¡Correcto! <b>+${gain}</b>`:i<0?"¡Se acabó el tiempo!":"Incorrecto",btn:last?"Ver resultado":"Siguiente",btnCls:good?"green":"blue",next:()=>{G.i++;G.i<G.n?ask():endGame()}});
+}
+
+function countUp(el,to,ms=900){if(!el)return;if(REDUCED||!to){el.textContent=to;return}const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/ms);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)}
+function shareText(g){const n=g.mode==="rush"?g.res.length:g.n;
+  const nm={daily:"Desafío diario "+todayS(),mix:"Partida rápida",duel:"Duelo",online:"Partida con amigos",rush:"Contrarreloj",rev:"Repaso de errores",book:"Libro de "+g.book,"0":"Nivel Fácil","1":"Nivel Intermedio","2":"Nivel Difícil"};
+  const line=g.mode==="rush"?`⏱️ ${g.ok} aciertos en 60 s`:`${g.res.map(x=>x?"🟩":"🟥").join("")} ${g.ok}/${n}`;
+  return`✝️ Trivia Bíblica · ${nm[g.mode]}\n${line}\n⭐ ${g.pts} puntos\n${APPURL}`}
+function endGame(){
+  Tm.stop();const g=G,before=rank().i,rush=g.mode==="rush",n=rush?g.res.length:g.n;
+  D.pts+=g.pts;D.games++;if(!rush&&g.ok===n&&n>=10)D.perfect++;
+  let extra="",duelTxt="";
+  if(/^[012]$/.test(g.mode)&&g.ok>=7){const m=+g.mode,nw=!D.pass[m]&&m<2;D.pass[m]=1;if(nw)extra+=`<span class="chip new">🔓 Nivel ${LN[m+1]} desbloqueado</span>`}
+  if(g.mode==="daily"){const y=day(new Date(Date.now()-864e5));D.streak=D.last===y?D.streak+1:1;D.last=todayS();D.best=Math.max(D.best,D.streak);extra+=`<span class="chip new">🔥 Racha: ${D.streak} día${D.streak>1?"s":""}</span>`}
+  if(g.mode==="duel"){const w=g.pts>g.rv,t=g.pts===g.rv;if(w)D.duels++;
+    duelTxt=`<p class="msg">${w?"🏆 ¡Ganaste el duelo!":t?"🤝 Empate":"Perdiste el duelo, ¡revancha!"}</p><p class="sub" style="margin:.1rem 0 .4rem">${esc(D.name||"Tú")}: ${g.pts} · ${esc(g.rn)}: ${g.rv}</p>`}
+  if(g.mode==="online"){D.online++;if(RM)RM.presence({score:g.pts,done:1})}
+  if(rush){const rec=g.ok>(D.rush||0);if(rec)D.rush=g.ok;extra+=`<span class="chip new">🏅 ${rec?"¡Nuevo récord!":"Tu récord"}: ${D.rush}</span>`}
+  const nm=checkMedals();
+  if(g.mode==="rev"){const left=missed().length;extra+=`<span class="chip new">✅ ${g.ok} dominada${g.ok===1?"":"s"}</span><span class="chip">${left?left+" por repasar":"¡Sin pendientes!"}</span>`}
+  sv();const rk=rank(),ratio=n?g.ok/n:0;
+  const stars=rush?(g.ok>=15?3:g.ok>=10?2:g.ok>=5?1:0):(ratio>=.9?3:ratio>=.7?2:ratio>=.4?1:0),good=rush?g.ok>=10:ratio>=.7;
+  const msg=rush?(g.ok>=15?"¡Increíble velocidad!":g.ok>=8?"¡Muy buen tiempo!":"¡Buen intento, inténtalo otra vez!"):(ratio===1&&n>=3?"¡Perfecto! Eres un erudito bíblico.":ratio>=.7?"¡Muy bien! Sigue creciendo en la Palabra.":ratio>=.4?"Vas por buen camino, ¡sigue practicando!":"Sigue estudiando, ¡la Palabra es una luz!");
+  const trophy=rush?(g.ok>=15?"🏆":g.ok>=10?"🎉":"⏱️"):(ratio===1&&n>=3?"🏆":ratio>=.7?"🎉":ratio>=.4?"📖":"🌱");
+  view(`<div class="res"><div class="trophy">${trophy}</div>
+  <div class="stars" aria-label="${stars} de 3 estrellas">${[0,1,2].map(i=>`<span class="${i<stars?"on":""}" style="animation-delay:${.35+i*.22}s">⭐</span>`).join("")}</div>
+  <div class="score" id="scn">0</div><p class="sub" style="margin:.1rem 0 0">puntos · ${g.ok}/${n} correctas</p>
+  <p class="msg">${msg}</p>${duelTxt}
+  <div class="chips">${extra}${nm.map(m=>`<span class="chip new">${m.e} ${m.t}</span>`).join("")}${rk.i>before?`<span class="chip new">${rk.e} Nuevo rango: ${rk.n}</span>`:""}${g.best>=3?`<span class="chip">⚡ Mejor racha: ${g.best}</span>`:""}</div>
+  ${g.mode==="online"?'<div class="card rank" id="rk"></div>':""}</div>
+  ${g.mode==="daily"?"":'<button class="btn gold" id="again">Jugar de nuevo</button>'}<button class="btn ghost" id="shr">📣 Compartir resultado</button><button class="btn ghost" id="hm">Inicio</button>`,"result");
+  countUp($("#scn"),g.pts);
+  if(good){confetti();Snd.play("win")}else Snd.play(stars>=1?"ok":"lose");
+  if(g.mode==="online")setTimeout(()=>updRank(),80);
+  const ag=$("#again");if(ag)ag.onclick=()=>{const m=g.mode;
+    if(m==="mix"||m==="duel"||m==="rush")startGame(shuffle(inF()),m);
+    else if(m==="online")lobby();
+    else if(m==="book")startGame(shuffle(booksQ(g.book)),"book",{book:g.book});
+    else if(m==="rev"){const ms=missed();if(ms.length)startGame(shuffle(ms),"rev");else{toast("¡No te quedan errores por repasar! 🎉");goHome()}}
+    else startGame(pool(+m),m)};
+  $("#shr").onclick=()=>shareTxt(shareText(g));
+  $("#hm").onclick=goHome;
+}
+
+
+/* ============================================================
+   RULETA DE CORONAS
+   Un solo motor para partida local y en línea: todo cambio de estado
+   es un evento (s=giro, c=elige bloque, a=respuesta, n=continuar).
+   En línea, cada jugador publica sus eventos y los demás los repiten.
+   ============================================================ */
+const PCOL=["#3e82f7","#e5484d","#2fbf7e","#9b5de5"];
+let EV=[];
+function wheelSVG(){
+  let s=`<svg class="wheel" id="wsvg" viewBox="-122 -134 244 256" role="img" aria-label="Ruleta con los seis bloques de la Biblia"><defs><radialGradient id="sh" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></radialGradient><linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe28f"/><stop offset=".5" stop-color="#e49b12"/><stop offset="1" stop-color="#8a5a06"/></linearGradient></defs><circle r="119" fill="url(#rim)"/><circle r="109" fill="#2a1a00" opacity=".55"/>`;
+  for(let i=0;i<16;i++){const a=i*22.5*Math.PI/180;s+=`<circle class="bulb ${i%2?"b2":""}" cx="${(114*Math.cos(a)).toFixed(1)}" cy="${(114*Math.sin(a)).toFixed(1)}" r="2.7" fill="#fff6cc"/>`}
+  s+='<g id="wh">';
+  for(let i=0;i<6;i++){const a=(i*60-90)*Math.PI/180,b=((i+1)*60-90)*Math.PI/180,m=(a+b)/2,x=68*Math.cos(m),y=68*Math.sin(m);
+    s+=`<path d="M0 0L${(105*Math.cos(a)).toFixed(2)} ${(105*Math.sin(a)).toFixed(2)}A105 105 0 0 1 ${(105*Math.cos(b)).toFixed(2)} ${(105*Math.sin(b)).toFixed(2)}Z" fill="${BLK[i].c}" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>`;
+    s+=`<text x="${x.toFixed(1)}" y="${(y+10).toFixed(1)}" font-size="30" text-anchor="middle" transform="rotate(${i*60+30} ${x.toFixed(1)} ${y.toFixed(1)})">${BLK[i].e}</text>`}
+  s+='<circle r="105" fill="url(#sh)"/></g>';
+  s+='<circle r="24" fill="url(#rim)" stroke="#fff" stroke-width="2"/><circle r="18" fill="#fff6d6"/><path d="M-2.6-11h5.2v6.2h6.2v5.2h-6.2v9.6h-5.2v-9.6h-6.2v-5.2h6.2z" fill="#7a4a00"/>';
+  s+='<g id="ptr"><path d="M-12-127L12-127L0-96Z" fill="#fff" stroke="#7a4a00" stroke-width="3" stroke-linejoin="round"/><circle cy="-119" r="3.2" fill="#d93a40"/></g></svg>';
+  return s}
+function spinWheel(idx,done){
+  const g=$("#wh"),ptr=$("#ptr"),box=$(".wheelbox");let fin=0;
+  const dur=REDUCED?700:3400,th=360*5-(idx*60+30+(Math.random()-.5)*34),T0=performance.now();let lastK=0;
+  const end=()=>{if(fin)return;fin=1;if(g)g.setAttribute("transform","rotate("+th.toFixed(2)+")");if(box)box.classList.remove("spinning");done()};
+  if(!g){end();return}
+  if(box)box.classList.add("spinning");
+  (function f(now){const p=Math.min(1,(now-T0)/dur),a=th*(1-Math.pow(1-p,4));g.setAttribute("transform","rotate("+a.toFixed(2)+")");
+    const k=Math.floor(a/60);if(k!==lastK){lastK=k;if(!REDUCED){Snd.play("tick");if(ptr){ptr.setAttribute("transform","rotate(-16 0 -127)");setTimeout(()=>ptr.removeAttribute("transform"),70)}}}
+    if(p<1&&!fin)requestAnimationFrame(f);else end()})(T0);
+  setTimeout(end,dur+300)}
+
+const crownsHTML=(n,w)=>"👑".repeat(n)+(w>n?`<span class="off">${"👑".repeat(w-n)}</span>`:"");
+const rBar=()=>`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="ttl">🎡 Ruleta de coronas</div><span style="width:2.75rem"></span></div>`;
+const board=()=>`<div class="board">${R.ps.map((p,i)=>`<div class="pl${i===R.t?" on":""}"><span class="av" style="background:${PCOL[i%4]}">${esc(ini(p.n))}</span><b>${esc(p.n)}${p.bot?" 🤖":""}${R.on&&i===R.mi?" (tú)":""}</b><span class="cr" aria-label="${p.cr} de ${R.win} coronas">${crownsHTML(p.cr,R.win)}</span></div>`).join("")}</div>`;
+const pips=()=>`<div class="pips" aria-label="Racha ${R.row} de 3">${[0,1,2].map(i=>`<i class="${i<R.row?"on":""}"></i>`).join("")}<span style="margin-left:.4rem">${R.row>=3?"¡Desafío de corona!":"3 seguidas = desafío de corona"}</span></div>`;
+const legend=()=>`<div class="legend">${BLK.map(b=>`<span style="--cc:${b.c}"><i></i>${b.e} ${b.s}</span>`).join("")}</div>`;
+const humanTurn=()=>R.on?R.t===R.mi:!R.ps[R.t].bot;
+
+function rSetup(){
+  pushView();let mode="bot",win=3,n=2;const names=[D.name||"","","",""];
+  view(`<h1 class="h1">🎡 Ruleta de coronas</h1><p class="sub">Gira la ruleta y responde. Con 3 aciertos seguidos juegas un desafío de corona. ¡Un error pasa el turno!</p>
+  <div class="card"><label class="lbl" style="margin-top:0">¿Cómo quieres jugar?</label><div class="seg" id="rm"><button data-v="bot">🤖 Contra la compu</button><button data-v="amigos">👥 Con amigos aquí</button></div>
+  <div id="rin"></div><label class="lbl">Coronas para ganar</label><div class="seg" id="rw"><button data-v="2">2</button><button data-v="3">3</button><button data-v="4">4</button></div></div>
+  <div style="margin-top:1rem"><button class="btn gold" id="gs">Empezar</button><button class="btn ghost" id="bk">Volver</button></div>`,"setup");
+  const keep=()=>$$("#rin input").forEach(e=>names[+e.dataset.i]=e.value);
+  const draw=()=>{
+    $$("#rm button").forEach(b=>b.classList.toggle("on",b.dataset.v===mode));$$("#rw button").forEach(b=>b.classList.toggle("on",+b.dataset.v===win));
+    const cnt=mode==="bot"?1:n;
+    $("#rin").innerHTML=Array.from({length:cnt},(_,i)=>`<label class="lbl" for="p${i}">${mode==="bot"?"Tu nombre":"Jugador "+(i+1)}</label><input id="p${i}" data-i="${i}" maxlength="14" placeholder="${mode==="bot"?"Tu nombre":"Nombre del jugador "+(i+1)}" value="${esc(names[i])}" autocomplete="off">`).join("")
+      +(mode==="bot"?'<p class="note">Jugarás contra un rival simulado 🤖.</p>':`<div class="two" style="margin-top:.9rem"><button class="btn ghost sm" id="addp" ${n>=4?"disabled":""}>＋ Jugador</button><button class="btn ghost sm" id="delp" ${n<=2?"disabled":""}>－ Quitar</button></div>`);
+    const a=$("#addp"),d=$("#delp");if(a)a.onclick=()=>{keep();n++;draw()};if(d)d.onclick=()=>{keep();n--;draw()}};
+  $$("#rm button").forEach(b=>b.onclick=()=>{keep();mode=b.dataset.v;Snd.play("click");draw()});
+  $$("#rw button").forEach(b=>b.onclick=()=>{keep();win=+b.dataset.v;Snd.play("click");draw()});
+  draw();$("#bk").onclick=goHome;
+  $("#gs").onclick=()=>{keep();let ps;
+    if(mode==="bot"){const me=(names[0]||"").trim()||"Jugador";D.name=(names[0]||"").trim()||D.name;sv();let bn=BOTS[Math.random()*BOTS.length|0];if(bn===me)bn=BOTS[(BOTS.indexOf(bn)+1)%BOTS.length];ps=[{n:me},{n:bn,bot:true}]}
+    else{const seen={};ps=names.slice(0,n).map((x,i)=>{let v=(x||"").trim()||"Jugador "+(i+1);if(seen[v.toLowerCase()])v+=" "+(i+1);seen[v.toLowerCase()]=1;return{n:v}});if((names[0]||"").trim()){D.name=names[0].trim();sv()}}
+    ruleta(ps,win,false)}}
+function ruleta(ps,win,on,seed,mi){
+  EV=[];R={on:!!on,ps:ps.map(p=>({n:p.n,cr:0,k:0,bot:!!p.bot})),t:0,row:0,used:new Set(),win:win||3,rg:on?rng(seed):Math.random,mi:mi||0,me:on?mi:0,phase:"turn",q:null};
+  wake(true);pushView();rTurn("¡Comienza la partida!")}
+function emit(e){if(!R)return;if(R.on){EV.push(e);R.ps[R.mi].k++;if(RM)RM.presence({ev:EV.slice()})}rApply(e)}
+function pickQ(b,min){const all=QS.filter(q=>q.b===b&&q.l>=min);let p=all.filter(q=>!R.used.has(q.q));if(!p.length){all.forEach(q=>R.used.delete(q.q));p=all}const q=p[Math.floor(R.rg()*p.length)];R.used.add(q.q);return q}
+function rMake(i,cr){const q=pickQ(i,cr?1:0);return{q,o:optsOf(q,R.rg),i,cr}}
+function botPick(){const q=R.q.q,o=R.q.o,ci=o.indexOf(q.a);if(Math.random()<[.85,.7,.5][q.l])return ci;const w=o.map((_,i)=>i).filter(i=>i!==ci);return w[Math.floor(Math.random()*w.length)]}
+function rApply(e){
+  if(!R)return;const k=e[0],v=e[1];
+  if(k==="s"){if(R.phase!=="turn")return;R.q=rMake(v,false);R.phase="spin";const sp=$("#sp");if(sp)sp.disabled=true;
+    spinWheel(v,()=>{if(!R||R.phase!=="spin")return;const b=BLK[v],sl=$("#slot");if(sl)sl.innerHTML=`<div class="catpill" style="${catStyle(b)}">${b.e} ${b.n}</div>`;Snd.play("click");
+      setTimeout(()=>{if(R&&R.phase==="spin")rShowQ()},1100)})}
+  else if(k==="c"){if(R.phase!=="crown")return;R.q=rMake(v,true);rShowQ()}
+  else if(k==="a"){if(!R.q||(R.phase!=="ask"&&R.phase!=="spin"))return;rFin(v)}
+  else if(k==="n"){if(R.phase!=="fin")return;rNext()}}
+function rTurn(msg){
+  R.phase="turn";R.q=null;clearTimeout(R.bt);Tm.stop();const p=R.ps[R.t],mine=humanTurn();
+  view(`${rBar()}${board()}<p class="turn">${msg}<br><b>Turno de ${esc(p.n)}${R.on&&R.t===R.mi?" (tú)":""}</b></p>${pips()}<div class="wheelbox">${wheelSVG()}</div>
+  <div id="slot">${mine?'<button class="btn gold" id="sp">¡Girar!</button>':`<p class="sub" style="margin:.2rem 0">${p.bot?esc(p.n)+" está girando…":"Esperando a que "+esc(p.n)+" gire…"}</p>`}</div>${legend()}`,"play");
+  $("#ex").onclick=confirmExit;
+  if(mine)$("#sp").onclick=()=>{Snd.play("click");emit(["s",Math.floor(Math.random()*6)])};
+  else if(p.bot)R.bt=setTimeout(()=>{if(R&&R.phase==="turn")emit(["s",Math.floor(Math.random()*6)])},1000)}
+function rCrown(){
+  R.phase="crown";clearTimeout(R.bt);const p=R.ps[R.t],mine=humanTurn();
+  view(`${rBar()}${board()}<h2 class="h1" style="margin-top:.9rem">👑 ¡Desafío de corona!</h2><p class="sub">${esc(p.n)}, elige el bloque${mine?":":"…"}</p>
+  <div class="cats">${BLK.map((b,i)=>`<button class="cat" data-i="${i}" style="${catStyle(b)}" ${mine?"":"disabled"}><i>${b.e}</i>${b.n}</button>`).join("")}</div>`,"play");
+  $("#ex").onclick=confirmExit;
+  if(mine)$$(".cat").forEach(b=>b.onclick=()=>{Snd.play("click");emit(["c",+b.dataset.i])});
+  else if(p.bot)R.bt=setTimeout(()=>{if(R&&R.phase==="crown")emit(["c",Math.floor(Math.random()*6)])},1400)}
+function rQView(){
+  const{q,o,i,cr}=R.q,b=BLK[i],p=R.ps[R.t],mine=humanTurn(),tl=R.on?15:D.set.time;
+  const ring=tl&&mine?`<div class="ring" id="ring" aria-hidden="true"><svg viewBox="0 0 40 40"><circle class="tr" cx="20" cy="20" r="16"/><circle class="pg" id="pg" cx="20" cy="20" r="16"/></svg><b id="rn">${tl}</b></div>`:"";
+  view(`${rBar()}<div class="qcard" style="${catStyle(b)}"><div class="qhead"><div><span class="qn">${esc(p.n)}${cr?" · 👑 Desafío de corona":""}</span>${b.e} ${b.n}</div>${ring}</div><p class="q">${q.q}</p></div>
+  <div class="opts" style="margin-top:1rem" role="group" aria-label="Respuestas">${o.map((x,j)=>`<button class="opt" data-i="${j}" ${mine?"":"disabled"}><span class="ltr">${"ABCD"[j]}</span><span>${x}</span></button>`).join("")}</div>
+  ${mine?"":`<p class="sub" style="margin-top:.9rem">${p.bot?esc(p.n)+" está pensando…":esc(p.n)+" está respondiendo…"}</p>`}`,"play");
+  $("#ex").onclick=confirmExit}
+function rShowQ(){
+  R.phase="ask";rQView();const p=R.ps[R.t],mine=humanTurn(),tl=R.on?15:D.set.time;lastSec=0;
+  if(mine){$$(".opt").forEach(x=>x.onclick=()=>{Tm.stop();emit(["a",+x.dataset.i])});if(tl)Tm.start(tl,ringTick,()=>emit(["a",-1]))}
+  else if(p.bot)R.bt=setTimeout(()=>{if(R&&R.phase==="ask")emit(["a",botPick()])},2200)}
+function rFin(j){
+  if(!$(".opt"))rQView();
+  R.phase="fin";Tm.stop();clearTimeout(R.bt);
+  const{q,o,cr}=R.q,p=R.ps[R.t],ok=j>=0&&o[j]===q.a,nm=esc(p.n),isMe=R.t===R.me,other=p.bot||(R.on&&!isMe);
+  R.ok=ok;let msg;
+  if(ok){if(cr){p.cr++;R.row=0;msg=`👑 ¡Corona para ${nm}!`;if(isMe)D.crowns++}else{R.row++;msg=other?nm+" acertó":"¡Correcto!"}}
+  else{R.row=0;msg=j<0?"¡Se acabó el tiempo!":other?nm+" falló":"Incorrecto"}
+  if(isMe){logAnswer(q,ok);sv()}
+  $$(".opt").forEach((x,k)=>{x.disabled=true;if(o[k]===q.a)x.classList.add("ok");else if(k===j)x.classList.add("bad");else x.classList.add("dim")});
+  if(ok&&cr){Snd.play("crown");confetti(60)}else Snd.play(ok?"ok":"bad");if(isMe)vib(ok?30:[60,40,60]);
+  const can=R.on?R.t===R.mi:true;
+  showSheet({good:ok,q,title:msg,btn:can?"Continuar":null,btnCls:ok?"green":"blue",wait:`Esperando a que ${nm} continúe…`,next:()=>emit(["n"])})}
+function rNext(){
+  const p=R.ps[R.t],ok=R.ok,cr=R.q&&R.q.cr;R.q=null;
+  if(p.cr>=R.win)return rEnd(p);
+  if(ok&&cr)return rTurn("¡Sigue el turno!");
+  if(ok&&R.row>=3)return rCrown();
+  if(ok)return rTurn("¡Sigue tu turno!");
+  R.t=(R.t+1)%R.ps.length;R.row=0;rTurn("Cambio de turno")}
+function rEnd(p){
+  R.phase="end";clearTimeout(R.bt);const won=p===R.ps[R.me];
+  D.games++;if(won)D.wins++;if(R.on)D.online++;const nm=checkMedals();sv();
+  view(`<div class="res"><div class="trophy">🏆</div><h1 class="h1" style="font-size:1.9rem">¡${esc(p.n)} ganó!</h1><p class="sub">${won?"¡Felicidades, buen trabajo!":"¡Buena partida!"}</p>
+  <div class="card rank">${R.ps.map(q=>`<div class="${q===p?"me":""}"><span>${esc(q.n)}${q.bot?" 🤖":""}</span><span>${"👑".repeat(q.cr)||"—"}</span></div>`).join("")}</div>
+  <div class="chips">${nm.map(m=>`<span class="chip new">${m.e} ${m.t}</span>`).join("")}</div></div>
+  <button class="btn gold" id="ag">${R.on?"Volver a la sala":"Revancha"}</button><button class="btn ghost" id="hm">Inicio</button>`,"result");
+  if(won){confetti();Snd.play("win")}else Snd.play("lose");
+  $("#ag").onclick=()=>{if(R.on)lobby();else{R.ps.forEach(q=>q.cr=0);R.t=0;R.row=0;rTurn("¡Revancha!")}};
+  $("#hm").onclick=goHome}
+/* un jugador desconectado en su turno se saca de la partida (todos lo detectan igual) */
+function dropPlayer(i){
+  const p=R.ps[i],nm=esc(p.n);clearTimeout(R.bt);Tm.stop();R.ps.splice(i,1);if(R.mi>i)R.mi--;if(R.me>i)R.me--;
+  if(R.ps.length<2)return rEnd(R.ps[0]);
+  R.t=i%R.ps.length;R.row=0;R.q=null;rTurn(`${nm} salió de la partida`)}
+function rSync(){
+  if(!R||!R.on||VIEW!=="play")return;
+  for(let z=0;z<80;z++){
+    if(!R||R.phase==="end"||R.t===R.mi)return;
+    const p=R.ps[R.t],pe=RM.all().find(x=>x.presence.name===p.n),ev=(pe&&pe.presence.ev)||[];
+    if(p.k<ev.length){rApply(ev[p.k++]);continue}
+    if(!pe||pe.gone)dropPlayer(R.t);
+    return}}
+
+/* ============================================================
+   EN LÍNEA: Firebase Realtime Database (REST + SSE) y salas
+   ============================================================ */
+const FBURL=window.__TB_FB||"https://trivia-biblica-ea536-default-rtdb.firebaseio.com";
+const STALE=window.__TB_STALE||60000,GONE=window.__TB_GONE||25000;
+const FB={async join(name){
+  const id=Math.random().toString(36).slice(2,10),url=FBURL+"/rooms/"+name,SV={".sv":"timestamp"};
+  let pr={},data={},cbs=[],q=Promise.resolve(),busy=0,again=0,dead=0,es=null,t1=0,t2=0,ok=true;
+  const put=d=>{q=q.then(()=>dead?0:fetch(url+"/"+id+".json",{method:"PATCH",body:JSON.stringify(d)}).then(r=>{ok=r.ok}).catch(()=>{ok=false}));return q};
+  const fire=()=>cbs.forEach(f=>{try{f()}catch(e){console.error(e)}});
+  const pull=async()=>{if(dead)return;if(busy){again=1;return}busy=1;try{const r=await fetch(url+".json");if(r.ok){data=(await r.json())||{};ok=true;fire()}else ok=false}catch(e){ok=false}busy=0;if(again&&!dead){again=0;pull()}};
+  const r0=await fetch(url+".json");if(!r0.ok)throw new Error("fb");data=(await r0.json())||{};
+  await put({t:SV});await pull();
+  try{es=new EventSource(url+".json");es.addEventListener("put",pull);es.addEventListener("patch",pull)}catch(e){}
+  t1=setInterval(pull,4000);t2=setInterval(()=>put(Object.assign({},pr,{t:SV})),8000);
+  const all=()=>{const mx=Math.max(0,...Object.values(data).map(v=>v&&v.t||0));
+    return Object.entries(data).filter(([k,v])=>v&&typeof v==="object").map(([k,v])=>({id:k,kind:"viewer",isMe:k===id,presence:k===id?pr:v,stale:mx-(v.t||0)>STALE,gone:k!==id&&mx-(v.t||0)>GONE}))};
+  return{name,id,all,ok:()=>ok,
+    onPeers:f=>{cbs.push(f)},
+    presence:d=>{if(dead)return;Object.assign(pr,d);for(const k in pr)if(pr[k]===null)delete pr[k];put(Object.assign({},d,{t:SV}));setTimeout(fire,0)},
+    peers:()=>all().filter(p=>p.isMe||!p.stale),
+    leaveNow(){try{fetch(url+"/"+id+".json",{method:"DELETE",keepalive:true}).catch(()=>{})}catch(e){}},
+    leave(){if(dead)return;dead=1;clearInterval(t1);clearInterval(t2);try{es&&es.close()}catch(e){}cbs=[];q=q.then(()=>fetch(url+"/"+id+".json",{method:"DELETE"})).catch(()=>{})}}
+}};
+let ME="",CUR=null,MODE="q",seen=0,lobbyHTML="";
+function lobby(inv){
+  pushView();
+  if(RM){EV=[];lobbyHTML="";RM.presence({score:0,i:0,done:0,go:null,ev:[]});VIEW="lobby";renderLobby();return}
+  view(`<h1 class="h1">🌍 Con amigos</h1><p class="sub">Crea una sala con contraseña o únete a la de tu amigo con los mismos datos.</p>
+  <div class="card"><label class="lbl" for="nm" style="margin-top:0">Tu nombre</label><input id="nm" maxlength="14" placeholder="Tu nombre" value="${esc(D.name||"")}" autocomplete="nickname">
+  <label class="lbl" for="cd">Nombre de la sala</label><input id="cd" maxlength="20" placeholder="ej. iglesia1" value="${esc((inv&&inv.sala)||"")}" autocapitalize="none" autocomplete="off">
+  <label class="lbl" for="pw">Contraseña</label><input id="pw" maxlength="20" placeholder="Contraseña de la sala" value="${esc((inv&&inv.clave)||"")}" autocomplete="off">
+  <label class="lbl">Modo de juego (al crear la sala)</label><div class="seg" id="md"><button data-m="q">❓ Solo preguntas</button><button data-m="r">🎡 Ruleta de coronas</button></div></div>
+  <div style="margin-top:1rem"><button class="btn gold" id="cr">Crear sala</button><button class="btn" id="jn">Unirme a una sala</button><button class="btn ghost" id="bk">Volver</button></div><p class="sub" id="msg" role="status" style="margin-top:.8rem"></p>`,"menu");
+  const pm=()=>$$("#md button").forEach(b=>b.classList.toggle("on",b.dataset.m===MODE));pm();
+  $$("#md button").forEach(b=>b.onclick=()=>{MODE=b.dataset.m;Snd.play("click");pm()});
+  $("#bk").onclick=goHome;
+  const msg=t=>{const m=$("#msg");if(m)m.textContent=t},lock=v=>{["cr","jn"].forEach(i=>{const e=$("#"+i);if(e)e.disabled=v})};
+  const enter=async host=>{
+    const nm=$("#nm").value.trim().slice(0,14)||"Amigo",cd=$("#cd").value.trim().toLowerCase().replace(/[^a-z0-9]/g,""),pw=$("#pw").value;
+    if(!cd||!pw){msg("Escribe el nombre de la sala y la contraseña.");return}
+    D.name=nm;sv();ME=nm;CUR={cd,pw};msg("Conectando…");lock(true);
+    let room;try{room=await FB.join("trivia-"+cd+"-"+hh(pw))}catch(e){msg("No se pudo conectar. Revisa tu internet e inténtalo otra vez.");lock(false);return}
+    if(VIEW!=="menu"){try{room.leave()}catch(e){}return}
+    RM=room;{const g0=RM.all().map(p=>p.presence.go).find(x=>x&&x.s);if(g0)seen=g0.s}
+    RM.presence({name:nm,v:APPV,score:0,i:0,done:0,go:null,ev:[],host:host?{m:MODE}:null});
+    EV=[];lobbyHTML="";wake(true);RM.onPeers(upd);VIEW="lobby";renderLobby();
+    if(!host)setTimeout(()=>{if(VIEW==="lobby"&&RM&&!RM.peers().some(p=>p.presence.host)){try{RM.leave()}catch(e){}RM=null;lobby();setTimeout(()=>msg("Sala no encontrada o contraseña incorrecta."),60)}},3500)};
+  $("#cr").onclick=()=>enter(true);$("#jn").onclick=()=>enter(false)}
+function renderLobby(){
+  if(!RM||VIEW!=="lobby")return;
+  const ps=RM.peers().filter(p=>p.isMe||!p.gone),h=ps.find(p=>p.presence.host),mo=h?h.presence.host.m:MODE,me=ps.find(p=>p.isMe);
+  if(me&&ps.some(p=>!p.isMe&&p.presence.name===me.presence.name)){ME=ME.replace(/\d+$/,"")+Math.floor(Math.random()*90+10);RM.presence({name:ME})}
+  if(!h&&me&&ps.length>=2&&ps.map(p=>p.id).sort()[0]===me.id)RM.presence({host:{m:MODE}});
+  const iHost=!!(me&&me.presence.host),bad=ps.filter(p=>p.presence.v!==APPV),code=RM.name.slice(7).replace(/-[^-]*$/,"");
+  const html=`<h1 class="h1">Sala</h1><div class="card room"><div class="code">${esc(code)}</div><p class="sub" style="margin:.2rem 0 0">Modo: <b>${mo==="r"?"🎡 Ruleta de coronas":"❓ Solo preguntas"}</b> · ${ps.length} conectado${ps.length>1?"s":""}</p>
+  <div class="plist">${ps.map(p=>`<div class="prow"><span class="av" style="--avc:${avc(p.presence.name||"Amigo")}">${esc(ini(p.presence.name||"A"))}</span><b>${esc(p.presence.name||"Amigo")}${p.isMe?" (tú)":""}</b>${p.presence.host?"<small>👑 anfitrión</small>":""}</div>`).join("")}</div></div>
+  ${bad.length?`<div class="warn">⚠️ ${bad.map(p=>esc(p.presence.name||"Alguien")).join(", ")} tiene otra versión de la app. Pídele que cierre y vuelva a abrir la app para poder jugar juntos.</div>`:""}
+  <div style="margin-top:1rem">${iHost?(ps.length<2?'<p class="sub" style="margin:0 0 .8rem">Esperando a que entre al menos un jugador más…</p><button class="btn gold" disabled>Empezar partida</button>':`<button class="btn gold" id="st" ${bad.length?"disabled":""}>Empezar partida</button>`):'<p class="sub" style="margin:0 0 .8rem">Esperando a que el anfitrión empiece la partida…</p>'}
+  <button class="btn" id="inv">📣 Invitar amigos</button><button class="btn ghost" id="bk">Salir de la sala</button></div>`;
+  if(html===lobbyHTML&&$("#lobbyroot"))return;lobbyHTML=html;
+  if($("#lobbyroot"))$("#lobbyroot").innerHTML=html;else view(`<div id="lobbyroot">${html}</div>`,"lobby");
+  const st=$("#st");if(st)st.onclick=()=>{Snd.play("click");RM.presence({go:{s:Math.floor(Math.random()*1e9)+1,m:mo,pl:ps.map(p=>p.presence.name),v:APPV}})};
+  $("#inv").onclick=()=>{if(!CUR)return;shareTxt(`🎮 ¡Juega conmigo en Trivia Bíblica!\nSala: ${CUR.cd}\nContraseña: ${CUR.pw}\n${APPURL}#sala=${encodeURIComponent(CUR.cd)}&clave=${encodeURIComponent(CUR.pw)}`)};
+  $("#bk").onclick=goHome}
+function startFromGo(g){
+  seen=g.s;lobbyHTML="";
+  if(g.m==="r"){const mi=g.pl.indexOf(ME);if(mi<0)return;ruleta(g.pl.map(n=>({n})),3,true,g.s,mi)}
+  else startGame(shuffle(QS,rng(g.s)),"online")}
+function upd(){
+  if(!RM)return;
+  if(R&&R.on&&VIEW==="play"){rSync();return}
+  if(VIEW==="lobby"){const g=RM.peers().map(p=>p.presence.go).find(x=>x&&x.s);if(g&&g.s!==seen&&(g.m!=="r"||g.pl.includes(ME))&&g.v===APPV){startFromGo(g);return}renderLobby();return}
+  if(G&&G.mode==="online"&&VIEW==="play")updSB();
+  if(VIEW==="result"&&$("#rk"))updRank()}
+const byScore=()=>[...RM.peers().filter(p=>p.isMe||!p.gone)].sort((a,b)=>(b.presence.score||0)-(a.presence.score||0));
+function updSB(){const sb=$("#sb");if(!sb||!RM)return;sb.innerHTML=byScore().map(p=>`<span class="${p.isMe?"me":""}">${esc(p.presence.name||"Amigo")} · ${p.presence.score||0}</span>`).join("")}
+function updRank(){const rk=$("#rk");if(!rk||!RM)return;rk.innerHTML="<b>Clasificación</b>"+byScore().map((p,i)=>`<div class="${p.isMe?"me":""}"><span>${["🥇","🥈","🥉"][i]||(i+1)+"."} ${esc(p.presence.name||"Amigo")}${p.presence.done?"":" · jugando…"}</span><b>${p.presence.score||0}</b></div>`).join("")}
+
+
+/* ============================================================
+   ARRANQUE · instalación, actualizaciones, atajos y enlaces de invitación
+   ============================================================ */
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();IP=e;if(VIEW==="home"&&!$("#modal"))home()});
+addEventListener("appinstalled",()=>{IP=null;toast("¡App instalada! 🎉");if(VIEW==="home")home()});
+addEventListener("pagehide",()=>{if(RM&&RM.leaveNow)RM.leaveNow()});
+$$("#nav button").forEach(b=>b.onclick=()=>{Snd.play("click");const t=b.dataset.go;if(t==="home"){if(VIEW!=="home")goHome()}else if(t==="stats")stats();else settings()});
+document.addEventListener("keydown",e=>{
+  if(VIEW!=="play"||e.target.tagName==="INPUT"||e.ctrlKey||e.metaKey||e.altKey)return;
+  const k=e.key.toLowerCase();let i="abcd".indexOf(k);if(i<0)i="1234".indexOf(k);
+  if(i>=0&&k.length===1){const b=$$(".opt")[i];if(b&&!b.disabled){b.click();e.preventDefault()}}});
+function route(){
+  const h=location.hash.replace(/^#/,"");if(!h)return;
+  try{history.replaceState(history.state,"",location.pathname+location.search)}catch(e){}
+  const p=new URLSearchParams(h);
+  if(p.get("sala")){lobby({sala:p.get("sala"),clave:p.get("clave")||""});return true}
+  if(h==="daily"){const b=$("#daily");if(b&&!b.disabled)b.click()}
+  else if(h==="ruleta")rSetup();
+  else if(h==="amigos")lobby();
+  return true}
+addEventListener("hashchange",()=>{if(VIEW==="play"){try{history.replaceState(history.state,"",location.pathname+location.search)}catch(e){}return}if(VIEW!=="home")home();route()});
+if("serviceWorker" in navigator&&location.protocol.startsWith("http")){
+  addEventListener("load",()=>{
+    let had=!!navigator.serviceWorker.controller;
+    navigator.serviceWorker.register("sw.js").catch(()=>{});
+    navigator.serviceWorker.addEventListener("controllerchange",()=>{if(had)toast("Hay una versión nueva de la app",{act:"Actualizar",fn:()=>location.reload(),ms:15000});had=true})})}
+window.__tb={get G(){return G},get R(){return R},get D(){return D},get RM(){return RM},get VIEW(){return VIEW},QS,BLK,V,home,startGame,rSetup,lobby,stats,settings,optsOf,APPV};
+try{history.replaceState({tb:0},"")}catch(e){}
+home();
+const routed=route();
+if(!routed&&!D.name&&!D.skipName)setTimeout(()=>{if(VIEW==="home")askName(home)},500);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+TRIVIA BÍBLICA · versión 3.1.0
+==============================
+
+NOVEDADES DE LA 3.1
+  - Repaso de errores: practica solo las preguntas que fallaste.
+  - Por libro: elige uno de los 66 libros y juega con sus preguntas.
+  - Contrarreloj: 60 segundos, cada error resta 4 s. Guarda tu récord.
+  - Versículo como imagen: tarjeta lista para compartir por WhatsApp.
+  - 596 preguntas (antes 506), con al menos 4 de cada libro.
+
+
+QUÉ HAY EN ESTE ZIP
+  index.html ............ toda la app: diseño, juego y preguntas
+  sw.js ................. permite usarla sin internet
+  manifest.webmanifest .. datos para instalarla como app en el celular
+  icons/ ................ los 5 íconos de la app
+
+
+CÓMO PUBLICARLA O ACTUALIZARLA (GitHub Pages, desde el celular)
+  1. Descomprime el zip.
+  2. Entra a tu repositorio en github.com.
+  3. Add file → Upload files. Sube index.html, sw.js y manifest.webmanifest
+     (reemplazan a los anteriores).
+  4. Si es la primera vez o cambiaste de versión: abre la carpeta icons,
+     Add file → Upload files y sube los 5 archivos PNG.
+  5. Commit changes. En 1 o 2 minutos queda publicada.
+  6. En el celular abre la app dos veces: la primera descarga la versión nueva y
+     la segunda ya la usa. Si aparece el aviso "Hay una versión nueva", toca
+     "Actualizar". La versión instalada se ve abajo de todo en Ajustes.
+
+
+PARA JUGAR CON AMIGOS (EN LÍNEA)
+  - Todos los jugadores deben tener la misma versión de la app. Si alguien tiene
+    una más vieja, la sala lo avisa y no deja empezar.
+  - Usa tu base de datos de Firebase (Realtime Database). Si "Con amigos" dice
+    "No se pudo conectar" teniendo internet, entra a la consola de Firebase →
+    Realtime Database → Reglas. Estas reglas permiten jugar y no dejan listar
+    todas las salas (si ya te funciona, no cambies nada):
+
+      {
+        "rules": {
+          "rooms": {
+            "$room": {
+              ".read": true,
+              "$player": { ".write": true }
+            }
+          }
+        }
+      }
+
+    (Las reglas del "modo de prueba" de Firebase vencen a los 30 días.)
+
+
+PARA AGREGAR PREGUNTAS
+  En index.html busca  const BANK=  Cada línea es una pregunta:
+
+    nivel|pregunta|respuesta correcta|error1;error2;error3|Libro capítulo:versículo
+
+  Nivel: 0 fácil, 1 intermedio, 2 difícil. El libro debe escribirse como en la
+  Biblia (por ejemplo: 1 Samuel 17:49). Si agregas texto de un versículo, va en
+  la lista que empieza en  const VERSES=
+  Importante: cada vez que cambies las preguntas, sube también el número de
+  versión (APPV en index.html y VER en sw.js), así todos se actualizan y el modo
+  con amigos sigue sincronizado.
