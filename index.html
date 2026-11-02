@@ -419,11 +419,12 @@ noscript{display:block;padding:2rem;text-align:center;color:var(--ink)}
    Secciones: núcleo · inicio / logros / ajustes · partida solo ·
               ruleta · en línea · arranque (PWA)
    ============================================================ */
-const APPV="3.3.0";
+const APPV="3.4.0";
 /* NETV = versión del juego EN LÍNEA (preguntas y reglas). Súbela solo cuando cambien las
    preguntas o las reglas del juego: así quien tenga la app un poco más vieja puede seguir
-   jugando con los demás. (La 3.2 solo agregó fotos de perfil, por eso sigue en 3.1.0.) */
-const NETV="3.1.0";
+   jugando con los demás. (La 3.2 y la 3.3 solo agregaron fotos y el lector de la RVR1960, por eso
+   siguieron en 3.1.0; la 3.4 cambió el banco de preguntas y por eso sube a 3.4.0.) */
+const NETV="3.4.0";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const A=$("#app");
 const esc=s=>String(s).replace(/[&<>"']/g,c=>"&#"+c.charCodeAt(0)+";");
@@ -554,7 +555,7 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 2|Según 2 Timoteo 4:7, ¿qué dijo Pablo que había guardado?|La fe|El pan;La ley;El templo|2 Timoteo 4:7
 2|¿En qué isla dejó Pablo a Tito?|Creta|Chipre;Malta;Patmos|Tito 1:5
 2|¿Qué esclavo huyó de Filemón?|Onésimo|Epafras;Tíquico;Demas|Filemón 10
-1|Según Hebreos 11:1, la fe es la certeza de lo que...|Se espera|Se ve;Se sabe;Se logra|Hebreos 11:1
+1|Según Hebreos 11:1, la fe es la sustancia de las cosas que...|Se esperan|Se ven;Se saben;Se logran|Hebreos 11:1
 1|¿Qué dice Santiago de la fe sin obras?|Está muerta|Es fuerte;Es suficiente;Es eterna|Santiago 2:26
 2|¿Cómo llama 1 Pedro 2:9 a los creyentes?|Linaje escogido|Siervos de Roma;Gentiles sin Dios;Hijos de Abraham solamente|1 Pedro 2:9
 2|Según 2 Pedro 3:8, para el Señor un día es como...|Mil años|Cien años;Un año;Diez mil años|2 Pedro 3:8
@@ -598,14 +599,14 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 0|¿Qué regalos trajeron los magos?|Oro, incienso y mirra|Oro, plata y bronce;Pan, vino y aceite;Incienso, nardo y mirra|Mateo 2:11
 0|¿Cuántos días ayunó Jesús en el desierto?|40|3;7;21|Mateo 4:2
 1|¿Qué oración enseñó Jesús a sus discípulos?|El Padre Nuestro|El Shemá;El Magníficat;El Credo|Mateo 6:9
-1|¿Sobre qué dijo Jesús que edificaría su iglesia?|Sobre esta roca|Sobre el templo;Sobre el monte Sión;Sobre la ley|Mateo 16:18
+1|¿Sobre qué dijo Jesús que edificaría su iglesia?|Sobre esta piedra|Sobre el templo;Sobre el monte Sión;Sobre la ley|Mateo 16:18
 1|¿Qué cobrador de impuestos fue llamado por Jesús a ser apóstol?|Mateo|Tomás;Felipe;Bartolomé|Mateo 9:9
 2|¿Cuántas veces dijo Jesús que hay que perdonar a un hermano?|Setenta veces siete|Siete veces;Tres veces;Cien veces|Mateo 18:22
 2|¿Cuántas monedas de plata recibió Judas por entregar a Jesús?|Treinta|Diez;Cincuenta;Doce|Mateo 26:15
 2|¿Cuántas vírgenes eran prudentes en la parábola de las diez vírgenes?|5|10;3;7|Mateo 25:2
 1|¿Qué hizo Jesús con la hija de Jairo?|La resucitó|La envió lejos;La bautizó;La ignoró|Marcos 5:41-42
 1|¿Qué dijo Jesús al mar durante la tormenta?|Calla, enmudece|Ven y sígueme;Levántate;Ve y no peques más|Marcos 4:39
-2|¿Qué ciego clamó «Hijo de David» cerca de Jericó?|Bartimeo|Zaqueo;Lázaro;Nicodemo|Marcos 10:46
+2|¿Qué ciego clamó «Hijo de David» cerca de Jericó?|Bartimeo|Zaqueo;Lázaro;Nicodemo|Marcos 10:47
 2|¿Quién llevó la cruz de Jesús?|Simón de Cirene|José de Arimatea;Pedro;Barrabás|Marcos 15:21
 2|¿Qué discípulos acompañaron a Jesús en la transfiguración?|Pedro, Santiago y Juan|Pedro, Andrés y Felipe;Juan, Tomás y Mateo;Santiago, Judas y Simón|Marcos 9:2
 0|¿Qué ángel anunció a María que sería madre de Jesús?|Gabriel|Miguel;Rafael;Uriel|Lucas 1:26
@@ -677,7 +678,7 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 2|¿Cuál es el salmo más largo?|Salmo 119|Salmo 23;Salmo 91;Salmo 150|Salmos 119
 2|¿Qué salmo dice «Alzaré mis ojos a los montes»?|Salmo 121|Salmo 23;Salmo 91;Salmo 1|Salmos 121:1
 1|Según Proverbios 9:10, ¿qué es el principio de la sabiduría?|El temor de Jehová|El oro;La fuerza;La fama|Proverbios 9:10
-1|Según Proverbios 22:6, ¿qué se debe hacer con el niño en su camino?|Instruirlo|Esconderlo;Dejarlo;Premiarlo|Proverbios 22:6
+1|Según Proverbios 22:6, ¿qué se debe hacer con el niño?|Instruirlo|Esconderlo;Dejarlo;Premiarlo|Proverbios 22:6
 1|¿Qué animal pone Proverbios como ejemplo de trabajo?|La hormiga|La abeja;El buey;La paloma|Proverbios 6:6
 1|Según Eclesiastés 3:1, ¿qué hay para todo lo que se quiere debajo del cielo?|Su tiempo|Su precio;Su fin;Su dueño|Eclesiastés 3:1
 2|¿Con qué flor se compara la amada en Cantares 2:1?|La rosa de Sarón|El lirio de Egipto;La palma de Judea;El olivo de Belén|Cantares 2:1
@@ -706,7 +707,7 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 2|Según Romanos 8:28, ¿a quiénes todas las cosas les ayudan a bien?|A los que aman a Dios|A los ricos;A los sabios;A los reyes|Romanos 8:28
 1|Según Romanos 10:17, ¿la fe viene por...?|El oír la Palabra de Dios|Las obras;La edad;La ley|Romanos 10:17
 2|¿A qué no debemos conformarnos según Romanos 12:2?|A este siglo|A la ley;A la iglesia;A la familia|Romanos 12:2
-1|¿Qué es lo mayor según 1 Corintios 13:13?|El amor|La fe;La esperanza;El conocimiento|1 Corintios 13:13
+1|¿Qué es lo mayor según 1 Corintios 13:13?|El amor (la caridad)|La fe;La esperanza;El conocimiento|1 Corintios 13:13
 2|¿Cuántos hermanos vieron a Jesús resucitado a la vez según Pablo?|Más de quinientos|Doce;Setenta;Tres|1 Corintios 15:6
 1|¿A qué compara Pablo a la iglesia en 1 Corintios 12?|A un cuerpo|A un ejército;A un barco;A un huerto|1 Corintios 12:12
 1|Según 2 Corintios 5:17, el que está en Cristo es...|Nueva criatura|Gran rey;Siervo;Peregrino|2 Corintios 5:17
@@ -735,7 +736,7 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 1|Según Apocalipsis 3:20, ¿qué hace Jesús a la puerta?|Llama|Espera sentado;Se va;La rompe|Apocalipsis 3:20
 1|¿Quién dice «Yo soy el Alfa y la Omega»?|Dios, el Señor|El ángel;Juan;Satanás|Apocalipsis 1:8
 2|¿Qué hijos de Aarón ofrecieron fuego extraño y murieron?|Nadab y Abiú|Eleazar e Itamar;Coré y Datán;Hofni y Finees|Levítico 10:1
-1|¿Qué animal de Levítico 11 se consideraba inmundo?|El cerdo|La oveja;El buey;La cabra|Levítico 11:7
+1|¿Qué animal de Levítico 11 se consideraba inmundo?|El cerdo (puerco)|La oveja;El buey;La cabra|Levítico 11:7
 2|Según Levítico 17:11, ¿dónde está la vida de la carne?|En la sangre|En el corazón;En el aliento;En los huesos|Levítico 17:11
 2|¿Cuántos capítulos tiene Abdías, el libro más corto del Antiguo Testamento?|1|2;3;4|Abdías 1
 2|¿Qué rey de Judá reinaba en tiempos de Sofonías?|Josías|Acaz;Joás;Manasés|Sofonías 1:1
@@ -747,7 +748,7 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 2|¿Qué rey de Judá convocó una gran Pascua y restauró el templo?|Ezequías|Joás;Acaz;Manasés|2 Crónicas 30
 1|¿A quién rogó Pablo que perdonara a Onésimo?|Filemón|Tito;Timoteo;Epafras|Filemón 10
 2|¿Para qué dejó Pablo a Tito en Creta?|Para organizar la iglesia|Para predicar en Roma;Para construir un templo;Para cuidar presos|Tito 1:5
-2|Según Judas 3, ¿qué debemos hacer por la fe?|Contender ardientemente|Huir;Callar;Vender|Judas 3
+2|Según Judas 3, ¿qué debemos hacer por la fe?|Contender eficazmente|Huir;Callar;Vender|Judas 3
 2|Según 3 Juan 2, ¿qué desea Juan que tenga Gayo?|Salud y prosperidad|Poder y fama;Un reino;Una familia|3 Juan 2
 2|¿Qué libro dice «Grande es tu fidelidad»?|Lamentaciones|Salmos;Isaías;Job|Lamentaciones 3:23
 2|Según Cantares 8:6, ¿qué es fuerte como la muerte?|El amor|La fe;La ley;La guerra|Cantares 8:6
@@ -765,7 +766,7 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 1|Según Isaías 40:31, los que esperan en Jehová levantarán alas como...|Las águilas|Las palomas;Los gorriones;Los pavos|Isaías 40:31
 0|Según Proverbios 3:5, ¿en quién debemos confiar de todo corazón?|En Jehová|En los reyes;En la riqueza;En los sabios|Proverbios 3:5
 1|Según Mateo 5:13, ¿qué somos de la tierra?|La sal|El oro;El pan;La lluvia|Mateo 5:13
-1|Según Mateo 28:19, ¿qué debemos hacer con todas las naciones?|Hacer discípulos|Conquistarlas;Aislarlas;Juzgarlas|Mateo 28:19
+1|Según Mateo 28:19, ¿qué debemos hacer con todas las naciones?|Doctrinarlas|Conquistarlas;Aislarlas;Juzgarlas|Mateo 28:19
 0|¿Qué hizo Dios el séptimo día de la creación?|Reposó|Creó al hombre;Hizo las estrellas;Separó las aguas|Génesis 2:2
 0|¿Cuál fue el primer hogar de Adán y Eva?|El huerto del Edén|La tierra de Canaán;El monte Sinaí;La ciudad de Babel|Génesis 2:8
 0|¿Qué animal engañó a Eva en el huerto?|La serpiente|El león;El cuervo;El cordero|Génesis 3:1
@@ -834,11 +835,11 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 1|¿Qué recibió Job de Dios al final de su prueba?|El doble de lo que tenía antes|La mitad de sus bienes;Un palacio nuevo;Una corona|Job 42:10
 1|¿Con qué palabra de alabanza termina el último salmo?|Aleluya|Amén;Hosanna;Gloria|Salmos 150:6
 1|¿Qué salmo comienza diciendo «Bienaventurado el varón»?|Salmo 1|Salmo 23;Salmo 91;Salmo 100|Salmos 1:1
-1|Según Salmos 37:4, ¿qué debemos hacer en Jehová?|Deleitarnos|Escondernos;Gloriarnos;Dormir|Salmos 37:4
+1|Según Salmos 37:4, ¿qué debemos poner en Jehová?|Nuestra delicia|Nuestra riqueza;Nuestro orgullo;Nuestra tristeza|Salmos 37:4
 1|Según Salmos 46:10, ¿qué dice Dios que debemos hacer?|Estar quietos y reconocer que él es Dios|Correr y no detenernos nunca;Construir un templo para él;Guardar silencio ante los reyes|Salmos 46:10
 1|Según Proverbios 15:1, ¿qué hace la blanda respuesta?|Quita la ira|Provoca más enojo;Gana dinero;Calla al sabio|Proverbios 15:1
 1|Según Proverbios 18:10, ¿qué es el nombre de Jehová?|Torre fuerte|Escudo de oro;Río de vida;Lámpara encendida|Proverbios 18:10
-1|Según Proverbios 22:1, ¿qué es de más estima que las muchas riquezas?|El buen nombre|La fuerza;La fama;La belleza|Proverbios 22:1
+1|Según Proverbios 22:1, ¿qué es de más estima que las muchas riquezas?|La buena fama|La fuerza;La belleza;La juventud|Proverbios 22:1
 1|Según Proverbios 16:18, ¿qué va antes del quebrantamiento?|La soberbia|La envidia;La pereza;La ira|Proverbios 16:18
 1|¿Qué capítulo de Proverbios describe a la mujer virtuosa?|El 31|El 1;El 10;El 25|Proverbios 31:10
 1|¿Qué rey se presenta como «el Predicador» en Eclesiastés?|Salomón|David;Josías;Ezequías|Eclesiastés 1:1
@@ -851,7 +852,7 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 2|¿Qué salmo es una oración de arrepentimiento de David después de su pecado?|Salmo 51|Salmo 1;Salmo 100;Salmo 150|Salmos 51:1
 2|¿Qué salmo comienza «El que habita al abrigo del Altísimo»?|Salmo 91|Salmo 23;Salmo 46;Salmo 121|Salmos 91:1
 2|¿Qué salmo dice «Dios es nuestro amparo y fortaleza»?|Salmo 46|Salmo 23;Salmo 91;Salmo 121|Salmos 46:1
-2|¿A quién se atribuye el Salmo 90, «Oración de varón de Dios»?|Moisés|David;Salomón;Asaf|Salmos 90:1
+2|¿A quién se atribuye el Salmo 90, la oración de un «varón de Dios»?|Moisés|David;Salomón;Asaf|Salmos 90:1
 2|¿Con qué compara Proverbios 27:17 la influencia entre amigos?|Con el hierro que afila al hierro|Con el vino que alegra;Con la lluvia que riega;Con la sal que sazona|Proverbios 27:17
 2|¿Con qué árbol compara la amada a su amado en Cantares 2:3?|Con un manzano|Con un olivo;Con una palmera;Con una higuera|Cantares 2:3
 1|Según Isaías 9:6, ¿cuál es uno de los nombres del hijo que nos es dado?|Príncipe de paz|Rey de la guerra;Juez de Israel;Pastor de ovejas|Isaías 9:6
@@ -889,14 +890,14 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 1|¿A qué apóstol sacó un ángel de la cárcel mientras dormía entre dos soldados?|Pedro|Pablo;Juan;Santiago|Hechos 12:7
 2|¿Cuántos años tenía la hija de Jairo?|12|7;10;14|Marcos 5:42
 2|¿Qué sobrenombre dio Jesús a Santiago y a Juan, hijos de Zebedeo?|Hijos del trueno|Hijos de paz;Hijos de luz;Hijos del reino|Marcos 3:17
-2|¿Qué apóstol era llamado «el zelote»?|Simón|Judas Iscariote;Tomás;Mateo|Lucas 6:15
+2|¿Qué apóstol era llamado «Celador», es decir, zelote?|Simón|Judas Iscariote;Tomás;Mateo|Lucas 6:15
 2|¿Qué significa el nombre de Bernabé?|Hijo de consolación|Hijo del trueno;Hijo de paz;Hijo de promesa|Hechos 4:36
 2|¿Qué les pasó a Ananías y Safira por mentir a los apóstoles?|Murieron|Fueron encarcelados;Quedaron ciegos;Fueron desterrados|Hechos 5:5
 2|¿A quién sanó Jesús junto al estanque de Betesda tras treinta y ocho años de enfermedad?|A un paralítico|A un ciego;A un leproso;A un endemoniado|Juan 5:5
 2|¿Cuántas personas se añadieron a la iglesia el día de Pentecostés?|Unas tres mil|Unas cien;Unas quinientas;Unas doce mil|Hechos 2:41
 0|¿Qué apóstol escribió la mayor parte de las cartas del Nuevo Testamento?|Pablo|Pedro;Juan;Santiago|Romanos 1:1
 1|¿A qué ciudad escribió Pablo la carta sobre la justificación por la fe?|Roma|Éfeso;Atenas;Antioquía|Romanos 1:7
-1|Según Romanos 5:8, ¿qué demostró Dios hacia nosotros siendo aún pecadores?|Su amor|Su ira;Su silencio;Su justicia|Romanos 5:8
+1|Según Romanos 5:8, ¿qué demostró Dios hacia nosotros siendo aún pecadores?|Su amor (caridad)|Su ira;Su silencio;Su justicia|Romanos 5:8
 1|Según Romanos 8:38-39, ¿qué puede separarnos del amor de Dios en Cristo?|Nada ni nadie|Solo la muerte;Solo el pecado;Solo las dudas|Romanos 8:38-39
 1|En Efesios 6, ¿con qué se apagan los dardos de fuego del maligno?|Con el escudo de la fe|Con la espada del Espíritu;Con el yelmo de la salvación;Con la coraza de justicia|Efesios 6:16
 1|Según Filipenses 2:10, ante el nombre de Jesús se doblará toda...|Rodilla|Cabeza;Mano;Voz|Filipenses 2:10
@@ -910,7 +911,7 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 2|Según Hebreos 12:1, ¿cómo debemos correr la carrera que tenemos por delante?|Con paciencia|Con prisa;En silencio;Con temor|Hebreos 12:1
 2|Según Santiago 1:2, ¿cómo debemos considerar las diversas pruebas?|Como sumo gozo|Como un castigo;Como casualidad;Como motivo de tristeza|Santiago 1:2
 2|Según Hebreos 11:5, ¿quién fue traspuesto para no ver muerte?|Enoc|Noé;Abel;Moisés|Hebreos 11:5
-2|¿A qué iglesia escribió Pablo «Regocijaos en el Señor siempre»?|Filipos|Corinto;Roma;Galacia|Filipenses 4:4
+2|¿A qué iglesia escribió Pablo «Gozaos en el Señor siempre»?|Filipos|Corinto;Roma;Galacia|Filipenses 4:4
 2|¿A qué ciudad dirigió Jesús el mensaje «Has dejado tu primer amor»?|Éfeso|Esmirna;Pérgamo;Sardis|Apocalipsis 2:4
 2|¿Qué iglesia recibió la promesa «Sé fiel hasta la muerte»?|Esmirna|Éfeso;Tiatira;Sardis|Apocalipsis 2:10
 2|¿Cuál es la carta más corta de Pablo?|Filemón|Tito;2 Tesalonicenses;Colosenses|Filemón 1
@@ -919,12 +920,12 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 0|Completa: «En el principio crió Dios los cielos y la ___»|tierra|luz;noche;mar|Génesis 1:1
 0|Completa: «Padre nuestro que estás en los ___»|cielos|montes;mares;campos|Mateo 6:9
 0|Completa: «Fíate de Jehová de todo tu ___»|corazón|espíritu;poder;tiempo|Proverbios 3:5
-0|Completa: «No sólo de ___ vivirá el hombre»|pan|oro;agua;carne|Deuteronomio 8:3
+0|Completa: «El hombre no vivirá de solo ___»|pan|oro;agua;carne|Deuteronomio 8:3
 1|Completa: «Lámpara es a mis pies tu ___, y lumbrera a mi camino»|palabra|ley;gracia;sombra|Salmos 119:105
 1|Completa: «Alzaré mis ojos a los ___, de donde vendrá mi socorro»|montes|cielos;mares;valles|Salmos 121:1
 1|Completa: «De tal manera amó Dios al mundo, que ha dado a su Hijo ___»|unigénito|primogénito;escogido;amado|Juan 3:16
-1|Completa: «Levantarán las alas como las ___»|águilas|palomas;golondrinas;gaviotas|Isaías 40:31
-1|Completa: «Mía es la plata, y mío es el ___»|oro|pan;aceite;vino|Hageo 2:8
+1|Completa: «Levantarán las alas como ___»|águilas|palomas;golondrinas;gaviotas|Isaías 40:31
+1|Completa: «Mía es la plata, y mío el ___»|oro|pan;aceite;vino|Hageo 2:8
 2|Completa: «Yo soy la rosa de ___, y el lirio de los valles»|Sarón|Jericó;Judea;Galilea|Cantares 2:1
 2|Completa: «Nuevas son cada mañana: grande es tu ___»|fidelidad|justicia;bondad;paciencia|Lamentaciones 3:23
 1|¿Qué nombre abre la lista de generaciones de 1 Crónicas?|Adán|Set;Noé;Abraham|1 Crónicas 1:1
@@ -971,9 +972,9 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 2|¿Qué hizo Moisés en Meriba que desagradó a Dios?|Golpeó la peña en lugar de hablarle|Rompió las tablas de la ley;Hizo un becerro de oro;Se negó a guiar al pueblo|Números 20:11
 2|¿Cómo se llamaban los dos hombres que profetizaron en el campamento sin ir al tabernáculo?|Eldad y Medad|Nadab y Abiú;Coré y Datán;Hur y Caleb|Números 11:26
 1|¿Cuántos días tardaron los espías en reconocer la tierra de Canaán?|40|7;12;30|Números 13:25
-1|¿Qué mujer, hermana de Moisés, fue herida de lepra por murmurar?|Miriam|Séfora;Débora;Raquel|Números 12:10
+1|¿Qué mujer, hermana de Moisés, fue herida de lepra por murmurar?|Miriam (María)|Séfora;Débora;Raquel|Números 12:10
 2|Según Deuteronomio 28:13, ¿qué promete Dios al pueblo obediente?|Ponerlo por cabeza y no por cola|Hacerlo vivir en Egipto;Darle un rey extranjero;Quitarle la tierra|Deuteronomio 28:13
-2|¿Cómo se llamaba la pieza del sumo sacerdote con doce piedras, una por cada tribu?|El pectoral|El cinto;La mitra;El manto|Éxodo 28:15-21
+2|¿Cómo se llamaba la pieza del sumo sacerdote con doce piedras, una por cada tribu?|El pectoral (racional)|El cinto;La mitra;El manto|Éxodo 28:15-21
 0|¿Qué guiaba a Israel de día en el desierto?|Una columna de nube|Una estrella;Un ángel con espada;Una montaña|Éxodo 13:21
 2|¿Cómo se llamaba la madre de Moisés?|Jocabed|Miriam;Séfora;Elisabet|Éxodo 6:20
 0|¿Dónde puso su madre al bebé Moisés para salvarlo?|En una canasta sobre el Nilo|En una cueva;En una barca de oro;En el templo|Éxodo 2:3
@@ -1018,7 +1019,7 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 2|Según Malaquías 4:2, ¿qué nacerá para los que temen su nombre?|El sol de justicia|La estrella de la mañana;La rosa de Sarón;La vara de Aarón|Malaquías 4:2
 1|Según 2 Corintios 12:9, ¿qué le dijo el Señor a Pablo?|Bástate mi gracia|Te daré fuerza;Hallarás descanso;Nada te faltará|2 Corintios 12:9
 2|Según 2 Corintios 4:7, ¿en qué tenemos este tesoro?|En vasos de barro|En cofres de oro;En el templo;En un pergamino|2 Corintios 4:7
-1|Según Gálatas 3:28, en Cristo no hay judío ni griego, ni esclavo ni libre, ni...|Varón ni mujer|Rico ni pobre;Sabio ni necio;Joven ni anciano|Gálatas 3:28
+1|Según Gálatas 3:28, no hay judío ni griego, ni siervo ni libre, ni...|Varón ni hembra|Rico ni pobre;Sabio ni necio;Joven ni anciano|Gálatas 3:28
 2|¿A quién fue Pablo a ver a Jerusalén tres años después de su conversión?|A Pedro|A Santiago solamente;A Juan;A Bernabé|Gálatas 1:18
 1|Según Efesios 4:32, ¿cómo debemos tratarnos unos a otros?|Benignos y perdonándonos|Con dureza;Con indiferencia;Con desconfianza|Efesios 4:32
 1|Según Efesios 5:25, ¿cómo deben amar los maridos a sus esposas?|Como Cristo amó a la iglesia|Como a sus siervas más fieles;Como el mundo ama a los suyos;Como a un tesoro escondido|Efesios 5:25
@@ -1036,7 +1037,7 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 2|Según Tito 2:7, ¿qué debía mostrar Tito en todo?|Ejemplo de buenas obras|Su autoridad;Su riqueza;Su conocimiento|Tito 2:7
 1|¿Qué le pidió Pablo a Filemón sobre Onésimo?|Que lo recibiera como a un hermano amado|Que lo castigara con severidad;Que lo vendiera a otro amo;Que lo enviara de vuelta a Roma|Filemón 16
 1|Según 1 Pedro 5:8, ¿a qué compara a nuestro adversario el diablo?|A un león rugiente|A una serpiente;A un lobo;A un dragón|1 Pedro 5:8
-1|Según 1 Pedro 4:8, ¿qué cubrirá multitud de pecados?|El amor|El dinero;La ley;El tiempo|1 Pedro 4:8
+1|Según 1 Pedro 4:8, ¿qué cubrirá multitud de pecados?|El amor (la caridad)|El dinero;La ley;El tiempo|1 Pedro 4:8
 2|Según 2 Pedro 1:19, ¿a qué se compara la palabra profética?|A una antorcha que alumbra en lugar oscuro|A un río que corre en el desierto;A una torre fuerte en la batalla;A un escudo de bronce pulido|2 Pedro 1:19
 1|Según 2 Pedro 3:18, ¿en qué debemos crecer?|En la gracia y el conocimiento de Jesucristo|En riquezas, fama y honra;En fuerza y poder terrenal;En sabiduría de este mundo|2 Pedro 3:18
 1|Según 1 Juan 1:5, ¿qué no hay en Dios?|Tinieblas|Cansancio;Misericordia;Silencio|1 Juan 1:5
@@ -1048,314 +1049,1011 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 0|Según Santiago 3:5, ¿qué pequeño miembro se jacta de grandes cosas?|La lengua|La mano;El ojo;El pie|Santiago 3:5
 0|¿Qué hizo Jesús con los niños que le traían?|Los bendijo|Los envió lejos;Los ignoró;Les dio dinero|Marcos 10:16
 0|¿Qué anunciaron los ángeles a los pastores la noche del nacimiento de Jesús?|Gloria a Dios en las alturas y paz en la tierra|Ha nacido el rey de los romanos;Id y haced discípulos a todas las naciones;Bienaventurados los pobres de espíritu|Lucas 2:14
-0|Según Juan 14:6, Jesús dijo: «Yo soy el camino, la verdad y...»|La vida|La luz;El pan;La puerta|Juan 14:6
-0|¿Sobre qué edificó su casa el hombre prudente de la parábola de Jesús?|Sobre la roca|Sobre la arena;Sobre el monte;Sobre el agua|Mateo 7:24
+0|Según Juan 14:6, Jesús dijo: «Yo soy el camino, y la verdad, y...»|La vida|La luz;El pan;La puerta|Juan 14:6
+0|¿Sobre qué edificó su casa el hombre prudente de la parábola de Jesús?|Sobre la peña (roca)|Sobre la arena;Sobre el monte;Sobre el agua|Mateo 7:24
 1|¿Qué parábola compara el reino con la más pequeña de las semillas?|El grano de mostaza|El grano de trigo;La semilla de la higuera;La semilla de la viña|Mateo 13:31-32
 2|¿Cómo ayudaron los discípulos a Pablo a escapar de Damasco?|Lo bajaron por el muro en una canasta|Lo escondieron en un barco;Lo disfrazaron de soldado;Lo llevaron en un carro|Hechos 9:25
-1|Según Proverbios 3:6, ¿qué hará Dios si lo reconocemos en todos nuestros caminos?|Enderezará nuestras veredas|Nos dará riquezas;Nos quitará las pruebas;Nos hará reyes|Proverbios 3:6`;
-const VERSES=`Génesis 1:1|En el principio crió Dios los cielos y la tierra.
-Génesis 1:3|Y dijo Dios: Sea la luz: y fue la luz.
-Génesis 2:22|Y de la costilla que Jehová Dios tomó del hombre, hizo una mujer, y la trajo al hombre.
-Génesis 4:8|Y dijo Caín a su hermano Abel: Salgamos al campo. Y aconteció que estando ellos en el campo, Caín se levantó contra su hermano Abel, y le mató.
-Génesis 7:12|Y hubo lluvia sobre la tierra cuarenta días y cuarenta noches.
-Génesis 9:13|Mi arco he puesto en las nubes, el cual será por señal de convenio entre mí y la tierra.
-Génesis 19:26|Y su mujer miró atrás, a espaldas de él, y se volvió estatua de sal.
-Génesis 41:29|He aquí vienen siete años de grande abundancia en toda la tierra de Egipto.
-Levítico 19:18|Amarás a tu prójimo como a ti mismo: Yo Jehová.
-Números 21:9|Y Moisés hizo una serpiente de metal, y la puso sobre un asta; y fue, que cuando alguna serpiente mordía a alguno, miraba a la serpiente de metal, y vivía.
-Deuteronomio 6:5|Y amarás a Jehová tu Dios de todo tu corazón, y de toda tu alma, y con todas tus fuerzas.
-Deuteronomio 8:3|No sólo de pan vivirá el hombre, mas de todo lo que sale de la boca de Jehová vivirá el hombre.
-2 Reyes 2:11|He aquí un carro de fuego con caballos de fuego apartó a los dos; y Elías subió al cielo en un torbellino.
-2 Reyes 20:6|Y añadiré a tus días quince años.
-Job 19:25|Yo sé que mi Redentor vive, y al fin se levantará sobre el polvo.
-Salmos 23:1|Jehová es mi pastor; nada me faltará.
-Salmos 119:105|Lámpara es a mis pies tu palabra, y lumbrera a mi camino.
-Salmos 121:1|Alzaré mis ojos a los montes, de donde vendrá mi socorro.
-Proverbios 3:5|Fíate de Jehová de todo tu corazón, y no estribes en tu prudencia.
-Proverbios 6:6|Ve a la hormiga, oh perezoso, mira sus caminos, y sé sabio.
-Proverbios 9:10|El principio de la sabiduría es el temor de Jehová; y la ciencia de los santos es inteligencia.
-Proverbios 22:6|Instruye al niño en su carrera: aun cuando fuere viejo no se apartará de ella.
-Eclesiastés 3:1|Todo tiene su tiempo, y todo lo que se quiere debajo del cielo tiene su hora.
-Eclesiastés 12:13|El fin de todo el discurso oído es este: Teme a Dios, y guarda sus mandamientos; porque esto es el todo del hombre.
-Cantares 2:1|Yo soy la rosa de Sarón, y el lirio de los valles.
-Isaías 7:14|El mismo Señor os dará señal: He aquí que la virgen concebirá, y parirá un hijo, y llamará su nombre Emanuel.
-Isaías 40:31|Mas los que esperan a Jehová tendrán nuevas fuerzas; levantarán las alas como las águilas; correrán, y no se cansarán; caminarán, y no se fatigarán.
-Jeremías 1:5|Antes que te formase en el vientre, te conocí; y antes que nacieses, te santifiqué, te di por profeta a las gentes.
-Jeremías 25:11|Y toda esta tierra será puesta en desierto, en espanto; y servirán estas gentes al rey de Babilonia setenta años.
-Daniel 5:25|Y esta es la escritura que trazaron: MENE, MENE, TEKEL, UPARSIN.
-Joel 2:28|Y será que después de esto derramaré mi espíritu sobre toda carne.
-Amós 5:24|Mas corra el juicio como las aguas, y la justicia como impetuoso arroyo.
-Jonás 1:17|Mas Jehová tenía preparado un gran pez que tragase a Jonás: y estuvo Jonás en el vientre del pez tres días y tres noches.
-Miqueas 6:8|Oh hombre, él te ha declarado qué sea lo bueno, y qué pida de ti Jehová: solamente hacer juicio, y amar misericordia, y humillarte para andar con tu Dios.
-Habacuc 2:4|Mas el justo por su fe vivirá.
-Habacuc 3:18|Con todo, yo me alegraré en Jehová, y me gozaré en el Dios de mi salud.
-Hageo 2:8|Mía es la plata, y mío es el oro, dice Jehová de los ejércitos.
-Zacarías 4:6|No con ejército, ni con fuerza, sino con mi espíritu, ha dicho Jehová de los ejércitos.
-Malaquías 3:10|Traed todos los diezmos al alfolí y haya alimento en mi casa.
-Malaquías 4:5|He aquí, yo os envío el profeta Elías, antes que venga el día de Jehová, grande y terrible.
-Lamentaciones 3:23|Nuevas son cada mañana: grande es tu fidelidad.
+1|Según Proverbios 3:6, ¿qué hará Dios si lo reconocemos en todos nuestros caminos?|Enderezará nuestras veredas|Nos dará riquezas;Nos quitará las pruebas;Nos hará reyes|Proverbios 3:6
+2|¿Cuál era el nombre del joven que habló a Job después de sus tres amigos?|Eliú|Zofar;Elifaz;Bildad|Job 32:2
+1|¿Cuántos días y noches estuvieron los tres amigos sentados en silencio con Job?|Siete|Tres;Diez;Cuarenta|Job 2:13
+2|¿Qué animal, que «come hierba como buey», describe Dios a Job?|Behemot|Leviatán;Avestruz;Búfalo|Job 40:15
+2|¿Cuántos años más vivió Job después de su prueba?|140|70;100;200|Job 42:16
+2|¿Cómo se llamó la primera hija de Job después de su restauración?|Jemima|Cesia;Tamar;Dina|Job 42:14
+1|Según Job 1:21, ¿cómo salió Job del vientre de su madre?|Desnudo|Con riquezas;Dormido;Llorando|Job 1:21
+2|Según Job 28:28, ¿qué es la sabiduría?|El temor del Señor|La edad;El oro;La fuerza|Job 28:28
+0|Según Salmos 100:1, ¿cómo debemos cantar a Dios?|Alegres|Tristes;En silencio;Con miedo|Salmos 100:1
+1|¿Qué salmo dice «Este es el día que hizo Jehová; nos gozaremos y alegraremos en él»?|Salmo 118|Salmo 100;Salmo 23;Salmo 150|Salmos 118:24
+0|Según Salmos 19:1, ¿qué cuentan los cielos?|La gloria de Dios|Las estrellas;El tiempo;La historia|Salmos 19:1
+1|Según Salmos 51:10, ¿qué pidió David que Dios creara en él?|Un corazón limpio|Un reino nuevo;Un ejército;Un templo|Salmos 51:10
+2|Según Salmos 133:1, ¿qué es bueno y delicioso?|Habitar los hermanos en unidad|Guardar el sábado;Ofrecer sacrificios;Ayunar en secreto|Salmos 133:1
+1|Según Salmos 34:8, ¿qué debemos gustar y ver?|Que Jehová es bueno|Que el pan es dulce;Que el mundo es grande;Que la ley es larga|Salmos 34:8
+2|Según Salmos 103:12, ¿cuánto alejó Dios de nosotros nuestras rebeliones?|Como está lejos el oriente del occidente|Como el cielo de la tierra;Hasta lo profundo del mar;Hasta el último día|Salmos 103:12
+1|Según Salmos 27:1, ¿qué es Jehová para el salmista?|Su luz y su salvación|Su escudo y su espada;Su pan y su agua;Su rey y su juez|Salmos 27:1
+1|Según Salmos 1:3, ¿con qué se compara al hombre bienaventurado?|Con un árbol plantado junto a arroyos|Con una roca en el desierto;Con un ave en el cielo;Con una flor del campo|Salmos 1:3
+1|Según Salmos 119:11, ¿dónde guardó el salmista la palabra de Dios?|En su corazón|En un libro;En el templo;En su casa|Salmos 119:11
+1|Según Salmos 56:3, ¿qué hace el salmista el día que tiene miedo?|Confiar en Dios|Huir al desierto;Callar;Pelear|Salmos 56:3
+2|¿Qué salmo repite en cada versículo «Porque para siempre es su misericordia»?|Salmo 136|Salmo 23;Salmo 1;Salmo 51|Salmos 136:1
+0|Según el Salmo 23, ¿dónde hace descansar el pastor a sus ovejas?|En lugares de delicados pastos|En el desierto;En una cueva;En la cima de un monte|Salmos 23:2
+0|En el Salmo 23, ¿qué infunde aliento al salmista?|Tu vara y tu cayado|Tu espada y tu escudo;Tu arpa y tu cetro;Tu trono y tu corona|Salmos 23:4
+0|Completa: «Ungiste mi cabeza con aceite; mi copa está ___»|rebosando|vacía;rota;escondida|Salmos 23:5
+1|Según Salmos 150:3, ¿con qué sonido debemos alabar a Dios?|A son de bocina (trompeta)|Con silencio absoluto;Con ruido de guerra;Con voz de trueno|Salmos 150:3
+1|Según Proverbios 1:7, ¿qué desprecian los insensatos?|La sabiduría y la enseñanza|El oro y la plata;La ley y el templo;El trabajo y el descanso|Proverbios 1:7
+1|Según Proverbios 10:4, ¿qué enriquece?|La mano de los diligentes|La mano perezosa;La suerte;El engaño|Proverbios 10:4
+1|Según Proverbios 12:25, ¿qué hace la buena palabra con el corazón angustiado?|Lo alegra|Lo endurece;Lo adormece;Lo enoja|Proverbios 12:25
+1|Según Proverbios 13:20, ¿qué será el que anda con sabios?|Sabio|Rico;Necio;Cansado|Proverbios 13:20
+1|Según Proverbios 14:34, ¿qué engrandece a la nación?|La justicia|La riqueza;El ejército;El comercio|Proverbios 14:34
+1|Según Proverbios 16:3, ¿qué debemos encomendar a Jehová?|Nuestras obras|Nuestros tesoros;Nuestros enemigos;Nuestros viajes|Proverbios 16:3
+2|Según Proverbios 26:11, ¿a qué se parece el necio que repite su necedad?|A un perro que vuelve a su vómito|A un buey que se cansa;A un asno terco;A un lobo hambriento|Proverbios 26:11
+0|Según Proverbios 18:21, ¿qué tiene poder sobre la muerte y la vida?|La lengua|La mano;El oro;El pie|Proverbios 18:21
+2|Según Proverbios 6:16, ¿cuántas cosas aborrece Jehová?|Seis, y aun siete|Tres;Cinco;Diez|Proverbios 6:16
+1|Según Proverbios 19:17, ¿a quién presta el que da al pobre?|A Jehová|Al rey;Al juez;Al mercader|Proverbios 19:17
+1|Según Proverbios 15:1, ¿qué hace subir la palabra áspera?|El furor|La alegría;La paz;El sueño|Proverbios 15:1
+1|Según Eclesiastés 9:10, ¿cómo debemos hacer lo que venga a nuestra mano?|Según nuestras fuerzas|Con prisa;En secreto;Sin esfuerzo|Eclesiastés 9:10
+1|Según Eclesiastés 1:9, ¿qué no hay debajo del sol?|Cosa nueva|Cosa vieja;Cosa buena;Cosa justa|Eclesiastés 1:9
+1|Según Eclesiastés 5:2, ¿cómo deben ser nuestras palabras delante de Dios?|Pocas|Muchas;Fuertes;Rápidas|Eclesiastés 5:2
+1|Según Eclesiastés 11:1, ¿qué debemos echar sobre las aguas?|Nuestro pan|Nuestras redes;Nuestras anclas;Nuestras velas|Eclesiastés 11:1
+0|Según Eclesiastés 3:2, hay tiempo de nacer y tiempo de...|Morir|Soñar;Cantar;Viajar|Eclesiastés 3:2
+1|Según Cantares 2:11, ¿qué ha pasado ya?|El invierno|El verano;El otoño;La noche|Cantares 2:11
+2|Según Cantares 2:15, ¿qué debemos cazar porque echan a perder las viñas?|Las zorras pequeñas|Los lobos;Las serpientes;Los leones|Cantares 2:15
+2|Según Cantares 4:7, ¿qué no hay en la amada?|Mancha|Temor;Tristeza;Orgullo|Cantares 4:7
+1|Según Cantares 5:2, «Yo dormía, pero mi corazón...»|Velaba|Reía;Callaba;Cantaba|Cantares 5:2
+1|¿De quién era hijo Josué, sucesor de Moisés?|De Nun|De Caleb;De Aarón;De Jefone|Josué 1:1
+1|Según Josué 1:9, ¿qué mandó Dios a Josué?|Esforzarse y ser valiente|Huir del enemigo;Construir un templo;Ayunar cuarenta días|Josué 1:9
+1|¿De qué color era el cordón que Rahab ató en su ventana?|Rojo (grana)|Azul;Blanco;Verde|Josué 2:18
+2|¿Cuántos años tenía Josué cuando murió?|110|100;120;90|Josué 24:29
+1|¿Qué altar derribó Gedeón por mandato de Jehová, que era de su padre?|El de Baal|El de Dagón;El de Moloc;El de Asera|Jueces 6:25
+2|¿De qué tribu era Sansón?|Dan|Judá;Benjamín;Leví|Jueces 13:2
+1|¿Qué hizo Sansón con las puertas de la ciudad de Gaza?|Se las llevó sobre sus hombros|Las quemó;Las rompió con una piedra;Las enterró|Jueces 16:3
+2|¿Qué hijo de Gedeón se hizo proclamar rey en Siquem?|Abimelec|Jotam;Jefté;Tola|Jueces 9:6
+2|¿Con qué hirió una mujer a Abimelec en la cabeza?|Con un pedazo de rueda de molino|Con una estaca;Con una piedra de honda;Con un cántaro|Jueces 9:53
+1|¿A qué ciudad regresaron Noemí y Rut?|Belén|Jericó;Hebrón;Jerusalén|Rut 1:19
+2|¿Qué nombre pidió Noemí que le pusieran, que significa «amarga»?|Mara|Orfa;Marta;Raquel|Rut 1:20
+1|¿Cómo se llamaba la cuñada de Rut que regresó con su pueblo?|Orfa|Noemí;Raquel;Lea|Rut 1:14
+0|¿Qué le pidió Ana a Dios en el santuario?|Un hijo varón|Riquezas;Salud;Un reino|1 Samuel 1:11
+0|¿Qué pidió el pueblo a Samuel para ser como las demás naciones?|Un rey|Un templo;Un ejército;Un profeta|1 Samuel 8:5
+1|¿Cuántas veces llamó Jehová a Samuel antes de que entendiera que era Dios?|3|2;4;7|1 Samuel 3:8
+1|¿Qué animales guardaba David cuando mató un león y un oso?|Las ovejas de su padre|Cabras;Vacas;Camellos|1 Samuel 17:34
+2|¿Cómo se llamaba la esposa sensata de Nabal que luego se casó con David?|Abigail|Mical;Ahinoam;Betsabé|1 Samuel 25:3
+2|¿De qué ciudad filistea era Goliat?|Gat|Ecrón;Gaza;Asdod|1 Samuel 17:4
+2|¿Quién murió por tocar el arca cuando los bueyes tropezaron?|Uza|Aod;Abinadab;Obed-edom|2 Samuel 6:6
+1|¿Qué animal tenía el hombre pobre en la parábola de Natán?|Una cordera|Un buey;Un asno;Una cabra|2 Samuel 12:3
+1|Según 2 Samuel 7:16, ¿hasta cuándo sería estable el trono de David?|Para siempre|Cuarenta años;Mil años;Hasta su muerte|2 Samuel 7:16
+1|¿Qué hijo de David mató a su hermano Amnón?|Absalón|Adonías;Salomón;Quileab|2 Samuel 13:28
+2|¿Qué castigo eligió David entre las tres opciones que le dio Dios?|Tres días de pestilencia|Siete años de hambre;Huir tres meses;Una guerra|2 Samuel 24:15
+2|Según 1 Reyes 4:32, ¿cuántas parábolas propuso Salomón?|3.000|1.000;500;10.000|1 Reyes 4:32
+2|Según 1 Reyes 4:32, ¿cuántos versos compuso Salomón?|1.005|500;1.000;3.000|1 Reyes 4:32
+1|¿Cuántos profetas de Baal desafió Elías en el monte Carmelo?|450|400;850;1.000|1 Reyes 18:22
+2|¿Qué rey de Israel edificó Samaria como capital?|Omri|Acab;Jeroboam;Baasa|1 Reyes 16:24
+1|¿Qué rey de Israel puso dos becerros de oro en Dan y Betel?|Jeroboam|Roboam;Acab;Jehú|1 Reyes 12:28
+1|¿Qué profeta anunció a Acab que no habría lluvia ni rocío?|Elías|Eliseo;Micaías;Natán|1 Reyes 17:1
+1|¿Cuántas veces se zambulló Naamán en el Jordán?|7|3;5;10|2 Reyes 5:14
+2|¿Quién fue ungido rey de Israel por un joven profeta enviado por Eliseo?|Jehú|Acab;Joram;Omri|2 Reyes 9:6
+2|¿Qué rey de Judá empezó a reinar a los siete años de edad?|Joás|Uzías;Josías;Acaz|2 Reyes 11:21
+2|¿Qué hizo Ezequías con la carta del rey de Asiria?|La extendió delante de Jehová|La quemó;La rompió;La escondió|2 Reyes 19:14
+1|¿Qué echó Eliseo en las aguas malas de Jericó para sanarlas?|Sal|Harina;Aceite;Ceniza|2 Reyes 2:21
+1|¿Qué rey de Babilonia destruyó Jerusalén y quemó el templo?|Nabucodonosor|Ciro;Senaquerib;Darío|2 Reyes 25:8
+2|¿Qué tribu «entendía los tiempos» y sabía lo que Israel debía hacer?|Isacar|Zabulón;Neftalí;Dan|1 Crónicas 12:32
+1|¿A quién entregó David el plano del templo?|A Salomón|A Natán;A Joab;A Absalón|1 Crónicas 28:11
+2|Según 1 Crónicas 21:1, ¿quién incitó a David a hacer el censo?|Satanás|Joab;Un profeta;Un ángel de Jehová|1 Crónicas 21:1
+2|¿Qué rey de Judá pidió ayuda a Dios cuando lo atacó Zera el etíope?|Asa|Josafat;Ezequías;Joás|2 Crónicas 14:9
+1|Según 2 Crónicas 7:14, si el pueblo se humilla y ora, ¿qué hará Dios con su tierra?|La sanará|La destruirá;La dividirá;La venderá|2 Crónicas 7:14
+2|¿Qué rey de Judá reinó cincuenta y cinco años, el reinado más largo?|Manasés|Ezequías;Josías;Uzías|2 Crónicas 33:1
+1|¿Quién dirigió el primer grupo de judíos que volvió de Babilonia?|Zorobabel|Esdras;Nehemías;Josué|Esdras 2:2
+2|¿Qué proclamó Esdras junto al río Ahava antes del viaje?|Un ayuno|Una fiesta;Un sacrificio;Una batalla|Esdras 8:21
+1|¿Cómo se llamaba el enemigo horonita de Nehemías?|Sanbalat|Tobías;Gesem;Eliasib|Nehemías 2:10
+1|¿Cómo reaccionó Nehemías al saber que los muros de Jerusalén estaban derribados?|Lloró, ayunó y oró|Se enojó con el rey;Fue a la guerra;Huyó a Babilonia|Nehemías 1:4
+2|¿Quién era el sumo sacerdote que empezó a reedificar la puerta de las Ovejas?|Eliasib|Esdras;Joiada;Sadoc|Nehemías 3:1
+1|¿Cuánto tiempo ayunó Ester antes de presentarse ante el rey sin ser llamada?|Tres días|Un día;Siete días;Cuarenta días|Ester 4:16
+2|¿De qué altura mandó hacer Amán la horca para Mardoqueo?|50 codos|10 codos;30 codos;100 codos|Ester 5:14
+1|¿Qué mandó leer el rey Asuero una noche en que no podía dormir?|El libro de las memorias|La ley de Moisés;Los salmos;Una carta de Amán|Ester 6:1
+0|Además de sabiduría, ¿qué le dio Dios a Salomón, aunque no lo pidió?|Riquezas y gloria|Una larga guerra;Un nuevo templo;Un hijo sabio|1 Reyes 3:13
+0|¿Qué hizo David con Goliat después de derribarlo?|Le cortó la cabeza|Lo ató;Lo perdonó;Lo encerró|1 Samuel 17:51
+1|¿Qué instrumentos llevaron siete sacerdotes alrededor de Jericó?|Bocinas de cuernos de carnero|Arpas y panderos;Flautas;Tambores de guerra|Josué 6:4
+0|Tras la muerte de Salomón, el reino se dividió en Israel y...|Judá|Moab;Edom;Amón|1 Reyes 12:20
+0|¿Qué hicieron Jonatán y David porque se amaban como a su propia alma?|Una alianza|Un viaje;Una batalla;Un banquete|1 Samuel 18:3
+0|Según Isaías 1:18, aunque nuestros pecados sean como la grana, ¿cómo los hará Dios?|Blancos como la nieve|Rojos como la sangre;Oscuros como la noche;Dorados como el oro|Isaías 1:18
+0|Según Isaías 41:10, ¿por qué no debemos temer?|Porque Dios está con nosotros|Porque no hay enemigos;Porque ya pasó el peligro;Porque somos fuertes|Isaías 41:10
+0|¿Qué clamaban los serafines en la visión de Isaías?|Santo, santo, santo|Aleluya, aleluya, aleluya;Gloria, gloria, gloria;Paz, paz, paz|Isaías 6:3
+1|Según Isaías 55:8, ¿qué dice Dios de sus pensamientos?|No son nuestros pensamientos|Son iguales a los nuestros;Son un secreto;Son muy antiguos|Isaías 55:8
+1|Según Isaías 53:6, ¿qué hicimos todos como ovejas?|Nos descarriamos|Pastoreamos;Dormimos;Corrimos|Isaías 53:6
+1|Según Isaías 43:2, cuando pasemos por las aguas, ¿qué promete Dios?|Estará con nosotros|Las secará;Nos dará una barca;Nos esconderá|Isaías 43:2
+1|Según Jeremías 17:7, ¿cómo es el hombre que confía en Jehová?|Bendito|Cansado;Pobre;Temeroso|Jeremías 17:7
+1|¿Qué hacía el alfarero cuando Jeremías visitó su casa?|Trabajaba sobre la rueda|Cocía ladrillos;Vendía vasijas;Dormía|Jeremías 18:3
+2|¿Qué rey quemó el rollo con las palabras de Jeremías?|Joacim|Sedequías;Josías;Ezequías|Jeremías 36:23
+1|Según Jeremías 31:3, ¿con qué amor amó Dios a su pueblo?|Con amor eterno|Con amor pasajero;Con amor humano;Con amor condicional|Jeremías 31:3
+2|¿Quién fue el escriba fiel que escribió las palabras de Jeremías?|Baruc|Esdras;Safán;Ebed-melec|Jeremías 36:4
+2|¿Qué hombre etíope sacó a Jeremías de la cisterna?|Ebed-melec|Baruc;Pasur;Hananías|Jeremías 38:7
+1|Según Ezequiel 36:26, ¿qué corazón quitaría Dios de la carne de su pueblo?|El corazón de piedra|El corazón de oro;El corazón de hierro;El corazón de barro|Ezequiel 36:26
+1|Según Ezequiel 34:15, ¿qué haría Jehová con sus ovejas?|Las apacentaría|Las vendería;Las dispersaría;Las contaría|Ezequiel 34:15
+2|En la visión del río de Ezequiel 47, ¿hasta dónde llegaban las aguas la primera vez que se midieron?|Hasta los tobillos|Hasta las rodillas;Hasta los lomos;Hasta el cuello|Ezequiel 47:3
+1|¿Qué hacía Daniel tres veces al día, con las ventanas abiertas hacia Jerusalén?|Oraba y daba gracias a Dios|Ayunaba y lloraba;Estudiaba la ley;Cantaba salmos|Daniel 6:10
+1|¿Qué ángel vino a Daniel para hacerle entender la visión?|Gabriel|Miguel;Rafael;Uriel|Daniel 9:21
+1|¿Cuántos varones vio Nabucodonosor paseándose dentro del horno de fuego?|Cuatro|Dos;Tres;Siete|Daniel 3:25
+1|¿De qué material era la cabeza de la estatua del sueño de Nabucodonosor?|De fino oro|De plata;De bronce;De hierro|Daniel 2:32
+1|Según Oseas 4:6, ¿por qué fue talado el pueblo de Dios?|Le faltó sabiduría|Le faltó pan;Le faltaron soldados;Le faltó agua|Oseas 4:6
+1|Según Joel 2:32, ¿qué le pasará al que invocare el nombre de Jehová?|Será salvo|Será juzgado;Será olvidado;Será probado|Joel 2:32
+2|Según Amós 3:3, ¿cuándo andarán dos juntos?|Si están de acuerdo (de concierto)|Si tienen el mismo oficio;Si son de la misma tribu;Si el camino es corto|Amós 3:3
+1|¿Cómo reaccionó Jonás cuando Dios perdonó a Nínive?|Se enojó mucho|Se alegró;Oró en silencio;Huyó a Tarsis|Jonás 4:1
+1|¿Qué hicieron los marineros con Jonás para que se calmara el mar?|Lo echaron al mar|Le dieron de comer;Lo encerraron;Lo bajaron en una canasta|Jonás 1:15
+1|Según Habacuc 2:3, ¿qué debemos hacer con la visión si parece tardar?|Esperarla|Olvidarla;Borrarla;Venderla|Habacuc 2:3
+1|¿Cuánto pagaron por el pastor en la profecía de Zacarías 11:12?|Treinta piezas de plata|Diez siclos de oro;Cien monedas;Mil siclos de plata|Zacarías 11:12
+1|Según Malaquías 3:1, ¿a quién enviaría Dios delante de su rostro?|A su mensajero|A un rey;A un ángel;A un sacerdote|Malaquías 3:1
+0|¿Qué rey mandó matar a los niños de Belén?|Herodes|Pilato;Agripa;César|Mateo 2:16
+0|¿A qué país huyeron José, María y el niño Jesús para escapar de Herodes?|Egipto|Roma;Babilonia;Grecia|Mateo 2:14
+0|¿En qué quiso el diablo que Jesús convirtiera las piedras?|En pan|En oro;En agua;En ovejas|Mateo 4:3
+1|Según Mateo 5:3, ¿quiénes son bienaventurados porque de ellos es el reino de los cielos?|Los pobres en espíritu|Los ricos;Los sabios;Los fuertes|Mateo 5:3
+0|Según Mateo 6:33, ¿qué debemos buscar primero?|El reino de Dios y su justicia|Las riquezas;La fama;La salud|Mateo 6:33
+0|Según Mateo 7:7: «Pedid, y se os dará; buscad, y hallaréis; llamad, y...»|Se os abrirá|Os responderán;Os recibirán;Os oirán|Mateo 7:7
+0|Según Mateo 4:19, ¿en qué convertiría Jesús a Pedro y a Andrés?|En pescadores de hombres|En reyes;En sacerdotes;En maestros|Mateo 4:19
+1|¿Cuántas cestas llenas de pedazos sobraron después de alimentar a los cinco mil?|12|7;5;3|Mateo 14:20
+1|¿Qué dijo Jesús primero al paralítico que bajaron por el techo?|Tus pecados te son perdonados|Levántate y anda;Ve al templo;Lávate en el estanque|Marcos 2:5
+1|¿Qué respondió el endemoniado de Gadara cuando Jesús le preguntó su nombre?|Legión|Belcebú;Satanás;Abadón|Marcos 5:9
+1|¿Qué toco la mujer enferma de flujo de sangre para ser sanada?|El vestido de Jesús|El pie de Jesús;Su cinto;La red de pesca|Marcos 5:27
+1|¿Qué quería saber el joven rico que se acercó a Jesús?|Qué hacer para heredar la vida eterna|Cómo ganar más riquezas;Dónde estaba el templo;Cuándo vendría el reino|Marcos 10:17
+1|Según Marcos 10:25, ¿qué es más fácil que entrar un rico en el reino de Dios?|Pasar un camello por el ojo de una aguja|Mover una montaña;Cruzar el mar a pie;Contar las estrellas|Marcos 10:25
+1|¿Cuántas blancas echó la viuda pobre en el arca de la ofrenda?|Dos|Cinco;Diez;Una|Marcos 12:42
+0|¿Qué le pusieron los soldados en la cabeza a Jesús antes de la cruz?|Una corona de espinas|Una corona de oro;Una corona de laurel;Una corona de olivo|Marcos 15:17
+1|¿Quién pidió a Pilato el cuerpo de Jesús para sepultarlo?|José de Arimatea|Nicodemo;Pedro;Zaqueo|Marcos 15:43
+1|¿Cómo se llamaba el hombre justo de Jerusalén que esperaba la consolación de Israel?|Simeón|Zacarías;Elí;Nicodemo|Lucas 2:25
+0|¿Dónde acostó María al niño Jesús recién nacido?|En un pesebre|En una cuna de oro;En el suelo;En el templo|Lucas 2:7
+1|En la parábola del hijo pródigo, ¿qué cuidaba el joven cuando estaba sin dinero?|Puercos|Ovejas;Camellos;Caballos|Lucas 15:15
+0|¿Qué hizo el padre cuando vio venir de lejos al hijo pródigo?|Corrió y lo abrazó|Lo reprendió;Lo mandó trabajar;Cerró la puerta|Lucas 15:20
+1|¿Qué prometió Jesús al malhechor arrepentido en la cruz?|Que estaría con él en el paraíso|Que lo bajaría de la cruz;Que lo haría rico;Que lo haría apóstol|Lucas 23:43
+1|¿Cuántos años tenía Jesús cuando comenzó su ministerio, según Lucas 3:23?|30|20;40;50|Lucas 3:23
+2|¿Cuántos discípulos más envió Jesús de dos en dos delante de él, según Lucas 10:1?|Setenta|Doce;Siete;Cien|Lucas 10:1
+1|En la parábola de Lucas 18, ¿quién oró «Dios, sé propicio a mí, pecador»?|El publicano|El fariseo;El sacerdote;El escriba|Lucas 18:13
+0|Según Juan 1:1, «En el principio era el Verbo, y el Verbo era con...»|Dios|Moisés;Los ángeles;El mundo|Juan 1:1
+1|¿Cuántas tinajuelas de piedra había en las bodas de Caná donde Jesús hizo el milagro?|Seis|Cuatro;Siete;Doce|Juan 2:6
+1|Según Juan 3:3, ¿qué debe hacer el hombre para ver el reino de Dios?|Nacer otra vez|Estudiar la ley;Ayunar;Hacer sacrificios|Juan 3:3
+0|Según Juan 6:35, ¿qué dijo Jesús que era?|El pan de vida|El camino;La puerta;El buen pastor|Juan 6:35
+0|Según Juan 8:12, ¿qué dijo Jesús que era?|La luz del mundo|El pan del cielo;La puerta;El buen pastor|Juan 8:12
+1|Según Juan 8:32, ¿qué nos libertará?|La verdad|La ley;El dinero;El trabajo|Juan 8:32
+0|Según Juan 13:34, ¿qué mandamiento nuevo dio Jesús?|Que nos amemos unos a otros|Que ayunemos cada semana;Que guardemos el sábado;Que construyamos un templo|Juan 13:34
+1|¿Qué dijo Jesús en la cruz justo antes de entregar su espíritu, según Juan 19:30?|Consumado es|Todo está perdido;Padre, sálvame;Tengo sed|Juan 19:30
+0|¿Qué se asentó sobre cada uno de los discípulos el día de Pentecostés?|Lenguas como de fuego|Palomas;Nubes;Estrellas|Hechos 2:3
+1|¿A quién sanó Pedro a la puerta del templo llamada la Hermosa?|A un cojo de nacimiento|A un ciego;A un leproso;A un sordo|Hechos 3:2
+0|¿Qué le pasó a Saulo cuando abrió los ojos después de ver la luz?|No veía a nadie|Se llenó de luz;Perdió el oído;Se sanó de una enfermedad|Hechos 9:8
+1|¿Quién puso las manos sobre Saulo en Damasco para que recobrara la vista?|Ananías|Bernabé;Silas;Timoteo|Hechos 9:17
+1|¿Qué compañero acompañó a Pablo en su primer viaje misionero?|Bernabé|Silas;Timoteo;Lucas|Hechos 13:2
+1|¿Qué compañero eligió Pablo para su segundo viaje misionero?|Silas|Bernabé;Tito;Apolos|Hechos 15:40
+1|¿Qué inscripción vio Pablo en un altar de Atenas?|Al Dios no conocido|Al Dios de Israel;Al Dios del trueno;Al Dios de la guerra|Hechos 17:23
+1|¿Qué hizo Pablo con la víbora que se le prendió de la mano en Malta?|La sacudió en el fuego|La mató con una piedra;La entregó al jefe de la isla;La dejó en el suelo|Hechos 28:5
+2|Según Levítico 5:7, ¿qué podía ofrecer quien no alcanzaba para un cordero?|Dos tórtolas o dos palominos|Un buey;Dos corderos pequeños;Un puñado de harina|Levítico 5:7
+1|Según Levítico 6:13, ¿qué no debía apagarse nunca en el altar?|El fuego|El incienso;La lámpara;El agua|Levítico 6:13
+2|Según Levítico 23:5, ¿a los cuántos días del mes primero se celebraba la Pascua?|A los catorce|A los diez;A los quince;A los veintiuno|Levítico 23:5
+2|Según Levítico 19:9, ¿qué no debían segar del todo los que cosechaban?|El rincón del campo|Los árboles frutales;Las espigas altas;El centro del campo|Levítico 19:9
+0|Según Levítico 23:3, ¿qué día de la semana es de reposo?|El séptimo|El primero;El tercero;El quinto|Levítico 23:3
+1|Según Números 6:24, la bendición dice: «Jehová te bendiga, y te...»|Guarde|Ayude;Enseñe;Siga|Números 6:24
+1|¿Qué cortaron los espías en el valle de Escol y llevaron entre dos en un palo?|Un racimo de uvas|Una rama de olivo;Un manojo de trigo;Una palma|Números 13:23
+2|¿Qué rey de Moab contrató a Balaam para maldecir a Israel?|Balac|Sehón;Og;Eglón|Números 22:4
+2|Según Números 12:3, ¿cómo era Moisés comparado con todos los hombres de la tierra?|Muy manso|Muy fuerte;Muy rico;Muy valiente|Números 12:3
+0|Según Deuteronomio 5:16, ¿a quiénes debemos honrar?|A nuestro padre y a nuestra madre|A los reyes;A los sacerdotes;A los ancianos|Deuteronomio 5:16
+1|Según Deuteronomio 31:6, ¿qué promete Jehová a su pueblo?|No dejarlo ni desampararlo|Darle riquezas;Darle un rey;Quitarle los enemigos de golpe|Deuteronomio 31:6
+1|Según Deuteronomio 30:19, ¿qué debemos escoger?|La vida|La riqueza;La fama;El poder|Deuteronomio 30:19
+1|Según Deuteronomio 6:7, ¿qué debemos hacer con las palabras de Dios con nuestros hijos?|Repetirlas a ellos|Esconderlas;Cantarlas solo en el templo;Escribirlas en la tierra|Deuteronomio 6:7
+2|¿Cuántos años vivió Matusalén, el hombre más longevo de la Biblia?|969|930;777;950|Génesis 5:27
+1|¿Con quién luchó Jacob en Peniel hasta que rayaba el alba?|Con un varón|Con un león;Con su hermano Esaú;Con Labán|Génesis 32:24
+1|¿Qué edad tenía José cuando fue vendido por sus hermanos?|17|12;20;30|Génesis 37:2
+1|Según Génesis 15:5, ¿con qué comparó Dios la descendencia de Abram?|Con las estrellas del cielo|Con la arena del desierto;Con las ovejas del campo;Con las olas del mar|Génesis 15:5
+2|¿Cuántos años estuvo el pueblo de Israel en Egipto, según Éxodo 12:40?|430|400;215;70|Éxodo 12:40
+1|Según Éxodo 20:8, ¿qué debemos hacer con el día de reposo?|Santificarlo|Olvidarlo;Venderlo;Escribirlo|Éxodo 20:8
+2|¿Qué echó Moisés en las aguas amargas de Mara para endulzarlas?|Un árbol|Sal;Miel;Una piedra|Éxodo 15:25
+1|Según Romanos 8:1, ¿qué no hay para los que están en Cristo Jesús?|Condenación|Temor;Pobreza;Esclavitud|Romanos 8:1
+1|Según Romanos 10:9, ¿qué debemos confesar con la boca?|Al Señor Jesús|Nuestros méritos;La ley de Moisés;El nombre del templo|Romanos 10:9
+1|Según Romanos 12:1, ¿qué debemos presentar a Dios en sacrificio vivo?|Nuestros cuerpos|Nuestras ovejas;Nuestro dinero;Nuestras casas|Romanos 12:1
+1|Según Romanos 12:21, ¿con qué debemos vencer el mal?|Con el bien|Con la fuerza;Con el silencio;Con la ley|Romanos 12:21
+1|Según 1 Corintios 15:55, «¿Dónde, oh sepulcro, tu...?»|Victoria|Fuerza;Puerta;Sombra|1 Corintios 15:55
+1|Según 1 Corintios 13:4, la caridad (el amor) es sufrida y es...|Benigna|Orgullosa;Rápida;Ruidosa|1 Corintios 13:4
+1|Según 1 Corintios 16:14, «Todas vuestras cosas sean hechas con...»|Caridad (amor)|Prisa;Temor;Orgullo|1 Corintios 16:14
+1|Según 2 Corintios 5:7, ¿por qué andamos?|Por fe, no por vista|Por vista, no por fe;Por costumbre;Por miedo|2 Corintios 5:7
+1|Según Gálatas 6:2, ¿qué debemos hacer los unos con las cargas de los otros?|Sobrellevarlas|Ignorarlas;Venderlas;Esconderlas|Gálatas 6:2
+1|Según Gálatas 6:9, ¿de qué no debemos cansarnos?|De hacer bien|De orar;De ayunar;De cantar|Gálatas 6:9
+0|Según Efesios 6:11, ¿qué debemos vestir para estar firmes contra el diablo?|Toda la armadura de Dios|Ropas de lino;Una túnica blanca;Una corona|Efesios 6:11
+1|Según Efesios 4:26, ¿qué no debe ponerse sobre nuestro enojo?|El sol|La luna;La noche;La lluvia|Efesios 4:26
+1|Según Filipenses 4:7, ¿qué guardará nuestros corazones y pensamientos?|La paz de Dios|El dinero;La fama;La ley|Filipenses 4:7
+2|Según Colosenses 3:14, ¿qué es el vínculo de la perfección?|La caridad (el amor)|La ley;La fe;La paciencia|Colosenses 3:14
+2|Según 1 Timoteo 6:6, ¿qué es gran ganancia cuando va con contentamiento?|La piedad|La riqueza;La fama;La fuerza|1 Timoteo 6:6
+2|Según 2 Timoteo 2:15, ¿cómo debe ser el obrero que trata bien la palabra de verdad?|Aprobado, sin de qué avergonzarse|Rico y respetado;Temido por todos;Siempre en silencio|2 Timoteo 2:15
+1|Según Hebreos 11:6, ¿qué es imposible sin fe?|Agradar a Dios|Cruzar el mar;Ganar riquezas;Vivir muchos años|Hebreos 11:6
+0|Según Hebreos 12:2, ¿en quién debemos poner los ojos?|En Jesús|En Moisés;En Pablo;En los ángeles|Hebreos 12:2
+1|Según Santiago 1:22, ¿qué debemos ser de la palabra, y no solamente oidores?|Hacedores|Escritores;Maestros;Guardianes|Santiago 1:22
+1|Según Santiago 5:16, ¿qué debemos hacer los unos por los otros para ser sanos?|Rogar (orar)|Ayunar;Trabajar;Callar|Santiago 5:16
+0|Según 1 Juan 3:1, ¿qué somos llamados por el amor del Padre?|Hijos de Dios|Siervos fieles;Amigos del mundo;Reyes de la tierra|1 Juan 3:1
+1|Según 1 Juan 4:18, ¿qué echa fuera el perfecto amor?|El temor|La ira;La envidia;El dolor|1 Juan 4:18
+1|Según Apocalipsis 5:5, ¿de qué tribu es el León que venció para abrir el libro?|De Judá|De Leví;De Benjamín;De Dan|Apocalipsis 5:5
+2|¿Cómo se llama el lugar donde se juntaron los reyes en Apocalipsis 16:16?|Armagedón|Gabaón;Meguido;Hermón|Apocalipsis 16:16
+1|¿De qué eran las doce puertas de la nueva Jerusalén?|De perlas|De oro;De bronce;De mármol|Apocalipsis 21:21
+1|Según Apocalipsis 22:2, ¿qué árbol había a uno y otro lado del río?|El árbol de la vida|El árbol del bien y del mal;El olivo;La higuera|Apocalipsis 22:2
+1|Según Apocalipsis 12:7, ¿quién y sus ángeles lidiaban contra el dragón?|Miguel|Gabriel;Rafael;Uriel|Apocalipsis 12:7
+0|¿A qué ciudad fue llevado cautivo el profeta Daniel?|Babilonia|Nínive;Roma;Egipto|Daniel 1:1
+0|¿Dónde echaron a Sadrac, Mesac y Abed-nego por no adorar la estatua?|En un horno de fuego ardiendo|En un foso de leones;En una cisterna;En el mar|Daniel 3:21
+1|Según Isaías 40:1, ¿qué debemos hacer con el pueblo de Dios?|Consolarlo|Juzgarlo;Dispersarlo;Contarlo|Isaías 40:1
+0|¿Qué apóstol escribió las cartas a Timoteo?|Pablo|Pedro;Juan;Santiago|1 Timoteo 1:1-2
+1|En Apocalipsis, ¿de qué color era el caballo del primer jinete?|Blanco|Rojo;Negro;Amarillo|Apocalipsis 6:2
+1|Según Efesios 2:8, ¿qué es la salvación?|Don de Dios|Premio de las obras;Herencia familiar;Pago por el esfuerzo|Efesios 2:8
+1|Según 2 Timoteo 1:7, Dios nos dio espíritu de fortaleza, de amor y de...|Templanza|Temor;Orgullo;Riqueza|2 Timoteo 1:7
+1|Según Proverbios 3:5, ¿en qué no debemos estribar?|En nuestra prudencia|En Jehová;En su palabra;En sus caminos|Proverbios 3:5
+1|¿Cómo se llamaba el padre de David?|Isaí|Saúl;Booz;Samuel|1 Samuel 16:1
+1|¿De qué ciudad era David?|Belén|Hebrón;Jerusalén;Silo|1 Samuel 17:12`;
+const VERSES=`Génesis 7:12|Y hubo lluvia sobre la tierra cuarenta días y cuarenta noches.
+Génesis 37|(37:28) Y como pasaban los Midianitas mercaderes, sacaron ellos á José de la cisterna, y trajéronle arriba, y le vendieron á los Ismaelitas por veinte piezas de plata. Y llevaron á José á Egipto.
+Éxodo 14|(14:21) Y extendió Moisés su mano sobre la mar, é hizo Jehová que la mar se retirase por recio viento oriental toda aquella noche; y tornó la mar en seco, y las aguas quedaron divididas.
+Génesis 1:1|En el principio crió Dios los cielos y la tierra.
+Éxodo 20|(20:3) No tendrás dioses ajenos delante de mí.
+1 Samuel 17|(17:50) Así venció David al Filisteo con honda y piedra; é hirió al Filisteo y matólo, sin tener David espada en su mano.
+Jonás 1:17|Mas Jehová había prevenido un gran pez que tragase á Jonás: y estuvo Jonás en el vientre del pez tres días y tres noches.
+1 Reyes 3|(3:9) Da pues á tu siervo corazón dócil para juzgar á tu pueblo, para discernir entre lo bueno y lo malo: porque ¿quién podrá gobernar este tu pueblo tan grande?
+Mateo 2:1|Y como fué nacido Jesús en Bethlehem de Judea en días del rey Herodes, he aquí unos magos vinieron del oriente á Jerusalem,
+Lucas 6:13|Y como fué de día, llamó á sus discípulos, y escogió doce de ellos, á los cuales también llamó apóstoles:
+Mateo 3:13|Entonces Jesús vino de Galilea á Juan al Jordán, para ser bautizado de él.
+Mateo 26:75|Y se acordó Pedro de las palabras de Jesús, que le dijo: Antes que cante el gallo, me negarás tres veces. Y saliéndose fuera, lloró amargamente.
+Apocalipsis 22|(22:20) El que da testimonio de estas cosas, dice: Ciertamente, vengo en breve. Amén, sea así. Ven, Señor Jesús.
+Hechos 9|(9:4) Y cayendo en tierra, oyó una voz que le decía: Saulo, Saulo, ¿por qué me persigues?
+Hechos 1:1|En el primer tratado, oh Teófilo, he hablado de todas las cosas que Jesús comenzó á hacer y á enseñar,
+1 Corintios 15:4|Y que fué sepultado, y que resucitó al tercer día, conforme á las Escrituras;
+Génesis 17|(17:15) Dijo también Dios á Abraham: A Sarai tu mujer no la llamarás Sarai, mas Sara será su nombre.
+Génesis 2|(2:7) Formó, pues, Jehová Dios al hombre del polvo de la tierra, y alentó en su nariz soplo de vida; y fué el hombre en alma viviente.
+Génesis 6|(6:14) Hazte un arca de madera de Gopher: harás aposentos en el arca, y la embetunarás con brea por dentro y por fuera.
+Daniel 6|(6:16) Entonces el rey mandó, y trajeron á Daniel, y echáronle en el foso de los leones. Y hablando el rey dijo á Daniel: El Dios tuyo, á quien tú continuamente sirves, él te libre.
+Génesis 32:28|Y él dijo: No se dirá más tu nombre Jacob, sino Israel: porque has peleado con Dios y con los hombres, y has vencido.
+Jueces 4|(4:4) Y gobernaba en aquel tiempo á Israel una mujer, Débora, profetisa, mujer de Lapidoth:
+Ester 4|(4:14) Porque si absolutamente callares en este tiempo, respiro y libertación tendrán los Judíos de otra parte; mas tú y la casa de tu padre pereceréis. ¿Y quién sabe si para esta hora te han hecho llegar al reino?
+Lucas 1:31|Y he aquí, concebirás en tu seno, y parirás un hijo, y llamarás su nombre JESUS.
+Mateo 14:17|Y ellos dijeron: No tenemos aquí sino cinco panes y dos peces.
+Juan 2:1-11|… y estaba allí la madre de Jesús. Y fué también llamado Jesús y sus discípulos á las bodas. Y faltando el vino, la madre de Jesús le dijo: Vino no tienen. Y dícele Jesús: ¿Qué tengo yo contigo, mujer? aun no ha venido mi hora. Su madre dice á los que servían…
+Juan 11|(11:43) Y habiendo dicho estas cosas, clamó á gran voz: Lázaro, ven fuera.
+Mateo 14:29|Y él dijo: Ven. Y descendiendo Pedro del barco, andaba sobre las aguas para ir á Jesús.
+Lucas 10:33|Mas un Samaritano que transitaba, viniendo cerca de él, y viéndole, fué movido á misericordia;
+Lucas 15:4|¿Qué hombre de vosotros, teniendo cien ovejas, si perdiere una de ellas, no deja las noventa y nueve en el desierto, y va á la que se perdió, hasta que la halle?
+Lucas 17:15|Entonces uno de ellos, como se vió que estaba limpio, volvió, glorificando á Dios á gran voz;
+Marcos 4:39|Y levantándose, increpó al viento, y dijo á la mar: Calla, enmudece. Y cesó el viento, y fué hecha grande bonanza.
+Éxodo 19|(19:20) Y descendió Jehová sobre el monte de Sinaí, sobre la cumbre del monte: y llamó Jehová á Moisés á la cumbre del monte, y Moisés subió.
+Josué 6|(6:20) Entonces el pueblo dió grita, y los sacerdotes tocaron las bocinas: y aconteció que como el pueblo hubo oído el sonido de la bocina, dió el pueblo grita con gran vocerío, y el muro cayó á plomo. El pueblo subió luego á la ciudad, cada uno en derecho de sí…
+Mateo 26:36|Entonces llegó Jesús con ellos á la aldea que se llama Gethsemaní, y dice á sus discípulos: Sentaos aquí, hasta que vaya allí y ore.
+Apocalipsis 1:9|Yo Juan, vuestro hermano, y participante en la tribulación y en el reino, y en la paciencia de Jesucristo, estaba en la isla que es llamada Patmos, por la palabra de Dios y el testimonio de Jesucristo.
+Jonás 1:2|Levántate, y ve á Nínive, ciudad grande, y pregona contra ella; porque su maldad ha subido delante de mí.
+Génesis 12:5|Y tomó Abram á Sarai su mujer, y á Lot hijo de su hermano, y toda su hacienda que habían ganado, y las almas que habían adquirido en Harán, y salieron para ir á tierra de Canaán; y á tierra de Canaán llegaron.
+Hechos 9:3|Y yendo por el camino, aconteció que llegando cerca de Damasco, súbitamente le cercó un resplandor de luz del cielo;
+Génesis 35:18|Y acaeció que al salírsele el alma, (pues murió) llamó su nombre Benoni; mas su padre lo llamó Benjamín.
+Éxodo 12|(12:29) Y aconteció que á la medianoche Jehová hirió á todo primogénito en la tierra de Egipto, desde el primogénito de Faraón que se sentaba sobre su trono, hasta el primogénito del cautivo que estaba en la cárcel, y todo primogénito de los animales.
+Levítico 16|(16:30) Porque en este día se os reconciliará para limpiaros; y seréis limpios de todos vuestros pecados delante de Jehová.
+Números 13|(13:2) Y Jehová habló á Moisés, diciendo:
+Deuteronomio 34|(34:5) Y murió allí Moisés siervo de Jehová, en la tierra de Moab, conforme al dicho de Jehová.
+Josué 10:12|Entonces Josué habló á Jehová el día que Jehová entregó al Amorrheo delante de los hijos de Israel, y dijo en presencia de los Israelitas: Sol, detente en Gabaón; y tú, Luna, en el valle de Ajalón.
+Jueces 16|(16:19) Y ella hizo que él se durmiese sobre sus rodillas; y llamado un hombre, rapóle siete guedejas de su cabeza, y comenzó á afligirlo, pues su fuerza se apartó de él.
+Rut 1|(1:16) Y Ruth respondió: No me ruegues que te deje, y me aparte de ti: porque donde quiera que tú fueres, iré yo; y donde quiera que vivieres, viviré. Tu pueblo será mi pueblo, y tu Dios mi Dios.
+1 Samuel 10|(10:1) Tomando entonces Samuel una ampolla de aceite, derramóla sobre su cabeza, y besólo, y díjole: ¿No te ha ungido Jehová por capitán sobre su heredad?
+2 Samuel 11|(11:3) Y envió David á preguntar por aquella mujer, y dijéronle: Aquella es Bath-sheba hija de Eliam, mujer de Uría Hetheo.
+1 Reyes 18|(18:39) Y viéndolo todo el pueblo, cayeron sobre sus rostros, y dijeron: ¡Jehová es el Dios! ¡Jehová es el Dios!
+2 Reyes 2|(2:15) Y viéndole los hijos de los profetas que estaban en Jericó de la otra parte, dijeron: El espíritu de Elías reposó sobre Eliseo. Y viniéronle á recibir, é inclináronse á él hasta la tierra.
+1 Crónicas 22|(22:5) Y dijo David: Salomón mi hijo es muchacho y tierno, y la casa que se ha de edificar á Jehová ha de ser magnífica por excelencia, para nombre y honra en todas las tierras; ahora pues yo le aparejaré lo necesario.…
+2 Crónicas 34:1|De OCHO años era Josías cuando comenzó á reinar, y treinta y un años reinó en Jerusalem.
+Esdras 1|(1:1) Y en el primer año de Ciro rey de Persia, para que se cumpliese la palabra de Jehová por boca de Jeremías, excitó Jehová el espíritu de Ciro rey de Persia, el cual hizo pasar pregón por todo su reino, y también por escrito, diciendo:
+Nehemías 2|(2:17) Díjeles pues: Vosotros veis el mal en que estamos, que Jerusalem está desierta, y sus puertas consumidas del fuego: venid, y edifiquemos el muro de Jerusalem, y no seamos más en oprobio.
+Ester 3|(3:6) Mas tuvo en poco meter mano en solo Mardochêo; que ya le habían declarado el pueblo de Mardochêo: y procuró Amán destruir á todos los Judíos que había en el reino de Assuero, al pueblo de Mardochêo.
+Job 1:1|Hubo un varón en tierra de Hus, llamado Job; y era este hombre perfecto y recto, y temeroso de Dios, y apartado del mal.
+Salmos 23|(23:1) Jehová es mi pastor; nada me faltará.
+Proverbios 1:1|Los proverbios de Salomón, hijo de David, rey de Israel:
+Eclesiastés 1:2|Vanidad de vanidades, dijo el Predicador; vanidad de vanidades, todo vanidad.
+Cantares 1|(1:2) ¡Oh si él me besara con ósculos de su boca! porque mejores son tus amores que el vino.
+Isaías 7:14|Por tanto el mismo Señor os dará señal: He aquí que la virgen concebirá, y parirá hijo, y llamará su nombre Emmanuel.
+Jeremías 9:1|¡Oh si mi cabeza se tornase aguas, y mis ojos fuentes de aguas, para que llore día y noche los muertos de la hija de mi pueblo!
+Lamentaciones 1|(1:1) ¡Cómo está sentada sola la ciudad populosa! La grande entre las naciones se ha vuelto como viuda, la señora de provincias es hecha tributaria.
+Ezequiel 37|(37:1) Y la mano de Jehová fué sobre mí, y sacóme en espíritu de Jehová, y púsome en medio de un campo que estaba lleno de huesos.
+Daniel 3|(3:25) Respondió él y dijo: He aquí que yo veo cuatro varones sueltos, que se pasean en medio del fuego, y ningún daño hay en ellos: y el parecer del cuarto es semejante á hijo de los dioses.
+Oseas 1|(1:3) Fué pues, y tomó á Gomer hija de Diblaim, la cual concibió y le parió un hijo.
+Joel 1|(1:4) Lo que quedó de la oruga comió la langosta, y lo que quedó de la langosta comió el pulgón; y el revoltón comió lo que del pulgón había quedado.
+Amós 1:1|Las palabras de Amós, que fué entre los pastores de Tecoa, las cuales vió acerca de Israel en días de Uzzía rey de Judá, y en días de Jeroboam hijo de Joas rey de Israel, dos años antes del terremoto.
+Abdías 1|(1:1) Visión de Abdías. El Señor Jehová ha dicho así cuanto á Edom: Oído hemos el pregón de Jehová, y mensajero es enviado á las gentes. Levantaos, y levantémonos contra ella en batalla.
+Jonás 4:6|Y preparó Jehová Dios una calabacera, la cual creció sobre Jonás para que hiciese sombra sobre su cabeza, y le defendiese de su mal: y Jonás se alegró grandemente por la calabacera.
+Miqueas 5:2|Mas tú, Beth-lehem Ephrata, pequeña para ser en los millares de Judá, de ti me saldrá el que será Señor en Israel; y sus salidas son desde el principio, desde los días del siglo.
+Nahúm 1|(1:1) Carga de Nínive. Libro de la visión de Nahum de El-kosh.
+Habacuc 2:4|He aquí se enorgullece aquel cuya alma no es derecha en él: mas el justo en su fe vivirá.
+Sofonías 1:14|Cercano está el día grande de Jehová, cercano y muy presuroso; voz amarga del día de Jehová; gritará allí el valiente.
+Hageo 1|(1:8) Subid al monte, y traed madera, y reedificad la casa; y pondré en ella mi voluntad, y seré honrado, ha dicho Jehová.
+Zacarías 9:9|Alégrate mucho, hija de Sión; da voces de júbilo, hija de Jerusalem: he aquí, tu rey vendrá á ti, justo y salvador, humilde, y cabalgando sobre un asno, así sobre un pollino hijo de asna.
+Malaquías 4|(4:5) He aquí, yo os envío á Elías el profeta, antes que venga el día de Jehová grande y terrible.
+Mateo 5:1|Y viendo las gentes, subió al monte; y sentándose, se llegaron á él sus discípulos.
+Marcos 1|(1:17) Y les dijo Jesús: Venid en pos de mí, y haré que seáis pescadores de hombres.
+Lucas 19|(19:5) Y como vino á aquel lugar Jesús, mirando, le vió, y díjole: Zaqueo, date priesa, desciende, porque hoy es necesario que pose en tu casa.
+Juan 3:16|Porque de tal manera amó Dios al mundo, que ha dado á su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.
+Hechos 2|(2:4) Y fueron todos llenos del Espíritu Santo, y comenzaron á hablar en otras lenguas, como el Espíritu les daba que hablasen.
+Romanos 3:23|Por cuanto todos pecaron, y están destituídos de la gloria de Dios;
+1 Corintios 13|(13:4) La caridad es sufrida, es benigna; la caridad no tiene envidia, la caridad no hace sinrazón, no se ensancha;
+2 Corintios 12:7|Y porque la grandeza de las revelaciones no me levante descomedidamente, me es dado un aguijón en mi carne, un mensajero de Satanás que me abofetee, para que no me enaltezca sobremanera.
+Gálatas 5:23|Mansedumbre, templanza: contra tales cosas no hay ley.
+Efesios 6:17|Y tomad el yelmo de salud, y la espada del Espíritu; que es la palabra de Dios;
+Filipenses 1:13|De manera que mis prisiones han sido célebres en Cristo en todo el pretorio, y á todos los demás;
+Colosenses 1:15|El cual es la imagen del Dios invisible, el primogénito de toda criatura.
+1 Tesalonicenses 5:2|Porque vosotros sabéis bien, que el día del Señor vendrá así como ladrón de noche,
+2 Tesalonicenses 3:10|Porque aun estando con vosotros, os denunciábamos esto: Que si alguno no quisiere trabajar, tampoco coma.
+1 Timoteo 1:2|A Timoteo, verdadero hijo en la fe: Gracia, misericordia y paz de Dios nuestro Padre, y de Cristo Jesús nuestro Señor.
+2 Timoteo 4:7|He peleado la buena batalla, he acabado la carrera, he guardado la fe.
+Tito 1:5|Por esta causa te dejé en Creta, para que corrigieses lo que falta, y pusieses ancianos por las villas, así como yo te mandé:
+Filemón 10|(1:10) Ruégote por mi hijo Onésimo, que he engendrado en mis prisiones,
+Hebreos 11:1|Es pues la fe la sustancia de las cosas que se esperan, la demostración de las cosas que no se ven.
+Santiago 2:26|Porque como el cuerpo sin espíritu está muerto, así también la fe sin obras es muerta.
+1 Pedro 2:9|Mas vosotros sois linaje escogido, real sacerdocio, gente santa, pueblo adquirido, para que anunciéis las virtudes de aquel que os ha llamado de las tinieblas á su luz admirable:
+2 Pedro 3:8|Mas, oh amados, no ignoréis esta una cosa: que un día delante del Señor es como mil años y mil años como un día.
+1 Juan 4:8|El que no ama, no conoce á Dios; porque Dios es amor.
+2 Juan 1|(1:1) El anciano á la señora elegida y á sus hijos, á los cuales yo amo en verdad; y no yo solo, sino también todos los que han conocido la verdad,
+3 Juan 1|(1:1) El anciano al muy amado Gaio, al cual yo amo en verdad.
+Judas 9|(1:9) Pero cuando el arcángel Miguel contendía con el diablo, disputando sobre el cuerpo de Moisés, no se atrevió á usar de juicio de maldición contra él, sino que dijo: El Señor te reprenda.
+Apocalipsis 2-3|(3:22) El que tiene oído, oiga lo que el Espíritu dice á las iglesias.
+Génesis 1:3|Y dijo Dios: Sea la luz: y fué la luz.
+Génesis 2:22|Y de la costilla que Jehová Dios tomó del hombre, hizo una mujer, y trájola al hombre.
+Génesis 4:8|Y habló Caín á su hermano Abel: y aconteció que estando ellos en el campo, Caín se levantó contra su hermano Abel, y le mató.
+Génesis 9:13|Mi arco pondré en las nubes, el cual será por señal de convenio entre mí y la tierra.
+Génesis 11:4|Y dijeron: Vamos, edifiquémonos una ciudad y una torre, cuya cúspide llegue al cielo; y hagámonos un nombre, por si fuéremos esparcidos sobre la faz de toda la tierra.
+Génesis 15:7|Y díjole: Yo soy Jehová, que te saqué de Ur de los Caldeos, para darte á heredar esta tierra.
+Génesis 19:26|Entonces la mujer de Lot miró atrás, á espaldas de él, y se volvió estatua de sal.
+Génesis 27|(27:27) Y él se llegó, y le besó; y olió Isaac el olor de sus vestidos, y le bendijo, y dijo: Mira, el olor de mi hijo como el olor del campo que Jehová ha bendecido:
+Génesis 29|(29:20) Así sirvió Jacob por Rachêl siete años: y pareciéronle como pocos días, porque la amaba.
+Génesis 41:45|Y llamó Faraón el nombre de José, Zaphnath-paaneah; y dióle por mujer á Asenath, hija de Potipherah, sacerdote de On. Y salió José por toda la tierra de Egipto.
+Génesis 41:29|He aquí vienen siete años de grande hartura en toda la tierra de Egipto:
+Éxodo 3:2|Y apareciósele el Angel de Jehová en una llama de fuego en medio de una zarza: y él miró, y vió que la zarza ardía en fuego, y la zarza no se consumía.
+Éxodo 7-12|(12:29) Y aconteció que á la medianoche Jehová hirió á todo primogénito en la tierra de Egipto, desde el primogénito de Faraón que se sentaba sobre su trono, hasta el primogénito del cautivo que estaba en la cárcel, y todo primogénito de los animales.
+Éxodo 16:15|Y viéndolo los hijos de Israel, se dijeron unos á otros: ¿Qué es esto? porque no sabían qué era. Entonces Moisés les dijo: Es el pan que Jehová os da para comer.
+Éxodo 4:14|Entonces Jehová se enojó contra Moisés, y dijo: ¿No conozco yo á tu hermano Aarón, Levita, y que él hablará? Y aun he aquí que él te saldrá á recibir, y en viéndote, se alegrará en su corazón.
+Éxodo 12:7|Y tomarán de la sangre, y pondrán en los dos postes y en el dintel de las casas en que lo han de comer.
+Éxodo 32:4|El cual los tomó de las manos de ellos, y formólo con buril, é hizo de ello un becerro de fundición. Entonces dijeron: Israel, estos son tus dioses, que te sacaron de la tierra de Egipto.
+Éxodo 3:1|Y apacentando Moisés las ovejas de Jethro su suegro, sacerdote de Madián, llevó las ovejas detrás del desierto, y vino á Horeb, monte de Dios.
+Éxodo 31:2|Mira, yo he llamado por su nombre á Bezaleel, hijo de Uri, hijo de Hur, de la tribu de Judá;
+Levítico 19:18|No te vengarás, ni guardarás rencor á los hijos de tu pueblo: mas amarás á tu prójimo como á ti mismo: Yo Jehová.
+Levítico 16:21|Y pondrá Aarón ambas manos suyas sobre la cabeza del macho cabrío vivo, y confesará sobre él todas las iniquidades de los hijos de Israel, y todas sus rebeliones, y todos sus pecados, poniéndolos así sobre la cabeza del macho cabrío…
+Levítico 25:10|Y santificaréis el año cincuenta, y pregonaréis libertad en la tierra á todos sus moradores: éste os será jubileo; y volveréis cada uno á su posesión, y cada cual volverá á su familia.
+Números 14:6-9|Y Josué hijo de Nun, y Caleb hijo de Jephone, que eran de los que habían reconocido la tierra, rompieron sus vestidos; Y hablaron á toda la congregación de los hijos de Israel, diciendo: La tierra por donde pasamos para reconocerla…
+Números 22:28|Entonces Jehová abrió la boca al asna, la cual dijo á Balaam: ¿Qué te he hecho, que me has herido estas tres veces?
+Números 21:9|Y Moisés hizo una serpiente de metal, y púsola sobre la bandera: y fué, que cuando alguna serpiente mordía á alguno, miraba á la serpiente de metal, y vivía.
+Números 14:33|Y vuestros hijos andarán pastoreando en el desierto cuarenta años, y ellos llevarán vuestras fornicaciones, hasta que vuestros cuerpos sean consumidos en el desierto.
+Números 16:31|Y aconteció, que en acabando él de hablar todas estas palabras, rompióse la tierra que estaba debajo de ellos:
+Deuteronomio 6:5|Y amarás á Jehová tu Dios de todo tu corazón, y de toda tu alma, y con todo tu poder.
+Deuteronomio 8:3|Y te afligió, é hízote tener hambre, y te sustentó con maná, comida que no conocías tú, ni tus padres la habían conocido; para hacerte saber que el hombre no vivirá de solo pan, mas de todo lo que sale de la boca de Jehová vivirá el hombre.
+Deuteronomio 34:9|Y Josué hijo de Nun fué lleno de espíritu de sabiduría, porque Moisés había puesto sus manos sobre él: y los hijos de Israel le obedecieron, é hicieron como Jehová mandó á Moisés.
+Deuteronomio 34:7|Y era Moisés de edad de ciento y veinte años cuando murió: sus ojos nunca se oscurecieron, ni perdió su vigor.
+Mateo 2:1-2|Y como fué nacido Jesús en Bethlehem de Judea en días del rey Herodes, he aquí unos magos vinieron del oriente á Jerusalem, Diciendo: ¿Dónde está el Rey de los Judíos, que ha nacido? porque su estrella hemos visto en el oriente, y venimos á adorarle.
+Mateo 2:11|Y entrando en la casa, vieron al niño con su madre María, y postrándose, le adoraron; y abriendo sus tesoros, le ofrecieron dones, oro é incienso y mirra.
 Mateo 4:2|Y habiendo ayunado cuarenta días y cuarenta noches, después tuvo hambre.
-Mateo 5:13|Vosotros sois la sal de la tierra.
-Mateo 6:9|Vosotros, pues, oraréis así: Padre nuestro que estás en los cielos, santificado sea tu nombre.
+Mateo 6:9|Vosotros pues, oraréis así: Padre nuestro que estás en los cielos, santificado sea tu nombre.
+Mateo 16:18|Mas yo también te digo, que tú eres Pedro, y sobre esta piedra edificaré mi iglesia; y las puertas del infierno no prevalecerán contra ella.
+Mateo 9:9|Y pasando Jesús de allí, vió á un hombre que estaba sentado al banco de los públicos tributos, el cual se llamaba Mateo; y dícele: Sígueme. Y se levantó, y le siguió.
 Mateo 18:22|Jesús le dice: No te digo hasta siete, mas aun hasta setenta veces siete.
 Mateo 26:15|Y les dijo: ¿Qué me queréis dar, y yo os lo entregaré? Y ellos le señalaron treinta piezas de plata.
-Marcos 4:39|Y levantándose, increpó al viento, y dijo a la mar: Calla, enmudece. Y cesó el viento, y fue hecha grande bonanza.
-Lucas 2:42|Y cuando fue de doce años, subieron ellos a Jerusalem conforme a la costumbre de la fiesta.
-Lucas 10:42|Pero una cosa es necesaria: y María ha escogido la buena parte, la cual no le será quitada.
-Lucas 15:12|Y dijo el más joven de ellos a su padre: Padre, dame la parte de la hacienda que me pertenece.
-Juan 3:16|Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.
-Juan 10:11|Yo soy el buen pastor: el buen pastor su vida da por las ovejas.
+Mateo 25:2|Y las cinco de ellas eran prudentes, y las cinco fatuas.
+Marcos 5:41-42|Y tomando la mano de la muchacha, le dice: Talitha cumi; que es, si lo interpretares: Muchacha, á ti digo, levántate. Y luego la muchacha se levantó, y andaba; porque tenía doce años. Y se espantaron de grande espanto.
+Marcos 10:47|Y oyendo que era Jesús el Nazareno, comenzó á dar voces y decir: Jesús, Hijo de David, ten misericordia de mí.
+Marcos 15:21|Y cargaron á uno que pasaba, Simón Cireneo, padre de Alejandro y de Rufo, que venía del campo, para que llevase su cruz.
+Marcos 9:2|Y seis días después tomó Jesús á Pedro, y á Jacobo, y á Juan, y los sacó aparte solos á un monte alto; y fué transfigurado delante de ellos.
+Lucas 1:26|Y al sexto mes, el ángel Gabriel fué enviado de Dios á una ciudad de Galilea, llamada Nazaret,
+Lucas 2:15-16|Y aconteció que como los ángeles se fueron de ellos al cielo, los pastores dijeron los unos á los otros: Pasemos pues hasta Bethlehem, y veamos esto que ha sucedido, que el Señor nos ha manifestado. Y vinieron apriesa, y hallaron á María, y á José…
+Lucas 1:13|Mas el ángel le dijo: Zacarías, no temas; porque tu oración ha sido oída, y tu mujer Elisabet te parirá un hijo, y llamarás su nombre Juan.
+Lucas 10:42|Empero una cosa es necesaria; y María escogió la buena parte, la cual no le será quitada.
+Lucas 15:12|Y el menor de ellos dijo á su padre: Padre, dame la parte de la hacienda que me pertenece: y les repartió la hacienda.
+Lucas 2:42|Y cuando fué de doce años, subieron ellos á Jerusalem conforme á la costumbre del día de la fiesta.
+Lucas 23:42|Y dijo á Jesús: Acuérdate de mí cuando vinieres á tu reino.
+Juan 3:2|Este vino á Jesús de noche, y díjole: Rabbí, sabemos que has venido de Dios por maestro; porque nadie puede hacer estas señales que tú haces, si no fuere Dios con él.
+Juan 4:7|Vino una mujer de Samaria á sacar agua: y Jesús le dice: Dame de beber.
 Juan 11:35|Y lloró Jesús.
-Hechos 11:26|Los discípulos fueron llamados cristianos primeramente en Antioquía.
-Romanos 3:23|Por cuanto todos pecaron, y están destituidos de la gloria de Dios.
-Romanos 6:23|Porque el salario del pecado es muerte; mas la dádiva de Dios, vida eterna en Cristo Jesús Señor nuestro.
-Romanos 8:28|Y sabemos que a los que a Dios aman, todas las cosas les ayudan a bien, es a saber, a los que conforme al propósito son llamados.
-Romanos 10:17|Luego la fe es por el oír; y el oír por la palabra de Dios.
-Romanos 12:2|Y no os conforméis a este siglo; mas reformaos por la renovación de vuestro entendimiento.
-2 Corintios 5:17|De modo que si alguno está en Cristo, nueva criatura es; las cosas viejas pasaron; he aquí todas son hechas nuevas.
-2 Corintios 9:7|Dios ama al dador alegre.
-Efesios 2:8|Porque por gracia sois salvos por la fe; y esto no de vosotros, pues es don de Dios.
-Efesios 6:17|Y tomad el yelmo de salud, y la espada del Espíritu; que es la palabra de Dios.
-Filipenses 4:6|Por nada estéis afanosos; sino sean notorias vuestras peticiones delante de Dios en toda oración y ruego, con hacimiento de gracias.
+Juan 13:5|Luego puso agua en un lebrillo, y comenzó á lavar los pies de los discípulos, y á limpiarlos con la toalla con que estaba ceñido.
+Juan 10:11|Yo soy el buen pastor: el buen pastor su vida da por las ovejas.
+Juan 20:25|Dijéronle pues los otros discípulos: Al Señor hemos visto. Y él les dijo: Si no viere en sus manos la señal de los clavos, y metiere mi dedo en el lugar de los clavos, y metiere mi mano en su costado, no creeré.
+Juan 21:11|Subió Simón Pedro, y trajo la red á tierra, llena de grandes peces, ciento cincuenta y tres: y siendo tantos, la red no se rompió.
+Hechos 1:26|Y les echaron suertes, y cayó la suerte sobre Matías; y fué contado con los once apóstoles.
+Hechos 7:59|Y apedrearon á Esteban, invocando él y diciendo: Señor Jesús, recibe mi espíritu.
+Hechos 11:26|Y conversaron todo un año allí con la iglesia, y enseñaron á mucha gente; y los discípulos fueron llamados Cristianos primeramente en Antioquía.
+Hechos 8:38|Y mandó parar el carro: y descendieron ambos al agua, Felipe y el eunuco; y bautizóle.
+Hechos 10|(10:1) Y había un varón en Cesarea llamado Cornelio, centurión de la compañía que se llamaba la Italiana,
+Hechos 9:40|Entonces echados fuera todos, Pedro puesto de rodillas, oró; y vuelto al cuerpo, dijo: Tabita, levántate. Y ella abrió los ojos, y viendo á Pedro, incorporóse.
+Hechos 16:26|Entonces fué hecho de repente un gran terremoto, de tal manera que los cimientos de la cárcel se movían; y luego todas las puertas se abrieron, y las prisiones de todos se soltaron.
+Hechos 16:14|Entonces una mujer llamada Lidia, que vendía púrpura en la ciudad de Tiatira, temerosa de Dios, estaba oyendo; el corazón de la cual abrió el Señor para que estuviese atenta á lo que Pablo decía.
+Hechos 20:9|Y un mancebo llamado Eutichô que estaba sentado en la ventana, tomado de un sueño profundo, como Pablo disputaba largamente, postrado del sueño cayó del tercer piso abajo, y fué alzado muerto.
+Hechos 28:1|Y cuando escapamos, entonces supimos que la isla se llamaba Melita.
+Josué 2:4|Mas la mujer había tomado los dos hombres, y los había escondido; y dijo: Verdad que hombres vinieron á mí, mas no supe de dónde eran:
+Josué 6:15|Y al séptimo día levantáronse cuando subía el alba, y dieron vuelta á la ciudad de la misma manera siete veces: solamente este día dieron vuelta alrededor de ella siete veces.
+Josué 3:17|Mas los sacerdotes que llevaban el arca del pacto de Jehová, estuvieron en seco, firmes en medio del Jordán, hasta que todo el pueblo hubo acabado de pasar el Jordán; y todo Israel pasó en seco.
+Josué 7|(7:21) Que vi entre los despojos un manto babilónico muy bueno, y doscientos siclos de plata, y un changote de oro de peso de cincuenta siclos; lo cual codicié, y tomé: y he aquí que está escondido debajo de tierra en el medio de mi tienda…
+Josué 9|(9:15) Y Josué hizo paz con ellos, y concertó con ellos que les dejaría la vida: también los príncipes de la congregación les juraron.
+Jueces 16:19|Y ella hizo que él se durmiese sobre sus rodillas; y llamado un hombre, rapóle siete guedejas de su cabeza, y comenzó á afligirlo, pues su fuerza se apartó de él.
+Jueces 6:37|He aquí que yo pondré un vellón de lana en la era; y si el rocío estuviere en el vellón solamente, quedando seca toda la otra tierra, entonces entenderé que has de salvar á Israel por mi mano, como lo has dicho.
+Jueces 7:7|Entonces Jehová dijo á Gedeón: Con estos trescientos hombres que lamieron el agua os salvaré, y entregaré á los Madianitas en tus manos: y váyase toda la gente cada uno á su lugar.
+Jueces 4:21|Y Jael, mujer de Heber, tomó una estaca de la tienda, y poniendo un mazo en su mano, vino á él calladamente, y metióle la estaca por las sienes, y enclavólo en la tierra, pues él estaba cargado de sueño y cansado; y así murió.
+Jueces 11:30|Y Jephté hizo voto á Jehová, diciendo: Si entregares á los Ammonitas en mis manos,
+Rut 2:3|Fué pues, y llegando, espigó en el campo en pos de los segadores: y aconteció por ventura, que la suerte del campo era de Booz, el cual era de la parentela de Elimelech.
+Rut 1:4|Los cuales tomaron para sí mujeres de Moab, el nombre de la una Orpha, y el nombre de la otra Ruth; y habitaron allí unos diez años.
+Rut 4:17|Y las vecinas diciendo, A Noemi ha nacido un hijo, le pusieron nombre; y llamáronle Obed. Este es padre de Isaí, padre de David.
+1 Samuel 17:49|Y metiendo David su mano en el saco, tomó de allí una piedra, y tirósela con la honda, é hirió al Filisteo en la frente: y la piedra quedó hincada en la frente, y cayó en tierra sobre su rostro.
+1 Samuel 1:20|Y fué que corrido el tiempo, después de haber concebido Anna, parió un hijo, y púsole por nombre Samuel, diciendo: Por cuanto lo demandé á Jehová.
+1 Samuel 3|(3:10) Y vino Jehová, y paróse, y llamó como las otras veces: ¡Samuel, Samuel! Entonces Samuel dijo: Habla, que tu siervo oye.
+1 Samuel 18:1|Y así que él hubo acabado de hablar con Saúl, el alma de Jonathán fué ligada con la de David, y amólo Jonathán como á su alma.
+1 Samuel 28:7|Entonces Saúl dijo á sus criados: Buscadme una mujer que tenga espíritu de pythón, para que yo vaya á ella, y por medio de ella pregunte. Y sus criados le respondieron: He aquí hay una mujer en Endor que tiene espíritu de pythón.
+2 Samuel 6|(6:12) Y fué dado aviso al rey David, diciendo: Jehová ha bendecido la casa de Obed-edom, y todo lo que tiene, á causa del arca de Dios. Entonces David fué, y trajo el arca de Dios de casa de Obed-edom á la ciudad de David con alegría.
+2 Samuel 12|(12:7) Entonces dijo Nathán á David: Tú eres aquel hombre. Así ha dicho Jehová, Dios de Israel: Yo te ungí por rey sobre Israel, y te libré de la mano de Saúl;
+2 Samuel 18:9|Y encontróse Absalom con los siervos de David: é iba Absalom sobre un mulo, y el mulo se entró debajo de un espeso y grande alcornoque, y asiósele la cabeza al alcornoque, y quedó entre el cielo y la tierra; pues el mulo en que iba pasó delante.
+2 Samuel 9|(9:7) Y díjole David: No tengas temor, porque yo á la verdad haré contigo misericordia por amor de Jonathán tu padre, y te haré volver todas las tierras de Saúl tu padre; y tú comerás siempre pan á mi mesa.
+1 Reyes 6:38|Y en el undécimo año, en el mes de Bul, que es el mes octavo, fué acabada la casa con todas sus pertenencias, y con todo lo necesario. Edificóla pues, en siete años.
+1 Reyes 10|(10:1) Y oyendo la reina de Seba la fama de Salomón en el nombre de Jehová, vino á probarle con preguntas.
+1 Reyes 16:31|Porque le fué ligera cosa andar en los pecados de Jeroboam hijo de Nabat, y tomó por mujer á Jezabel hija de Ethbaal rey de los Sidonios, y fué y sirvió á Baal, y lo adoró.
+1 Reyes 12|(12:13) Y el rey respondió al pueblo duramente, dejado el consejo de los ancianos que ellos le habían dado;
+1 Reyes 21|(21:2) Y Achâb habló á Naboth, diciendo: Dame tu viña para un huerto de legumbres, porque está cercana, junto á mi casa, y yo te daré por ella otra viña mejor que esta; ó si mejor te pareciere, te pagaré su valor en dinero.
+2 Reyes 2:11|Y aconteció que, yendo ellos hablando, he aquí, un carro de fuego con caballos de fuego apartó á los dos: y Elías subió al cielo en un torbellino.
+2 Reyes 5:14|El entonces descendió, y zambullóse siete veces en el Jordán, conforme á la palabra del varón de Dios: y su carne se volvió como la carne de un niño, y fué limpio.
+2 Reyes 20:6|Y añadiré á tus días quince años, y te libraré á ti y á esta ciudad de mano del rey de Asiria; y ampararé esta ciudad por amor de mí, y por amor de David mi siervo.
+2 Crónicas 26:19|Y airóse Uzzías, que tenía el perfume en la mano para quemarlo; y en esta su ira contra los sacerdotes, la lepra le salió en la frente delante de los sacerdotes en la casa de Jehová, junto al altar del perfume.
+2 Crónicas 20|(20:21) Y habido consejo con el pueblo, puso á algunos que cantasen á Jehová, y alabasen en la hermosura de la santidad, mientras que salía la gente armada, y dijesen: Glorificad á Jehová, porque su misericordia es para siempre.
+Esdras 7:10|Porque Esdras había preparado su corazón para inquirir la ley de Jehová, y para hacer y enseñar á Israel mandamientos y juicios.
+Nehemías 6:15|Acabóse pues el muro el veinticinco del mes de Elul, en cincuenta y dos días.
+Ester 2:17|Y el rey amó á Esther sobre todas las mujeres, y halló gracia y benevolencia delante de él más que todas las vírgenes; y puso la corona real en su cabeza, é hízola reina en lugar de Vasthi.
+Ester 2:7|Y había criado á Hadassa, que es Esther, hija de su tío, porque no tenía padre ni madre; y era moza de hermosa forma y de buen parecer; y como su padre y su madre murieron, Mardochêo la había tomado por hija suya.
+Ester 9:26|Por esto llamaron á estos días Purim, del nombre Pur. Por todas las palabras pues de esta carta, y por lo que ellos vieron sobre esto, y lo que llegó á su noticia,
+Job 1:12|Y dijo Jehová á Satán: He aquí, todo lo que tiene está en tu mano: solamente no pongas tu mano sobre él. Y salióse Satán de delante de Jehová.
+Job 1:2|Y naciéronle siete hijos y tres hijas.
+Job 19:25|Yo sé que mi Redentor vive, y al fin se levantará sobre el polvo:
+Salmos 23:1|Jehová es mi pastor; nada me faltará.
+Salmos|(150:6) Todo lo que respira alabe á JAH. Aleluya.
+Salmos 119|(119:105) Nun. Lámpara es á mis pies tu palabra, y lumbrera á mi camino.
+Salmos 121:1|Alzaré mis ojos á los montes, de donde vendrá mi socorro.
+Proverbios 9:10|El temor de Jehová es el principio de la sabiduría; y la ciencia de los santos es inteligencia.
+Proverbios 22:6|Instruye al niño en su carrera: aun cuando fuere viejo no se apartará de ella.
+Proverbios 6:6|Ve á la hormiga, oh perezoso, mira sus caminos, y sé sabio;
+Eclesiastés 3:1|Para todas las cosas hay sazón, y todo lo que se quiere debajo del cielo, tiene su tiempo:
+Cantares 2:1|Yo soy la rosa de Sarón, y el lirio de los valles.
+Isaías 6:1|En el año que murió el rey Uzzías vi yo al Señor sentado sobre un trono alto y sublime, y sus faldas henchían el templo.
+Isaías 6:2|Y encima de él estaban serafines: cada uno tenía seis alas; con dos cubrían sus rostros, y con dos cubrían sus pies, y con dos volaban.
+Isaías 53:7|Angustiado él, y afligido, no abrió su boca: como cordero fué llevado al matadero; y como oveja delante de sus trasquiladores, enmudeció, y no abrió su boca.
+Jeremías 38:6|Entonces tomaron ellos á Jeremías, é hiciéronlo echar en la mazmorra de Malchîas hijo de Amelech, que estaba en el patio de la cárcel; y metieron á Jeremías con sogas. Y en la mazmorra no había agua, sino cieno; y hundióse Jeremías en el cieno.
+Jeremías 1:5|Antes que te formase en el vientre te conocí, y antes que salieses de la matriz te santifiqué, te dí por profeta á las gentes.
+Jeremías 25:11|Y toda esta tierra será puesta en soledad, en espanto; y servirán estas gentes al rey de Babilonia setenta años.
+Ezequiel 1|(1:5) Y en medio de ella, figura de cuatro animales. Y este era su parecer; había en ellos semejanza de hombre.
+Ezequiel 3:3|Y díjome: Hijo del hombre, haz á tu vientre que coma, é hinche tus entrañas de este rollo que yo te doy. Y comílo, y fué en mi boca dulce como miel.
+Daniel 6:22|El Dios mío envió su ángel, el cual cerró la boca de los leones, para que no me hiciesen mal: porque delante de él se halló en mí justicia: y aun delante de ti, oh rey, yo no he hecho lo que no debiese.
+Daniel 2|(2:31) Tú, oh rey, veías, y he aquí una grande imagen. Esta imagen, que era muy grande, y cuya gloria era muy sublime, estaba en pie delante de ti, y su aspecto era terrible.
+Daniel 5:25|Y la escritura que esculpió es: MENE, MENE, TEKEL, UPHARSIN.
+Daniel 1:7|A los cuales el príncipe de los eunucos puso nombres: y puso á Daniel, Beltsasar; y á Ananías, Sadrach; y á Misael, Mesach; y á Azarías, Abed-nego.
+Oseas 1:3|Fué pues, y tomó á Gomer hija de Diblaim, la cual concibió y le parió un hijo.
+Joel 2:28|Y será que después de esto, derramaré mi Espíritu sobre toda carne, y profetizarán vuestros hijos y vuestras hijas; vuestros viejos soñarán sueños, y vuestros mancebos verán visiones.
+Amós 5:24|Antes corra el juicio como las aguas, y la justicia como impetuoso arroyo.
+Jonás 1:3|Y Jonás se levantó para huir de la presencia de Jehová á Tarsis, y descendió á Joppe; y halló un navío que partía para Tarsis; y pagando su pasaje entró en él, para irse con ellos á Tarsis de delante de Jehová.
+Miqueas 6:8|Oh hombre, él te ha declarado qué sea lo bueno, y qué pida de ti Jehová: solamente hacer juicio, y amar misericordia, y humillarte para andar con tu Dios.
+Malaquías 3:10|Traed todos los diezmos al alfolí, y haya alimento en mi casa; y probadme ahora en esto, dice Jehová de los ejércitos, si no os abriré las ventanas de los cielos, y vaciaré sobre vosotros bendición hasta que sobreabunde.
+Malaquías 4:5|He aquí, yo os envío á Elías el profeta, antes que venga el día de Jehová grande y terrible.
+Zacarías 4:6|Entonces respondió y hablóme, diciendo: Esta es palabra de Jehová á Zorobabel, en que se dice: No con ejército, ni con fuerza, sino con mi espíritu, ha dicho Jehová de los ejércitos.
+Romanos 6:23|Porque la paga del pecado es muerte: mas la dádiva de Dios es vida eterna en Cristo Jesús Señor nuestro.
+Romanos 8:28|Y sabemos que á los que á Dios aman, todas las cosas les ayudan á bien, es á saber, á los que conforme al propósito son llamados.
+Romanos 10:17|Luego la fe es por el oir; y el oir por la palabra de Dios.
+Romanos 12:2|Y no os conforméis á este siglo; mas reformaos por la renovación de vuestro entendimiento, para que experimentéis cuál sea la buena voluntad de Dios, agradable y perfecta.
+1 Corintios 13:13|Y ahora permanecen la fe, la esperanza, y la caridad, estas tres: empero la mayor de ellas es la caridad.
+1 Corintios 15:6|Después apareció á más de quinientos hermanos juntos; de los cuales muchos viven aún, y otros son muertos.
+1 Corintios 12:12|Porque de la manera que el cuerpo es uno, y tiene muchos miembros, empero todos los miembros del cuerpo, siendo muchos, son un cuerpo, así también Cristo.
+2 Corintios 5:17|De modo que si alguno está en Cristo, nueva criatura es: las cosas viejas pasaron; he aquí todas son hechas nuevas.
+2 Corintios 9:7|Cada uno dé como propuso en su corazón: no con tristeza, ó por necesidad; porque Dios ama el dador alegre.
+Gálatas 2:20|Con Cristo estoy juntamente crucificado, y vivo, no ya yo, mas vive Cristo en mí: y lo que ahora vivo en la carne, lo vivo en la fe del Hijo de Dios, el cual me amó, y se entregó á sí mismo por mí.
+Gálatas 5:22-23|Mas el fruto del Espíritu es: caridad, gozo, paz, tolerancia, benignidad, bondad, fe, Mansedumbre, templanza: contra tales cosas no hay ley.
+Efesios 2:8|Porque por gracia sois salvos por la fe; y esto no de vosotros, pues es don de Dios:
+Efesios 6:1|Hijos, obedeced en el Señor á vuestros padres; porque esto es justo.
 Filipenses 4:13|Todo lo puedo en Cristo que me fortalece.
-Colosenses 1:15|El cual es la imagen del Dios invisible, el primogénito de toda criatura.
-Colosenses 3:23|Y todo lo que hagáis, hacedlo de ánimo, como al Señor, y no a los hombres.
-1 Tesalonicenses 5:2|Porque vosotros sabéis perfectamente que el día del Señor vendrá así como ladrón en la noche.
+Filipenses 4:6|Por nada estéis afanosos; sino sean notorias vuestras peticiones delante de Dios en toda oración y ruego, con hacimiento de gracias.
+Colosenses 3:23|Y todo lo que hagáis, hacedlo de ánimo, como al Señor, y no á los hombres;
 1 Tesalonicenses 5:17|Orad sin cesar.
-2 Tesalonicenses 3:10|Si alguno no quisiere trabajar, que tampoco coma.
-1 Timoteo 6:10|Porque raíz de todos los males es el amor del dinero.
-2 Timoteo 3:16|Toda la Escritura es inspirada divinamente, y útil para enseñar.
-2 Timoteo 4:7|He peleado la buena batalla, he acabado la carrera, he guardado la fe.
-Hebreos 11:1|Es, pues, la fe la sustancia de las cosas que se esperan, la demostración de las cosas que no se ven.
+1 Timoteo 6:10|Porque el amor del dinero es la raíz de todos los males: el cual codiciando algunos, se descaminaron de la fe, y fueron traspasados de muchos dolores.
+2 Timoteo 3:16|Toda Escritura es inspirada divinamente y útil para enseñar, para redargüir, para corregir, para instituir en justicia,
+Hebreos 4:14|Por tanto, teniendo un gran Pontífice, que penetró los cielos, Jesús el Hijo de Dios, retengamos nuestra profesión.
 Hebreos 13:8|Jesucristo es el mismo ayer, y hoy, y por los siglos.
-Santiago 1:5|Y si alguno de vosotros tiene falta de sabiduría, pídala a Dios, el cual da a todos abundantemente, y no zahiere; y le será dada.
-Santiago 2:26|Porque como el cuerpo sin espíritu está muerto, así también la fe sin obras está muerta.
-Santiago 4:7|Someteos, pues, a Dios; resistid al diablo, y de vosotros huirá.
-1 Pedro 2:9|Mas vosotros sois linaje escogido, real sacerdocio, gente santa, pueblo adquirido.
-1 Pedro 5:7|Echando toda vuestra solicitud sobre él, porque él tiene cuidado de vosotros.
-2 Pedro 3:8|Un día delante del Señor es como mil años, y mil años como un día.
-1 Juan 1:9|Si confesamos nuestros pecados, él es fiel y justo para que nos perdone los pecados, y nos limpie de toda maldad.
-1 Juan 4:8|El que no ama, no ha conocido a Dios; porque Dios es amor.
-Apocalipsis 1:8|Yo soy el Alpha y la Omega, principio y fin, dice el Señor, el que es y que era y que ha de venir, el Todopoderoso.
-Apocalipsis 3:16|Mas porque eres tibio, y no frío ni caliente, te vomitaré de mi boca.
-Apocalipsis 3:20|He aquí, yo estoy a la puerta y llamo: si alguno oyere mi voz y abriere la puerta, entraré a él, y cenaré con él, y él conmigo.
+Santiago 1:5|Y si alguno de vosotros tiene falta de sabiduría, demándela á Dios, el cual da á todos abundantemente, y no zahiere; y le será dada.
+Santiago 4:7|Someteos pues á Dios; resistid al diablo, y de vosotros huirá.
+1 Pedro 5:7|Echando toda vuestra solicitud en él, porque él tiene cuidado de vosotros.
+2 Pedro 3:9|El Señor no tarda su promesa, como algunos la tienen por tardanza; sino que es paciente para con nosotros, no queriendo que ninguno perezca, sino que todos procedan al arrepentimiento.
+1 Juan 1:9|Si confesamos nuestros pecados, él es fiel y justo para que nos perdone nuestros pecados, y nos limpie de toda maldad.
+Apocalipsis 1:1|La revelación de Jesucristo, que Dios le dió, para manifestar á sus siervos las cosas que deben suceder presto; y la declaró, enviándo la por su ángel á Juan su siervo,
+Apocalipsis 21:2|Y yo Juan vi la santa ciudad, Jerusalem nueva, que descendía del cielo, de Dios, dispuesta como una esposa ataviada para su marido.
+Apocalipsis 6:1-8|Y miré cuando el Cordero abrió uno de los sellos, y oí á uno de los cuatro animales diciendo como con una voz de trueno: Ven y ve. Y miré, y he aquí un caballo blanco: y el que estaba sentado encima de él, tenía un arco; y le fué dada una corona…
 Apocalipsis 7:4|Y oí el número de los señalados: ciento cuarenta y cuatro mil señalados de todas las tribus de los hijos de Israel.
-Apocalipsis 21:2|Y yo Juan vi la santa ciudad, la nueva Jerusalem, que descendía del cielo, de Dios, ataviada como una esposa ataviada para su marido.
-Génesis 35:18|Y aconteció que al salir su alma (pues murió), llamó su nombre Benoni; mas su padre lo llamó Benjamín.
-Éxodo 12|(12:29) Jehová hirió a todos los primogénitos en la tierra de Egipto.
-Levítico 16|(16:30) En este día se hará expiación por vosotros, para limpiaros.
-Números 13|(13:2) Envía tú hombres que reconozcan la tierra de Canaán.
-Deuteronomio 34|(34:5) Y murió allí Moisés, siervo de Jehová, en la tierra de Moab.
-Josué 10:12|Sol, detente en Gabaón; y tú, luna, en el valle de Ajalón.
-Jueces 16|(16:19) Ella comenzó a afligirlo, pues su fuerza se apartó de él.
-Rut 1|(1:16) Dondequiera que tú fueres, iré yo; y donde vivieres, viviré.
-1 Samuel 10|(10:1) ¿No te ha ungido Jehová por capitán sobre su heredad?
-2 Samuel 11|(11:3) ¿No es ésta Betsabé, hija de Eliam, mujer de Urías heteo?
-1 Reyes 18|(18:39) ¡Jehová es el Dios, Jehová es el Dios!
-2 Reyes 2|(2:15) El espíritu de Elías reposa sobre Eliseo.
-2 Crónicas 34:1|De ocho años era Josías cuando comenzó a reinar, y reinó en Jerusalem treinta y un años.
-Esdras 1|(1:1) Jehová excitó el espíritu de Ciro rey de Persia.
-Nehemías 2|(2:17) Venid, y edifiquemos el muro de Jerusalem.
-Ester 3|(3:6) Amán procuró destruir a todos los judíos que había en el reino de Asuero.
-Salmos 23|(23:1) Jehová es mi pastor; nada me faltará.
-Proverbios 1:1|Los proverbios de Salomón, hijo de David, rey de Israel.
-Eclesiastés 1:2|Vanidad de vanidades, dijo el Predicador; vanidad de vanidades, todo vanidad.
-Jeremías 9:1|¡Oh si mi cabeza se hiciese aguas, y mis ojos fuentes de lágrimas, para que llore día y noche!
-Lamentaciones 1|(1:1) ¡Cómo está sola la ciudad populosa! La grande entre las naciones se ha vuelto como viuda.
-Ezequiel 37|(37:1) Me puso en medio de un campo que estaba lleno de huesos.
-Daniel 3|(3:25) Veo cuatro varones sueltos, que se pasean en medio del fuego sin daño alguno.
-Oseas 1|(1:3) Fue, pues, y tomó a Gomer, hija de Diblaim.
-Joel 1|(1:4) Lo que quedó de la oruga comió la langosta.
-Abdías 1|(1:1) Visión de Abdías. Jehová el Señor ha dicho así cerca de Edom.
-Jonás 4:6|Y Jehová Dios preparó una calabacera, la cual creció sobre Jonás, para que hiciese sombra sobre su cabeza.
-Miqueas 5:2|Pero tú, Bethlehem Ephrata, pequeña para ser en los millares de Judá, de ti me saldrá el que será Señor en Israel.
-Nahúm 1|(1:1) Carga de Nínive. Libro de la visión de Nahúm de Elcos.
-Sofonías 1:14|Cercano está el día grande de Jehová, cercano y muy presuroso.
-Hageo 1|(1:8) Subid al monte, y traed madera, y reedificad la casa.
-Zacarías 9:9|He aquí tu rey vendrá a ti, justo y salvador, humilde, y cabalgando sobre un asno.
-Malaquías 4|(4:5) He aquí, yo os envío el profeta Elías, antes que venga el día de Jehová, grande y terrible.
-Mateo 5:1|Y viendo las gentes, subió al monte; y sentándose, se llegaron a él sus discípulos.
-Marcos 1|(1:17) Venid en pos de mí, y haré que seais hechos pescadores de hombres.
-Lucas 19|(19:5) Zaqueo, date priesa, desciende, porque hoy es necesario que pose yo en tu casa.
-Hechos 2|(2:4) Y fueron todos llenos del Espíritu Santo.
-1 Corintios 13|(13:4) La caridad es sufrida, es benígna; la caridad no tiene envidia.
-2 Corintios 12:7|Me fue dado un aguijón en mi carne, un mensajero de Satanás que me abofetee.
-Gálatas 5:23|Mansedumbre, templanza: contra tales cosas no hay ley.
-Filipenses 1:13|De manera que mis prisiones han sido célebres en Cristo en todo el pretorio.
-1 Timoteo 1:2|A Timoteo, verdadero hijo en la fe: Gracia, misericordia y paz de Dios nuestro Padre.
-Tito 1:5|Por esta causa te dejé en Creta, para que corrigieses lo que falta, y pusieses ancianos por las ciudades.
-Filemón 10|Te ruego por mi hijo Onésimo, el cual he engendrado en mis prisiones.
-2 Juan 1|El anciano a la señora elegida y a sus hijos, a los cuales yo amo en verdad.
-3 Juan 1|El anciano al muy amado Gayo, al cual yo amo en verdad.
-Judas 9|Cuando el arcángel Miguel contendía con el diablo disputando sobre el cuerpo de Moisés, no se atrevió a usar juicio de maldición contra él.
-Apocalipsis 2-3|(3:22) El que tiene oído, oiga lo que el Espíritu dice a las iglesias.
-Génesis 11:4|Y dijeron: Vamos, edifiquémonos una ciudad y una torre, cuya cúpide llegue al cielo.
-Génesis 15:7|Yo soy Jehová, que te saqué de Ur de los caldeos, para darte a heredar esta tierra.
-Génesis 29|(29:20) Sirvió Jacob por Raquel siete años; y le parecieron como pocos días, porque la amaba.
-Éxodo 3:2|Y le apareció el Ángel de Jehová en una llama de fuego en medio de una zarza; y la zarza no se consumía.
-Éxodo 16:15|Este es el pan que Jehová os da para comer.
-Éxodo 4:14|¿No conozco yo a tu hermano Aarón, levita, y que él hablará?
-Éxodo 12:7|Y tomarán de la sangre, y la pondrán en los dos postes y en el dintel de las casas.
-Éxodo 32:4|Y él lo tomó de las manos de ellos, e hizo de ello un becerro de fundición.
-Éxodo 31:2|Mira, yo he llamado por su nombre a Bezaleel, hijo de Uri, hijo de Hur, de la tribu de Judá.
-Levítico 16:21|Y pondrá Aarón ambas manos sobre la cabeza del macho cabrío vivo, y confesará sobre él todas las iniquidades de los hijos de Israel.
-Levítico 25:10|Y santificaréis el año cincuenta, y pregonaréis libertad en la tierra a todos sus moradores.
-Números 22:28|Y Jehová abrió la boca al asna, la cual dijo a Balaam: ¿Qué te he hecho, que me has herido estas tres veces?
-Números 14:33|Y vuestros hijos serán pastores en el desierto cuarenta años.
-Deuteronomio 34:9|Y Josué hijo de Nun fue lleno de espíritu de sabiduría, porque Moisés había puesto sobre él sus manos.
-Deuteronomio 34:7|Era Moisés de edad de ciento y veinte años cuando murió.
-Mateo 2:1-2|Como Jesús hubo nacido en Bethlehem de Judea, en días del rey Herodes, he aquí unos magos vinieron del oriente a Jerusalem.
-Mateo 2:1|Como Jesús hubo nacido en Bethlehem de Judea, en días del rey Herodes, he aquí unos magos vinieron del oriente a Jerusalem.
-Mateo 2:11|Abiertos sus tesoros, le ofrecieron presentes: oro, e incienso, y mirra.
-Mateo 9:9|Vio a un hombre que se llamaba Mateo, sentado al banco de los públicos tributos, y le dice: Sígueme.
-Mateo 25:2|Y las cinco de ellas eran prudentes, y las otras cinco fatuas.
-Mateo 26:36|Entonces llegó Jesús con ellos a la heredad que se llama Gethsemani.
-Mateo 26:75|Y Pedro se acordó de las palabras de Jesús, que le dijo: Antes que cante el gallo, me negarás tres veces. Y saliendo fuera, lloró amargamente.
-Mateo 14:17|Y ellos dijeron: No tenemos aquí sino cinco panes y dos peces.
-Mateo 14:29|Y él dijo: Ven. Y descendiendo Pedro del barco, andaba sobre las aguas para ir a Jesús.
-Mateo 3:13|Entonces Jesús vino de Galilea a Juan al Jordán, para ser bautizado de él.
-Marcos 5:41-42|Y tomando la mano de la niña, le dice: Niña, a ti digo, levántate. Y luego la niña se levantó, y andaba.
-Marcos 10:46|Y saliendo él de Jericó, Bartimeo el ciego, hijo de Timeo, estaba sentado junto al camino mendigando.
-Marcos 15:21|Y cargaron a uno que pasaba, Simón Cireneo, que venía del campo, para que llevase la cruz.
-Marcos 1:19|Vio a Jacobo, hijo de Zebedeo, y a Juan su hermano.
-Lucas 1:26|Al sexto mes fue enviado el ángel Gabriel de Dios a una ciudad de Galilea, llamada Nazaret.
-Lucas 1:13|Zacarías, no temas; porque tu oración ha sido oida, y tu mujer Elisabet te parirá un hijo.
-Lucas 1:31|Y he aquí, concebirás en tu vientre, y parirás un hijo, y llamarás su nombre JESÚS.
-Lucas 2:15-16|Vinieron apresuradamente, y hallaron a María y a José, y al niño acostado en el pesebre.
-Lucas 6:13|Llamó a sus discípulos, y escogió doce de ellos, a los cuales también llamó apóstoles.
-Lucas 23:42|Y dijo a Jesús: Acuérdate de mí cuando vengas a tu reino.
-Lucas 10:33|Pero un samaritano, que iba su camino, vino cerca de él, y viendole, fue movido a misericordia.
-Lucas 15:4|¿Qué hombre de vosotros, teniendo cien ovejas, si pierde una de ellas, no deja las noventa y nueve en el desierto, y va a la que se perdió?
-Lucas 17:15|Uno de ellos, como se vio que estaba sano, volvió, glorificando a Dios a gran voz.
-Juan 3:2|Este vino a Jesús de noche, y le dijo: Rabbí, sabemos que has venido de Dios por maestro.
-Juan 4:7|Vino una mujer de Samaria a sacar agua: y Jesús le dice: Dame de beber.
-Juan 13:5|Luego puso agua en un lebrillo, y comenzó a lavar los pies de los discípulos.
-Juan 20:25|Si no viere en sus manos la señal de los clavos, no creeré.
-Juan 21:11|Subió Simón Pedro, y trajo la red a tierra, llena de grandes peces, ciento cincuenta y tres.
-Juan 20:14|Se volvió atrás, y vio a Jesús que estaba allí; mas no sabía que era Jesús.
-Juan 2:1-11|(2:11) Este principio de señales hizo Jesús en Caná de Galilea, y manifestó su gloria.
-Juan 11|(11:43) Clamó a gran voz: Lázaro, ven fuera.
-Hechos 1:1|El primer tratado hice, oh Teófilo, de todas las cosas que Jesús comenzó a hacer y a enseñar.
-Hechos 1:26|Y les echaron suertes, y cayó la suerte sobre Matías; y fue contado con los once apóstoles.
-Hechos 1:12|Entonces se volvieron a Jerusalem del monte que se llama del Olivar.
-Hechos 7:59|Y apedrearon a Esteban, invocando él y diciendo: Señor Jesús, recibe mi espíritu.
-Hechos 8:38|Y mandó parar el carro; y descendieron ambos al agua, Felipe y el eunuco; y le bautizó.
-Hechos 9|(9:4) Saulo, Saulo, ¿por qué me persigues?
-Hechos 9:3|Yendo por el camino, aconteció que llegando cerca de Damasco, súbitamente le cercó un resplandor de luz del cielo.
-Hechos 9:40|Se volvió al cuerpo, y dijo: Tabita, levántate. Y ella abrió los ojos, y viendo a Pedro, se incorporó.
-Hechos 10|(10:1) Había un hombre en Cesarea, llamado Cornelio, centurión de la compañía llamada la Italiana.
-Hechos 16:26|Y de repente fue hecho un gran terremoto, de tal manera que los fundamentos de la cárcel se sacudían.
-Hechos 16:14|Una mujer llamada Lidia, vendedora de púrpura, de la ciudad de Tiatira, estaba oyendo.
-Hechos 20:9|Un mancebo llamado Eutico, que estaba sentado en una ventana, cayó del tercer piso abajo.
-1 Corintios 15:4|Y que fue sepultado, y que resucitó al tercer día, conforme a las Escrituras.
-1 Corintios 15:6|Después fue visto por más de quinientos hermanos juntos.
-1 Corintios 12:12|De la manera que el cuerpo es uno, y tiene muchos miembros, así también Cristo.
-Gálatas 2:20|Con Cristo estoy juntamente crucificado, y vivo no ya yo, mas Cristo vive en mí.
-Gálatas 5:22-23|El fruto del Espíritu es: caridad, gozo, paz, tolerancia, benignidad, bondad, fe, mansedumbre, templanza.
-Efesios 6:1|Hijos, obedeced en el Señor a vuestros padres; porque esto es justo.
-Hebreos 4:14|Teniendo, pues, un gran Sumo Sacerdote, que penetró los cielos, Jesús, el Hijo de Dios, retengamos nuestra profesión.
-2 Pedro 3:9|El Señor no tarda su promesa; es paciente para con nosotros, no queriendo que algunos perezcan, sino que todos procedan al arrepentimiento.
-Apocalipsis 1:1|La revelación de Jesucristo, que Dios le dio; la declaró enviandola por su ángel a Juan su siervo.
-Apocalipsis 1:9|Yo Juan estaba en la isla que se llama Patmos, por la palabra de Dios.
-Apocalipsis 22|(22:20) Ciertamente vengo en breve. Amén, sí, ven, Señor Jesús.
-Apocalipsis 6:1-8|(6:2) Y miré, y he aquí un caballo blanco; y el que estaba sentado sobre él tenía un arco.
-Josué 2:4|Mas la mujer había tomado los dos hombres y los había escondido.
-Josué 6:15|Al séptimo día rodearon la ciudad de la misma manera siete veces.
-Josué 6|(6:20) El muro cayó plano, y tomaron la ciudad.
-Josué 3:17|Todo Israel pasó en seco, hasta que toda la gente hubo acabado de pasar el Jordán.
-Jueces 16:19|Ella hizo que él se durmiese sobre sus rodillas, y le hizo rapar las siete guedejas de su cabeza; y su fuerza se apartó de él.
-Jueces 6:37|He aquí que yo pondré un vellón de lana en la era; si el rocío estuviere en el vellón solamente, entenderé que salvarás a Israel por mi mano.
-Jueces 7:7|Con estos trescientos hombres que lamieron el agua os salvaré.
-Jueces 4:21|Jael, mujer de Heber, tomó una estaca de la tienda, puso un mazo en su mano, y se la hincó en la sien.
-Jueces 4|(4:4) Gobernaba en aquel tiempo a Israel una mujer, Debora, profetisa.
-Rut 2:3|Y fue, y llegando, espigó en el campo en pos de los segadores.
-Rut 4:17|Y llamáronle Obed. Este es padre de Isaí, padre de David.
-1 Samuel 17:49|David metió su mano en la bolsa, tomó de allí una piedra, y tírosela con la honda, e hirió al filisteo en la frente.
-1 Samuel 17|(17:50) Así venció David al filisteo con honda y piedra.
-1 Samuel 1:20|Dio a luz un hijo, y le puso por nombre Samuel.
-1 Samuel 3|(3:10) Habla, que tu siervo oye.
-1 Samuel 18:1|El alma de Jonatán fue ligada con la de David, y lo amó Jonatán como a su alma.
-1 Samuel 28:7|Y Saúl dijo a sus criados: Buscadme una mujer que tenga espíritu de pitón, para que yo vaya a ella.
-2 Samuel 12|(12:7) Entonces dijo Natán a David: Tú eres aquel hombre.
-2 Samuel 18:9|Absalón iba sobre un mulo, y el mulo se metió debajo de las ramas espesas de una grande encina, y se le asió la cabeza a la encina.
-1 Reyes 6:38|Y lo edificó en siete años.
-1 Reyes 3|(3:9) Da, pues, a tu siervo corazón entendido para juzgar a tu pueblo.
-1 Reyes 16:31|Tomó por mujer a Jezabel, hija de Ethbaal rey de los Sidonios.
-2 Reyes 5:14|Descendió entonces, y se zambulló siete veces en el Jordán; y su carne se volvió como la carne de un niño, y quedó limpio.
-2 Crónicas 26:19|Uzías se enojó, teniendo en su mano el incensario; y la lepra le salió en la frente.
-Esdras 7:10|Esdras había preparado su corazón para inquirir la ley de Jehová, y para cumplir, y para enseñar en Israel sus estatutos y decretos.
-Nehemías 6:15|Fue acabado el muro el veinte y cinco del mes de Elul, en cincuenta y dos días.
-Nehemías 8:2|Esdras sacerdote trajo la ley delante de la congregación, así de hombres como de mujeres.
-Ester 2:17|El rey amó a Esther más que a todas las otras mujeres, y puso la corona real en su cabeza.
-Ester 4|(4:14) ¿Y quién sabe si para esta hora has llegado al reino?
-Ester 9:26|Por esto llamaron a estos días Purim, del nombre Pur.
-Job 1:12|Y Jehová dijo a Satanás: He aquí, todo lo que tiene está en tu mano; solamente no pongas tu mano sobre él.
-Job 1:2|Y le nacieron siete hijos y tres hijas.
-Isaías 6:1|En el año que murió el rey Uzías vi yo al Señor sentado sobre un trono alto y sublime.
-Isaías 6:2|Por encima de él había serafines; cada uno tenía seis alas.
-Isaías 53:7|Angustiado él, y afligido, no abrió su boca: como cordero fue llevado al matadero.
-Jeremías 38:6|Y Jeremías se hundió en el cieno.
-Ezequiel 1|(1:5) Y en medio de ella la figura de cuatro seres vivientes.
-Ezequiel 3:3|Y lo comí, y fue en mi boca dulce como miel.
-Daniel 6:22|Mi Dios envió su ángel, el cual cerró la boca de los leones, para que no me hiciesen mal.
-Daniel 2|(2:31) Tú, oh rey, veías, y he aquí una grande imagen.
-Daniel 6|(6:16) El Dios tuyo, a quien tú continuamente sirves, él te libre.
-Oseas 1:3|Fue, pues, y tomó a Gomer, hija de Diblaim.
-Jonás 1:3|Y Jonás se levantó para huir de la presencia de Jehová a Tarsis.
-Jonás 1:2|Levántate, y ve a Nínive, aquella gran ciudad, y pregona contra ella.
-Jonás 3:5|Los hombres de Nínive creyeron a Dios, y pregonaron ayuno, y se vistieron de sacos.
-Hageo 1:1|Vino palabra de Jehová por el profeta Haggeo a Zorobabel, hijo de Salatiel, gobernador de Judá.
-Sofonías 1:1|Palabra de Jehová que fue a Sofonías, en días de Josías, hijo de Amón, rey de Judá.
-1 Crónicas 4:10|E invocó Jabes al Dios de Israel, diciendo: ¡Oh, si me dieras bendición, y ensancharas mi término!
-2 Crónicas 30|(30:1) Envió Ezechías por todo Israel y Judá, para que viniesen a la casa de Jehová a celebrar la pascua.
-Judas 3|Me fue necesario escribiros amonestándoos que contendáis eficazmente por la fe que ha sido una vez dada a los santos.
-3 Juan 2|Amado, yo deseo que seas prosperado en todas las cosas, y que tengas salud, así como tu alma tiene prosperidad.
-Cantares 8:6|Porque fuerte es como la muerte el amor.
-Levítico 10:1|Nadab y Abiú tomaron cada uno su incensario, y pusieron fuego en ellos, y ofrecieron delante de Jehová fuego extraño.
-Levítico 11:7|Asimismo el cerdo, porque tiene pezuña, mas no rumia, lo tendréis por inmundo.
-Levítico 17:11|Porque la vida de la carne en la sangre está.
-Génesis 16:15|Y Agar parió a Abram un hijo; y llamó Abram el nombre del hijo, Ismael.
-Génesis 37:28|Sacaron a José de la cisterna, y vendieron a José a los ismaelitas por veinte pesos de plata.
-Génesis 37|(37:28) Vendieron a José a los ismaelitas por veinte pesos de plata.
-Génesis 42:24|Y tomó de entre ellos a Simeón, y lo aprisionó a vista de ellos.
-Génesis 17|(17:15) A Sarai tu mujer no la llamarás Sarai, mas Sara será su nombre.
-Génesis 2|(2:7) Entonces Jehová Dios formó al hombre del polvo de la tierra.
-Génesis 6|(6:14) Hazte un arca de madera de gofer.
-Génesis 32:28|No se dirá más tu nombre Jacob, sino Israel.
-Génesis 12:5|Salieron para ir a tierra de Canaán; y a tierra de Canaán llegaron.
-Éxodo 2:4|Y se paró una hermana suya a lo lejos, para saber lo que le acontecería.
-Éxodo 14|(14:21) Jehová hizo volver el mar con un recio viento oriental, y las aguas quedaron divididas.
-Éxodo 19|(19:20) Y descendió Jehová sobre el monte de Sinaí, sobre la cumbre del monte.
-Éxodo 20|(20:3) No tendrás dioses ajenos delante de mí.
-1 Crónicas 22|(22:5) Yo le haré preparativos. Y preparó David antes de su muerte en gran abundancia.
-Job 1:1|Hubo en la tierra de Hus un varón llamado Job; y era este hombre perfecto y recto, temeroso de Dios y apartado del mal.
-Cantares 1|(1:2) Béseme con besos de su boca; porque mejores son tus amores que el vino.
-Amós 7:14|Respondió Amós, y dijo a Amasías: No soy profeta, ni soy hijo de profeta, sino que soy boyero, y cogedor de higos silvestres.
-Génesis 27|(27:27) He aquí, el olor de mi hijo como el olor del campo que Jehová ha bendecido.
-Génesis 41:45|Y llamó Faraón el nombre de José Zaphnat-paanea; y le dio por mujer a Asenat, hija de Potipherah, sacerdote de On.
-Éxodo 7-12|(12:29) Jehová hirió a todos los primogénitos en la tierra de Egipto.
-Éxodo 3:1|Apacentando Moisés las ovejas de Jethro su suegro, sacerdote de Madián, llevó las ovejas a la parte trasera del desierto.
-Números 14:6-9|(14:7) La tierra por donde pasamos para reconocerla, es en gran manera buena.
-Números 16:31|Y aconteció que como cesó él de hablar todas estas palabras, la tierra que estaba debajo de ellos se hendió.
-Mateo 16:18|Y yo también te digo, que tú eres Pedro, y sobre esta piedra edificaré mi iglesia; y las puertas del infierno no prevalecerán contra ella.
-Mateo 28:19|Por tanto, id, y doctrinad a todos los gentiles, baptizándolos en el nombre del Padre, y del Hijo, y del Espíritu Santo.
-Marcos 9:2|Seis días después toma Jesús a Pedro, y a Jacobo, y a Juan, y los lleva aparte solos a un monte alto; y se transfiguró delante de ellos.
-Hechos 28:1|Y escapados ya, entonces supieron que la isla se llamaba Melita.
-Josué 7|(7:21) Vi entre los despojos un manto babilónico muy bueno, y lo codicié, y lo tomé.
-Josué 9|(9:15) Y Josué hizo paz con ellos, y concertó con ellos alianza para dejarlos con vida.
-Jueces 11:30|Y Jephthé hizo voto a Jehová, diciendo: Si entregares a los hijos de Ammon en mis manos, cualquiera que me saliere a recibir será de Jehová.
-Rut 1:4|Los cuales tomaron para sí mujeres de las de Moab; el nombre de la una fue Orfa, y el nombre de la otra Ruth.
-2 Samuel 6|(6:12) Fue David, e hizo subir el arca de Dios a la ciudad de David, con alegría.
-2 Samuel 9|(9:7) No tengas temor, porque a la verdad yo haré contigo misericordia por amor de Jonathán tu padre.
-1 Reyes 10|(10:1) Oyendo la reina de Sheba la fama de Salomón, vino a probarle con preguntas.
-1 Reyes 12|(12:13) El rey respondió al pueblo duramente, dejado el consejo que los ancianos le habían dado.
-1 Reyes 21|(21:2) Dame tu viña para un huerto de legumbres, porque está cercana, junto a mi casa.
-2 Crónicas 20|(20:21) Alabad a Jehová, porque su misericordia es para siempre.
-Ester 2:7|Y había criado a Hadassa, que es Esther, hija de su tío; porque era huérfana.
-Salmos|(150:6) Todo lo que respira alabe a JAH. Aleluya.
-Salmos 119|(119:105) Lámpara es a mis pies tu palabra, y lumbrera a mi camino.
-Daniel 1:7|A los cuales el príncipe de los eunucos puso nombres: puso a Daniel, Beltsasar; y a Ananias, Sadrach; y a Misael, Mesach; y a Azarias, Abed-nego.
-1 Corintios 13:13|Y ahora permanecen la fe, la esperanza, y la caridad, estas tres: mas la mayor de ellas es la caridad.`;
+Apocalipsis 3:20|He aquí, yo estoy á la puerta y llamo: si alguno oyere mi voz y abriere la puerta, entraré á él, y cenaré con él, y él conmigo.
+Apocalipsis 1:8|Yo soy el Alpha y la Omega, principio y fin, dice el Señor, que es y que era y que ha de venir, el Todopoderoso.
+Levítico 10:1|Y los hijos de Aarón, Nadab y Abiú, tomaron cada uno su incensario, y pusieron fuego en ellos, sobre el cual pusieron perfume, y ofrecieron delante de Jehová fuego extraño, que él nunca les mandó.
+Levítico 11:7|También el puerco, porque tiene pezuñas, y es de pezuñas hendidas, mas no rumia, tendréislo por inmundo.
+Levítico 17:11|Porque la vida de la carne en la sangre está: y yo os la he dado para expiar vuestras personas sobre el altar: por lo cual la misma sangre expiará la persona.
+Sofonías 1:1|Palabra de Jehová que fué á Sofonías hijo de Cushi, hijo de Gedalías, hijo de Amarías, hijo de Ezechîas, en días de Josías hijo de Amón, rey de Judá.
+Habacuc 3:18|Con todo, yo me alegraré en Jehová, y me gozaré en el Dios de mi salud.
+Jonás 3:5|Y los hombres de Nínive creyeron á Dios, y pregonaron ayuno, y vistiéronse de sacos desde el mayor de ellos hasta el menor de ellos.
+Hageo 1:1|En el año segundo del rey Darío en el mes sexto, en el primer día del mes, fué palabra de Jehová, por mano del profeta Haggeo, á Zorobabel hijo de Sealtiel, gobernador de Judá, y á Josué hijo de Josadac, gran sacerdote, diciendo:
+Hageo 2:8|Mía es la plata, y mío el oro, dice Jehová de los ejércitos.
+1 Crónicas 4:10|E invocó Jabes al Dios de Israel, diciendo: ¡Oh si me dieras bendición, y ensancharas mi término, y si tu mano fuera conmigo, y me libraras de mal, que no me dañe! E hizo Dios que le viniese lo que pidió.
+2 Crónicas 30|(30:1) Envió también Ezechîas por todo Israel y Judá, y escribió letras á Ephraim y Manasés, que viniesen á Jerusalem á la casa de Jehová, para celebrar la pascua á Jehová Dios de Israel.
+Judas 3|(1:3) Amados, por la gran solicitud que tenía de escribiros de la común salud, me ha sido necesario escribiros amonestándoos que contendáis eficazmente por la fe que ha sido una vez dada á los santos.
+3 Juan 2|(1:2) Amado, yo deseo que tú seas prosperado en todas cosas, y que tengas salud, así como tu alma está en prosperidad.
+Lamentaciones 3:23|Nuevas son cada mañana; grande es tu fidelidad.
+Cantares 8:6|Ponme como un sello sobre tu corazón, como una marca sobre tu brazo: porque fuerte es como la muerte el amor; duro como el sepulcro el celo: sus brasas, brasas de fuego, fuerte llama.
+Eclesiastés 12:13|El fin de todo el discurso oído es este: Teme á Dios, y guarda sus mandamientos; porque esto es el todo del hombre.
+Nehemías 8:2|Y Esdras el sacerdote, trajo la ley delante de la congregación, así de hombres como de mujeres, y de todo entendido para escuchar, el primer día del mes séptimo.
+Génesis 16:15|Y parió Agar á Abram un hijo, y llamó Abram el nombre de su hijo que le parió Agar, Ismael.
+Génesis 37:28|Y como pasaban los Midianitas mercaderes, sacaron ellos á José de la cisterna, y trajéronle arriba, y le vendieron á los Ismaelitas por veinte piezas de plata. Y llevaron á José á Egipto.
+Génesis 42:24|Y apartóse él de ellos, y lloró: después volvió á ellos, y les habló, y tomó de entre ellos á Simeón, y aprisionóle á vista de ellos.
+Éxodo 2:4|Y paróse una hermana suya á lo lejos, para ver lo que le acontecería.
+Marcos 1:19|Y pasando de allí un poco más adelante, vió á Jacobo, hijo de Zebedeo, y á Juan su hermano, también ellos en el navío, que aderezaban las redes.
+Juan 20:14|Y como hubo dicho esto, volvióse atrás, y vió á Jesús que estaba allí; mas no sabía que era Jesús.
+Hechos 1:12|Entonces se volvieron á Jerusalem del monte que se llama del Olivar, el cual está cerca de Jerusalem camino de un sábado.
+Apocalipsis 3:16|Mas porque eres tibio, y no frío ni caliente, te vomitaré de mi boca.
+Salmos 119:105|Nun. Lámpara es á mis pies tu palabra, y lumbrera á mi camino.
+Isaías 40:31|Mas los que esperan á Jehová tendrán nuevas fuerzas; levantarán las alas como águilas; correrán, y no se cansarán; caminarán, y no se fatigarán.
+Proverbios 3:5|Fíate de Jehová de todo tu corazón, y no estribes en tu prudencia.
+Mateo 5:13|Vosotros sois la sal de la tierra: y si la sal se desvaneciere ¿con qué será salada? no vale más para nada, sino para ser echada fuera y hollada de los hombres.
+Mateo 28:19|Por tanto, id, y doctrinad á todos los Gentiles, bautizándolos en el nombre del Padre, y del Hijo, y del Espíritu Santo:
+Génesis 2:2|Y acabó Dios en el día séptimo su obra que hizo, y reposó el día séptimo de toda su obra que había hecho.
+Génesis 2:8|Y había Jehová Dios plantado un huerto en Edén al oriente, y puso allí al hombre que había formado.
+Génesis 3:1|Empero la serpiente era astuta, más que todos los animales del campo que Jehová Dios había hecho; la cual dijo á la mujer: ¿Conque Dios os ha dicho: No comáis de todo árbol del huerto?
+Génesis 17:5|Y no se llamará más tu nombre Abram, sino que será tu nombre Abraham, porque te he puesto por padre de muchedumbre de gentes.
+Génesis 25:25-26|Y salió el primero rubio, y todo él velludo como una pelliza; y llamaron su nombre Esaú. Y después salió su hermano, trabada su mano al calcañar de Esaú: y fué llamado su nombre Jacob. Y era Isaac de edad de sesenta años cuando ella los parió.
+Génesis 6:10|Y engendró Noé tres hijos: á Sem, á Châm, y á Japhet.
+Génesis 37:3|Y amaba Israel á José más que á todos sus hijos, porque le había tenido en su vejez: y le hizo una ropa de diversos colores.
+Éxodo 12:11|Y así habéis de comerlo: ceñidos vuestros lomos, vuestros zapatos en vuestros pies, y vuestro bordón en vuestra mano; y lo comeréis apresuradamente: es la Pascua de Jehová.
+Génesis 8:7|Y envió al cuervo, el cual salió, y estuvo yendo y tornando hasta que las aguas se secaron de sobre la tierra.
+Génesis 8:11|Y la paloma volvió á él á la hora de la tarde; y he aquí que traía una hoja de oliva tomada en su pico: y entendió Noé que las aguas se habían retirado de sobre la tierra.
+Génesis 19:24|Entonces llovió Jehová sobre Sodoma y sobre Gomorra azufre y fuego de parte de Jehová desde los cielos;
+Génesis 11:26|Y vivió Thare setenta años, y engendró á Abram, y á Nachôr, y á Harán.
+Génesis 22:13|Entonces alzó Abraham sus ojos, y miró, y he aquí un carnero á sus espaldas trabado en un zarzal por sus cuernos: y fué Abraham, y tomó el carnero, y ofrecióle en holocausto en lugar de su hijo.
+Génesis 25:34|Entonces Jacob dió á Esaú pan y del guisado de las lentejas; y él comió y bebió, y levantóse, y fuése. Así menospreció Esaú la primogenitura.
+Génesis 28:12|Y soñó, y he aquí una escala que estaba apoyada en tierra, y su cabeza tocaba en el cielo: y he aquí ángeles de Dios que subían y descendían por ella.
+Génesis 35:22|Y acaeció, morando Israel en aquella tierra, que fué Rubén y durmió con Bilha la concubina de su padre; lo cual llegó á entender Israel. Ahora bien, los hijos de Israel fueron doce:
+Génesis 40:12|Y díjole José: Esta es su declaración: Los tres sarmientos son tres días:
+Éxodo 7:20|Y Moisés y Aarón hicieron como Jehová lo mandó; y alzando la vara hirió las aguas que había en el río, en presencia de Faraón y de sus siervos; y todas las aguas que había en el río se convirtieron en sangre.
+Éxodo 24:18|Y entró Moisés en medio de la nube, y subió al monte: y estuvo Moisés en el monte cuarenta días y cuarenta noches.
+Éxodo 28:1|Y tú allega á ti á Aarón tu hermano, y á sus hijos consigo, de entre los hijos de Israel, para que sean mis sacerdotes; á Aarón, Nadab y Abiú, Eleazar é Ithamar, hijos de Aarón.
+Éxodo 32:19|Y aconteció, que como llegó él al campo, y vió el becerro y las danzas, enardeciósele la ira á Moisés, y arrojó las tablas de sus manos, y quebrólas al pie del monte.
+Deuteronomio 3:27|Sube á la cumbre del Pisga, y alza tus ojos al occidente, y al aquilón, y al mediodía, y al oriente, y ve por tus ojos: porque no pasarás este Jordán.
+Génesis 21:5|Y era Abraham de cien años, cuando le nació Isaac su hijo.
+Génesis 47:6|La tierra de Egipto delante de ti está; en lo mejor de la tierra haz habitar á tu padre y á tus hermanos; habiten en la tierra de Gosén; y si entiendes que hay entre ellos hombres eficaces, ponlos por mayorales del ganado mío.
+Éxodo 7:7|Y era Moisés de edad de ochenta años, y Aarón de edad de ochenta y tres, cuando hablaron á Faraón.
+Éxodo 25:10-11|Harán también un arca de madera de Sittim, cuya longitud será de dos codos y medio, y su anchura de codo y medio, y su altura de codo y medio. Y la cubrirás de oro puro; por dentro y por fuera la cubrirás; y harás sobre ella una cornisa de oro alrededor.
+Levítico 16:29|Y esto tendréis por estatuto perpetuo: En el mes séptimo, á los diez del mes, afligiréis vuestras almas, y ninguna obra haréis, ni el natural ni el extranjero que peregrina entre vosotros:
+Números 6:5|Todo el tiempo del voto de su nazareato no pasará navaja sobre su cabeza, hasta que sean cumplidos los días de su apartamiento á Jehová: santo será; dejará crecer las guedejas del cabello de su cabeza.
+Números 17:8|Y aconteció que el día siguiente vino Moisés al tabernáculo del testimonio; y he aquí que la vara de Aarón de la casa de Leví había brotado, y echado flores, y arrojado renuevos, y producido almendras.
+Deuteronomio 34:6|Y enterrólo en el valle, en tierra de Moab, enfrente de Bethpeor; y ninguno sabe su sepulcro hasta hoy.
+Deuteronomio 6:9|Y las escribirás en los postes de tu casa, y en tus portadas.
+Deuteronomio 11:29|Y será que, cuando Jehová tu Dios te introdujere en la tierra á la cual vas para poseerla, pondrás la bendición sobre el monte Gerizim, y la maldición sobre el monte Ebal:
+1 Samuel 16:23|Y cuando el espíritu malo de parte de Dios era sobre Saúl, David tomaba el arpa, y tañía con su mano; y Saúl tenía refrigerio, y estaba mejor, y el espíritu malo se apartaba de él.
+1 Samuel 16:11|Entonces dijo Samuel á Isaí: ¿Hanse acabado los mozos? Y él respondió: Aun queda el menor, que apacienta las ovejas. Y dijo Samuel á Isaí: Envía por él, porque no nos asentaremos á la mesa hasta que él venga aquí.
+1 Samuel 16:13|Y Samuel tomó el cuerno del aceite, y ungiólo de entre sus hermanos: y desde aquel día en adelante el espíritu de Jehová tomó á David. Levantóse luego Samuel, y volvióse á Rama.
+Jueces 14:6|Y el espíritu de Jehová cayó sobre él, y despedazólo como quien despedaza un cabrito, sin tener nada en su mano: y no dió á entender á su padre ni á su madre lo que había hecho.
+1 Reyes 6:1|Y fué en el año cuatrocientos ochenta después que los hijos de Israel salieron de Egipto, en el cuarto año del principio del reino de Salomón sobre Israel, en el mes de Ziph, que es el mes segundo, que él comenzó á edificar la casa de Jehová.
+Josué 24:15|Y si mal os parece servir á Jehová, escogeos hoy á quién sirváis; si á los dioses á quienes sirvieron vuestros padres, cuando estuvieron de esotra parte del río, ó á los dioses de los Amorrheos en cuya tierra habitáis: que yo y mi casa serviremos á Jehová.
+Josué 4:3|Y mandadles, diciendo: Tomaos de aquí del medio del Jordán, del lugar donde están firmes los pies de los sacerdotes, doce piedras, las cuales pasaréis con vosotros, y las asentaréis en el alojamiento donde habéis de tener la noche.
+Jueces 7:16|Y repartiendo los trescientos hombres en tres escuadrones, dió á cada uno de ellos bocinas en sus manos, y cántaros vacíos con teas ardiendo dentro de los cántaros.
+Jueces 15:15|Y hallando una quijada de asno fresca, extendió la mano y tomóla, é hirió con ella á mil hombres.
+Jueces 16:30|Y dijo Samsón: Muera yo con los Filisteos. Y estribando con esfuerzo, cayó la casa sobre los príncipes, y sobre todo el pueblo que estaba en ella. Y fueron muchos más los que de ellos mató muriendo, que los que había muerto en su vida.
+Rut 4:13|Booz pues tomó á Ruth, y ella fué su mujer; y luego que entró á ella, Jehová le dió que concibiese y pariese un hijo.
+Rut 1:16|Y Ruth respondió: No me ruegues que te deje, y me aparte de ti: porque donde quiera que tú fueres, iré yo; y donde quiera que vivieres, viviré. Tu pueblo será mi pueblo, y tu Dios mi Dios.
+1 Samuel 4:11|Y el arca de Dios fué tomada, y muertos los dos hijos de Eli, Ophni y Phinees.
+1 Samuel 17:40|Tomó su cayado en su mano, y escogióse cinco piedras lisas del arroyo, y púsolas en el saco pastoril y en el zurrón que traía, y con su honda en su mano vase hacia el Filisteo.
+1 Reyes 3:25|En seguida el rey dijo: Partid por medio el niño vivo, y dad la mitad á la una, y la otra mitad á la otra.
+1 Reyes 17:6|Y los cuervos le traían pan y carne por la mañana, y pan y carne á la tarde; y bebía del arroyo.
+1 Reyes 17:9|Levántate, vete á Sarepta de Sidón, y allí morarás: he aquí yo he mandado allí á una mujer viuda que te sustente.
+Nehemías 1:11|Ruégote, oh Jehová, esté ahora atento tu oído á la oración de tu siervo, y á la oración de tus siervos, quienes desean temer tu nombre: y ahora concede hoy próspero suceso á tu siervo, y dale gracia delante de aquel varón. Porque yo servía de copero al rey.
+Ester 1:19|Si parece bien al rey, salga mandamiento real delante de él, y escríbase entre las leyes de Persia y de Media, y no sea traspasado: Que no venga más Vasthi delante del rey Assuero: y dé el rey su reino á su compañera que sea mejor que ella.
+Jueces 3:9|Y clamaron los hijos de Israel á Jehová; y Jehová suscitó salvador á los hijos de Israel y librólos; es á saber, á Othoniel hijo de Cenez, hermano menor de Caleb.
+Jueces 3:15|Y clamaron los hijos de Israel á Jehová; y Jehová les suscitó salvador, á Aod, hijo de Gera, Benjamita, el cual tenía cerrada la mano derecha. Y los hijos de Israel enviaron con él un presente á Eglón rey de Moab.
+1 Samuel 16:10|E hizo pasar Isaí sus siete hijos delante de Samuel; mas Samuel dijo á Isaí: Jehová no ha elegido á éstos.
+1 Samuel 7:15|Y juzgó Samuel á Israel todo el tiempo que vivió.
+2 Samuel 8:16|Y Joab hijo de Sarvia era general de su ejército; y Josaphat hijo de Ahilud, canciller;
+1 Reyes 2:11|Los días que reinó David sobre Israel fueron cuarenta años: siete años reinó en Hebrón, y treinta y tres años reinó en Jerusalem.
+1 Reyes 5:1|Hiram rey de Tiro envió también sus siervos á Salomón, luego que oyó que lo habían ungido por rey en lugar de su padre: porque Hiram había siempre amado á David.
+1 Reyes 19:12|Y tras el terremoto un fuego: mas Jehová no estaba en el fuego. Y tras el fuego un silbo apacible y delicado.
+2 Reyes 6:6|Y el varón de Dios dijo: ¿Dónde cayó? Y él le mostró el lugar. Entonces cortó él un palo, y echólo allí; é hizo nadar el hierro.
+2 Reyes 18:13|Y á los catorce años del rey Ezechîas, subió Sennachêrib rey de Asiria contra todas las ciudades fuertes de Judá, y tomólas.
+Job 1:20|Entonces Job se levantó, y rasgó su manto, y trasquiló su cabeza, y cayendo en tierra adoró;
+Job 42:10|Y mudó Jehová la aflicción de Job, orando él por sus amigos: y aumentó al doble todas las cosas que habían sido de Job.
+Salmos 150:6|Todo lo que respira alabe á JAH. Aleluya.
+Salmos 1:1|Bienaventurado el varón que no anduvo en consejo de malos, ni estuvo en camino de pecadores, ni en silla de escarnecedores se ha sentado;
+Salmos 37:4|Pon asimismo tu delicia en Jehová, y él te dará las peticiones de tu corazón.
+Salmos 46:10|Estad quietos, y conoced que yo soy Dios: ensalzado he de ser entre las gentes, ensalzado seré en la tierra.
+Proverbios 15:1|La blanda respuesta quita la ira: mas la palabra áspera hace subir el furor.
+Proverbios 18:10|Torre fuerte es el nombre de Jehová: á él correrá el justo, y será levantado.
+Proverbios 22:1|De más estima es la buena fama que las muchas riquezas; y la buena gracia más que la plata y el oro.
+Proverbios 16:18|Antes del quebrantamiento es la soberbia; y antes de la caída la altivez de espíritu.
+Proverbios 31:10|Mujer fuerte, ¿quién la hallará? porque su estima sobrepuja largamente á la de piedras preciosas.
+Eclesiastés 1:1|Palabras del Predicador, hijo de David, rey en Jerusalem.
+Eclesiastés 3:4|Tiempo de llorar, y tiempo de reir; tiempo de endechar, y tiempo de bailar;
+Eclesiastés 4:9|Mejores son dos que uno; porque tienen mejor paga de su trabajo.
+Cantares 1:1|Canción de canciones, la cual es de Salomón.
+Job 2:11|Y tres amigos de Job, Eliphaz Temanita, y Bildad Suhita, y Sophar Naamathita, luego que oyeron todo este mal que le había sobrevenido, vinieron cada uno de su lugar; porque habían concertado de venir juntos á condolecerse de él, y á consolarle.
+Job 38:1|Y respondió Jehová á Job desde un torbellino, y dijo:
+Salmos 51:1|Ten piedad de mí, oh Dios, conforme á tu misericordia: conforme á la multitud de tus piedades borra mis rebeliones.
+Salmos 91:1|El que habita al abrigo del Altísimo, morará bajo la sombra del Omnipotente.
+Salmos 46:1|Dios es nuestro amparo y fortaleza, nuestro pronto auxilio en las tribulaciones.
+Salmos 90:1|Señor, tú nos has sido refugio en generación y en generación.
+Proverbios 27:17|Hierro con hierro se aguza; y el hombre aguza el rostro de su amigo.
+Cantares 2:3|Como el manzano entre los árboles silvestres, así es mi amado entre los mancebos: bajo la sombra del deseado me senté, y su fruto fué dulce á mi paladar.
+Isaías 9:6|Porque un niño nos es nacido, hijo nos es dado; y el principado sobre su hombro: y llamaráse su nombre Admirable, Consejero, Dios fuerte, Padre eterno, Príncipe de paz.
+Isaías 6:8|Después oí la voz del Señor, que decía: ¿A quién enviaré, y quién nos irá? Entonces respondí yo: Heme aquí, envíame á mí.
+Isaías 11:6|Morará el lobo con el cordero, y el tigre con el cabrito se acostará: el becerro y el león y la bestia doméstica andarán juntos, y un niño los pastoreará.
+Jeremías 29:11|Porque yo sé los pensamientos que tengo acerca de vosotros, dice Jehová, pensamientos de paz, y no de mal, para daros el fin que esperáis.
+Jeremías 1:6|Y yo dije: ¡Ah! ¡ah! ¡Señor Jehová! He aquí, no sé hablar, porque soy niño.
+Daniel 1:12|Prueba, te ruego, tus siervos diez días, y dennos legumbres á comer, y agua á beber.
+Daniel 6:16|Entonces el rey mandó, y trajeron á Daniel, y echáronle en el foso de los leones. Y hablando el rey dijo á Daniel: El Dios tuyo, á quien tú continuamente sirves, él te libre.
+Daniel 4:33|En la misma hora se cumplió la palabra sobre Nabucodonosor, y fué echado de entre los hombres; y comía hierba como los bueyes, y su cuerpo se bañaba con el rocío del cielo, hasta que su pelo creció como de águila, y sus uñas como de aves.
+Jonás 2:1|Mas Jehová había prevenido un gran pez que tragase á Jonás: y estuvo Jonás en el vientre del pez tres días y tres noches.
+Isaías 53:5|Mas él herido fué por nuestras rebeliones, molido por nuestros pecados: el castigo de nuestra paz sobre él; y por su llaga fuimos nosotros curados.
+Jeremías 32:9|Y compré la heredad de Hanameel, hijo de mi tío, la cual estaba en Anathoth, y peséle el dinero: diecisiete siclos de plata.
+Jeremías 1:11|Y la palabra de Jehová fué á mí, diciendo: ¿Qué ves tú, Jeremías? Y dije: Yo veo una vara de almendro.
+Ezequiel 47:1|Hízome tornar luego á la entrada de la casa; y he aquí aguas que salían de debajo del umbral de la casa hacia el oriente: porque la fachada de la casa estaba al oriente: y las aguas descendían de debajo, hacia el lado derecho de la casa, al mediodía del altar.
+Jonás 3:4|Y comenzó Jonás á entrar por la ciudad, camino de un día, y pregonaba diciendo: De aquí á cuarenta días Nínive será destruída.
+Zacarías 4:3|Y sobre él dos olivas, la una á la derecha del vaso, y la otra á su izquierda.
+Lucas 2:39|Mas como cumplieron todas las cosas según la ley del Señor, se volvieron á Galilea, á su ciudad de Nazaret.
+Mateo 4:18|Y andando Jesús junto á la mar de Galilea, vió á dos hermanos, Simón, que es llamado Pedro, y Andrés su hermano, que echaban la red en la mar; porque eran pescadores.
+Mateo 13:55|¿No es éste el hijo del carpintero? ¿no se llama su madre María, y sus hermanos Jacobo y José, y Simón, y Judas?
+Mateo 3:4|Y tenía Juan su vestido de pelos de camellos, y una cinta de cuero alrededor de sus lomos; y su comida era langostas y miel silvestre.
+Mateo 26:48|Y el que le entregaba les había dado señal, diciendo: Al que yo besare, aquél es: prendedle.
+Mateo 26:74|Entonces comenzó á hacer imprecaciones, y á jurar, diciendo: No conozco al hombre. Y el gallo cantó luego.
+Mateo 27:26|Entonces les soltó á Barrabás: y habiendo azotado á Jesús, le entregó para ser crucificado.
+Mateo 26:26-27|Y comiendo ellos, tomó Jesús el pan, y bendijo, y lo partió, y dió á sus discípulos, y dijo: Tomad, comed: esto es mi cuerpo. Y tomando el vaso, y hechas gracias, les dió, diciendo: Bebed de él todos;
+Juan 21:17|Dícele la tercera vez: Simón, hijo de Jonás, ¿me amas? Entristecióse Pedro de que le dijese la tercera vez: ¿Me amas? y dícele: Señor, tú sabes todas las cosas; tú sabes que te amo. Dícele Jesús: Apacienta mis ovejas.
+Marcos 15:39|Y el centurión que estaba delante de él, viendo que había espirado así clamando, dijo: Verdaderamente este hombre era el Hijo de Dios.
+Juan 11:1|Estaba entonces enfermo uno llamado Lázaro, de Bethania, la aldea de María y de Marta su hermana.
+Juan 1:29|El siguiente día ve Juan á Jesús que venía á él, y dice: He aquí el Cordero de Dios, que quita el pecado del mundo.
+Juan 2:15|Y hecho un azote de cuerdas, echólos á todos del templo, y las ovejas, y los bueyes; y derramó los dineros de los cambiadores, y trastornó las mesas;
+Hechos 2:14|Entonces Pedro, poniéndose en pie con los once, alzó su voz, y hablóles diciendo: Varones Judíos, y todos los que habitáis en Jerusalem, esto os sea notorio, y oid mis palabras.
+Lucas 24:13-16|Y he aquí, dos de ellos iban el mismo día á una aldea que estaba de Jerusalem sesenta estadios, llamada Emmaús. E iban hablando entre sí de todas aquellas cosas que habían acaecido. Y aconteció que yendo hablando entre sí, y preguntándose el uno al otro…
+Hechos 12:7|Y he aquí, el ángel del Señor sobrevino, y una luz resplandeció en la cárcel; é hiriendo á Pedro en el lado, le despertó, diciendo: Levántate prestamente. Y las cadenas se le cayeron de las manos.
+Marcos 5:42|Y luego la muchacha se levantó, y andaba; porque tenía doce años. Y se espantaron de grande espanto.
+Marcos 3:17|Y á Jacobo, hijo de Zebedeo, y á Juan hermano de Jacobo; y les apellidó Boanerges, que es, Hijos del trueno;
+Lucas 6:15|Mateo y Tomás, Jacobo hijo de Alfeo, y Simón el que se llama Celador,
+Hechos 4:36|Entonces José, que fué llamado de los apóstoles por sobrenombre, Bernabé, (que es interpretado, Hijo de consolación) Levita, natural de Cipro,
+Hechos 5:5|Entonces Ananías, oyendo estas palabras, cayó y espiró. Y vino un gran temor sobre todos los que lo oyeron.
+Juan 5:5|Y estaba allí un hombre que había treinta y ocho años que estaba enfermo.
+Hechos 2:41|Así que, los que recibieron su palabra, fueron bautizados: y fueron añadidas á ellos aquel día como tres mil personas.
+Romanos 1:1|Pablo, siervo de Jesucristo, llamado á ser apóstol, apartado para el evangelio de Dios,
+Romanos 1:7|A todos los que estáis en Roma, amados de Dios, llamados santos: Gracia y paz tengáis de Dios nuestro Padre, y del Señor Jesucristo.
+Romanos 5:8|Mas Dios encarece su caridad para con nosotros, porque siendo aún pecadores, Cristo murió por nosotros.
+Romanos 8:38-39|Por lo cual estoy cierto que ni la muerte, ni la vida, ni ángeles, ni principados, ni potestades, ni lo presente, ni lo por venir, Ni lo alto, ni lo bajo, ni ninguna criatura nos podrá apartar del amor de Dios, que es en Cristo Jesús Señor nuestro.
+Efesios 6:16|Sobre todo, tomando el escudo de la fe, con que podáis apagar todos los dardos de fuego del maligno.
+Filipenses 2:10|Para que en el nombre de Jesús se doble toda rodilla de los que están en los cielos, y de los que en la tierra, y de los que debajo de la tierra;
+Gálatas 6:7|No os engañéis: Dios no puede ser burlado: que todo lo que el hombre sembrare, eso también segará.
+1 Juan 4:19|Nosotros le amamos á él, porque él nos amó primero.
+Apocalipsis 21:4|Y limpiará Dios toda lágrima de los ojos de ellos; y la muerte no será más; y no habrá más llanto, ni clamor, ni dolor: porque las primeras cosas son pasadas.
+Apocalipsis 1:12|Y me volví á ver la voz que hablaba conmigo: y vuelto, vi siete candeleros de oro;
+Santiago 1:19|Por esto, mis amados hermanos, todo hombre sea pronto para oir, tardío para hablar, tardío para airarse:
+1 Corintios 1:2|A la iglesia de Dios que está en Corinto, santificados en Cristo Jesús, llamados santos, y á todos los que invocan el nombre de nuestro Señor Jesucristo en cualquier lugar, Señor de ellos y nuestro:
+1 Corintios 10:13|No os ha tomado tentación, sino humana: mas fiel es Dios, que no os dejará ser tentados más de lo que podéis llevar; antes dará también juntamente con la tentación la salida, para que podáis aguantar.
+Hebreos 12:1|Por tanto nosotros también, teniendo en derredor nuestro una tan grande nube de testigos, dejando todo el peso del pecado que nos rodea, corramos con paciencia la carrera que nos es propuesta,
+Santiago 1:2|Hermanos míos, tened por sumo gozo cuando cayereis en diversas tentaciones;
+Hebreos 11:5|Por la fe Enoc fué traspuesto para no ver muerte, y no fué hallado, porque lo traspuso Dios. Y antes que fuese traspuesto, tuvo testimonio de haber agradado á Dios.
+Filipenses 4:4|Gozaos en el Señor siempre: otra vez digo: Que os gocéis.
+Apocalipsis 2:4|Pero tengo contra ti que has dejado tu primer amor.
+Apocalipsis 2:10|No tengas ningún temor de las cosas que has de padecer. He aquí, el diablo ha de enviar algunos de vosotros á la cárcel, para que seáis probados, y tendréis tribulación de diez días. Sé fiel hasta la muerte, y yo te daré la corona de la vida.
+Filemón 1|(1:1) Pablo, prisionero de Jesucristo, y el hermano Timoteo, á Filemón amado, y coadjutor nuestro;
+1 Crónicas 1:1|Adam, Seth, Enos,
+1 Crónicas 21:1-7|Mas Satanás se levantó contra Israel, é incitó á David á que contase á Israel. Y dijo David á Joab y á los príncipes del pueblo: Id, contad á Israel desde Beer-seba hasta Dan, y traedme el número de ellos para que yo lo sepa. Y dijo Joab…
+Esdras 3:8|Y en el año segundo de su venida á la casa de Dios en Jerusalem, en el mes segundo, comenzaron Zorobabel hijo de Sealthiel, y Jesuá hijo de Josadec, y los otros sus hermanos, los sacerdotes y los Levitas…
+Oseas 11:1|Cuando Israel era muchacho, yo lo amé, y de Egipto llamé á mi hijo.
+Joel 2:13|Y lacerad vuestro corazón, y no vuestros vestidos; y convertíos á Jehová vuestro Dios; porque misericordioso es y clemente, tardo para la ira, y grande en misericordia, y que se arrepiente del castigo.
+Abdías 1:6|¡Cómo fueron escudriñadas las cosas de Esaú! sus cosas escondidas fueron buscadas.
+Miqueas 4:3|Y juzgará entre muchos pueblos, y corregirá fuertes gentes hasta muy lejos: y martillarán sus espadas para azadones, y sus lanzas para hoces: no alzará espada gente contra gente, ni más se ensayarán para la guerra.
+Nahúm 1:7|Bueno es Jehová para fortaleza en el día de la angustia; y conoce á los que en él confían.
+Nahúm 1:1|Carga de Nínive. Libro de la visión de Nahum de El-kosh.
+Habacuc 2:2|Y Jehová me respondió, y dijo: Escribe la visión, y declárala en tablas, para que corra el que leyere en ella.
+Sofonías 3:17|Jehová en medio de ti, poderoso, él salvará; gozaráse sobre ti con alegría, callará de amor, se regocijará sobre ti con cantar.
+Colosenses 3:2|Poned la mira en las cosas de arriba, no en las de la tierra.
+Colosenses 4:7-9|Todos mis negocios os hará saber Tichîco, hermano amado y fiel ministro y consiervo en el Señor: El cual os he enviado á esto mismo, para que entienda vuestros negocios, y consuele vuestros corazones; Con Onésimo, amado y fiel hermano, el cual es de vosotros.…
+1 Tesalonicenses 5:16|Estad siempre gozosos.
+2 Tesalonicenses 3:13|Y vosotros, hermanos, no os canséis de hacer bien.
+2 Tesalonicenses 2:1|Empero os rogamos, hermanos, cuanto á la venida de nuestro Señor Jesucristo, y nuestro recogimiento á él,
+1 Timoteo 1:3|Como te rogué que te quedases en Efeso, cuando partí para Macedonia, para que requirieses á algunos que no enseñen diversa doctrina,
+2 Timoteo 1:5|Trayendo á la memoria la fe no fingida que hay en ti, la cual residió primero en tu abuela Loida, y en tu madre Eunice; y estoy cierto que en ti también.
+Tito 2:11|Porque la gracia de Dios que trae salvación á todos los hombres, se manifestó,
+1 Pedro 3:15|Sino santificad al Señor Dios en vuestros corazones, y estad siempre aparejados para responder con mansedumbre y reverencia á cada uno que os demande razón de la esperanza que hay en vosotros:
+2 Pedro 3:13|Bien que esperamos cielos nuevos y tierra nueva, según sus promesas, en los cuales mora la justicia.
+2 Juan 6|(1:6) Y este es amor, que andemos según sus mandamientos. Este es el mandamiento: Que andéis en él, como vosotros habéis oído desde el principio.
+3 Juan 9|(1:9) Yo he escrito á la iglesia: mas Diótrefes, que ama tener el primado entre ellos, no nos recibe.
+Judas 1|(1:1) Judas, siervo de Jesucristo, y hermano de Jacobo, á los llamados, santificados en Dios Padre, y conservados en Jesucristo:
+Salmos 23:4|Aunque ande en valle de sombra de muerte, no temeré mal alguno; porque tú estarás conmigo: tu vara y tu cayado me infundirán aliento.
+Proverbios 17:17|En todo tiempo ama el amigo; y el hermano para la angustia es nacido.
+Eclesiastés 12:1|Y acuérdate de tu Criador en los días de tu juventud, antes que vengan los malos días, y lleguen los años, de los cuales digas, No tengo en ellos contentamiento;
+Jeremías 1:1|Las palabras de Jeremías hijo de Hilcías, de los sacerdotes que estuvieron en Anathoth, en tierra de Benjamín.
+Daniel 1:6|Y fueron entre ellos, de los hijos de Judá, Daniel, Ananías, Misael y Azarías:
+Ezequiel 37:1|Y la mano de Jehová fué sobre mí, y sacóme en espíritu de Jehová, y púsome en medio de un campo que estaba lleno de huesos.
+Éxodo 1:1|Estos son los nombres de los hijos de Israel, que entraron en Egipto con Jacob; cada uno entró con su familia.
+Mateo 1:1|Libro de la generación de Jesucristo, hijo de David, hijo de Abraham.
+Levítico 1:5|Entonces degollará el becerro en la presencia de Jehová; y los sacerdotes, hijos de Aarón, ofrecerán la sangre, y la rociarán alrededor sobre el altar, el cual está á la puerta del tabernáculo del testimonio.
+Levítico 23:42|En cabañas habitaréis siete días: todo natural de Israel habitará en cabañas;
+Levítico 25:4|Y el séptimo año la tierra tendrá sábado de holganza, sábado á Jehová: no sembrarás tu tierra, ni podarás tu viña.
+Levítico 27:30|Y todas las décimas de la tierra, así de la simiente de la tierra como del fruto de los árboles, de Jehová son: es cosa consagrada á Jehová.
+Números 18:20|Y Jehová dijo á Aarón: De la tierra de ellos no tendrás heredad, ni entre ellos tendrás parte: Yo soy tu parte y tu heredad en medio de los hijos de Israel.
+Números 20:11|Entonces alzó Moisés su mano, é hirió la peña con su vara dos veces: y salieron muchas aguas, y bebió la congregación, y sus bestias.
+Números 11:26|Y habían quedado en el campo dos varones, llamado el uno Eldad y el otro Medad, sobre los cuales también reposó el espíritu: estaban estos entre los escritos, mas no habían salido al tabernáculo; y profetizaron en el campo.
+Números 13:25|Y volvieron de reconocer la tierra al cabo de cuarenta días.
+Números 12:10|Y la nube se apartó del tabernáculo: y he aquí que María era leprosa como la nieve; y miró Aarón á María, y he aquí que estaba leprosa.
+Deuteronomio 28:13|Y te pondrá Jehová por cabeza, y no por cola: y estarás encima solamente, y no estarás debajo; cuando obedecieres á los mandamientos de Jehová tu Dios, que yo te ordeno hoy, para que los guardes y cumplas.
+Éxodo 28:15-21|Harás asimismo el racional del juicio de primorosa obra, le has de hacer conforme á la obra del ephod, de oro, y cárdeno, y púrpura, y carmesí, y lino torcido. Será cuadrado y doble, de un palmo de largo y un palmo de ancho…
+Éxodo 13:21|Y Jehová iba delante de ellos de día en una columna de nube, para guiarlos por el camino; y de noche en una columna de fuego para alumbrarles; á fin de que anduviesen de día y de noche.
+Éxodo 6:20|Y Amram tomó por mujer á Jochêbed su tía; la cual le parió á Aarón y á Moisés. Y los años de la vida de Amram fueron ciento treinta y siete años.
+Éxodo 2:3|Pero no pudiendo ocultarle más tiempo, tomó una arquilla de juncos, y calafateóla con pez y betún, y colocó en ella al niño, y púsolo en un carrizal á la orilla del río:
+Génesis 2:7|Formó, pues, Jehová Dios al hombre del polvo de la tierra, y alentó en su nariz soplo de vida; y fué el hombre en alma viviente.
+Josué 14:10-13|… y los echaré como Jehová ha dicho. Josué entonces le bendijo, y dió á Caleb hijo de Jephone á Hebrón por heredad.
+Josué 13:8|Porque la otra media recibió su heredad con los Rubenitas y Gaditas, la cual les dió Moisés de la otra parte del Jordán al oriente, según que se la dió Moisés siervo de Jehová:
+2 Samuel 12:24|Y consoló David á Bath-sheba su mujer, y entrando á ella, durmió con ella; y parió un hijo, y llamó su nombre Salomón, al cual amó Jehová:
+2 Samuel 6:16|Y como el arca de Jehová llegó á la ciudad de David, aconteció que Michâl hija de Saúl miró desde una ventana, y vió al rey David que saltaba con toda su fuerza delante de Jehová: y menosprecióle en su corazón.
+2 Samuel 11:3|Y envió David á preguntar por aquella mujer, y dijéronle: Aquella es Bath-sheba hija de Eliam, mujer de Uría Hetheo.
+2 Reyes 11:1-3|Y athalía madre de Ochôzías, viendo que su hijo era muerto, levantóse, y destruyó toda la simiente real. Pero tomando Josaba hija del rey Joram, hermana de Ochôzías, á Joas hijo de Ochôzías, sacólo furtivamente de entre los hijos del rey, que se mataban…
+2 Reyes 4:8|Y aconteció también que un día pasaba Eliseo por Sunem; y había allí una mujer principal, la cual le constriñó á que comiese del pan: y cuando por allí pasaba, veníase á su casa á comer del pan.
+2 Reyes 19:35|Y aconteció que la misma noche salió el ángel de Jehová, é hirió en el campo de los Asirios ciento ochenta y cinco mil; y como se levantaron por la mañana, he aquí los cuerpos de los muertos.
+1 Crónicas 17:1-12|Y aconteció que morando David en su casa, dijo David al profeta Nathán: He aquí yo habito en casa de cedro, y el arca del pacto de Jehová debajo de cortinas. Y Nathán dijo á David: Haz todo lo que está en tu corazón, porque Dios es contigo.…
+2 Crónicas 9:30|Y reinó Salomón en Jerusalem sobre todo Israel cuarenta años.
+2 Crónicas 34:14-15|Y al sacar el dinero que había sido metido en la casa de Jehová, Hilcías el sacerdote halló el libro de la ley de Jehová dada por mano de Moisés. Y dando cuenta Hilcías, dijo á Saphán escriba: Yo he hallado el libro de la ley en la casa de Jehová.…
+Esdras 5:1|Y profetizaron Haggeo profeta, y Zacarías hijo de Iddo, profetas, á los Judíos que estaban en Judá y en Jerusalem yendo en nombre del Dios de Israel á ellos.
+Nehemías 2:4|Y díjome el rey: ¿Qué cosa pides? Entonces oré al Dios de los cielos,
+Nehemías 4:17|Los que edificaban en el muro, y los que llevaban cargas y los que cargaban, con la una mano trabajaban en la obra, y en la otra tenían la espada.
+Lamentaciones 1:1|¡Cómo está sentada sola la ciudad populosa! La grande entre las naciones se ha vuelto como viuda, la señora de provincias es hecha tributaria.
+Lamentaciones 3:22|Es por la misericordia de Jehová que no somos consumidos, porque nunca decayeron sus misericordias.
+Ezequiel 3:17|Hijo del hombre, yo te he puesto por atalaya á la casa de Israel: oirás pues tú la palabra de mi boca, y amonestarlos has de mi parte.
+Ezequiel 1:1|Y fué que á los treinta años, en el mes cuarto, á cinco del mes, estando yo en medio de los trasportados junto al río de Chebar, los cielos se abrieron, y vi visiones de Dios.
+Oseas 1:2|El principio de la palabra de Jehová con Oseas. Y dijo Jehová á Oseas: Ve, tómate una mujer fornicaria, é hijos de fornicaciones: porque la tierra se dará á fornicar apartándose de Jehová.
+Oseas 6:6|Porque misericordia quise, y no sacrificio; y conocimiento de Dios más que holocaustos.
+Joel 2:25|Y os restituiré los años que comió la oruga, la langosta, el pulgón, y el revoltón; mi grande ejército que envié contra vosotros.
+Hechos 2:16-17|Mas esto es lo que fué dicho por el profeta Joel: Y será en los postreros días, dice Dios, derramaré de mi Espíritu sobre toda carne, y vuestros hijos y vuestras hijas profetizarán; y vuestros mancebos verán visiones, y vuestros viejos soñarán sueños:
+Amós 7:15|Y Jehová me tomó de tras el ganado, y díjome Jehová: Ve, y profetiza á mi pueblo Israel.
+Amós 7:12|Y Amasías dijo á Amós: Vidente, vete, y huye á tierra de Judá, y come allá tu pan, y profetiza allí:
+Abdías 1:10|Por la injuria de tu hermano Jacob te cubrirá vergüenza, y serás talado para siempre.
+Abdías 1:3|La soberbia de tu corazón te ha engañado, tú que moras en las hendiduras de las peñas, en tu altísima morada; que dices en tu corazón: ¿Quién me derribará á tierra?
+Miqueas 4:4|Y cada uno se sentará debajo de su vid y debajo de su higuera, y no habrá quien amedrente: porque la boca de Jehová de los ejércitos lo ha hablado.
+Miqueas 1:1|Palabra de Jehová que fué á Miqueas de Morasti en días de Jotham, Achâz, y Ezechîas, reyes de Judá: lo que vió sobre Samaria y Jerusalem.
+Nahúm 1:3|Jehová es tardo para la ira, y grande en poder, y no tendrá al culpado por inocente. Jehová marcha entre la tempestad y turbión, y las nubes son el polvo de sus pies.
+Nahúm 1:15|He aquí sobre los montes los pies del que trae buenas nuevas, del que pregona la paz. Celebra, oh Judá, tus fiestas, cumple tus votos: porque nunca más pasará por ti el malvado; pereció del todo.
+Habacuc 1:2|¿Hasta cuándo, oh Jehová, clamaré, y no oirás; y daré voces á ti á causa de la violencia, y no salvarás?
+Habacuc 2:14|Porque la tierra será llena de conocimiento de la gloria de Jehová, como las aguas cubren la mar.
+Sofonías 2:3|Buscad á Jehová todos los humildes de la tierra, que pusisteis en obra su juicio; buscad justicia, buscad mansedumbre: quizás seréis guardados en el día del enojo de Jehová.
+Hageo 2:9|La gloria de aquesta casa postrera será mayor que la de la primera, ha dicho Jehová de los ejércitos; y daré paz en este lugar, dice Jehová de los ejércitos.
+Zacarías 1:8|Vi de noche, y he aquí un varón que cabalgaba sobre un caballo bermejo, el cual estaba entre los mirtos que había en la hondura; y detrás de él había caballos bermejos, overos, y blancos.
+Zacarías 2:8|Porque así ha dicho Jehová de los ejércitos: Después de la gloria me enviará él á las gentes que os despojaron: porque el que os toca, toca á la niña de su ojo.
+Malaquías 4:2|Mas á vosotros los que teméis mi nombre, nacerá el Sol de justicia, y en sus alas traerá salud: y saldréis, y saltaréis como becerros de la manada.
+2 Corintios 12:9|Y me ha dicho: Bástate mi gracia; porque mi potencia en la flaqueza se perfecciona. Por tanto, de buena gana me gloriaré más bien en mis flaquezas, porque habite en mí la potencia de Cristo.
+2 Corintios 4:7|Tenemos empero este tesoro en vasos de barro, para que la alteza del poder sea de Dios, y no de nosotros:
+Gálatas 3:28|No hay Judío, ni Griego; no hay siervo, ni libre; no hay varón, ni hembra: porque todos vosotros sois uno en Cristo Jesús.
+Gálatas 1:18|Después, pasados tres años, fuí á Jerusalem á ver á Pedro, y estuve con él quince días.
+Efesios 4:32|Antes sed los unos con los otros benignos, misericordiosos, perdonándoos los unos á los otros, como también Dios os perdonó en Cristo.
+Efesios 5:25|Maridos, amad á vuestras mujeres, así como Cristo amó á la iglesia, y se entregó á sí mismo por ella,
+Filipenses 2:5|Haya, pues, en vosotros este sentir que hubo también en Cristo Jesús:
+Colosenses 3:12|Vestíos pues, como escogidos de Dios, santos y amados, de entrañas de misericordia, de benignidad, de humildad, de mansedumbre, de tolerancia;
+1 Tesalonicenses 4:16|Porque el mismo Señor con aclamación, con voz de arcángel, y con trompeta de Dios, descenderá del cielo; y los muertos en Cristo resucitarán primero:
+1 Tesalonicenses 5:21|Examinadlo todo; retened lo bueno.
+2 Tesalonicenses 3:3|Mas fiel es el Señor, que os confirmará y guardará del mal.
+2 Tesalonicenses 3:1|Resta, hermanos, que oréis por nosotros, que la palabra del Señor corra y sea glorificada así como entre vosotros:
+1 Timoteo 4:12|Ninguno tenga en poco tu juventud; pero sé ejemplo de los fieles en palabra, en conversación, en caridad, en espíritu, en fe, en limpieza.
+1 Timoteo 2:5|Porque hay un Dios, asimismo un mediador entre Dios y los hombres, Jesucristo hombre;
+2 Timoteo 1:7|Porque no nos ha dado Dios el espíritu de temor, sino el de fortaleza, y de amor, y de templanza.
+2 Timoteo 4:10|Porque Demas me ha desamparado, amando este siglo, y se ha ido á Tesalónica; Crescente á Galacia, Tito á Dalmacia.
+Tito 3:5|No por obras de justicia que nosotros habíamos hecho, mas por su misericordia nos salvó, por el lavacro de la regeneración, y de la renovación del Espíritu Santo;
+Tito 2:7|Mostrándote en todo por ejemplo de buenas obras; en doctrina haciendo ver integridad, gravedad,
+Filemón 16|(1:16) No ya como siervo, antes más que siervo, como hermano amado, mayormente de mí, pero cuánto más de ti, en la carne y en el Señor.
+1 Pedro 5:8|Sed templados, y velad; porque vuestro adversario el diablo, cual león rugiente, anda alrededor buscando á quien devore:
+1 Pedro 4:8|Y sobre todo, tened entre vosotros ferviente caridad; porque la caridad cubrirá multitud de pecados.
+2 Pedro 1:19|Tenemos también la palabra profética más permanente, á la cual hacéis bien de estar atentos como á una antorcha que alumbra en lugar oscuro hasta que el día esclarezca, y el lucero de la mañana salga en vuestros corazones:
+2 Pedro 3:18|Mas creced en la gracia y conocimiento de nuestro Señor y Salvador Jesucristo. A él sea gloria ahora y hasta el día de la eternidad. Amén.
+1 Juan 1:5|Y este es el mensaje que oímos de él, y os anunciamos: Que Dios es luz, y en él no hay ningunas tinieblas.
+1 Juan 2:1|Hijitos míos, estas cosas os escribo, para que no pequéis; y si alguno hubiere pecado, abogado tenemos para con el Padre, á Jesucristo el justo;
+3 Juan 12|(1:12) Todos dan testimonio de Demetrio, y aun la misma verdad: y también nosotros damos testimonio; y vosotros habéis conocido que nuestro testimonio es verdadero.
+Judas 24-25|A aquel, pues, que es poderoso para guardaros sin caída, y presentaros delante de su gloria irreprensibles, con grande alegría, Al Dios solo sabio, nuestro Salvador, sea gloria y magnificencia, imperio y potencia, ahora y en todos los siglos. Amén.
+Hebreos 4:12|Porque la palabra de Dios es viva y eficaz, y más penetrante que toda espada de dos filos: y que alcanza hasta partir el alma, y aun el espíritu, y las coyunturas y tuétanos, y discierne los pensamientos y las intenciones del corazón.
+Santiago 3:5|Así también, la lengua es un miembro pequeño, y se gloría de grandes cosas. He aquí, un pequeño fuego ¡cuán grande bosque enciende!
+Marcos 10:16|Y tomándolos en los brazos, poniendo las manos sobre ellos, los bendecía.
+Lucas 2:14|Gloria en las alturas á Dios, y en la tierra paz, buena voluntad para con los hombres.
+Juan 14:6|Jesús le dice: Yo soy el camino, y la verdad, y la vida: nadie viene al Padre, sino por mí.
+Mateo 7:24|Cualquiera, pues, que me oye estas palabras, y las hace, le compararé á un hombre prudente, que edificó su casa sobre la peña;
+Mateo 13:31-32|Otra parábola les propuso, diciendo: El reino de los cielos es semejante al grano de mostaza, que tomándolo alguno lo sembró en su campo: El cual á la verdad es la más pequeña de todas las simientes; mas cuando ha crecido, es la mayor de las hortalizas…
+Hechos 9:25|Entonces los discípulos, tomándole de noche, le bajaron por el muro en una espuerta.
+Proverbios 3:6|Reconócelo en todos tus caminos, y él enderezará tus veredas.
+Job 32:2|Entonces Eliú hijo de Barachêl, Bucita,, de la familia de Ram, se enojó con furor contra Job: enojóse con furor, por cuanto justificaba su vida más que á Dios.
+Job 2:13|Así se sentaron con él en tierra por siete días y siete noches, y ninguno le hablaba palabra, porque veían que el dolor era muy grande.
+Job 40:15|He aquí ahora behemoth, al cual yo hice contigo; hierba come como buey.
+Job 42:16|Y después de esto vivió Job ciento y cuarenta años, y vió á sus hijos, y á los hijos de sus hijos, hasta la cuarta generación.
+Job 42:14|Y llamó el nombre de la una, Jemimah, y el nombre de la segunda, Cesiah, y el nombre de la tercera, Keren-happuch.
+Job 1:21|Y dijo: Desnudo salí del vientre de mi madre, y desnudo tornaré allá. Jehová dió, y Jehová quitó: sea el nombre de Jehová bendito.
+Job 28:28|Y dijo al hombre: He aquí que el temor del Señor es la sabiduría, y el apartarse del mal la inteligencia.
+Salmos 100:1|Cantad alegres á Dios, habitantes de toda la tierra.
+Salmos 118:24|Este es el día que hizo Jehová: nos gozaremos y alegraremos en él.
+Salmos 19:1|Los cielos cuentan la gloria de Dios, y la expansión denuncia la obra de sus manos.
+Salmos 51:10|Crea en mí, oh Dios, un corazón limpio; y renueva un espíritu recto dentro de mí.
+Salmos 133:1|¡Mirad cuán bueno y cuán delicioso es habitar los hermanos igualmente en uno!
+Salmos 34:8|Gustad, y ved que es bueno Jehová: dichoso el hombre que confiará en él.
+Salmos 103:12|Cuanto está lejos el oriente del occidente, hizo alejar de nosotros nuestras rebeliones.
+Salmos 27:1|Jehová es mi luz y mi salvación: ¿de quién temeré? Jehová es la fortaleza de mi vida: ¿de quién he de atemorizarme?
+Salmos 1:3|Y será como el árbol plantado junto á arroyos de aguas, que da su fruto en su tiempo, y su hoja no cae; y todo lo que hace, prosperará.
+Salmos 119:11|En mi corazón he guardado tus dichos, para no pecar contra ti.
+Salmos 56:3|En el día que temo, yo en ti confío.
+Salmos 136:1|Alabad á Jehová, porque es bueno; porque para siempre es su misericordia.
+Salmos 23:2|En lugares de delicados pastos me hará yacer: junto á aguas de reposo me pastoreará.
+Salmos 23:5|Aderezarás mesa delante de mí, en presencia de mis angustiadores: ungiste mi cabeza con aceite: mi copa está rebosando.
+Salmos 150:3|Alabadle á son de bocina: alabadle con salterio y arpa.
+Proverbios 1:7|El principio de la sabiduría es el temor de Jehová: los insensatos desprecian la sabiduría y la enseñanza.
+Proverbios 10:4|La mano negligente hace pobre: mas la mano de los diligentes enriquece.
+Proverbios 12:25|El cuidado congojoso en el corazón del hombre, lo abate; mas la buena palabra lo alegra.
+Proverbios 13:20|El que anda con los sabios, sabio será; mas el que se allega á los necios, será quebrantado.
+Proverbios 14:34|La justicia engrandece la nación: mas el pecado es afrenta de las naciones.
+Proverbios 16:3|Encomienda á Jehová tus obras, y tus pensamientos serán afirmados.
+Proverbios 26:11|Como perro que vuelve á su vómito, así el necio que repite su necedad.
+Proverbios 18:21|La muerte y la vida están en poder de la lengua; y el que la ama comerá de sus frutos.
+Proverbios 6:16|Seis cosas aborrece Jehová, y aun siete abomina su alma:
+Proverbios 19:17|A Jehová empresta el que da al pobre, y él le dará su paga.
+Eclesiastés 9:10|Todo lo que te viniere á la mano para hacer, hazlo según tus fuerzas; porque en el sepulcro, adonde tú vas, no hay obra, ni industria, ni ciencia, ni sabiduría.
+Eclesiastés 1:9|¿Qué es lo que fué? Lo mismo que será. ¿Qué es lo que ha sido hecho? Lo mismo que se hará: y nada hay nuevo debajo del sol.
+Eclesiastés 5:2|No te des priesa con tu boca, ni tu corazón se apresure á proferir palabra delante de Dios; porque Dios está en el cielo, y tú sobre la tierra: por tanto, sean pocas tus palabras.
+Eclesiastés 11:1|Echa tu pan sobre las aguas; que después de muchos días lo hallarás.
+Eclesiastés 3:2|Tiempo de nacer, y tiempo de morir; tiempo de plantar, y tiempo de arrancar lo plantado;
+Cantares 2:11|Porque he aquí ha pasado el invierno, hase mudado, la lluvia se fué;
+Cantares 2:15|Cazadnos las zorras, las zorras pequeñas, que echan á perder las viñas; pues que nuestras viñas están en cierne.
+Cantares 4:7|Toda tú eres hermosa, amiga mía, y en ti no hay mancha.
+Cantares 5:2|Yo dormía, pero mi corazón velaba: la voz de mi amado que llamaba: Abreme, hermana mía, amiga mía, paloma mía, perfecta mía; porque mi cabeza está llena de rocío, mis cabellos de las gotas de la noche.
+Josué 1:1|Y aconteció después de la muerte de Moisés siervo de Jehová, que Jehová habló á Josué hijo de Nun, ministro de Moisés, diciendo:
+Josué 1:9|Mira que te mando que te esfuerces y seas valiente: no temas ni desmayes, porque Jehová tu Dios será contigo en donde quiera que fueres.
+Josué 2:18|He aquí, cuando nosotros entráremos en la tierra, tú atarás este cordón de grana á la ventana por la cual nos descolgaste: y tú juntarás en tu casa tu padre y tu madre, tus hermanos y toda la familia de tu padre.
+Josué 24:29|Y después de estas cosas murió Josué, hijo de Nun, siervo de Jehová, siendo de ciento y diez años.
+Jueces 6:25|Y aconteció que la misma noche le dijo Jehová: Toma un toro del hato de tu padre, y otro toro de siete años, y derriba el altar de Baal que tu padre tiene, y corta también el bosque que está junto á él:
+Jueces 13:2|Y había un hombre de Sora, de la tribu de Dan, el cual se llamaba Manoa; y su mujer era estéril, que nunca había parido.
+Jueces 16:3|Mas Samsón durmió hasta la media noche; y á la media noche se levantó, y tomando las puertas de la ciudad con sus dos pilares y su cerrojo, echóselas al hombro, y fuése, y subióse con ellas á la cumbre del monte que está delante de Hebrón.
+Jueces 9:6|Y reunidos todos los de Sichêm con toda la casa de Millo, fueron y eligieron á Abimelech por rey, cerca de la llanura del pilar que estaba en Sichêm.
+Jueces 9:53|Mas una mujer dejó caer un pedazo de una rueda de molino sobre la cabeza de Abimelech, y quebróle los cascos.
+Rut 1:19|Anduvieron pues ellas dos hasta que llegaron á Beth-lehem: y aconteció que entrando en Beth-lehem, toda la ciudad se conmovió por razón de ellas, y decían: ¿No es ésta Noemi?
+Rut 1:20|Y ella les respondía: No me llaméis Noemi, sino llamadme Mara: porque en grande amargura me ha puesto el Todopoderoso.
+Rut 1:14|Mas ellas alzando otra vez su voz, lloraron: y Orpha besó á su suegra, mas Ruth se quedó con ella.
+1 Samuel 1:11|… y te acordares de mí, y no te olvidares de tu sierva, mas dieres á tu sierva un hijo varón, yo lo dedicaré á Jehová todos los días de su vida, y no subirá navaja sobre su cabeza.
+1 Samuel 8:5|Y dijéronle: He aquí tú has envejecido, y tus hijos no van por tus caminos: por tanto, constitúyenos ahora un rey que nos juzgue, como todas las gentes.
+1 Samuel 3:8|Jehová pues llamó la tercera vez á Samuel. Y él levantándose vino á Eli, y dijo: Heme aquí; ¿para qué me has llamado? Entonces entendió Eli que Jehová llamaba al joven.
+1 Samuel 17:34|Y David respondió á Saúl: Tu siervo era pastor en las ovejas de su padre, y venía un león, ó un oso, y tomaba algún cordero de la manada,
+1 Samuel 25:3|El nombre de aquel varón era Nabal, y el nombre de su mujer, Abigail. Y era aquella mujer de buen entendimiento y de buena gracia; mas el hombre era duro y de malos hechos; y era del linaje de Caleb.
+1 Samuel 17:4|Salió entonces un varón del campo de los Filisteos que se puso entre los dos campos, el cual se llamaba Goliath, de Gath, y tenía de altura seis codos y un palmo.
+2 Samuel 6:6|Y cuando llegaron á la era de Nachôn, Uzza extendió la mano al arca de Dios, y túvola; porque los bueyes daban sacudidas.
+2 Samuel 12:3|Mas el pobre no tenía más que una sola cordera, que él había comprado y criado, y que había crecido con él y con sus hijos juntamente, comiendo de su bocado, y bebiendo de su vaso, y durmiendo en su seno: y teníala como á una hija.
+2 Samuel 7:16|Y será afirmada tu casa y tu reino para siempre delante de tu rostro; y tu trono será estable eternalmente.
+2 Samuel 13:28|Y había Absalom dado orden á sus criados, diciendo: Ahora bien, mirad cuándo el corazón de Amnón estará alegre del vino, y en diciéndoos yo, Herid á Amnón, entonces matadle, y no temáis; que yo os lo he mandado. Esforzaos pues, y sed valientes.
+2 Samuel 24:15|Y envió Jehová pestilencia á Israel desde la mañana hasta el tiempo señalado: y murieron del pueblo, desde Dan hasta Beer-seba, setenta mil hombres.
+1 Reyes 4:32|Y propuso tres mil parábolas; y sus versos fueron mil y cinco.
+1 Reyes 18:22|Y Elías tornó á decir al pueblo: Sólo yo he quedado profeta de Jehová; mas de los profetas de Baal hay cuatrocientos y cincuenta hombres.
+1 Reyes 16:24|Y compró él de Semer el monte de Samaria por dos talentos de plata, y edificó en el monte: y llamó el nombre de la ciudad que edificó, Samaria, del nombre de Semer, señor que fué de aquel monte.
+1 Reyes 12:28|Y habido consejo, hizo el rey dos becerros de oro, y dijo al pueblo: Harto habéis subido á Jerusalem: he aquí tus dioses, oh Israel, que te hicieron subir de la tierra de Egipto.
+1 Reyes 17:1|Entonces Elías Thisbita, que era de los moradores de Galaad, dijo á Achâb: Vive Jehová Dios de Israel, delante del cual estoy, que no habrá lluvia ni rocío en estos años, sino por mi palabra.
+2 Reyes 9:6|Y como él entró, he aquí los príncipes del ejército que estaban sentados. Y él dijo: Príncipe, una palabra tengo que decirte. Y Jehú dijo: ¿A cuál de todos nosotros? Y él dijo: A ti, príncipe.
+2 Reyes 11:21|Era Joas de siete años cuando comenzó á reinar.
+2 Reyes 19:14|Y tomó Ezechîas las letras de mano de los embajadores; y después que las hubo leído, subió á la casa de Jehová, y extendiólas Ezechîas delante de Jehová.
+2 Reyes 2:21|Y saliendo él á los manaderos de las aguas, echó dentro la sal, y dijo: Así ha dicho Jehová: Yo sané estas aguas, y no habrá más en ellas muerte ni enfermedad.
+2 Reyes 25:8|En el mes quinto, á los siete del mes, siendo el año diecinueve de Nabucodonosor rey de Babilonia, vino á Jerusalem Nabuzaradán, capitán de los de la guardia, siervo del rey de Babilonia.
+1 Crónicas 12:32|Y de los hijos de Issachâr, doscientos principales, entendidos en los tiempos, y que sabían lo que Israel debía hacer, cuyo dicho seguían todos sus hermanos.
+1 Crónicas 28:11|Y David dió á Salomón su hijo la traza del pórtico, y de sus casas, y de sus oficinas, y de sus salas, y de sus recámaras, y de la casa del propiciatorio.
+1 Crónicas 21:1|Mas Satanás se levantó contra Israel, é incitó á David á que contase á Israel.
+2 Crónicas 14:9|Y salió contra ellos Zera Etiope con un ejército de mil millares, y trescientos carros; y vino hasta Maresa.
+2 Crónicas 7:14|Si se humillare mi pueblo, sobre los cuales ni nombre es invocado, y oraren, y buscaren mi rostro, y se convirtieren de sus malos caminos; entonces yo oiré desde los cielos, y perdonaré sus pecados, y sanaré su tierra.
+2 Crónicas 33:1|De DOCE años era Manasés cuando comenzó á reinar, y cincuenta y cinco años reinó en Jerusalem.
+Esdras 2:2|Los cuales vinieron con Zorobabel, Jesuá, Nehemías, Seraías, Reelaías, Mardochêo, Bilsán, Mispar, Bigvai, Rehum y Baana. La cuenta de los varones del pueblo de Israel:
+Esdras 8:21|Y publiqué ayuno allí junto al río de Ahava, para afligirnos delante de nuestro Dios, para solicitar de él camino derecho para nosotros, y para nuestros niños, y para toda nuestra hacienda.
+Nehemías 2:10|Y oyéndolo Sanballat Horonita, y Tobías, el siervo Ammonita, disgustóles en extremo que viniese alguno para procurar el bien de los hijos de Israel.
+Nehemías 1:4|Y fué que, como yo oí estas palabras, sentéme y lloré, y enlutéme por algunos días, y ayuné y oré delante del Dios de los cielos.
+Nehemías 3:1|Y levantóse Eliasib el gran sacerdote con sus hermanos los sacerdotes, y edificaron la puerta de las Ovejas. Ellos aparejaron y levantaron sus puertas hasta la torre de Meah, aparejáronla hasta la torre de Hananeel.
+Ester 4:16|Ve, y junta á todos los Judíos que se hallan en Susán, y ayunad por mí, y no comáis ni bebáis en tres días, noche ni día: yo también con mis doncellas ayunaré igualmente, y así entraré al rey, aunque no sea conforme á la ley; y si perezco, que perezca.
+Ester 5:14|Y díjole Zeres su mujer, y todos sus amigos: Hagan una horca alta de cincuenta codos, y mañana di al rey que cuelguen á Mardochêo en ella; y entra con el rey al banquete alegre. Y plugo la cosa en los ojos de Amán, é hizo preparar la horca.
+Ester 6:1|Aquella noche se le fué el sueño al rey, y dijo que le trajesen el libro de las memorias de las cosas de los tiempos: y leyéronlas delante del rey.
+1 Reyes 3:13|Y aun también te he dado las cosas que no pediste, riquezas y gloria: tal, que entre los reyes ninguno haya como tú en todos tus días.
+1 Samuel 17:51|Mas corrió David y púsose sobre el Filisteo, y tomando la espada de él, sacándola de su vaina, matólo, y cortóle con ella la cabeza. Y como los Filisteos vieron su gigante muerto, huyeron.
+Josué 6:4|Y siete sacerdotes llevarán siete bocinas de cuernos de carneros delante del arca; y al séptimo día daréis siete vueltas á la ciudad, y los sacerdotes tocarán las bocinas.
+1 Reyes 12:20|Y aconteció, que oyendo todo Israel que Jeroboam había vuelto, enviaron y llamáronle á la congregación, é hiciéronle rey sobre todo Israel, sin quedar tribu alguna que siguiese la casa de David, sino sólo la tribu de Judá.
+1 Samuel 18:3|E hicieron alianza Jonathán y David, porque él le amaba como á su alma.
+Isaías 1:18|Venid luego, dirá Jehová, y estemos á cuenta: si vuestros pecados fueren como la grana, como la nieve serán emblanquecidos: si fueren rojos como el carmesí, vendrán á ser como blanca lana.
+Isaías 41:10|No temas, que yo soy contigo; no desmayes, que yo soy tu Dios que te esfuerzo: siempre te ayudaré, siempre te sustentaré con la diestra de mi justicia.
+Isaías 6:3|Y el uno al otro daba voces, diciendo: Santo, santo, santo, Jehová de los ejércitos: toda la tierra está llena de su gloria.
+Isaías 55:8|Porque mis pensamientos no son vuestros pensamientos, ni vuestros caminos mis caminos, dijo Jehová.
+Isaías 53:6|Todos nosotros nos descarriamos como ovejas, cada cual se apartó por su camino: mas Jehová cargó en él el pecado de todos nosotros.
+Isaías 43:2|Cuando pasares por las aguas, yo seré contigo; y por los ríos, no te anegarán. Cuando pasares por el fuego, no te quemarás, ni la llama arderá en ti.
+Jeremías 17:7|Bendito el varón que se fía en Jehová, y cuya confianza es Jehová.
+Jeremías 18:3|Y descendí á casa del alfarero, y he aquí que él hacía obra sobre la rueda.
+Jeremías 36:23|Y fué que, como Jehudí hubo leído tres ó cuatro planas, rasgólo con un cuchillo de escribanía, y echólo en el fuego que había en el brasero, hasta que todo el rollo se consumió sobre el fuego que en el brasero había.
+Jeremías 31:3|Jehová se manifestó á mí ya mucho tiempo há, diciendo: Con amor eterno te he amado; por tanto te soporté con misericordia.
+Jeremías 36:4|Y llamó Jeremías á Baruch hijo de Nerías, y escribió Baruch de boca de Jeremías, en un rollo de libro, todas las palabras que Jehová le había hablado.
+Jeremías 38:7|Y oyendo Ebed-melec, hombre etiope, eunuco que estaba en casa del rey, que habían puesto á Jeremías en la mazmorra, y estando sentado el rey á la puerta de Benjamín,
+Ezequiel 36:26|Y os daré corazón nuevo, y pondré espíritu nuevo dentro de vosotros; y quitaré de vuestra carne el corazón de piedra, y os daré corazón de carne.
+Ezequiel 34:15|Yo apacentaré mis ovejas, y yo les haré tener majada, dice el Señor Jehová.
+Ezequiel 47:3|Y saliendo el varón hacia el oriente, tenía un cordel en su mano; y midió mil codos, é hízome pasar por las aguas hasta los tobillos.
+Daniel 6:10|Y Daniel, cuando supo que la escritura estaba firmada, entróse en su casa, y abiertas las ventanas de su cámara que estaban hacia Jerusalem, hincábase de rodillas tres veces al día, y oraba, y confesaba delante de su Dios, como lo solía hacer antes.
+Daniel 9:21|Aun estaba hablando en oración, y aquel varón Gabriel, al cual había visto en visión al principio, volando con presteza, me tocó como á la hora del sacrificio de la tarde.
+Daniel 3:25|Respondió él y dijo: He aquí que yo veo cuatro varones sueltos, que se pasean en medio del fuego, y ningún daño hay en ellos: y el parecer del cuarto es semejante á hijo de los dioses.
+Daniel 2:32|La cabeza de esta imagen era de fino oro; sus pechos y sus brazos, de plata; su vientre y sus muslos, de metal;
+Oseas 4:6|Mi pueblo fué talado, porque le faltó sabiduría. Porque tú desechaste la sabiduría, yo te echaré del sacerdocio: y pues que olvidaste la ley de tu Dios, también yo me olvidaré de tus hijos.
+Joel 2:32|Y será que cualquiera que invocare el nombre de Jehová, será salvo: porque en el monte de Sión y en Jerusalem habrá salvación, como Jehová ha dicho, y en los que quedaren, á los cuales Jehová habrá llamado.
+Amós 3:3|¿Andarán dos juntos, si no estuvieren de concierto?
+Jonás 4:1|Pero Jonás se apesadumbró en extremo, y enojóse.
+Jonás 1:15|Y tomaron á Jonás, y echáronlo á la mar; y la mar se quietó de su furia.
+Habacuc 2:3|Aunque la visión tardará aún por tiempo, mas al fin hablará, y no mentirá: aunque se tardare, espéralo, que sin duda vendrá; no tardará.
+Zacarías 11:12|Y díjeles: Si os parece bien, dadme mi salario; y si no, dejadlo. Y pesaron para mi salario treinta piezas de plata.
+Malaquías 3:1|He aquí, yo envío mi mensajero, el cual preparará el camino delante de mí: y luego vendrá á su templo el Señor á quien vosotros buscáis, y el ángel del pacto, á quien deseáis vosotros. He aquí viene, ha dicho Jehová de los ejércitos.
+Mateo 2:16|Herodes entonces, como se vió burlado de los magos, se enojó mucho, y envió, y mató á todos los niños que había en Bethlehem y en todos sus términos, de edad de dos años abajo, conforme al tiempo que había entendido de los magos.
+Mateo 2:14|Y él despertando, tomó al niño y á su madre de noche, y se fué á Egipto;
+Mateo 4:3|Y llegándose á él el tentador, dijo: Si eres Hijo de Dios, di que estas piedras se hagan pan.
+Mateo 5:3|Bienaventurados los pobres en espíritu: porque de ellos es el reino de los cielos.
+Mateo 6:33|Mas buscad primeramente el reino de Dios y su justicia, y todas estas cosas os serán añadidas.
+Mateo 7:7|Pedid, y se os dará; buscad, y hallaréis; llamad, y se os abrirá.
+Mateo 4:19|Y díceles: Venid en pos de mí, y os haré pescadores de hombres.
+Mateo 14:20|Y comieron todos, y se hartaron; y alzaron lo que sobró de los pedazos, doce cestas llenas.
+Marcos 2:5|Y viendo Jesús la fe de ellos, dice al paralítico: Hijo, tus pecados te son perdonados.
+Marcos 5:9|Y le preguntó: ¿Cómo te llamas? Y respondió diciendo: Legión me llamo; porque somos muchos.
+Marcos 5:27|Como oyó hablar de Jesús, llegó por detrás entre la compañía, y tocó su vestido.
+Marcos 10:17|Y saliendo él para ir su camino, vino uno corriendo, é hincando la rodilla delante de él, le preguntó: Maestro bueno, ¿qué haré para poseer la vida eterna?
+Marcos 10:25|Más fácil es pasar un camello por el ojo de una aguja, que el rico entrar en el reino de Dios.
+Marcos 12:42|Y como vino una viuda pobre, echó dos blancas, que son un maravedí.
+Marcos 15:17|Y le visten de púrpura; y poniéndole una corona tejida de espinas,
+Marcos 15:43|José de Arimatea, senador noble, que también esperaba el reino de Dios, vino, y osadamente entró á Pilato, y pidió el cuerpo de Jesús.
+Lucas 2:25|Y he aquí, había un hombre en Jerusalem, llamado Simeón, y este hombre, justo y pío, esperaba la consolación de Israel: y el Espíritu Santo era sobre él.
+Lucas 2:7|Y parió á su hijo primogénito, y le envolvió en pañales, y acostóle en un pesebre, porque no había lugar para ellos en el mesón.
+Lucas 15:15|Y fué y se llegó á uno de los ciudadanos de aquella tierra, el cual le envió á su hacienda para que apacentase los puercos.
+Lucas 15:20|Y levantándose, vino á su padre. Y como aun estuviese lejos, viólo su padre, y fué movido á misericordia, y corrió, y echóse sobre su cuello, y besóle.
+Lucas 23:43|Entonces Jesús le dijo: De cierto te digo, que hoy estarás conmigo en el paraíso.
+Lucas 3:23|Y el mismo Jesús comenzaba á ser como de treinta años, hijo de José, como se creía; que fué hijo de Elí,
+Lucas 10:1|Y después de estas cosas, designó el Señor aun otros setenta, los cuales envió de dos en dos delante de sí, á toda ciudad y lugar á donde él había de venir.
+Lucas 18:13|Mas el publicano estando lejos no quería ni aun alzar los ojos al cielo, sino que hería su pecho, diciendo: Dios, sé propicio á mí pecador.
+Juan 1:1|En el principio era el Verbo, y el Verbo era con Dios, y el Verbo era Dios.
+Juan 2:6|Y estaban allí seis tinajuelas de piedra para agua, conforme á la purificación de los Judíos, que cabían en cada una dos ó tres cántaros.
+Juan 3:3|Respondió Jesús, y díjole: De cierto, de cierto te digo, que el que no naciere otra vez, no puede ver el reino de Dios.
+Juan 6:35|Y Jesús les dijo: Yo soy el pan de vida: el que á mí viene, nunca tendrá hambre; y el que en mí cree, no tendrá sed jamás.
+Juan 8:12|Y hablóles Jesús otra vez, diciendo: Yo soy la luz del mundo: el que me sigue, no andará en tinieblas, mas tendrá la lumbre de la vida.
+Juan 8:32|Y conoceréis la verdad, y la verdad os libertará.
+Juan 13:34|Un mandamiento nuevo os doy: Que os améis unos á otros: como os he amado, que también os améis los unos á los otros.
+Juan 19:30|Y como Jesús tomó el vinagre, dijo: Consumado es. Y habiendo inclinado la cabeza, dió el espíritu.
+Hechos 2:3|Y se les aparecieron lenguas repartidas, como de fuego, que se asentó sobre cada uno de ellos.
+Hechos 3:2|Y un hombre que era cojo desde el vientre de su madre, era traído; al cual ponían cada día á la puerta del templo que se llama la Hermosa, para que pidiese limosna de los que entraban en el templo.
+Hechos 9:8|Entonces Saulo se levantó de tierra, y abriendo los ojos, no veía á nadie: así que, llevándole por la mano, metiéronle en Damasco;
+Hechos 9:17|Ananías entonces fué, y entró en la casa, y poniéndole las manos encima, dijo: Saulo hermano, el Señor Jesús, que te apareció en el camino por donde venías, me ha enviado para que recibas la vista y seas lleno de Espíritu Santo.
+Hechos 13:2|Ministrando pues éstos al Señor, y ayunando, dijo el Espíritu Santo: Apartadme á Bernabé y á Saulo para la obra para la cual los he llamado.
+Hechos 15:40|Y Pablo escogiendo á Silas, partió encomendado de los hermanos á la gracia del Señor.
+Hechos 17:23|Porque pasando y mirando vuestros santuarios, hallé también un altar en el cual estaba esta inscripción: AL DIOS NO CONOCIDO. Aquél pues, que vosotros honráis sin conocerle, á éste os anuncio yo.
+Hechos 28:5|Mas él, sacudiendo la víbora en el fuego, ningún mal padeció.
+Levítico 5:7|Y si no le alcanzare para un cordero, traerá en expiación por su pecado que cometió, dos tórtolas ó dos palominos á Jehová; el uno para expiación, y el otro para holocausto.
+Levítico 6:13|El fuego ha de arder continuamente en el altar; no se apagará.
+Levítico 23:5|En el mes primero, á los catorce del mes, entre las dos tardes, pascua es de Jehová.
+Levítico 19:9|Cuando segareis la mies de vuestra tierra, no acabarás de segar el rincón de tu haza, ni espigarás tu tierra segada.
+Levítico 23:3|Seis días se trabajará, y el séptimo día sábado de reposo será, convocación santa: ninguna obra haréis; sábado es de Jehová en todas vuestras habitaciones.
+Números 6:24|Jehová te bendiga, y te guarde:
+Números 13:23|Y llegaron hasta el arroyo de Escol, y de allí cortaron un sarmiento con un racimo de uvas, el cual trajeron dos en un palo, y de las granadas y de los higos.
+Números 22:4|Y dijo Moab á los ancianos de Madián: Ahora lamerá esta gente todos nuestros contornos, como lame el buey la grama del campo. Y Balac, hijo de Zippor, era entonces rey de Moab.
+Números 12:3|Y aquel varón Moisés era muy manso, más que todos los hombres que había sobre la tierra.
+Deuteronomio 5:16|Honra á tu padre y á tu madre, como Jehová tu Dios te ha mandado, para que sean prolongados tus días, y para que te vaya bien sobre la tierra que Jehová tu Dios te da.
+Deuteronomio 31:6|Esforzaos y cobrad ánimo; no temáis, ni tengáis miedo de ellos: que Jehová tu Dios es el que va contigo: no te dejará ni te desamparará.
+Deuteronomio 30:19|A los cielos y la tierra llamo por testigos hoy contra vosotros, que os he puesto delante la vida y la muerte, la bendición y la maldición: escoge pues la vida, porque vivas tú y tu simiente:
+Deuteronomio 6:7|Y las repetirás á tus hijos, y hablarás de ellas estando en tu casa, y andando por el camino, y al acostarte, y cuando te levantes:
+Génesis 5:27|Fueron, pues, todos los días de Mathusalam, novecientos sesenta y nueve años; y murió.
+Génesis 32:24|Y quedóse Jacob solo, y luchó con él un varón hasta que rayaba el alba.
+Génesis 37:2|Estas fueron las generaciones de Jacob. José, siendo de edad de diez y siete años apacentaba las ovejas con sus hermanos; y el joven estaba con los hijos de Bilha, y con los hijos de Zilpa, mujeres de su padre…
+Génesis 15:5|Y sacóle fuera, y dijo: Mira ahora á los cielos, y cuenta las estrellas, si las puedes contar. Y le dijo: Así será tu simiente.
+Éxodo 12:40|El tiempo que los hijos de Israel habitaron en Egipto, fué cuatrocientos treinta años.
+Éxodo 20:8|Acordarte has del día del reposo, para santificarlo:
+Éxodo 15:25|Y Moisés clamó á Jehová; y Jehová le mostró un árbol, el cual metídolo que hubo dentro de las aguas, las aguas se endulzaron. Allí les dió estatutos y ordenanzas, y allí los probó;
+Romanos 8:1|Ahora pues, ninguna condenación hay para los que están en Cristo Jesús, los que no andan conforme á la carne, mas conforme al espíritu.
+Romanos 10:9|Que si confesares con tu boca al Señor Jesús, y creyeres en tu corazón que Dios le levantó de los muertos, serás salvo.
+Romanos 12:1|Así que, hermanos, os ruego por las misericordias de Dios, que presentéis vuestros cuerpos en sacrificio vivo, santo, agradable á Dios, que es vuestro racional culto.
+Romanos 12:21|No seas vencido de lo malo; mas vence con el bien el mal.
+1 Corintios 15:55|¿Dónde está, oh muerte, tu aguijón? ¿dónde, oh sepulcro, tu victoria?
+1 Corintios 13:4|La caridad es sufrida, es benigna; la caridad no tiene envidia, la caridad no hace sinrazón, no se ensancha;
+1 Corintios 16:14|Todas vuestras cosas sean hechas con caridad.
+2 Corintios 5:7|(Porque por fe andamos, no por vista;)
+Gálatas 6:2|Sobrellevad los unos las cargas de los otros; y cumplid así la ley de Cristo.
+Gálatas 6:9|No nos cansemos, pues, de hacer bien; que á su tiempo segaremos, si no hubiéremos desmayado.
+Efesios 6:11|Vestíos de toda la armadura de Dios, para que podáis estar firmes contra las asechanzas del diablo.
+Efesios 4:26|Airaos, y no pequéis; no se ponga el sol sobre vuestro enojo;
+Filipenses 4:7|Y la paz de Dios, que sobrepuja todo entendimiento, guardará vuestros corazones y vuestros entendimientos en Cristo Jesús.
+Colosenses 3:14|Y sobre todas estas cosas vestíos de caridad, la cual es el vínculo de la perfección.
+1 Timoteo 6:6|Empero grande granjería es la piedad con contentamiento.
+2 Timoteo 2:15|Procura con diligencia presentarte á Dios aprobado, como obrero que no tiene de qué avergonzarse, que traza bien la palabra de verdad.
+Hebreos 11:6|Empero sin fe es imposible agradar á Dios; porque es menester que el que á Dios se allega, crea que le hay, y que es galardonador de los que le buscan.
+Hebreos 12:2|Puestos los ojos en al autor y consumador de la fe, en Jesús; el cual, habiéndole sido propuesto gozo, sufrió la cruz, menospreciando la vergüenza, y sentóse á la diestra del trono de Dios.
+Santiago 1:22|Mas sed hacedores de la palabra, y no tan solamente oidores, engañándoos á vosotros mismos.
+Santiago 5:16|Confesaos vuestras faltas unos á otros, y rogad los unos por los otros, para que seáis sanos; la oración del justo, obrando eficazmente, puede mucho.
+1 Juan 3:1|Mirad cuál amor nos ha dado el Padre, que seamos llamados hijos de Dios: por esto el mundo no nos conoce, porque no le conoce á él.
+1 Juan 4:18|En amor no hay temor; mas el perfecto amor echa fuera el temor: porque el temor tiene pena. De donde el que teme, no está perfecto en el amor.
+Apocalipsis 5:5|Y uno de los ancianos me dice: No llores: he aquí el león de la tribu de Judá, la raíz de David, que ha vencido para abrir el libro, y desatar sus siete sellos.
+Apocalipsis 16:16|Y los congregó en el lugar que en hebreo se llama Armagedón.
+Apocalipsis 21:21|Y las doce puertas eran doce perlas, en cada una, una; cada puerta era de una perla. Y la plaza de la ciudad era de oro puro como vidrio trasparente.
+Apocalipsis 22:2|En el medio de la plaza de ella, y de la una y de la otra parte del río, estaba el árbol de la vida, que lleva doce frutos, dando cada mes su fruto: y las hojas del árbol eran para la sanidad de las naciones.
+Apocalipsis 12:7|Y fué hecha una grande batalla en el cielo: Miguel y sus ángeles lidiaban contra el dragón; y lidiaba el dragón y sus ángeles,
+Daniel 1:1|En el año tercero del reinado de Joacim rey de Judá, vino Nabucodonosor rey de Babilonia á Jerusalem, y cercóla.
+Daniel 3:21|Entonces estos varones fueron atados con sus mantos, y sus calzas, y sus turbantes, y sus vestidos, y fueron echados dentro del horno de fuego ardiendo.
+Isaías 40:1|Consolaos, consolaos, pueblo mío, dice vuestro Dios.
+1 Timoteo 1:1-2|Pablo, apóstol de Jesucristo por la ordenación de Dios nuestro Salvador, y del Señor Jesucristo, nuestra esperanza; A Timoteo, verdadero hijo en la fe: Gracia, misericordia y paz de Dios nuestro Padre, y de Cristo Jesús nuestro Señor.
+Apocalipsis 6:2|Y miré, y he aquí un caballo blanco: y el que estaba sentado encima de él, tenía un arco; y le fué dada una corona, y salió victorioso, para que también venciese.
+1 Samuel 16:1|Y dijo Jehová á Samuel: ¿Hasta cuándo has tú de llorar á Saúl, habiéndolo yo desechado para que no reine sobre Israel? Hinche tu cuerno de aceite, y ven, te enviaré á Isaí de Beth-lehem: porque de sus hijos me he provisto de rey.
+1 Samuel 17:12|Y David era hijo de aquel hombre Ephrateo de Beth-lehem de Judá, cuyo nombre era Isaí, el cual tenía ocho hijos; y era este hombre en el tiempo de Saúl, viejo, y de grande edad entre los hombres.`;
 const QS=BANK.trim().split("\n").map(l=>{const p=l.split("|"),b=B2I[bookOf(p[4])];return{q:p[1],a:p[2],d:p[3].split(";"),r:p[4],l:+p[0],b:b===undefined?5:b,id:(hstr(p[1])>>>0).toString(36)}});
 const BOOKN={};QS.forEach(q=>{const k=bookOf(q.r);BOOKN[k]=(BOOKN[k]||0)+1});
 const V={};VERSES.trim().split("\n").forEach(l=>{const i=l.indexOf("|");V[l.slice(0,i)]=l.slice(i+1)});

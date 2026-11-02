@@ -1,5 +1,15 @@
-TRIVIA BÍBLICA · versión 3.3.0
+TRIVIA BÍBLICA · versión 3.4.0
 ==============================
+
+NOVEDADES DE LA 3.4
+  - 817 preguntas (221 nuevas) de los 66 libros, con más preguntas fáciles y
+    más de Salmos, Proverbios, Job, los libros históricos y las cartas.
+  - Cada pregunta nueva se comprobó contra el texto de la Reina-Valera 1909.
+  - Los versículos que se muestran ahora son el texto EXACTO de la Reina-Valera
+    1909 (dominio público). Antes algunos estaban resumidos o tenían palabras
+    de la Reina-Valera 1960, que tiene derechos de autor. Las preguntas viejas
+    cuyo texto seguía la 1960 se corrigieron.
+  - Para jugar en línea todos deben tener la 3.4 (cambió el banco de preguntas).
 
 NOVEDADES DE LA 3.3
   - Lector de la Reina-Valera 1960 dentro de la app (apagado por ahora): con una
@@ -47,8 +57,8 @@ CÓMO PUBLICARLA O ACTUALIZARLA (GitHub Pages, desde el celular)
 PARA JUGAR CON AMIGOS (EN LÍNEA)
   - Todos los jugadores deben tener la misma versión del juego en línea (NETV).
     Si alguien tiene una más vieja, la sala lo avisa y no deja empezar. NETV solo
-    cambia cuando cambian las preguntas o las reglas; por eso la 3.2 y la 3.1
-    pueden jugar juntas.
+    cambia cuando cambian las preguntas o las reglas: la 3.4 NO juega en línea
+    con la 3.3 o anteriores porque cambió el banco de preguntas.
   - Las fotos se guardan en la misma base de datos, en salas con el final «-av»,
     y se borran cuando el jugador sale. No hace falta cambiar las reglas de
     Firebase: las de abajo ya las permiten.
@@ -96,6 +106,9 @@ PARA AGREGAR PREGUNTAS
   Nivel: 0 fácil, 1 intermedio, 2 difícil. El libro debe escribirse como en la
   Biblia (por ejemplo: 1 Samuel 17:49). Si agregas texto de un versículo, va en
   la lista que empieza en  const VERSES=
+  Los versículos de verses.txt son el texto exacto de la Reina-Valera 1909
+  (fuente: scrollmapper/bible_databases en GitHub, SpaRV). Solo se usa texto de
+  dominio público.
   Importante: cada vez que cambies las preguntas, sube también el número de
   versión (APPV y NETV en index.html, y VER en sw.js), así todos se actualizan y
   el modo con amigos sigue sincronizado. Si solo cambias el diseño, sube APPV y
