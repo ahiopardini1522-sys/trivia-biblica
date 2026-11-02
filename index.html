@@ -251,7 +251,15 @@ button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visibl
 .verse{margin:.5rem 0 .8rem;padding:.65rem .85rem;border-left:4px solid var(--gold);background:var(--panel);border-radius:.7rem;font-size:.9rem}
 .verse i{font-family:var(--f-disp);font-size:1rem;display:block;margin:.2rem 0;font-style:italic;line-height:1.35}
 .verse small{font:600 .72rem var(--f-ui);color:var(--mut);font-style:normal}
-.verse a{display:block;margin-top:.3rem;color:var(--goldtxt);font-weight:800;text-decoration:none}
+.verse a,.verse .vrv{display:block;margin-top:.3rem;color:var(--goldtxt);font-weight:800;text-decoration:none;text-align:left}
+/* lector de la Reina-Valera 1960 */
+.rv{max-height:46vh;overflow:auto;margin:.3rem 0 .2rem;padding:.1rem .1rem .1rem 0}
+.rvt{white-space:pre-line;font-family:var(--f-disp);font-size:1.08rem;line-height:1.5;text-align:left;color:var(--ink)}
+.rvt.err{font-family:var(--f-ui);font-size:.95rem;color:var(--bad);font-weight:700}
+.rvc{font-size:.72rem;color:var(--mut);text-align:left;margin:.5rem 0 0!important}
+.rvl{display:block;margin-top:.5rem;color:var(--goldtxt);font-weight:800;text-decoration:none;text-align:left}
+.adv{margin-top:1rem}.adv summary{cursor:pointer;font-weight:800;padding:.1rem 0}
+#yvR{white-space:pre-line;text-align:left}#yvR:empty{display:none}#yvR[data-s=ok]{border-color:var(--ok);color:var(--ink)}#yvR[data-s=bad]{border-color:var(--bad);color:var(--ink)}
 
 /* ---- resultado ---- */
 .res{text-align:center;padding:.6rem 0 0}
@@ -411,7 +419,7 @@ noscript{display:block;padding:2rem;text-align:center;color:var(--ink)}
    Secciones: núcleo · inicio / logros / ajustes · partida solo ·
               ruleta · en línea · arranque (PWA)
    ============================================================ */
-const APPV="3.2.0";
+const APPV="3.3.0";
 /* NETV = versión del juego EN LÍNEA (preguntas y reglas). Súbela solo cuando cambien las
    preguntas o las reglas del juego: así quien tenga la app un poco más vieja puede seguir
    jugando con los demás. (La 3.2 solo agregó fotos de perfil, por eso sigue en 3.1.0.) */
@@ -1356,12 +1364,65 @@ const isNum=s=>/^\d[\d.,]*$/.test(s);
 function optsOf(q,r){const o=[q.a,...q.d];return o.every(isNum)?o.sort((x,y)=>parseFloat(x.replace(/\./g,""))-parseFloat(y.replace(/\./g,""))):shuffle(o,r)}
 function verseInfo(q){let t=V[q.r]||"",label=q.r;const m=t.match(/^\((\d+:\d+)\)\s*(.*)$/);if(m){label=bookOf(q.r)+" "+m[1];t=m[2]}
   return{label,text:t,url:"https://www.biblegateway.com/passage/?search="+encodeURIComponent(label)+"&version=RVR1960"}}
-const verseHTML=q=>{const v=verseInfo(q);return`<div class="verse">📖 <b>${esc(v.label)}</b>${v.text?`<i>«${esc(v.text)}» <small>(RV 1909)</small></i>`:""}<a href="${v.url}" target="_blank" rel="noopener">Leer en Reina-Valera 1960 ↗</a>${v.text?'<button class="vsh" type="button">🖼️ Compartir como imagen</button>':""}</div>`};
+/* ---------- Lector de la Reina-Valera 1960 (opcional, con la Plataforma de YouVersion) ----------
+   El texto de la RVR1960 tiene derechos de autor (Sociedades Bíblicas Unidas). Solo se muestra si hay una clave de
+   YouVersion (YVK; no es secreta, también se puede pegar en Ajustes) y su licencia lo permite. Se baja al tocar el
+   botón, se muestra con el aviso de derechos que entrega YouVersion y NO se guarda en el teléfono.
+   Sin clave la app sigue con la RV 1909 (dominio público) y el enlace de siempre. */
+const YVK="";
+const YVURL=window.__TB_YV||"https://api.youversion.com/v1",YVMS=window.__TB_YVMS||10000,YVID=149; /* 149 = Reina-Valera 1960 */
+const USFM={};{const UC="GEN EXO LEV NUM DEU JOS JDG RUT 1SA 2SA 1KI 2KI 1CH 2CH EZR NEH EST JOB PSA PRO ECC SNG ISA JER LAM EZK DAN HOS JOL AMO OBA JON MIC NAM HAB ZEP HAG ZEC MAL MAT MRK LUK JHN ACT ROM 1CO 2CO GAL EPH PHP COL 1TH 2TH 1TI 2TI TIT PHM HEB JAS 1PE 2PE 1JN 2JN 3JN JUD REV".split(" ");
+  BLK.flatMap(k=>k.b.split(",")).forEach((n,i)=>USFM[n]=UC[i])}
+const ONECH=new Set(["OBA","PHM","2JN","3JN","JUD"]); /* libros de un solo capítulo: «Judas 3» es el versículo 3 */
+const yvKey=()=>String(D.yvk||YVK||"").replace(/["'\s]/g,"");
+function usfmOf(r){
+  const b=bookOf(r),c=USFM[b];if(!c)return null;const t=r.slice(b.length).trim();let m;
+  if(m=t.match(/^(\d+):(\d+)(?:-(\d+))?$/))return`${c}.${m[1]}.${m[2]}${m[3]?"-"+m[3]:""}`;
+  if(m=t.match(/^(\d+)(?:-(\d+))?$/)){if(ONECH.has(c))return`${c}.1.${m[1]}${m[2]?"-"+m[2]:""}`;if(!m[2])return`${c}.${m[1]}`}
+  return null}
+const rvrOn=r=>!!yvKey()&&!!usfmOf(r);
+async function yvGet(path){
+  const c=new AbortController(),t=setTimeout(()=>c.abort(),YVMS);
+  try{const r=await fetch(YVURL+path,{headers:{"X-YVP-App-Key":yvKey(),Accept:"application/json"},signal:c.signal});
+    if(!r.ok){const e=new Error("http");e.status=r.status;throw e}
+    return await r.json()}
+  finally{clearTimeout(t)}}
+function yvMsg(e){const s=e&&e.status;
+  if(s===401||s===403)return"La clave de YouVersion no es válida o no permite la Reina-Valera 1960 (error "+s+").";
+  if(s===404)return"YouVersion no encontró ese pasaje en la Reina-Valera 1960.";
+  if(s===429)return"Hay demasiadas consultas. Espera un momento y vuelve a intentar.";
+  if(s)return"YouVersion respondió con un error ("+s+").";
+  if(e&&e.name==="AbortError")return"YouVersion tardó demasiado en responder.";
+  if(e&&e.why)return"No se pudo mostrar el texto ("+e.why+").";
+  return"No se pudo conectar con YouVersion. Revisa tu internet."}
+async function rvrRead(ref,label){
+  const u=usfmOf(ref);if(!u||!yvKey())return;
+  const o=modal(`<h3>📖 ${esc(label||ref)}</h3><div class="rv"><div class="rvt" id="rvb">Cargando…</div></div><p class="rvc" id="rvc"></p>
+    <a class="rvl" href="https://www.bible.com/bible/${YVID}/${u}.RVR1960" target="_blank" rel="noopener">Abrir en la app de YouVersion ↗</a>
+    <a class="rvl" href="${verseInfo({r:ref}).url}" target="_blank" rel="noopener">Abrir en BibleGateway ↗</a>`,[{t:"Cerrar",cls:"gold"}]);
+  try{
+    const[p,m]=await Promise.all([yvGet(`/bibles/${YVID}/passages/${u}?format=text`),yvGet(`/bibles/${YVID}`)]);
+    const tx=String(p&&p.content||"").trim(),cp=String(m&&(m.copyright||m.promotional_content)||"").trim();
+    if(!tx)throw Object.assign(new Error("x"),{why:"texto vacío"});
+    if(!cp)throw Object.assign(new Error("x"),{why:"YouVersion no envió el aviso de derechos"});
+    if($("#modal")!==o)return;
+    $("#rvb").textContent=tx;$("#rvc").textContent=(m.abbreviation?m.abbreviation+" · ":"")+cp}
+  catch(e){if($("#modal")!==o)return;const b=$("#rvb");b.textContent=yvMsg(e);b.classList.add("err")}}
+/* prueba desde Ajustes: dice si la clave funciona y si la Reina-Valera 1960 está disponible */
+async function yvTest(out){
+  const say=(t,s)=>{out.textContent=t;out.dataset.s=s||""};say("Probando…");
+  try{const m=await yvGet(`/bibles/${YVID}`);let t=`✅ La clave funciona y la ${m.localized_title||m.title||"Reina-Valera 1960"} está disponible.`;
+    try{const p=await yvGet(`/bibles/${YVID}/passages/JHN.3.16?format=text`);t+=` Texto de prueba: «${String(p.content||"").trim().slice(0,90)}»`}catch(e){t+=` Pero el texto de prueba falló: ${yvMsg(e)}`}
+    say(t,"ok")}
+  catch(e){let t="❌ "+yvMsg(e);
+    try{const l=await yvGet("/bibles?language_ranges[]=es"),a=(Array.isArray(l)?l:l.data||[]).slice(0,8).map(b=>`${b.abbreviation||b.title} (${b.id})`);if(a.length)t+=" Biblias en español que sí ve tu clave: "+a.join(", ")+"."}catch(e2){}
+    say(t,"bad")}}
+const verseHTML=q=>{const v=verseInfo(q);return`<div class="verse">📖 <b>${esc(v.label)}</b>${v.text?`<i>«${esc(v.text)}» <small>(RV 1909)</small></i>`:""}${rvrOn(q.r)?'<button class="vrv" type="button">📖 Leer en la Reina-Valera 1960</button>':`<a href="${v.url}" target="_blank" rel="noopener">Leer en Reina-Valera 1960 ↗</a>`}${v.text?'<button class="vsh" type="button">🖼️ Compartir como imagen</button>':""}</div>`};
 const VOD=["Juan 3:16","Salmos 23:1","Proverbios 3:5","Isaías 40:31","Filipenses 4:13","Romanos 8:28","Salmos 119:105","Jeremías 1:5","2 Corintios 5:17","Efesios 2:8","Romanos 12:2","1 Juan 4:8","Hebreos 11:1","Santiago 1:5","1 Pedro 5:7","Apocalipsis 3:20","Miqueas 6:8","Zacarías 4:6","Salmos 121:1","Mateo 6:9","Proverbios 9:10","Romanos 6:23","2 Timoteo 3:16","Hebreos 13:8","Lamentaciones 3:23","Habacuc 3:18","Eclesiastés 3:1","Isaías 53:7","Mateo 5:13","Juan 10:11","1 Tesalonicenses 5:17","Colosenses 3:23"];
 function verseOfDay(){const n=new Date(),i=Math.floor((new Date(n.getFullYear(),n.getMonth(),n.getDate())-new Date(2026,0,1))/864e5);const r=VOD[((i%VOD.length)+VOD.length)%VOD.length];return{r,t:V[r]||"",url:"https://www.biblegateway.com/passage/?search="+encodeURIComponent(r)+"&version=RVR1960"}}
 
 /* ---------- progreso guardado ---------- */
-const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",pic:"",picS:"",miss:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0}});
+const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",pic:"",picS:"",yvk:"",miss:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0}});
 let D=DEF();
 try{const s=JSON.parse(localStorage.getItem("tb")||"{}");Object.assign(D,s);D.set=Object.assign(DEF().set,s.set||{});if(!Array.isArray(D.pass))D.pass=[0,0,0];if(!D.medals||typeof D.medals!=="object")D.medals={};if(!D.bk)D.bk={};if(!D.st)D.st={};if(!D.miss||typeof D.miss!=="object")D.miss={};if(!okPic(D.pic)||!okPic(D.picS,12000)){D.pic="";D.picS=""}}catch(e){}
 const sv=()=>{try{localStorage.setItem("tb",JSON.stringify(D))}catch(e){}};
@@ -1482,7 +1543,7 @@ function home(){
     <div style="min-width:0"><button class="nm" id="nmb" type="button" aria-label="Cambiar mi nombre">${esc(me)}</button><div class="rk">${rk.e} ${rk.n}</div><div class="xp"><i style="--w:${rk.pct}%"></i></div>
     <div class="xpl"><span>${D.pts.toLocaleString("es")} pts</span><span>${rk.next?"Sigue: "+rk.next:"¡Rango máximo!"}</span></div></div></div>
     <div class="stats3"><div class="st3"><b>🔥 ${streakNow()}</b><span>Racha diaria</span></div><div class="st3"><b>👑 ${D.crowns}</b><span>Coronas</span></div><div class="st3"><b>${acc}%</b><span>Aciertos</span></div></div></section>
-  <section class="vod"><small>Versículo del día</small><p>«${esc(vr.t.replace(/^\(\d+:\d+\)\s*/,""))}»</p><div class="vr"><span>${esc(vr.r)} · RV 1909</span><span><a href="${vr.url}" target="_blank" rel="noopener">Leer ↗</a> &nbsp; <button id="vsh" type="button" aria-label="Compartir versículo como imagen">Compartir</button></span></div></section>
+  <section class="vod"><small>Versículo del día</small><p>«${esc(vr.t.replace(/^\(\d+:\d+\)\s*/,""))}»</p><div class="vr"><span>${esc(vr.r)} · RV 1909</span><span>${rvrOn(vr.r)?'<button id="vrd" type="button">Leer</button>':`<a href="${vr.url}" target="_blank" rel="noopener">Leer ↗</a>`} &nbsp; <button id="vsh" type="button" aria-label="Compartir versículo como imagen">Compartir</button></span></div></section>
   <button class="cta" id="rl">${miniWheel()}<div><b>Ruleta de coronas</b><span>Gira, responde y gana ${3} coronas</span></div></button>
   <div class="tiles">
     <button class="tile" id="daily" ${done?"disabled":""}><span class="ic" style="--tc:#e49b12">⭐</span><b>Desafío diario</b><small>${done?"¡Completado! Vuelve mañana":"10 preguntas · una vez al día"}</small>${done?"":'<span class="tag">Nuevo</span>'}</button>
@@ -1503,6 +1564,7 @@ function home(){
   $("#avb").onclick=()=>pickPhoto(home);
   $("#nmb").onclick=()=>askName(home);
   $("#vsh").onclick=()=>shareVerse(vr.r,vr.t.replace(/^\(\d+:\d+\)\s*/,""));
+  if($("#vrd"))$("#vrd").onclick=()=>rvrRead(vr.r);
   $("#rl").onclick=()=>{Snd.play("click");rSetup()};
   $("#daily").onclick=()=>{if(D.last===todayS())return;const q=shuffle(QS,rng(hstr(todayS())));startGame(q,"daily")};
   $("#duel").onclick=()=>startGame(shuffle(inF()),"duel");
@@ -1574,12 +1636,19 @@ function settings(){
   ${sw("sSnd",s.snd,"Sonidos","Efectos de acierto, error y ruleta")}${sw("sVib",s.vib,"Vibración","Al responder (solo en celulares compatibles)")}${sw("sBig",s.big,"Texto grande","Letras más grandes en toda la app")}
   <div class="srow" style="display:block"><b>Tema</b><div class="seg" id="sTh"><button data-v="auto">Automático</button><button data-v="light">Claro</button><button data-v="dark">Oscuro</button></div></div>
   <div class="srow" style="display:block"><b>Tiempo por pregunta</b><small>Normal: 15 s · Relajado: 30 s. En línea siempre son 15 s</small><div class="seg" id="sTm"><button data-v="15">15 s</button><button data-v="30">30 s</button><button data-v="0">Sin tiempo</button></div></div></div>
+  <details class="card adv"><summary>📖 Reina-Valera 1960 dentro de la app (avanzado)</summary>
+    <p class="sub" style="text-align:left;margin:.6rem 0 0">Para leer el versículo en la Reina-Valera 1960 sin salir de la app hace falta una clave gratuita de la Plataforma de YouVersion (platform.youversion.com) y que su licencia lo permita. Estado: <b id="yvS">${yvKey()?"con clave":"sin clave"}</b>.</p>
+    <label class="lbl" for="yvk">Clave de YouVersion</label><input id="yvk" placeholder="Pega aquí la clave" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(D.yvk||"")}">
+    <div class="two" style="margin-top:.7rem"><button class="btn ghost sm" id="yvT">Probar</button><button class="btn ghost sm" id="yvX" ${D.yvk?"":"disabled"}>Quitar clave</button></div>
+    <p class="note" id="yvR" role="status"></p></details>
   <div style="margin-top:1rem">${inst?'<button class="btn green" id="sIn">📲 Instalar la app</button>':""}<button class="btn gold" id="sSh">📣 Compartir la app</button><button class="btn ghost" id="sHl">❓ Cómo jugar</button><button class="btn ghost" id="sAb">ℹ️ Acerca de</button><button class="btn ghost" id="sRs" style="color:var(--bad)">🗑️ Borrar mi progreso</button></div>
   <p class="sub" style="margin-top:1.2rem;font-size:.8rem">Versión ${APPV} · ${QS.length} preguntas</p>`,"settings");
   const seg=(id,cur,fn)=>{const mark=()=>$$("#"+id+" button").forEach(b=>b.classList.toggle("on",b.dataset.v===String(cur())));mark();$$("#"+id+" button").forEach(b=>b.onclick=()=>{fn(b.dataset.v);sv();Snd.play("click");mark()})};
   $("#sname").onchange=e=>{D.name=e.target.value.trim().slice(0,14);sv();toast("Nombre guardado ✓")};
   const paintPic=()=>{const a=$("#sav");if(a){a.className=avCls(D.pic);a.innerHTML=avIn(D.name||"Jugador",D.pic)}$("#sPic").textContent="📷 "+(D.pic?"Cambiar foto":"Elegir foto");$("#sPicX").disabled=!D.pic};
   $("#sPic").onclick=()=>pickPhoto(paintPic);$("#sPicX").onclick=()=>dropPhoto(paintPic);
+  $("#yvT").onclick=()=>{D.yvk=($("#yvk").value||"").replace(/["'\s]/g,"");$("#yvk").value=D.yvk;sv();$("#yvX").disabled=!D.yvk;$("#yvS").textContent=yvKey()?"con clave":"sin clave";if(!D.yvk){$("#yvR").textContent="Pega primero la clave.";return}yvTest($("#yvR"))};
+  $("#yvX").onclick=()=>{D.yvk="";sv();$("#yvk").value="";$("#yvX").disabled=true;$("#yvR").textContent="";$("#yvS").textContent=yvKey()?"con clave":"sin clave";toast("Clave quitada")};
   const tg=(id,k,fn)=>$("#"+id).onclick=e=>{D.set[k]=D.set[k]?0:1;sv();e.currentTarget.setAttribute("aria-checked",!!D.set[k]);fn&&fn();Snd.play("click");if(k==="vib")vib(40)};
   tg("sSnd","snd");tg("sVib","vib");tg("sBig","big",applyTheme);
   seg("sTh",()=>D.set.theme,v=>{D.set.theme=v;applyTheme()});seg("sTm",()=>D.set.time,v=>D.set.time=+v);
@@ -1627,6 +1696,7 @@ function showSheet({good,title,q,btn,btnCls,wait,next}){
   el.innerHTML=`<div><h3>${title}</h3>${good||!q?"":`<p class="ans">Respuesta correcta: <b>${q.a}</b></p>`}${q?verseHTML(q):""}${btn?`<button class="btn ${btnCls||"blue"}" id="nx">${btn}</button>`:`<p class="sub" style="margin:.2rem 0 0">${wait||""}</p>`}</div>`;
   document.body.appendChild(el);
   const vb=$(".vsh",el);if(vb&&q){const v=verseInfo(q);vb.onclick=()=>shareVerse(v.label,v.text)}
+  const rb=$(".vrv",el);if(rb&&q){const v=verseInfo(q);rb.onclick=()=>rvrRead(q.r,v.label)}
   const b=$("#nx");if(b){b.onclick=()=>{b.disabled=true;next&&next()};b.focus({preventScroll:true})}
   setTimeout(()=>{const ok=$(".opt.ok"),sh=$(".sheet>div");if(ok&&sh){const r=ok.getBoundingClientRect(),s=sh.getBoundingClientRect();if(r.bottom>s.top-10)window.scrollBy({top:r.bottom-s.top+18,behavior:REDUCED?"auto":"smooth"})}},60)}
 

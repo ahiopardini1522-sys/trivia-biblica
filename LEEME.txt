@@ -1,5 +1,11 @@
-TRIVIA BÍBLICA · versión 3.2.0
+TRIVIA BÍBLICA · versión 3.3.0
 ==============================
+
+NOVEDADES DE LA 3.3
+  - Lector de la Reina-Valera 1960 dentro de la app (apagado por ahora): con una
+    clave gratuita de YouVersion, el botón «Leer en la Reina-Valera 1960» abre un
+    cuadro con el versículo y su aviso de derechos, sin salir de la app. Sin
+    clave todo sigue igual que antes (RV 1909 + enlace). Mira abajo cómo activarlo.
 
 NOVEDADES DE LA 3.2
   - Foto de perfil: en el inicio toca tu círculo y elige una foto de tu galería.
@@ -63,6 +69,23 @@ PARA JUGAR CON AMIGOS (EN LÍNEA)
       }
 
     (Las reglas del "modo de prueba" de Firebase vencen a los 30 días.)
+
+
+LEER LA REINA-VALERA 1960 DENTRO DE LA APP (OPCIONAL)
+  El texto de la RVR1960 tiene derechos de autor (Sociedades Bíblicas Unidas), por
+  eso NO está dentro de la app. Se puede mostrar bajándolo de la Plataforma de
+  YouVersion, que es gratuita para apps sin fines de lucro y sin anuncios:
+  1. Regístrate y crea tu app en platform.youversion.com. Acepta la licencia de la
+     Reina-Valera 1960 si te la ofrece. Copia la clave (App Key); no es secreta.
+  2. En la app: Ajustes → «Reina-Valera 1960 dentro de la app (avanzado)» → pega la
+     clave → Probar. Si dice ✅ funciona en tu teléfono.
+  3. Para que les funcione a todos, pon la clave en index.html, en  const YVK=""
+     (entre las comillas), y sube de versión (APPV y VER). Mientras tanto cada
+     persona puede pegarla en su Ajustes.
+  El texto se baja al tocar el botón, se muestra con el aviso de derechos que manda
+  YouVersion y no se guarda en el teléfono. Para usar la RVR1960 de otra forma
+  (por ejemplo, dentro de la app sin internet) hay que pedir permiso por escrito a
+  la American Bible Society (licensing@americanbible.org).
 
 
 PARA AGREGAR PREGUNTAS
