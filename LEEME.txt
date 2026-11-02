@@ -1,5 +1,12 @@
-TRIVIA BÍBLICA · versión 3.4.0
+TRIVIA BÍBLICA · versión 3.5.0
 ==============================
+
+NOVEDADES DE LA 3.5
+  - La clave de YouVersion ya está puesta (const YVK en index.html). Al abrir la
+    app se comprueba una vez si esa clave puede leer la Reina-Valera 1960: si
+    puede, el botón «📖 Leer en la Reina-Valera 1960» abre el versículo dentro de
+    la app; si no, queda el enlace de siempre. Ajustes → «Reina-Valera 1960
+    dentro de la app (avanzado)» muestra el estado y permite probarla.
 
 NOVEDADES DE LA 3.4
   - 817 preguntas (221 nuevas) de los 66 libros, con más preguntas fáciles y
@@ -89,9 +96,9 @@ LEER LA REINA-VALERA 1960 DENTRO DE LA APP (OPCIONAL)
      Reina-Valera 1960 si te la ofrece. Copia la clave (App Key); no es secreta.
   2. En la app: Ajustes → «Reina-Valera 1960 dentro de la app (avanzado)» → pega la
      clave → Probar. Si dice ✅ funciona en tu teléfono.
-  3. Para que les funcione a todos, pon la clave en index.html, en  const YVK=""
-     (entre las comillas), y sube de versión (APPV y VER). Mientras tanto cada
-     persona puede pegarla en su Ajustes.
+  3. Para que les funcione a todos, la clave va en index.html, en  const YVK="…"
+     (entre las comillas); subes de versión (APPV y VER). Si cambias de clave,
+     cambia ese texto. Mientras tanto cada persona puede pegarla en su Ajustes.
   El texto se baja al tocar el botón, se muestra con el aviso de derechos que manda
   YouVersion y no se guarda en el teléfono. Para usar la RVR1960 de otra forma
   (por ejemplo, dentro de la app sin internet) hay que pedir permiso por escrito a
