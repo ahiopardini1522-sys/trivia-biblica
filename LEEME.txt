@@ -1,5 +1,34 @@
-TRIVIA BÍBLICA · versión 3.8.0
+TRIVIA BÍBLICA · versión 3.9.0
 ==============================
+
+NOVEDADES DE LA 3.9
+  - 🗺️ Mapa de la Biblia: la tarjeta «Por libro» ahora es el mapa. Muestra los 66
+    libros, agrupados por bloque, y cada uno se llena de estrellas a medida que
+    aciertas preguntas DISTINTAS de ese libro: ⭐ con la primera, ⭐⭐ con el 40 %
+    de las preguntas del libro y ⭐⭐⭐ con el 80 % (mínimo 2 y 4 aciertos). Arriba
+    se ve el total (de 198 estrellas) y el inicio muestra ese total en la tarjeta.
+    Cuentan todos los modos que usan preguntas del banco (niveles, rápida, duelo,
+    contrarreloj, repaso, retos, en línea y ruleta); «Completa el versículo» no. Al
+    tocar un libro se practica solo ese libro y salen primero las preguntas que
+    todavía no acertaste. Al terminar una partida, el resultado dice cuántas
+    estrellas ganaste en el mapa. Logros: «Explorador» (estrellas en 10 libros),
+    «Peregrino» (3 estrellas en 5 libros) y «Cartógrafo» (al menos 1 estrella en los
+    66 libros). El mapa entra en la copia de seguridad (desde esta versión: lo que
+    acertaste antes no estaba registrado por libro, así que empieza en cero).
+  - 🔊 Leer en voz alta: botón 🔊 en la cabecera de cada pregunta (lee la pregunta y
+    las opciones; después del 50/50 solo las que quedan; en «Completa el versículo»
+    dice «espacio en blanco»), en la ruleta, en el «Versículo del día» y en cada
+    versículo de la hoja de respuesta («Escuchar el versículo»). Las citas se leen
+    bien: «1 Juan 3:16» → «Primera de Juan, capítulo 3, versículo 16». Usa la voz en
+    español del propio teléfono (prefiere es-AR, luego es-US, es-MX…) y funciona sin
+    internet si la voz está instalada. La lectura se corta sola al responder, al
+    cambiar de pantalla o si la app pasa a segundo plano. Ajustes → «Leer en voz
+    alta»: «Leer cada pregunta sola» (al responder lee el versículo; en
+    Contrarreloj no se lee sola), velocidad Normal/Lenta y «Probar la voz» (dice
+    qué voz usa y, si no hay voz en español, cómo instalar una). Si el navegador
+    no sabe leer en voz alta, los botones no aparecen.
+  - Los ajustes de voz entran en la copia de seguridad. Las preguntas no
+    cambiaron: el juego en línea sigue siendo compatible con la 3.7.
 
 NOVEDADES DE LA 3.8
   - 🧩 Arma el versículo: modo nuevo para MEMORIZAR (tarjeta en el inicio). Se

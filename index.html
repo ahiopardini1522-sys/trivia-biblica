@@ -462,6 +462,33 @@ noscript{display:block;padding:2rem;text-align:center;color:var(--ink)}
 .arlv.on{border-color:var(--gold);background:var(--panel2)}
 .arlv:active{transform:scale(.98)}
 
+/* mapa de la biblia */
+.mapsum{margin:.2rem 0 .3rem;text-align:center}
+.mapsum .mst{display:flex;justify-content:center;align-items:baseline;gap:.4rem;margin-bottom:.4rem}
+.mapsum .mst b{font-family:var(--f-disp);font-size:1.9rem;color:var(--goldtxt);line-height:1.1}
+.mapsum .mst span{color:var(--mut);font-weight:700}
+.mapsum small{display:block;margin-top:.45rem;color:var(--mut);font-size:.82rem}
+.bkm{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.bkb{--cc:var(--blue);display:flex;flex-direction:column;gap:.2rem;align-items:flex-start;padding:.55rem .7rem .5rem;border-radius:1rem;background:var(--panel);border:1px solid var(--line);border-left:6px solid var(--cc);text-align:left;min-width:0;transition:transform .1s,background .2s}
+.bkb:active{transform:scale(.96)}
+.bkb b{font-size:.9rem;line-height:1.15;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bkb .bkr{display:flex;align-items:center;justify-content:space-between;gap:.4rem;width:100%}
+.bkb em{font-style:normal;font-size:.74rem;font-weight:700;color:var(--mut)}
+.sr{display:inline-flex;gap:.05rem;font-size:1.02rem;line-height:1}
+.sr i{font-style:normal;color:rgba(160,160,190,.45)}
+.sr i.on{color:#f6b92a;text-shadow:0 1px 0 rgba(120,70,0,.35)}
+.bkb.s3{background:var(--panel2);border-color:var(--gold);border-left-color:var(--cc);box-shadow:0 0 0 1px var(--gold) inset}
+.bkb.s1{background:var(--panel)}
+
+/* leer en voz alta */
+.qrt{display:flex;align-items:center;gap:.5rem;flex:none}
+.spk{width:2.5rem;height:2.5rem;border-radius:50%;display:grid;place-items:center;flex:none;background:rgba(255,255,255,.24);border:1px solid rgba(255,255,255,.35);font-size:1.1rem;line-height:1;transition:transform .1s,background .2s}
+.spk:active{transform:scale(.92)}
+.spk.on{background:var(--gold);animation:pulse 1s ease-in-out infinite}
+.verse .vsp{display:block;margin-top:.4rem;color:var(--goldtxt);font-weight:800;text-align:left}
+.verse .vsp.on{text-decoration:underline}
+.vod .vr #vsp.on{background:rgba(122,79,5,.18);border-radius:.6rem}
+
 </style>
 </head>
 <body>
@@ -481,12 +508,13 @@ noscript{display:block;padding:2rem;text-align:center;color:var(--ink)}
    Secciones: núcleo · inicio / logros / ajustes · partida solo ·
               ruleta · en línea · arranque (PWA)
    ============================================================ */
-const APPV="3.8.0";
+const APPV="3.9.0";
 /* NETV = versión del juego EN LÍNEA (preguntas y reglas). Súbela solo cuando cambien las
    preguntas o las reglas del juego: así quien tenga la app un poco más vieja puede seguir
    jugando con los demás. (La 3.2 y la 3.3 solo agregaron fotos y el lector de la RVR1960, por eso
-   siguieron en 3.1.0; la 3.4 cambió el banco de preguntas y por eso sube a 3.4.0; la 3.7 volvió a cambiarlo. La 3.8 solo agregó
-   modos de juego —«Arma el versículo» y los retos por enlace— y por eso sigue en 3.7.0: el enlace de un reto lleva esta versión.) */
+   siguieron en 3.1.0; la 3.4 cambió el banco de preguntas y por eso sube a 3.4.0; la 3.7 volvió a cambiarlo. La 3.8 y la 3.9 solo agregaron
+   modos y funciones —«Arma el versículo», los retos por enlace, el Mapa de la Biblia y la lectura en voz alta— y por eso siguen en 3.7.0:
+   el enlace de un reto lleva esta versión.) */
 const NETV="3.7.0";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const A=$("#app");
@@ -2609,6 +2637,16 @@ Salmos 100:3|Reconoced que Jehová él es Dios: él nos hizo, y no nosotros á n
 Romanos 3:10|Como está escrito: No hay justo, ni aun uno;`;
 const QS=BANK.trim().split("\n").map(l=>{const p=l.split("|"),b=B2I[bookOf(p[4])];return{q:p[1],a:p[2],d:p[3].split(";"),r:p[4],l:+p[0],b:b===undefined?5:b,id:(hstr(p[1])>>>0).toString(36)}});
 const BOOKN={};QS.forEach(q=>{const k=bookOf(q.r);BOOKN[k]=(BOOKN[k]||0)+1});
+/* ---------- Mapa de la Biblia: estrellas por libro ----------
+   D.bq guarda, por libro, las preguntas DISTINTAS que acertaste (los últimos 4 caracteres del id de cada una). Las estrellas del libro:
+   ⭐ con 1 acierto, ⭐⭐ con el 40 % de sus preguntas (mínimo 2) y ⭐⭐⭐ con el 80 % (mínimo 4). Las preguntas que ya no existan se ignoran. */
+const BQS={};QS.forEach(q=>{const k=bookOf(q.r);(BQS[k]||(BQS[k]=[])).push(q)});
+const NBOOKS=Object.keys(B2I).length;
+const sid=q=>q.id.slice(-4);
+const bkOk=k=>{const a=D.bq&&D.bq[k];if(!Array.isArray(a)||!a.length)return 0;const s=new Set(a);return(BQS[k]||[]).reduce((n,q)=>n+(s.has(sid(q))?1:0),0)};
+const bkStars=(k,o=bkOk(k))=>{const n=(BQS[k]||[]).length;return o<1?0:o>=Math.max(4,Math.ceil(n*.8))?3:o>=Math.max(2,Math.ceil(n*.4))?2:1};
+function mapInfo(){let stars=0,started=0,full=0;Object.keys(BQS).forEach(k=>{const s=bkStars(k);stars+=s;if(s>=1)started++;if(s>=3)full++});return{stars,max:NBOOKS*3,started,full}}
+function bqMark(q){const k=bookOf(q.r);if(!BQS[k])return;if(!D.bq||typeof D.bq!=="object"||Array.isArray(D.bq))D.bq={};const a=D.bq[k]||(D.bq[k]=[]),s=sid(q);if(!a.includes(s))a.push(s)}
 const V={};VERSES.trim().split("\n").forEach(l=>{const i=l.indexOf("|");V[l.slice(0,i)]=l.slice(i+1)});
 const LN=["Fácil","Intermedio","Difícil"],LE=["🌱","📖","🔥"],LC=["#2fbf7e","#3e82f7","#ef5a5a"];
 const isNum=s=>/^\d[\d.,]*$/.test(s);
@@ -2737,14 +2775,14 @@ async function yvTest(out){
   else if(ps.e)why="Juan 3:16 se lee bien, pero Salmos 37:4 no. "+yvMsg(ps.e);
   else why="Todo en orden: el botón «Leer en la Reina-Valera 1960» aparece en las preguntas.";
   say(lines.join("\n")+"\n👉 "+why,good?(ps.e?"":"ok"):"bad")}
-const verseHTML=q=>{const v=verseInfo(q);return`<div class="verse">📖 <b>${esc(v.label)}</b>${v.text?`<i>«${esc(v.text)}» <small>(RV 1909)</small></i>`:""}${rvrOn(q.r)?'<button class="vrv" type="button">📖 Leer en la Reina-Valera 1960</button>':`<a href="${v.url}" target="_blank" rel="noopener">Leer en Reina-Valera 1960 ↗</a>`}${v.text?'<button class="vsh" type="button">🖼️ Compartir como imagen</button>':""}</div>`};
+const verseHTML=q=>{const v=verseInfo(q);return`<div class="verse">📖 <b>${esc(v.label)}</b>${v.text?`<i>«${esc(v.text)}» <small>(RV 1909)</small></i>`:""}${rvrOn(q.r)?'<button class="vrv" type="button">📖 Leer en la Reina-Valera 1960</button>':`<a href="${v.url}" target="_blank" rel="noopener">Leer en Reina-Valera 1960 ↗</a>`}${v.text?'<button class="vsh" type="button">🖼️ Compartir como imagen</button>':""}${v.text&&Tts.ok?'<button class="vsp" type="button">🔊 Escuchar el versículo</button>':""}</div>`};
 const VOD=["Juan 3:16","Salmos 23:1","Proverbios 3:5","Isaías 40:31","Filipenses 4:13","Romanos 8:28","Salmos 119:105","Jeremías 1:5","2 Corintios 5:17","Efesios 2:8","Romanos 12:2","1 Juan 4:8","Hebreos 11:1","Santiago 1:5","1 Pedro 5:7","Apocalipsis 3:20","Miqueas 6:8","Zacarías 4:6","Salmos 121:1","Mateo 6:9","Proverbios 9:10","Romanos 6:23","2 Timoteo 3:16","Hebreos 13:8","Lamentaciones 3:23","Habacuc 3:18","Eclesiastés 3:1","Isaías 53:7","Mateo 5:13","Juan 10:11","1 Tesalonicenses 5:17","Colosenses 3:23"];
 function verseOfDay(){const n=new Date(),i=Math.floor((new Date(n.getFullYear(),n.getMonth(),n.getDate())-new Date(2026,0,1))/864e5);const r=VOD[((i%VOD.length)+VOD.length)%VOD.length];return{r,t:V[r]||"",url:"https://www.biblegateway.com/passage/?search="+encodeURIComponent(r)+"&version=RVR1960"}}
 
 /* ---------- progreso guardado ---------- */
-const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",pic:"",picS:"",yvk:"",miss:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0}});
+const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",pic:"",picS:"",yvk:"",miss:{},bq:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0,tts:0,vr:0}});
 let D=DEF();
-try{const s=JSON.parse(localStorage.getItem("tb")||"{}");Object.assign(D,s);D.set=Object.assign(DEF().set,s.set||{});if(!Array.isArray(D.pass))D.pass=[0,0,0];if(!D.medals||typeof D.medals!=="object")D.medals={};if(!D.bk)D.bk={};if(!D.st)D.st={};if(!D.miss||typeof D.miss!=="object")D.miss={};if(!okPic(D.pic)||!okPic(D.picS,12000)){D.pic="";D.picS=""}}catch(e){}
+try{const s=JSON.parse(localStorage.getItem("tb")||"{}");Object.assign(D,s);D.set=Object.assign(DEF().set,s.set||{});if(!Array.isArray(D.pass))D.pass=[0,0,0];if(!D.medals||typeof D.medals!=="object")D.medals={};if(!D.bk)D.bk={};if(!D.st)D.st={};if(!D.miss||typeof D.miss!=="object")D.miss={};if(!D.bq||typeof D.bq!=="object"||Array.isArray(D.bq))D.bq={};if(!okPic(D.pic)||!okPic(D.picS,12000)){D.pic="";D.picS=""}}catch(e){}
 const sv=()=>{try{localStorage.setItem("tb",JSON.stringify(D))}catch(e){}};
 function applyTheme(){const t=D.set.theme,r=document.documentElement;if(t==="auto")r.removeAttribute("data-theme");else r.dataset.theme=t;r.classList.toggle("big",!!D.set.big);
   const dark=t==="dark"||(t==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);const m=$('meta[name="theme-color"]');if(m)m.content=dark?"#0b1536":"#f6efd9"}
@@ -2774,7 +2812,10 @@ const MEDALS=[
  {id:"cloze",e:"✍️",t:"Escriba",d:"Completa 20 versículos",ok:()=>(D.cz||0)>=20},
  {id:"arma",e:"🧩",t:"Constructor",d:"Arma 10 versículos",ok:()=>(D.arm||0)>=10},
  {id:"arma0",e:"🧠",t:"Memorioso",d:"Arma 5 versículos sin errores ni pistas",ok:()=>(D.armP||0)>=5},
- {id:"reto1",e:"📨",t:"Retador",d:"Gana un reto a un amigo",ok:()=>(D.ret||0)>=1}
+ {id:"reto1",e:"📨",t:"Retador",d:"Gana un reto a un amigo",ok:()=>(D.ret||0)>=1},
+ {id:"map10",e:"🧭",t:"Explorador",d:"Consigue estrellas en 10 libros del mapa",ok:()=>mapInfo().started>=10},
+ {id:"map5",e:"⛰️",t:"Peregrino",d:"Consigue las 3 estrellas en 5 libros",ok:()=>mapInfo().full>=5},
+ {id:"map66",e:"🗺️",t:"Cartógrafo",d:"Consigue al menos 1 estrella en los 66 libros",ok:()=>mapInfo().started>=NBOOKS}
 ];
 function checkMedals(){const nw=[];for(const m of MEDALS)if(!D.medals[m.id]&&m.ok()){D.medals[m.id]=todayS();nw.push(m)}if(nw.length)sv();return nw}
 const AVC=["#3e82f7","#2fbf7e","#e5484d","#9b5de5","#e49b12","#d2601f","#14a39a","#d6409f"];
@@ -2799,6 +2840,34 @@ const Snd=(()=>{let c=null;
   return{play(n){if(D.set.snd&&S[n]){try{S[n]()}catch(e){}}},unlock:ctx}})();
 addEventListener("pointerdown",()=>Snd.unlock(),{once:true,passive:true});
 const vib=p=>{if(D.set.vib&&navigator.vibrate){try{navigator.vibrate(p)}catch(e){}}};
+
+/* ---------- leer en voz alta (con la voz en español del propio teléfono; sin internet ni servidores) ----------
+   Se lee la pregunta con sus opciones o el versículo (RV 1909). El botón 🔊 enciende y apaga la lectura; se corta al responder, al cambiar de
+   pantalla o si la app pasa a segundo plano. En Ajustes se puede activar la lectura automática y bajar la velocidad. */
+const TTS_OK=typeof window.speechSynthesis==="object"&&!!window.speechSynthesis&&typeof window.SpeechSynthesisUtterance==="function";
+const Tts={ok:TTS_OK,u:null,b:null,
+  voice(){try{const es=(speechSynthesis.getVoices()||[]).filter(v=>/^es([-_]|$)/i.test(v.lang||"")),L=v=>String(v.lang).replace("_","-").toLowerCase();
+    for(const p of["es-ar","es-us","es-mx","es-419","es-co","es-cl","es-uy","es-es"]){const f=es.find(v=>L(v)===p);if(f)return f}return es[0]||null}catch(e){return null}},
+  stop(){if(!TTS_OK)return;this.u=null;if(this.b){this.b.classList.remove("on");this.b=null}try{speechSynthesis.cancel()}catch(e){}},
+  say(text,btn){
+    if(!TTS_OK||!text)return;this.stop();
+    const u=new SpeechSynthesisUtterance(text),v=this.voice();u.lang=v&&v.lang?v.lang:"es-AR";if(v)u.voice=v;u.rate=D.set.vr?.8:1;
+    const done=()=>{if(this.u===u){this.u=null;if(this.b){this.b.classList.remove("on");this.b=null}}};
+    u.onend=done;u.onerror=done;this.u=u;if(btn){this.b=btn;btn.classList.add("on")}
+    setTimeout(()=>{if(this.u===u){try{speechSynthesis.speak(u)}catch(e){done()}}},50)}, /* una pausa corta tras cancelar: algunos navegadores se comen la frase si no */
+  toggle(text,btn){if(this.u&&this.b===btn){this.stop();return}this.say(text,btn)}};
+/* textos para leer: «1 Juan 3:16» se dice «Primera de Juan, capítulo 3, versículo 16» */
+function ttsRef(l){return String(l).replace(/^([123]) (Samuel|Reyes|Crónicas)\b/,(m,n,b)=>["Primero","Segundo","Tercero"][n-1]+" de "+b).replace(/^([123]) /,(m,n)=>["Primera","Segunda","Tercera"][n-1]+" de ")
+  .replace(/(\d+):(\d+)-(\d+)/,"capítulo $1, versículos $2 al $3").replace(/(\d+):(\d+)/,"capítulo $1, versículo $2")}
+const ttsVerse=(label,text)=>ttsRef(label)+". "+String(text).replace(/…/g,", ").replace(/\s+/g," ").trim();
+function ttsQuestion(q,o,gone=[]){ /* la pregunta (o el versículo con el hueco) y las opciones que siguen en juego */
+  const d=document.createElement("div");d.innerHTML=q.q;let pre="";const cz=d.querySelector(".czr");
+  if(cz){pre=ttsRef(cz.textContent.replace(/^[^A-Za-z0-9ÁÉÍÓÚÑ¿¡]+/,"").replace(/\s*RV 1909\s*$/,""))+". ";cz.remove()}
+  d.querySelectorAll(".blank").forEach(x=>x.textContent=" espacio en blanco ");
+  const t=pre+d.textContent.replace(/[«»]/g," ").replace(/\s+/g," ").trim();
+  return t+" "+o.map((x,i)=>gone.includes(i)?"":`Opción ${"ABCD"[i]}: ${x}.`).filter(Boolean).join(" ")}
+document.addEventListener("visibilitychange",()=>{if(document.hidden)Tts.stop()});
+addEventListener("pagehide",()=>Tts.stop());
 
 /* ---------- temporizador (se pausa si la app se oculta) ---------- */
 const Tm={id:0,left:0,tot:0,last:0,tick:null,end:null,
@@ -2832,7 +2901,7 @@ const APPURL=location.origin+location.pathname.replace(/index\.html$/,"");
 
 /* ---------- pantallas y botón «atrás» ---------- */
 function view(html,name,cls=""){
-  VIEW=name;A.className=cls;$$(".sheet").forEach(s=>s.remove());document.body.classList.remove("sheeted");
+  Tts.stop();VIEW=name;A.className=cls;$$(".sheet").forEach(s=>s.remove());document.body.classList.remove("sheeted");
   A.innerHTML=`<div class="screen">${html}</div>`;window.scrollTo(0,0);try{A.focus({preventScroll:true})}catch(e){}
   const top=name==="home"||name==="stats"||name==="settings",nv=$("#nav");nv.hidden=!top;document.body.classList.toggle("hasnav",top);
   if(top)$$("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.go===name));rxBind()}
@@ -2843,7 +2912,7 @@ addEventListener("popstate",()=>{if(VIEW==="home")return;if(VIEW==="play"){pushV
 let wl=null;
 async function wake(on){try{if(on){if(!wl&&navigator.wakeLock){wl=await navigator.wakeLock.request("screen");wl.addEventListener("release",()=>{wl=null})}}else if(wl){const w=wl;wl=null;await w.release()}}catch(e){}}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&(G||R||RM||AR)&&!wl)wake(true)});
-function stopAll(){wake(false);Tm.stop();closeModal();if(G){clearTimeout(G.rtm);clearTimeout(G.adv);G=null}AR=null;if(R){clearTimeout(R.bt);R=null}if(RM){try{RM.leave()}catch(e){}RM=null}for(const k in PICS)delete PICS[k];for(const k in RXS)delete RXS[k];["rxr","rxl"].forEach(i=>{const e=$("#"+i);if(e)e.remove()})}
+function stopAll(){wake(false);Tts.stop();Tm.stop();closeModal();if(G){clearTimeout(G.rtm);clearTimeout(G.adv);G=null}AR=null;if(R){clearTimeout(R.bt);R=null}if(RM){try{RM.leave()}catch(e){}RM=null}for(const k in PICS)delete PICS[k];for(const k in RXS)delete RXS[k];["rxr","rxl"].forEach(i=>{const e=$("#"+i);if(e)e.remove()})}
 const standalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
 const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
 
@@ -2867,7 +2936,7 @@ function home(){
     <div style="min-width:0"><button class="nm" id="nmb" type="button" aria-label="Cambiar mi nombre">${esc(me)}</button><div class="rk">${rk.e} ${rk.n}</div><div class="xp"><i style="--w:${rk.pct}%"></i></div>
     <div class="xpl"><span>${D.pts.toLocaleString("es")} pts</span><span>${rk.next?"Sigue: "+rk.next:"¡Rango máximo!"}</span></div></div></div>
     <div class="stats3"><div class="st3"><b>🔥 ${streakNow()}</b><span>Racha diaria</span></div><div class="st3"><b>👑 ${D.crowns}</b><span>Coronas</span></div><div class="st3"><b>${acc}%</b><span>Aciertos</span></div></div></section>
-  <section class="vod"><small>Versículo del día</small><p>«${esc(vr.t.replace(/^\(\d+:\d+\)\s*/,""))}»</p><div class="vr"><span>${esc(vr.r)} · RV 1909</span><span>${rvrOn(vr.r)?'<button id="vrd" type="button">Leer</button>':`<a href="${vr.url}" target="_blank" rel="noopener">Leer ↗</a>`} &nbsp; <button id="vsh" type="button" aria-label="Compartir versículo como imagen">Compartir</button></span></div></section>
+  <section class="vod"><small>Versículo del día</small><p>«${esc(vr.t.replace(/^\(\d+:\d+\)\s*/,""))}»</p><div class="vr"><span>${esc(vr.r)} · RV 1909</span><span>${rvrOn(vr.r)?'<button id="vrd" type="button">Leer</button>':`<a href="${vr.url}" target="_blank" rel="noopener">Leer ↗</a>`} &nbsp; ${Tts.ok?'<button id="vsp" type="button" aria-label="Escuchar el versículo">🔊</button> &nbsp; ':""}<button id="vsh" type="button" aria-label="Compartir versículo como imagen">Compartir</button></span></div></section>
   <button class="cta" id="rl">${miniWheel()}<div><b>Ruleta de coronas</b><span>Gira, responde y gana ${3} coronas</span></div></button>
   <div class="tiles">
     <button class="tile" id="daily" ${done?"disabled":""}><span class="ic" style="--tc:#e49b12">⭐</span><b>Desafío diario</b><small>${done?"¡Completado! Vuelve mañana":"10 preguntas · una vez al día"}</small>${done?"":'<span class="tag">Nuevo</span>'}</button>
@@ -2875,7 +2944,7 @@ function home(){
     <button class="tile" id="mix"><span class="ic" style="--tc:#8b47d9">🎲</span><b>Partida rápida</b><small>10 preguntas al azar</small></button>
     <button class="tile" id="rush"><span class="ic" style="--tc:#d4531a">⏱️</span><b>Contrarreloj</b><small>${D.rush?"Tu récord: "+D.rush+" aciertos":"60 segundos, ¡a toda!"}</small></button>
     <button class="tile" id="onl"><span class="ic" style="--tc:#127850">🌍</span><b>Con amigos</b><small>Juega en línea</small></button>
-    <button class="tile" id="lib"><span class="ic" style="--tc:#2f6fe0">📚</span><b>Por libro</b><small>Practica un libro</small></button>
+    <button class="tile" id="lib"><span class="ic" style="--tc:#2f6fe0">🗺️</span><b>Mapa de la Biblia</b><small>${mapInfo().stars} de ${NBOOKS*3} ⭐ · practica por libro</small></button>
     <button class="tile" id="cz"><span class="ic" style="--tc:#b7791f">✍️</span><b>Completa el versículo</b><small>Elige la palabra que falta</small></button>
     <button class="tile" id="az"><span class="ic" style="--tc:#7a4fd0">🧩</span><b>Arma el versículo</b><small>Toca las palabras en orden</small><span class="tag">Nuevo</span></button>
     <button class="tile wide" id="rt"><span class="ic" style="--tc:#d9541e">📨</span><span><b>Reta a un amigo</b><small>Las mismas 10 preguntas: juegas y le mandas el enlace</small></span><span class="tag">Nuevo</span></button>
@@ -2891,6 +2960,7 @@ function home(){
   $("#avb").onclick=()=>pickPhoto(home);
   $("#nmb").onclick=()=>askName(home);
   $("#vsh").onclick=()=>shareVerse(vr.r,vr.t.replace(/^\(\d+:\d+\)\s*/,""));
+  if($("#vsp"))$("#vsp").onclick=()=>Tts.toggle(ttsVerse(vr.r,vr.t.replace(/^\(\d+:\d+\)\s*/,"")),$("#vsp"));
   if($("#vrd"))$("#vrd").onclick=()=>rvrRead(vr.r);
   $("#rl").onclick=()=>{Snd.play("click");rSetup()};
   $("#daily").onclick=()=>{if(D.last===todayS())return;const q=shuffle(QS,rng(hstr(todayS())));startGame(q,"daily")};
@@ -2965,7 +3035,7 @@ const b64e=u=>{let s="";u.forEach(c=>s+=String.fromCharCode(c));return btoa(s).r
 const b64d=t=>{t=t.replace(/-/g,"+").replace(/_/g,"/");while(t.length%4)t+="=";const b=atob(t),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u};
 const bkZip=async(u,Cls)=>new Uint8Array(await new Response(new Blob([u]).stream().pipeThrough(new Cls("deflate-raw"))).arrayBuffer());
 async function bkMake(){
-  const o={};BK_NUM.concat(["last","st","pass","name","miss","bk","medals","set"]).forEach(k=>{if(D[k]!==undefined)o[k]=D[k]});
+  const o={};BK_NUM.concat(["last","st","pass","name","miss","bk","bq","medals","set"]).forEach(k=>{if(D[k]!==undefined)o[k]=D[k]});
   const json=JSON.stringify(o),raw=new TextEncoder().encode(json);let mode="u",body=raw;
   if(typeof CompressionStream==="function"){try{body=await bkZip(raw,CompressionStream);mode="z"}catch(e){body=raw}}
   return"TBP1"+mode+"."+b64e(body)+"."+bkHash(json)}
@@ -2980,9 +3050,10 @@ function bkClean(o){
   R.pass=[0,1,2].map(i=>o.pass&&(o.pass[i]===1||o.pass[i]===true)?1:0);
   const ids=new Set(QS.map(q=>q.id));R.miss={};
   if(o.miss&&typeof o.miss==="object")Object.keys(o.miss).filter(k=>ids.has(k)).slice(0,150).forEach(k=>R.miss[k]=n(o.miss[k],4e12));
+  R.bq={};if(o.bq&&typeof o.bq==="object"&&!Array.isArray(o.bq))Object.keys(BQS).forEach(k=>{const a=o.bq[k];if(!Array.isArray(a))return;const ok=new Set(BQS[k].map(sid)),ids=[...new Set(a.filter(x=>typeof x==="string"&&ok.has(x)))];if(ids.length)R.bq[k]=ids});
   R.medals={};if(o.medals&&typeof o.medals==="object")MEDALS.forEach(m=>{if(o.medals[m.id])R.medals[m.id]=String(o.medals[m.id]).replace(/[^\d-]/g,"").slice(0,10)});
   const s=o.set&&typeof o.set==="object"?o.set:{};
-  R.set={snd:s.snd===0||s.snd===false?0:1,vib:s.vib===0||s.vib===false?0:1,big:s.big===1||s.big===true?1:0,theme:["auto","light","dark"].includes(s.theme)?s.theme:"auto",time:[0,15,30].includes(+s.time)?+s.time:15};
+  R.set={snd:s.snd===0||s.snd===false?0:1,vib:s.vib===0||s.vib===false?0:1,big:s.big===1||s.big===true?1:0,tts:s.tts===1||s.tts===true?1:0,vr:s.vr===1||s.vr===true?1:0,theme:["auto","light","dark"].includes(s.theme)?s.theme:"auto",time:[0,15,30].includes(+s.time)?+s.time:15};
   return R}
 async function bkRead(code){
   const m=String(code||"").match(/TBP1([zu])\.([A-Za-z0-9_\-\s]+)\.([0-9a-z]{7})/);
@@ -3035,6 +3106,10 @@ function settings(){
   ${sw("sSnd",s.snd,"Sonidos","Efectos de acierto, error y ruleta")}${sw("sVib",s.vib,"Vibración","Al responder (solo en celulares compatibles)")}${sw("sBig",s.big,"Texto grande","Letras más grandes en toda la app")}
   <div class="srow" style="display:block"><b>Tema</b><div class="seg" id="sTh"><button data-v="auto">Automático</button><button data-v="light">Claro</button><button data-v="dark">Oscuro</button></div></div>
   <div class="srow" style="display:block"><b>Tiempo por pregunta</b><small>Normal: 15 s · Relajado: 30 s. En línea siempre son 15 s</small><div class="seg" id="sTm"><button data-v="15">15 s</button><button data-v="30">30 s</button><button data-v="0">Sin tiempo</button></div></div></div>
+  <div class="card" style="margin-top:.8rem"><div class="srow" style="display:block;padding-top:0"><b>🔊 Leer en voz alta</b><small>El teléfono lee las preguntas y los versículos con su propia voz en español. Los botones 🔊 aparecen en cada pregunta y en cada versículo.</small></div>
+  ${Tts.ok?`${sw("sTts",s.tts,"Leer cada pregunta sola","Al empezar cada pregunta (menos en Contrarreloj)")}
+  <div class="srow" style="display:block"><b>Velocidad de la voz</b><div class="seg" id="sVr"><button data-v="0">Normal</button><button data-v="1">Lenta</button></div></div>
+  <button class="btn ghost sm" id="sTest" type="button" style="margin-top:.6rem;width:100%">▶️ Probar la voz</button><p class="note" id="sTestR" role="status" hidden></p>`:'<p class="note">Este navegador no puede leer en voz alta.</p>'}</div>
   <div class="card" style="margin-top:.8rem"><div class="srow" style="display:block;padding-top:0"><b>💾 Copia de seguridad</b><small>Guarda tu progreso en un código y recupéralo en otro celular o si se borran los datos. No incluye tu foto.</small></div>
     <div class="two"><button class="btn ghost sm" id="bkC">📋 Copiar código</button><button class="btn ghost sm" id="bkS">📤 Compartir</button></div>
     <button class="btn ghost sm" id="bkR" style="margin-top:.6rem;width:100%">📥 Recuperar progreso</button></div>
@@ -3055,6 +3130,9 @@ function settings(){
     $("#yvX").onclick=()=>{D.yvk="";sv();$("#yvk").value="";$("#yvX").disabled=true;$("#yvR").textContent="";RVR_OK=null;$("#yvS").textContent=yvState();toast("Clave quitada");yvProbe().then(()=>{const s=$("#yvS");if(s)s.textContent=yvState()})};}
   const tg=(id,k,fn)=>$("#"+id).onclick=e=>{D.set[k]=D.set[k]?0:1;sv();e.currentTarget.setAttribute("aria-checked",!!D.set[k]);fn&&fn();Snd.play("click");if(k==="vib")vib(40)};
   tg("sSnd","snd");tg("sVib","vib");tg("sBig","big",applyTheme);
+  if(Tts.ok){tg("sTts","tts");seg("sVr",()=>D.set.vr,v=>{D.set.vr=+v;Tts.stop()});
+    $("#sTest").onclick=()=>{Tts.say("Hola, esta es la voz de Trivia Bíblica. «Lámpara es a mis pies tu palabra».");const v=Tts.voice(),r=$("#sTestR");r.hidden=false;
+      r.textContent=v?"Voz: "+v.name+" ("+v.lang+")":"No encontré una voz en español instalada: se usa la que trae el teléfono. En Android puedes instalar una en Ajustes › Idioma › Texto a voz."}}
   seg("sTh",()=>D.set.theme,v=>{D.set.theme=v;applyTheme()});seg("sTm",()=>D.set.time,v=>D.set.time=+v);
   if($("#sIn"))$("#sIn").onclick=installApp;
   $("#sSh").onclick=()=>shareTxt("✝️ Trivia Bíblica: pon a prueba tu conocimiento de la Palabra. ¡Juega conmigo!",APPURL);
@@ -3067,6 +3145,8 @@ function help(){
   <h3>⭐ Desafío diario</h3><p>10 preguntas, las mismas para todos cada día. Juega todos los días para mantener tu racha 🔥.</p>
   <h3>🎲 Rápida y ⚔️ Duelo</h3><p>10 preguntas al azar. En el duelo compites contra un rival simulado.</p>
   <h3>✍️ Completa el versículo</h3><p>Un versículo con una palabra tapada: elige cuál falta entre 4 opciones. Al responder ves el versículo completo.</p>
+  <h3>🔊 Leer en voz alta</h3><p>Toca el botón 🔊 en una pregunta (lee la pregunta y las opciones) o en un versículo para escucharlo. En Ajustes puedes hacer que cada pregunta se lea sola y bajar la velocidad. Usa la voz en español de tu teléfono.</p>
+  <h3>🗺️ Mapa de la Biblia</h3><p>Toca «Mapa de la Biblia» para ver los 66 libros. Cada libro se llena de estrellas a medida que aciertas preguntas distintas de ese libro (⭐ la primera, ⭐⭐⭐ cuando dominas casi todas). Toca un libro para practicar solo con sus preguntas; las que aún no acertaste salen primero.</p>
   <h3>📨 Reta a un amigo</h3><p>Respondes 10 preguntas y te damos un enlace para mandárselo a tu amigo por WhatsApp. Él juega <b>las mismas 10 preguntas</b> y la app compara los puntos. Son 15 segundos por pregunta y sin comodines, para que sea parejo.</p>
   <h3>🧩 Arma el versículo</h3><p>Para memorizar: toca las palabras en el orden correcto para reconstruir el versículo. Cada error resta puntos y <b>💡 Pista</b> te pone la siguiente palabra. Hay 3 niveles y no hay reloj.</p>
   <h3>📚 Niveles</h3><p>Saca 7 de 10 para desbloquear el siguiente nivel.</p>
@@ -3086,10 +3166,13 @@ const MAXQ=10,BOTS=["Mateo","Lidia","Samuel","Rut","Daniel","Débora","Pablo","A
 const MODEN={daily:"⭐ Desafío diario",mix:"🎲 Partida rápida",duel:"⚔️ Duelo",online:"🌍 Con amigos",rush:"⏱️ Contrarreloj",rev:"🔁 Repaso",cloze:"✍️ Completa el versículo",reto:"⚔️ Reto","0":"🌱 Fácil","1":"📖 Intermedio","2":"🔥 Difícil"};
 const modeLabel=g=>g.mode==="book"?"📖 "+g.book:MODEN[g.mode];
 const missed=()=>QS.filter(q=>D.miss[q.id]);
-const booksQ=k=>QS.filter(q=>bookOf(q.r)===k);
+const booksQ=k=>BQS[k]||[];
+/* a practicar un libro: primero las preguntas que todavía no acertaste (así las estrellas suben más rápido) */
+function startBook(k){const s=new Set((D.bq&&D.bq[k])||[]),qs=booksQ(k);startGame([...shuffle(qs.filter(q=>!s.has(sid(q)))),...shuffle(qs.filter(q=>s.has(sid(q))))],"book",{book:k})}
 let lastSec=0;
 
 function logAnswer(q,good){
+  if(good&&!q.cz)bqMark(q);
   D.tot++;if(good)D.ok++;const bk=D.bk[q.b]||[0,0];bk[1]++;if(good)bk[0]++;D.bk[q.b]=bk;const c=LN[q.l],s=D.st[c]||[0,0];s[1]++;if(good)s[0]++;D.st[c]=s;
   if(q.cz&&good)D.cz=(D.cz||0)+1; /* «Completa el versículo» no entra en el repaso de errores */
   if(good){if(D.miss[q.id]){delete D.miss[q.id];D.fixed=(D.fixed||0)+1}}
@@ -3105,6 +3188,7 @@ function showSheet({good,title,q,btn,btnCls,wait,next}){
   document.body.appendChild(el);
   const vb=$(".vsh",el);if(vb&&q){const v=verseInfo(q);vb.onclick=()=>shareVerse(v.label,v.text)}
   const rb=$(".vrv",el);if(rb&&q){const v=verseInfo(q);rb.onclick=()=>rvrRead(q.r,v.label)}
+  const sp=$(".vsp",el);if(sp&&q){const v=verseInfo(q),tx=ttsVerse(v.label,v.text);sp.onclick=()=>Tts.toggle(tx,sp);if(D.set.tts)setTimeout(()=>{if(el.isConnected)Tts.say(tx,sp)},350)}
   const b=$("#nx");if(b){b.onclick=()=>{b.disabled=true;next&&next()};b.focus({preventScroll:true})}
   setTimeout(()=>{const ok=$(".opt.ok"),sh=$(".sheet>div");if(ok&&sh){const r=ok.getBoundingClientRect(),s=sh.getBoundingClientRect();if(r.bottom>s.top-10)window.scrollBy({top:r.bottom-s.top+18,behavior:REDUCED?"auto":"smooth"})}},60)}
 
@@ -3146,18 +3230,23 @@ async function shareVerse(label,text){
       [{t:"Cerrar",cls:"ghost"},can?{t:"Compartir",cls:"gold",fn:()=>{navigator.share({files:[file],text:`«${text}» — ${label}`}).catch(()=>{})}}:{t:"Guardar",cls:"gold",fn:()=>{const a=document.createElement("a");a.href=url;a.download="versiculo.jpg";document.body.appendChild(a);a.click();a.remove()}}]);
   }finally{svBusy=0;$("#toast").classList.remove("on")}}
 
-/* ---------- elegir un libro ---------- */
+/* ---------- Mapa de la Biblia: los 66 libros con sus estrellas; tocar uno es practicar solo ese libro ---------- */
+const srow=s=>`<span class="sr" role="img" aria-label="${s} de 3 estrellas">${[1,2,3].map(i=>`<i class="${i<=s?"on":""}">★</i>`).join("")}</span>`;
 function libros(){
-  pushView();
-  view(`<h1 class="h1">📚 Por libro</h1><p class="sub">Elige un libro y practica solo con sus preguntas.</p>
-  ${BLK.map(b=>`<h2 class="h2"><span>${b.e} ${b.n}</span></h2><div class="bkl">${b.b.split(",").map(k=>`<button class="bkc" style="--cc:${b.c}" data-b="${esc(k)}">${esc(k)}<small>${BOOKN[k]||0}</small></button>`).join("")}</div>`).join("")}
-  <button class="btn ghost" id="bk" style="margin-top:1.4rem">Volver</button>`,"libros");
-  $$(".bkc").forEach(b=>b.onclick=()=>{const k=b.dataset.b;Snd.play("click");startGame(shuffle(booksQ(k)),"book",{book:k})});
+  pushView();const mi=mapInfo();
+  view(`<h1 class="h1">🗺️ Mapa de la Biblia</h1><p class="sub">Acierta preguntas de cada libro para llenarlo de estrellas. Toca un libro para practicar.</p>
+  <div class="card mapsum"><div class="mst"><b>⭐ ${mi.stars}</b><span>de ${mi.max}</span></div><div class="xp"><i style="--w:${Math.round(100*mi.stars/mi.max)}%"></i></div><small>${mi.started} de ${NBOOKS} libros empezados · ${mi.full} dominados</small></div>
+  ${BLK.map(b=>{const ks=b.b.split(","),bs=ks.reduce((n,k)=>n+bkStars(k),0);
+    return`<h2 class="h2"><span>${b.e} ${b.n}</span><small>${bs}/${ks.length*3} ⭐</small></h2><div class="bkm">${ks.map(k=>{const n=BOOKN[k]||0,o=bkOk(k),s=bkStars(k,o);
+      return`<button class="bkb s${s}" style="--cc:${b.c}" data-b="${esc(k)}" aria-label="${esc(k)}: ${s} de 3 estrellas, ${o} de ${n} preguntas acertadas"><b>${esc(k)}</b><span class="bkr">${srow(s)}<em>${o}/${n}</em></span></button>`}).join("")}</div>`}).join("")}
+  <p class="note">Las estrellas se ganan acertando preguntas <b>distintas</b> de cada libro: ⭐ con la primera, ⭐⭐ con el 40 % de las preguntas del libro y ⭐⭐⭐ con el 80 %. Cuentan todos los modos con preguntas (niveles, rápida, ruleta, retos…). Al practicar un libro salen primero las que aún no acertaste.</p>
+  <button class="btn ghost" id="bk" style="margin-top:1.2rem">Volver</button>`,"libros");
+  $$(".bkb").forEach(b=>b.onclick=()=>{Snd.play("click");startBook(b.dataset.b)});
   $("#bk").onclick=goHome}
 
 function startGame(qs,mode,x={}){
   const online=mode==="online",rush=mode==="rush",max=rush?qs.length:MAXQ;
-  G=Object.assign({qs:qs.slice(0,max),spare:rush?[]:qs.slice(max,max+3),mode,i:0,pts:0,ok:0,combo:0,best:0,rv:0,rn:BOTS[Math.random()*BOTS.length|0],res:[],tl:(online||mode==="reto")?15:rush?0:D.set.time,life:{f:1,t:1,s:1},over:0},x);
+  G=Object.assign({qs:qs.slice(0,max),spare:rush?[]:qs.slice(max,max+3),mode,i:0,pts:0,ok:0,combo:0,best:0,rv:0,rn:BOTS[Math.random()*BOTS.length|0],res:[],tl:(online||mode==="reto")?15:rush?0:D.set.time,life:{f:1,t:1,s:1},over:0,st0:mapInfo().stars},x);
   G.n=G.qs.length;wake(true);pushView();ask();
   if(rush)Tm.start(60,rushTick,rushEnd)}
 
@@ -3331,12 +3420,13 @@ function ask(){
     :`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="dots" role="img" aria-label="Pregunta ${G.i+1} de ${G.n}">${dots}</div>${online?rxBtn():""}${duel?"":`<div class="pill gold" id="sc">⭐ ${G.pts}</div>`}</div>`;
   const rto=G.mode==="reto"&&G.rival?`<div class="live"><span>⚔️ Contra ${esc(G.rival.n)} · ${G.rival.p} pts (${G.rival.a}/10)</span></div>`:"";
   view(`${bar}${vs}${rto}${online?'<div class="live" id="sb"></div>':""}
-  <div class="qcard" style="${catStyle(b)}"><div class="qhead"><div><span class="qn">${modeLabel(G)} · ${rush?"#"+(G.i+1):(G.i+1)+"/"+G.n}</span>${b.e} ${b.n}</div>${ring}</div><p class="q${q.cz?" cz":""}">${q.q}</p></div>
+  <div class="qcard" style="${catStyle(b)}"><div class="qhead"><div><span class="qn">${modeLabel(G)} · ${rush?"#"+(G.i+1):(G.i+1)+"/"+G.n}</span>${b.e} ${b.n}</div><div class="qrt">${Tts.ok?'<button type="button" class="spk" id="spk" aria-label="Escuchar la pregunta">🔊</button>':""}${ring}</div></div><p class="q${q.cz?" cz":""}">${q.q}</p></div>
   <div class="combo" id="cb" aria-live="polite">${G.combo>=3&&!rush?`<span>🔥 Racha de ${G.combo}</span>`:""}</div>
   <div class="opts" role="group" aria-label="Respuestas">${G.o.map((o,i)=>`<button class="opt" data-i="${i}"><span class="ltr">${"ABCD"[i]}</span><span>${o}</span></button>`).join("")}</div>${lf}`,"play");
   $("#ex").onclick=confirmExit;
   $$(".opt").forEach(x=>x.onclick=()=>pick(+x.dataset.i));
   $$(".lf").forEach(x=>x.onclick=()=>useLife(x.dataset.k));
+  const spk=$("#spk");if(spk){spk.onclick=()=>Tts.toggle(ttsQuestion(q,G.o,G.gone),spk);if(D.set.tts&&!rush)setTimeout(()=>{if(G&&G.q===q&&!G.done)Tts.say(ttsQuestion(q,G.o,G.gone),$("#spk"))},300)}
   if(tl)Tm.start(tl,ringTick,()=>pick(-1));
   if(online)updSB();
   if(duel){G.rdone=0;G.rt=3+Math.random()*9;G.rc=Math.random()<[.85,.7,.5][q.l];G.rtm=setTimeout(rivalAnswer,G.rt*1000)}
@@ -3354,7 +3444,7 @@ function useLife(k){
   const b=$(`.lf[data-k="${k}"]`);if(b){b.disabled=true;$("em",b).textContent=G.life[k]}}
 
 function pick(i){
-  if(!G||G.done||G.over)return;G.done=1;const rush=G.mode==="rush";if(!rush)Tm.stop();
+  if(!G||G.done||G.over)return;G.done=1;Tts.stop();const rush=G.mode==="rush";if(!rush)Tm.stop();
   if(G.mode==="duel"&&!G.rdone){clearTimeout(G.rtm);rivalAnswer()}
   const q=G.q,good=i>=0&&G.o[i]===q.a;
   $$(".opt").forEach((o,x)=>{o.disabled=true;if(G.o[x]===q.a)o.classList.add("ok");else if(x===i)o.classList.add("bad");else o.classList.add("dim")});
@@ -3394,6 +3484,7 @@ function endGame(){
       duelTxt=`<p class="msg">${w?"🏆 ¡Le ganaste a "+esc(r.n)+"!":t?"🤝 ¡Empate con "+esc(r.n)+"!":esc(r.n)+" ganó esta vez, ¡revancha!"}</p><p class="sub" style="margin:.1rem 0 .4rem">${esc(D.name||"Tú")}: ${g.pts} pts (${g.ok}/10) · ${esc(r.n)}: ${r.p} pts (${r.a}/10)</p>`}}
   if(rush){const rec=g.ok>(D.rush||0);if(rec)D.rush=g.ok;extra+=`<span class="chip new">🏅 ${rec?"¡Nuevo récord!":"Tu récord"}: ${D.rush}</span>`}
   const nm=checkMedals();
+  const gs=mapInfo().stars-(g.st0||0);if(gs>0)extra+=`<span class="chip new">🗺️ +${gs} ⭐ en el mapa</span>`;
   if(g.mode==="rev"){const left=missed().length;extra+=`<span class="chip new">✅ ${g.ok} dominada${g.ok===1?"":"s"}</span><span class="chip">${left?left+" por repasar":"¡Sin pendientes!"}</span>`}
   sv();const rk=rank(),ratio=n?g.ok/n:0;
   const stars=rush?(g.ok>=15?3:g.ok>=10?2:g.ok>=5?1:0):(ratio>=.9?3:ratio>=.7?2:ratio>=.4?1:0),good=rush?g.ok>=10:ratio>=.7;
@@ -3417,7 +3508,7 @@ function endGame(){
     else if(m==="cloze")startCloze();
     else if(m==="reto")startReto();
     else if(m==="online")lobby();
-    else if(m==="book")startGame(shuffle(booksQ(g.book)),"book",{book:g.book});
+    else if(m==="book")startBook(g.book);
     else if(m==="rev"){const ms=missed();if(ms.length)startGame(shuffle(ms),"rev");else{toast("¡No te quedan errores por repasar! 🎉");goHome()}}
     else startGame(pool(+m),m)};
   const sh=$("#shr");if(sh)sh.onclick=()=>shareTxt(g.mode==="reto"&&g.rival?retoReply(g):shareText(g));
@@ -3563,17 +3654,19 @@ function rCrown(){
 function rQView(){
   const{q,o,i,cr}=R.q,b=BLK[i],p=R.ps[R.t],mine=humanTurn(),tl=R.on?15:D.set.time;
   const ring=tl&&mine?`<div class="ring" id="ring" aria-hidden="true"><svg viewBox="0 0 40 40"><circle class="tr" cx="20" cy="20" r="16"/><circle class="pg" id="pg" cx="20" cy="20" r="16"/></svg><b id="rn">${tl}</b></div>`:"";
-  view(`${rBar()}<div class="qcard" style="${catStyle(b)}"><div class="qhead"><div><span class="qn">${esc(p.n)}${R.TM?" · "+TMN[p.tm]:""}${cr?" · 👑 Desafío de corona":""}</span>${b.e} ${b.n}</div>${ring}</div><p class="q">${q.q}</p></div>
+  view(`${rBar()}<div class="qcard" style="${catStyle(b)}"><div class="qhead"><div><span class="qn">${esc(p.n)}${R.TM?" · "+TMN[p.tm]:""}${cr?" · 👑 Desafío de corona":""}</span>${b.e} ${b.n}</div><div class="qrt">${Tts.ok?'<button type="button" class="spk" id="spk" aria-label="Escuchar la pregunta">🔊</button>':""}${ring}</div></div><p class="q">${q.q}</p></div>
   <div class="opts" style="margin-top:1rem" role="group" aria-label="Respuestas">${o.map((x,j)=>`<button class="opt" data-i="${j}" ${mine?"":"disabled"}><span class="ltr">${"ABCD"[j]}</span><span>${x}</span></button>`).join("")}</div>
   ${mine?"":`<p class="sub" style="margin-top:.9rem">${p.bot?esc(p.n)+" está pensando…":esc(p.n)+" está respondiendo…"}</p>`}`,"play");
-  $("#ex").onclick=confirmExit}
+  $("#ex").onclick=confirmExit;
+  const sp=$("#spk");if(sp)sp.onclick=()=>Tts.toggle(ttsQuestion(q,o),sp)}
 function rShowQ(){
   R.phase="ask";rQView();const p=R.ps[R.t],mine=humanTurn(),tl=R.on?15:D.set.time;lastSec=0;
-  if(mine){$$(".opt").forEach(x=>x.onclick=()=>{Tm.stop();emit(["a",+x.dataset.i])});if(tl)Tm.start(tl,ringTick,()=>emit(["a",-1]))}
+  if(mine){$$(".opt").forEach(x=>x.onclick=()=>{Tm.stop();Tts.stop();emit(["a",+x.dataset.i])});if(tl)Tm.start(tl,ringTick,()=>emit(["a",-1]))
+    if(D.set.tts)setTimeout(()=>{if(R&&R.phase==="ask"&&R.q&&$(".opt"))Tts.say(ttsQuestion(R.q.q,R.q.o),$("#spk"))},300)}
   else if(p.bot)R.bt=setTimeout(()=>{if(R&&R.phase==="ask")emit(["a",botPick()])},2200)}
 function rFin(j){
   if(!$(".opt"))rQView();
-  R.phase="fin";Tm.stop();clearTimeout(R.bt);
+  R.phase="fin";Tm.stop();Tts.stop();clearTimeout(R.bt);
   const{q,o,cr}=R.q,p=R.ps[R.t],ok=j>=0&&o[j]===q.a,nm=esc(p.n),isMe=R.t===R.me,other=p.bot||(R.on&&!isMe);
   R.ok=ok;let msg;
   if(ok){if(cr){p.cr++;if(R.TM)R.TM[p.tm].cr++;R.row=0;msg=R.TM?`👑 ¡Corona para el ${TMN[p.tm]}!`:`👑 ¡Corona para ${nm}!`;if(isMe)D.crowns++}else{R.row++;msg=other?nm+" acertó":"¡Correcto!"}}
