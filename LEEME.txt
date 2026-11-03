@@ -1,5 +1,31 @@
-TRIVIA BÍBLICA · versión 3.7.0
+TRIVIA BÍBLICA · versión 3.8.0
 ==============================
+
+NOVEDADES DE LA 3.8
+  - 🧩 Arma el versículo: modo nuevo para MEMORIZAR (tarjeta en el inicio). Se
+    muestra la cita y el versículo con huecos; abajo están las palabras que faltan,
+    mezcladas, y hay que tocarlas en el orden correcto. Una palabra equivocada resta
+    5 puntos y 💡 Pista pone la siguiente (resta 10). Hay 3 niveles: Fácil (más de la
+    mitad de las palabras ya están puestas), Intermedio (solo la primera y unas pocas
+    más) y Difícil (ninguna ayuda, versículos más cortos). Son 5 versículos por
+    partida, sin reloj; cada palabra bien vale 10 puntos y un versículo sin errores ni
+    pistas da +50 de bono. Logros: «Constructor» (10 versículos armados) y
+    «Memorioso» (5 sin errores ni pistas). Todo se arma en el teléfono con los
+    versículos que ya trae la app (RV 1909): no hace falta internet.
+  - 📨 Reta a un amigo con un enlace: juegas 10 preguntas (15 s cada una, sin
+    comodines) y al final «Mandar el reto a un amigo» comparte un enlace por
+    WhatsApp (o lo copia). Tu amigo lo toca, ve cuántos puntos sacaste, acepta y
+    juega EXACTAMENTE las mismas 10 preguntas; al terminar la app compara los
+    puntos («Le ganaste a…», «Empate» o «ganó esta vez, ¡revancha!») y puede
+    contarte el resultado o armar la revancha. No usa servidor ni internet para
+    jugar: las preguntas salen de un número (semilla) que viaja en el enlace. El
+    enlace se valida entero (semilla, nombre, puntos, versión); un reto no se
+    puede jugar dos veces y, si las dos apps tienen versiones distintas del banco de
+    preguntas, avisa que hay que actualizar. Logro: «Retador» (ganar un reto).
+  - El resultado de «Arma el versículo» y los retos ganados entran en la copia de
+    seguridad. Con «reducir movimiento» activado, las estrellas ya no tardan en
+    aparecer.
+  - Las preguntas no cambiaron: el juego en línea sigue siendo compatible con la 3.7.
 
 NOVEDADES DE LA 3.7
   - 255 preguntas nuevas (ahora son 1072): más Intermedio y Difícil, y todos los
