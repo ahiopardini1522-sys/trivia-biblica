@@ -1,5 +1,23 @@
-TRIVIA BÍBLICA · versión 3.6.0
+TRIVIA BÍBLICA · versión 3.7.0
 ==============================
+
+NOVEDADES DE LA 3.7
+  - 255 preguntas nuevas (ahora son 1072): más Intermedio y Difícil, y todos los
+    libros de la Biblia tienen al menos 5 (antes algunos tenían 4). Cada una sale de
+    un versículo real y se comprobó que las palabras clave estén en el texto de la
+    RV 1909 que se muestra al responder.
+  - 🧩 Ruleta por equipos: dos equipos (🔵 azul y 🔴 rojo) comparten sus coronas y
+    sus jugadores se turnan. Vale para jugar en un solo celular (Ruleta → «Equipos»,
+    de 2 a 3 jugadores por equipo, con las coronas para ganar que elijas) y en línea
+    (al crear la sala elige «Equipos»; cada uno elige su equipo con «Cambiar de
+    equipo»; hace falta al menos un jugador en cada uno). Si un jugador se
+    desconecta se reacomodan los equipos; si uno queda vacío, gana el otro.
+  - 😀 Emojis en línea: en la sala y durante las partidas (preguntas y ruleta) hay un
+    botón 😀 arriba; elige 👏 🙌 🙏 😮 😂 o 🔥 y le flota a todos con tu nombre
+    (uno por vez, sin saturar). Solo se aceptan esos 6 emojis. Quien entra después
+    no ve reacciones viejas.
+  - IMPORTANTE para jugar en línea: cambió el banco de preguntas y la sala, así que
+    todos deben tener la 3.7 (abrir la app con internet una o dos veces).
 
 NOVEDADES DE LA 3.6
   - ✍️ Completa el versículo: modo nuevo (tarjeta en el inicio). Aparece un
@@ -15,7 +33,6 @@ NOVEDADES DE LA 3.6
     progreso» → pegar el código → Revisar → Sí, recuperar. Reemplaza el progreso de
     ese celular (con «Deshacer»). No incluye la foto ni la clave. Se valida cada
     dato; un código cortado o cambiado se rechaza con un mensaje claro.
-  - Para jugar en línea no hace falta nada nuevo: sigue siendo compatible con la 3.4.
 
 NOVEDADES DE LA 3.5.2
   - La lectura de la Reina-Valera 1960 dentro de la app quedó APAGADA: se probó con
@@ -102,8 +119,8 @@ CÓMO PUBLICARLA O ACTUALIZARLA (GitHub Pages, desde el celular)
 PARA JUGAR CON AMIGOS (EN LÍNEA)
   - Todos los jugadores deben tener la misma versión del juego en línea (NETV).
     Si alguien tiene una más vieja, la sala lo avisa y no deja empezar. NETV solo
-    cambia cuando cambian las preguntas o las reglas: la 3.4 NO juega en línea
-    con la 3.3 o anteriores porque cambió el banco de preguntas.
+    cambia cuando cambian las preguntas o las reglas: la 3.7 NO juega en línea
+    con la 3.6 o anteriores porque cambió el banco de preguntas y la sala.
   - Las fotos se guardan en la misma base de datos, en salas con el final «-av»,
     y se borran cuando el jugador sale. No hace falta cambiar las reglas de
     Firebase: las de abajo ya las permiten.

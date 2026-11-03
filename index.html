@@ -407,6 +407,32 @@ textarea.bkt{width:100%;font:inherit;font-size:.82rem;line-height:1.35;color:var
 }
 noscript{display:block;padding:2rem;text-align:center;color:var(--ink)}
 
+/* ruleta por equipos y salas por equipos */
+.board.teams{gap:.6rem}
+.tmb{--pc:var(--blue);flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:.25rem;padding:.55rem .4rem .6rem;border-radius:1.05rem;background:var(--panel);border:2px solid var(--line);transition:all .25s}
+.tmb b{font-size:.82rem;color:var(--pc);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tmb .cr{font-size:.95rem;letter-spacing:.04rem;line-height:1.2}.tmb .cr .off{opacity:.22;filter:grayscale(1)}
+.tmb .mems{display:flex;gap:.25rem;flex-wrap:wrap;justify-content:center}
+.tmb .mems .av{width:1.9rem;height:1.9rem;font-size:.8rem;border-width:2px;opacity:.55}
+.tmb .mems .av.cur{opacity:1;box-shadow:0 0 0 2px var(--gold)}
+.tmb.on{border-color:var(--pc);background:var(--panel2);box-shadow:0 0 0 3px var(--glow),0 6px 18px rgba(0,0,0,.3);transform:translateY(-2px)}
+.teamsel{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.9rem}
+.tcol{--pc:var(--blue);border:2px solid var(--pc);border-radius:1rem;padding:.5rem .55rem;background:var(--panel);text-align:left}
+.tcol>b{display:block;font-size:.85rem;color:var(--pc);margin-bottom:.2rem}
+.tcol .prow{padding:.35rem 0;gap:.5rem}.tcol .prow .av{width:1.9rem;height:1.9rem;font-size:.8rem}.tcol .prow b{font-size:.85rem}.tcol .prow small{display:none}
+.tcol .mut{color:var(--mut)}
+/* reacciones con emojis */
+.rxpos{position:absolute;top:.5rem;right:.5rem}
+#rxr{position:fixed;top:calc(env(safe-area-inset-top,0px) + 3.9rem);right:.6rem;z-index:70;display:flex;gap:.15rem;padding:.3rem .45rem;border-radius:2rem;background:var(--sheetbg,var(--panel2));border:1px solid var(--line);box-shadow:var(--sh);animation:pop .2s both}
+#rxr button{font-size:1.55rem;line-height:1;padding:.3rem .35rem;background:none;border:0;border-radius:.8rem;cursor:pointer}
+#rxr button:active{background:var(--panel)}
+#rxl{position:fixed;left:0;right:0;bottom:0;height:46vh;z-index:65;pointer-events:none;overflow:hidden}
+.rxf{position:absolute;left:var(--x,50%);bottom:.5rem;display:flex;flex-direction:column;align-items:center;gap:.1rem;animation:rxup 2.6s ease-out forwards}
+.rxf i{font-style:normal;font-size:2.4rem;filter:drop-shadow(0 3px 6px rgba(0,0,0,.35))}
+.rxf small{font-size:.7rem;font-weight:800;padding:.05rem .45rem;border-radius:1rem;background:var(--sheetbg,var(--panel2));color:var(--ink);border:1px solid var(--line)}
+@keyframes rxup{0%{transform:translateY(0) scale(.5);opacity:0}12%{opacity:1;transform:translateY(-4vh) scale(1.15)}100%{transform:translateY(-38vh) scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){.rxf{animation:rxfade 1.8s linear forwards;bottom:30%}@keyframes rxfade{0%,70%{opacity:1}100%{opacity:0}}}
+
 </style>
 </head>
 <body>
@@ -426,12 +452,12 @@ noscript{display:block;padding:2rem;text-align:center;color:var(--ink)}
    Secciones: núcleo · inicio / logros / ajustes · partida solo ·
               ruleta · en línea · arranque (PWA)
    ============================================================ */
-const APPV="3.6.0";
+const APPV="3.7.0";
 /* NETV = versión del juego EN LÍNEA (preguntas y reglas). Súbela solo cuando cambien las
    preguntas o las reglas del juego: así quien tenga la app un poco más vieja puede seguir
    jugando con los demás. (La 3.2 y la 3.3 solo agregaron fotos y el lector de la RVR1960, por eso
    siguieron en 3.1.0; la 3.4 cambió el banco de preguntas y por eso sube a 3.4.0.) */
-const NETV="3.4.0";
+const NETV="3.7.0";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const A=$("#app");
 const esc=s=>String(s).replace(/[&<>"']/g,c=>"&#"+c.charCodeAt(0)+";");
@@ -1281,7 +1307,262 @@ const BANK=`0|¿Cuántos días y noches llovió durante el diluvio?|40|20;30;50|
 1|Según 2 Timoteo 1:7, Dios nos dio espíritu de fortaleza, de amor y de...|Templanza|Temor;Orgullo;Riqueza|2 Timoteo 1:7
 1|Según Proverbios 3:5, ¿en qué no debemos estribar?|En nuestra prudencia|En Jehová;En su palabra;En sus caminos|Proverbios 3:5
 1|¿Cómo se llamaba el padre de David?|Isaí|Saúl;Booz;Samuel|1 Samuel 16:1
-1|¿De qué ciudad era David?|Belén|Hebrón;Jerusalén;Silo|1 Samuel 17:12`;
+1|¿De qué ciudad era David?|Belén|Hebrón;Jerusalén;Silo|1 Samuel 17:12
+2|Según Oseas 4:6, ¿qué le faltó al pueblo para ser talado?|Sabiduría|Dinero;Soldados;Alimento|Oseas 4:6
+1|Según Oseas 11:1, ¿de dónde llamó Dios a su hijo?|De Egipto|De Babilonia;De Asiria;De Siria|Oseas 11:1
+1|En Joel 1:4, ¿qué comió la langosta?|Lo que quedó de la oruga|Lo que quedó del pulgón;Las uvas de la viña;El trigo de los campos|Joel 1:4
+2|En Joel 1:4, ¿qué insecto comió lo que había quedado del pulgón?|El revoltón|La langosta;La oruga;El saltón|Joel 1:4
+1|Según Joel 2:13, ¿qué debemos rasgar (lacerar) y no los vestidos?|Nuestro corazón|Nuestras manos;Nuestra túnica;El velo|Joel 2:13
+1|Según Joel 2:28, ¿qué verán los mancebos cuando Dios derrame su Espíritu?|Visiones|Ángeles;Estrellas;Ejércitos|Joel 2:28
+2|Según Joel 2:28, ¿qué soñarán los viejos?|Sueños|Visiones;Profecías;Cánticos|Joel 2:28
+2|Según Joel 3:10, ¿en qué se debían convertir los azadones?|En espadas|En arados;En lanzas;En hoces|Joel 3:10
+2|Según Amós 7:14, ¿qué cultivaba Amós además de ser boyero?|Cabrahigos|Viñas de uvas;Olivos del monte;Trigo y cebada|Amós 7:14
+1|Según Amós 8:11, ¿qué hambre enviaría el Señor Jehová?|De oír la palabra de Jehová|De pan y de carne;De justicia y de verdad;De paz y de reposo|Amós 8:11
+2|Según Abdías 1:3, ¿dónde moraban los de Edom?|En las hendiduras de las peñas|En tiendas de pastores;En el desierto;En los montes del Líbano|Abdías 1:3
+2|Según Abdías 1:15, ¿sobre quiénes está cercano el día de Jehová?|Sobre todas las gentes|Sobre Edom solamente;Sobre Israel;Sobre los sacerdotes|Abdías 1:15
+1|Según Miqueas 4:3, ¿para qué martillarán sus espadas?|Para azadones|Para escudos;Para puertas;Para yugos|Miqueas 4:3
+2|Según Miqueas 7:19, ¿dónde echará Dios todos nuestros pecados?|En los profundos de la mar|En el desierto de Judea;En el fuego del juicio;Lejos, detrás de los montes|Miqueas 7:19
+1|Según Nahúm 1:7, ¿para qué es bueno Jehová en el día de la angustia?|Para fortaleza|Para castigo;Para consuelo;Para tesoro|Nahúm 1:7
+2|¿Cómo llama Nahúm 3:1 a la ciudad contra la que profetiza?|La ciudad de sangres|La ciudad de oro;La ciudad del juicio;La ciudad pequeña|Nahúm 3:1
+2|Según Habacuc 2:2, ¿dónde se debía declarar la visión?|En tablas|En un rollo;En una piedra;En un libro de oro|Habacuc 2:2
+1|En Habacuc 3:17, ¿qué árbol dice el profeta que no florecerá?|La higuera|La vid;La oliva;La palmera|Habacuc 3:17
+1|Según Sofonías 3:17, ¿cómo se regocijará Jehová sobre su pueblo?|Con cantar|Con gritos de guerra;En silencio;Con trompetas|Sofonías 3:17
+2|Según Sofonías 1:1, ¿cómo se llamaba el padre del profeta?|Cushi|Josías;Amón;Gedalías|Sofonías 1:1
+1|Según Sofonías 2:3, ¿a quiénes llama el profeta a buscar a Jehová?|A todos los humildes de la tierra|A todos los reyes de la tierra;A todos los sacerdotes del templo;A todos los guerreros de Judá|Sofonías 2:3
+2|Según Hageo 1:4, ¿cómo eran las casas donde vivía el pueblo?|Enmaderadas|De piedra;De barro;De tiendas|Hageo 1:4
+2|Según Hageo 2:9, ¿qué será mayor que la de la primera?|La gloria de la casa postrera|La fama de la ciudad de David;La riqueza del rey Darío;La fe del pueblo de Judá|Hageo 2:9
+2|Según Zacarías 4:10, ¿qué día no se debe menospreciar?|El día de las pequeñeces|El día de reposo;El día de la fiesta;El día de la ira|Zacarías 4:10
+1|Según Zacarías 9:9, ¿sobre qué animal vendría el Rey humilde?|Sobre un asno|Sobre un caballo;Sobre un camello;Sobre un buey|Zacarías 9:9
+2|En Zacarías 11:12, ¿cuántas piezas de plata pesaron por el salario?|Treinta|Diez;Veinte;Cincuenta|Zacarías 11:12
+1|Según Malaquías 3:10, ¿dónde se deben traer todos los diezmos?|Al alfolí|Al altar;A la puerta de la ciudad;Al palacio|Malaquías 3:10
+1|Según Lamentaciones 3:22, ¿por qué no somos consumidos?|Por la misericordia de Jehová|Por nuestras buenas obras;Por la fuerza de nuestros reyes;Por el cumplimiento de la ley|Lamentaciones 3:22
+1|Según Lamentaciones 3:25, ¿a quiénes es bueno Jehová?|A los que en él esperan|A los reyes de la tierra;A los fuertes y poderosos;A los que ayunan y oran|Lamentaciones 3:25
+2|Según Lamentaciones 5:21, ¿qué pide el pueblo a Jehová?|Que los vuelva a él|Que envíe un rey;Que les dé pan;Que destruya a sus enemigos|Lamentaciones 5:21
+1|Según Esdras 7:10, ¿para qué había preparado Esdras su corazón?|Para inquirir la ley de Jehová|Para construir el templo;Para ser rey;Para ir a la guerra|Esdras 7:10
+1|Según Esdras 1:1, ¿qué rey de Persia hizo pasar pregón para edificar la casa de Jehová?|Ciro|Darío;Artajerjes;Asuero|Esdras 1:1
+2|Según Esdras 6:15, ¿en qué mes se acabó la casa?|Adar|Nisán;Tisri;Sivan|Esdras 6:15
+1|Según Esdras 3:11, ¿qué decía el pueblo al alabar a Jehová?|Que para siempre es su misericordia|Que su casa es la más grande;Que su ira es eterna;Que su reino es de este mundo|Esdras 3:11
+2|Según Génesis 3:15, ¿dónde herirá la simiente de la mujer a la serpiente?|En la cabeza|En el calcañar;En el vientre;En la cola|Génesis 3:15
+0|¿Qué nombre puso Adán a su mujer, por ser madre de todos los vivientes?|Eva|Sara;Lea;Noemí|Génesis 3:20
+0|Según Génesis 4:2, ¿qué oficio tenía Abel?|Pastor de ovejas|Labrador de la tierra;Cazador de fieras;Herrero de metales|Génesis 4:2
+2|¿Qué le sucedió a Henoch, según Génesis 5:24?|Desapareció, porque Dios se lo llevó|Murió a los 365 años en una cueva;Fue arrebatado en un carro de fuego;Fue sepultado por sus hijos|Génesis 5:24
+2|¿Cuántos codos de longitud tenía el arca de Noé?|Trescientos|Cien;Doscientos;Cuatrocientos|Génesis 6:15
+2|Según Génesis 10:9, ¿qué era Nimrod delante de Jehová?|Vigoroso cazador|Valiente pastor;Sabio constructor;Fiel profeta|Génesis 10:9
+1|¿Qué rey de Salem sacó pan y vino, siendo sacerdote del Dios alto?|Melquisedec|Abimelec;Adonisedec;Amraphel|Génesis 14:18
+1|¿Quién se rió dentro de sí al oír que tendría un hijo en su vejez?|Sara|Agar;Rebeca;Raquel|Génesis 18:12
+1|Según Génesis 22:2, ¿a qué tierra mandó Dios a Abraham a ofrecer a Isaac?|A la tierra de Moriah|A la tierra de Egipto;A la tierra de Canaán;A la tierra de Gerar|Génesis 22:2
+1|¿Cómo fue llamado Esaú por pedir de comer del guisado bermejo?|Edom|Seir;Israel;Moab|Génesis 25:30
+1|¿Cuántos años sirvió Jacob al principio por Raquel?|Siete|Tres;Diez;Catorce|Génesis 29:20
+2|¿Qué nombre puso Jacob al lugar donde vio a Dios cara a cara?|Peniel|Bethel;Mahanaim;Succoth|Génesis 32:30
+1|¿Con quién estaba Jehová en la casa de su señor egipcio, haciéndolo prosperar?|Con José|Con Moisés;Con Jacob;Con Daniel|Génesis 39:2
+1|Según Génesis 50:20, ¿qué hizo Dios con el mal que pensaron contra José?|Lo encaminó a bien|Lo castigó con severidad;Lo olvidó para siempre;Lo multiplicó contra ellos|Génesis 50:20
+1|¿A qué edad murió José, según Génesis 50:26?|Ciento diez años|Ochenta años;Ciento veinte años;Cien años|Génesis 50:26
+1|¿Qué respondió Dios a Moisés cuando le preguntó su nombre?|YO SOY EL QUE SOY|El Dios de las alturas;El Señor de los ejércitos;El Altísimo|Éxodo 3:14
+2|¿Cuántos hombres de a pie, sin contar los niños, salieron de Egipto?|Seiscientos mil|Trescientos mil;Un millón;Cien mil|Éxodo 12:37
+1|¿Qué tomó María la profetisa en su mano mientras las mujeres danzaban?|Un pandero|Un arpa;Una flauta;Una trompeta|Éxodo 15:20
+2|¿Quiénes sostenían las manos de Moisés para que ganara Israel?|Aarón y Hur|Josué y Caleb;Eleazar e Itamar;Nadab y Abiú|Éxodo 17:12
+1|Según Éxodo 34:28, ¿cuántos días estuvo Moisés con Jehová sin comer pan?|Cuarenta|Treinta;Sesenta;Cincuenta|Éxodo 34:28
+2|Según Levítico 11:3, ¿qué animales se podían comer?|Los de pezuña hendida que rumian|Los que tienen alas y vuelan;Los que nadan en las aguas;Los que reptan sobre la tierra|Levítico 11:3
+2|Según Levítico 23:24, ¿con qué sonido se conmemoraba el primer día del mes séptimo?|Con trompetas|Con panderos;Con arpas;Con címbalos|Levítico 23:24
+1|¿Dónde murió Aarón, según Números 20:28?|En la cumbre del monte|En el desierto de Sin;En Cades;En el valle del Jordán|Números 20:28
+2|¿A quién vistió Moisés con los vestidos de Aarón antes de que muriera?|A Eleazar, su hijo|A Itamar, su hijo;A Josué;A Finees, su nieto|Números 20:28
+2|Según Números 23:19, ¿qué dice que Dios no es?|Hombre, para que mienta|Un rey de la tierra;Un espíritu del mal;Un ángel|Números 23:19
+2|Según Números 24:17, ¿qué saldrá de Jacob?|Una estrella|Un río;Un monte;Un rey de oro|Números 24:17
+1|¿Qué envió Jehová entre el pueblo que murmuraba, según Números 21:6?|Serpientes ardientes|Plagas de langostas;Fuego del cielo;Hambre|Números 21:6
+1|Según Deuteronomio 6:4, ¿cómo es Jehová nuestro Dios?|Uno|Santo;Eterno;Justo|Deuteronomio 6:4
+2|Según Deuteronomio 18:15, ¿de dónde levantaría Jehová un profeta como Moisés?|De entre los hermanos|De otra nación;Del cielo;De los sacerdotes|Deuteronomio 18:15
+2|En Deuteronomio 32:10, ¿cómo guardó Dios a su pueblo?|Como la niña de su ojo|Como un pastor a su rebaño;Como un águila a sus polluelos;Como un padre a su hijo|Deuteronomio 32:10
+2|¿Qué dejó de caer cuando los israelitas comieron del fruto de la tierra, según Josué 5:12?|El maná|La lluvia;El rocío;Las codornices|Josué 5:12
+0|¿Qué pasó con el muro de Jericó cuando el pueblo dio grita?|Cayó|Se incendió;Se abrió una puerta;Se llenó de agua|Josué 6:20
+0|¿Quién era la profetisa, mujer de Lapidoth, que gobernaba a Israel?|Débora|Jael;María;Ana|Jueces 4:4
+1|¿Qué dijo el ángel de Jehová a Gedeón al aparecérsele?|Jehová es contigo, varón esforzado|Levántate y pelea contra Madián;No temas, tú eres el elegido;Tu pueblo será grande y fuerte|Jueces 6:12
+2|En el enigma de Sansón, ¿qué salió del fuerte?|Dulzura|Fuego;Agua;Sangre|Jueces 14:14
+2|¿Quién engendró a Booz, según Rut 4:21?|Salmón|Naasón;Obed;Isaí|Rut 4:21
+1|¿Cuándo llegaron Noemí y Rut a Belén, según Rut 1:22?|Al principio de la siega de la cebada|Al final del invierno;En la vendimia;En la fiesta de las trompetas|Rut 1:22
+2|Según 1 Samuel 15:22, ¿qué es mejor que los sacrificios?|Obedecer|Ayunar;Orar;Diezmar|1 Samuel 15:22
+1|Según 1 Samuel 16:7, ¿qué mira Jehová?|El corazón|El rostro;La estatura;Las obras|1 Samuel 16:7
+1|¿Qué nombre puso Samuel a la piedra que levantó entre Mizpa y Sen?|Eben-ezer|Beth-el de Jacob;Gilgal del Jordán;Peniel de Jacob|1 Samuel 7:12
+2|Según 1 Samuel 13:14, ¿qué clase de varón se buscó Jehová?|Uno según su corazón|Uno de gran estatura;Uno de la tribu de Leví;Uno experto en la guerra|1 Samuel 13:14
+1|¿Cómo era Saúl entre los hijos de Israel, según 1 Samuel 9:2?|El más hermoso y más alto|El más rico de la tribu;El más sabio del pueblo;El más joven de sus hermanos|1 Samuel 9:2
+1|¿Cuántos años tenía David cuando comenzó a reinar?|Treinta|Veinte;Cuarenta;Quince|2 Samuel 5:4
+2|¿Qué defecto físico tenía el hijo de Jonatán, según 2 Samuel 9:3?|Era lisiado de los pies|Era ciego;Era sordo;Le faltaba una mano|2 Samuel 9:3
+1|¿Qué le dijo Nathán a David al descubrirle su pecado?|Tú eres aquel hombre|Has pecado contra Jehová;Dios te castigará;Tu reino se acabará|2 Samuel 12:7
+1|¿Qué gritó David al enterarse de la muerte de Absalom?|¡Hijo mío Absalom!|¡Ay de mi reino!;¡Vengaré a mi hijo!;¡Jehová me ha abandonado!|2 Samuel 18:33
+2|¿Cuántas mujeres reinas tuvo Salomón, según 1 Reyes 11:3?|Setecientas|Trescientas;Mil;Cien|1 Reyes 11:3
+2|Según 1 Reyes 8:27, ¿qué no pueden contener a Dios?|Los cielos de los cielos|Las montañas de Israel;El templo de oro;Los mares y los ríos|1 Reyes 8:27
+1|¿Qué preguntó Elías al pueblo sobre claudicar?|¿Hasta cuándo claudicaréis entre dos pensamientos?|¿Quién es el Dios verdadero en Israel?;¿Cuántos profetas de Baal hay aquí?;¿Dónde está vuestro rey y su ejército?|1 Reyes 18:21
+2|¿Qué vio el mozo de Eliseo cuando Jehová abrió sus ojos?|El monte lleno de carros y caballos de fuego|Un ángel con una espada desnuda;Un ejército de leones y osos;Una nube de fuego sobre la casa|2 Reyes 6:17
+2|¿Qué libro halló el sumo sacerdote Hilcías en la casa de Jehová?|El libro de la ley|Los salmos de David;Las crónicas del reino;El libro de Josué|2 Reyes 22:8
+2|Según 1 Crónicas 29:11, ¿de quién es la magnificencia, el poder y la gloria?|De Jehová|Del rey David;De los ángeles;Del templo|1 Crónicas 29:11
+2|Según 2 Crónicas 16:9, ¿qué contemplan los ojos de Jehová?|Toda la tierra|Los corazones de los reyes;El templo;Las naciones paganas|2 Crónicas 16:9
+2|Según 2 Crónicas 20:15, ¿de quién es la guerra?|De Dios|Del rey Josaphat;De Judá;De los ejércitos|2 Crónicas 20:15
+1|¿En qué monte comenzó Salomón a edificar la casa de Jehová?|Moria|Sinaí;Carmelo;Sión|2 Crónicas 3:1
+2|Según Nehemías 8:10, ¿qué es la fortaleza del pueblo?|El gozo de Jehová|El temor de Jehová;La unidad;La ley de Moisés|Nehemías 8:10
+1|¿Qué respondió Nehemías a los que lo llamaban a bajar?|Yo hago una grande obra, y no puedo ir|Estoy enfermo y no puedo ir;Iré mañana cuando termine;No tengo permiso del rey para ir|Nehemías 6:3
+2|Según Ester 4:14, ¿para qué quizá había llegado Ester al reino?|Para esta hora|Para ser reina de Persia;Para salvar a Mardochêo;Para vengar a su pueblo|Ester 4:14
+2|¿En qué fue colgado Amán?|En la horca que preparó para Mardochêo|En una cruz en medio de la ciudad;En la torre del palacio del rey;En la puerta de la ciudad de Susán|Ester 7:10
+2|¿Sobre cuántas provincias reinó Asuero, según Ester 1:1?|Ciento veinte y siete|Ciento veinte;Setenta y siete;Doscientas siete|Ester 1:1
+2|¿Qué le dijo a Job su mujer, según Job 2:9?|Bendice a Dios, y muérete|Confía en Dios, y vivirás;Pide perdón, y sé sano;Huye de este lugar, Job|Job 2:9
+2|Según Job 13:15, ¿qué dice Job que hará aunque Dios lo mate?|Esperar en él|Maldecirlo;Huir de él;Callar para siempre|Job 13:15
+2|¿Qué le preguntó Dios a Job desde el torbellino sobre la tierra?|¿Dónde estabas cuando yo fundaba la tierra?|¿Quién te dio la vida y el aliento?;¿Por qué has dudado de mi justicia?;¿Dónde están tus hijos y tus siervos?|Job 38:4
+2|Según Job 42:5, ¿qué dice Job que ahora ven sus ojos?|A Dios|La verdad;Su fin;Su restauración|Job 42:5
+1|Según Salmos 14:1, ¿quién dijo en su corazón «No hay Dios»?|El necio|El rico;El impío;El rey|Salmos 14:1
+1|En Salmos 22:1, ¿qué pregunta hace el salmista a Dios?|¿Por qué me has dejado?|¿Cuándo vendrás?;¿Dónde está tu justicia?;¿Hasta cuándo me olvidarás?|Salmos 22:1
+0|Según Salmos 24:1, ¿de quién es la tierra y su plenitud?|De Jehová|Del rey David;De los hombres;De los ángeles|Salmos 24:1
+1|¿Con qué compara el Salmo 42:1 el clamor del alma por Dios?|Con el ciervo que brama por las aguas|Con el águila que vuela hacia lo alto;Con el león que ruge en la selva;Con la paloma que busca su nido|Salmos 42:1
+1|Según Salmos 55:6, ¿qué deseaba el salmista tener como de paloma?|Alas|Plumas;Un nido;Un canto|Salmos 55:6
+1|Según Salmos 84:10, ¿qué es mejor que mil fuera de los atrios de Dios?|Un día en sus atrios|Un año de reposo;Un monte de oro;Un día de victoria|Salmos 84:10
+2|Según Salmos 90:12, ¿qué pedimos que traigamos al corazón al contar nuestros días?|Sabiduría|Alegría;Paz;Fortaleza|Salmos 90:12
+2|Según Salmos 110:1, ¿dónde dijo Jehová a su Señor que se sentara?|A su diestra|A su izquierda;En su trono de oro;Sobre el monte Sión|Salmos 110:1
+1|Según Salmos 118:22, ¿en qué vino a ser convertida la piedra desechada?|En cabeza del ángulo|En el altar;En una columna;En la puerta del templo|Salmos 118:22
+0|Según Salmos 121:2, ¿de dónde viene el socorro del salmista?|De Jehová, que hizo los cielos y la tierra|De los montes que rodean la ciudad;Del rey y de sus ejércitos;De sus amigos y de sus hermanos|Salmos 121:2
+2|Según Salmos 127:1, ¿qué es en vano si Jehová no edifica la casa?|Que trabajen los que la edifican|Que la casa tenga puertas;Que se guarden los vecinos;Que se pida ayuda|Salmos 127:1
+2|Según Salmos 139:14, ¿de qué dice el salmista que es formidable y maravilloso?|De sus obras|De sus leyes;De sus palabras;De sus siervos|Salmos 139:14
+1|Según Proverbios 4:23, ¿qué debemos guardar sobre toda cosa guardada?|El corazón|La lengua;La casa;El camino|Proverbios 4:23
+1|Según Proverbios 14:12, ¿en qué terminan los caminos que al hombre le parecen derechos?|En caminos de muerte|En caminos de paz;En un desierto;En una ciudad|Proverbios 14:12
+1|Según Proverbios 17:22, ¿qué produce buena disposición?|El corazón alegre|La riqueza guardada;El descanso del cuerpo;El buen vino con pan|Proverbios 17:22
+1|Según Proverbios 18:22, ¿qué halló el que halló esposa?|El bien|La paz;La riqueza;La sabiduría|Proverbios 18:22
+1|Según Proverbios 27:1, ¿de qué no debemos jactarnos?|Del día de mañana|De nuestras riquezas;De nuestra fuerza;De nuestro nombre|Proverbios 27:1
+2|Según Proverbios 28:13, ¿qué alcanza el que confiesa sus pecados y se aparta?|Misericordia|Riquezas;Honra;Larga vida|Proverbios 28:13
+2|Según Proverbios 29:18, ¿qué pasa sin profecía?|El pueblo será disipado|El pueblo será bendecido;El rey se enriquecerá;El templo se llenará|Proverbios 29:18
+2|Según Eclesiastés 4:12, ¿cómo es el cordón que no se rompe pronto?|De tres dobleces|De dos hilos;De siete nudos;De oro fino|Eclesiastés 4:12
+1|Según Eclesiastés 7:1, ¿qué es mejor que el buen ungüento?|La buena fama|La riqueza;El silencio;La juventud|Eclesiastés 7:1
+2|Según Cantares 8:7, ¿qué no podrán apagar las muchas aguas?|El amor|La luz;El fuego;La fe|Cantares 8:7
+1|Según Isaías 9:2, ¿qué vio el pueblo que andaba en tinieblas?|Una gran luz|Un gran río;Una estrella;Un ángel|Isaías 9:2
+1|Según Isaías 26:3, ¿en qué guarda Dios al que confía en él?|En completa paz|En un lugar seguro;En el templo;En la montaña|Isaías 26:3
+1|Según Isaías 40:8, ¿qué permanece para siempre?|La palabra del Dios nuestro|La gloria del hombre mortal;La flor verde del campo;El reino del rey David|Isaías 40:8
+1|Según Isaías 43:1, ¿qué dice Jehová a Jacob que no haga?|Temer|Llorar;Huir;Callar|Isaías 43:1
+2|Según Isaías 49:15, aunque una madre se olvidara de su hijo, ¿qué dice Dios?|Que él no se olvidará de su pueblo|Que él también se olvidará de ellos;Que enviará otra madre a Sión;Que castigará a la madre olvidadiza|Isaías 49:15
+2|Según Isaías 52:7, ¿qué son hermosos sobre los montes?|Los pies del que trae alegres nuevas|Los cedros altos del Líbano;Las nubes blancas del cielo;Las manos del sacerdote santo|Isaías 52:7
+1|Según Isaías 55:1, ¿a quiénes invita el profeta a venir a las aguas?|A todos los sedientos|A todos los ricos del pueblo;A todos los sacerdotes del templo;A todos los guerreros del rey|Isaías 55:1
+2|Según Isaías 64:8, ¿qué somos nosotros y qué es Jehová?|Nosotros lodo y él el que nos formó|Nosotros polvo y él el que nos sopló;Nosotros ovejas y él el pastor;Nosotros hijos y él el rey|Isaías 64:8
+1|Según Isaías 2:4, ¿en qué volverán sus espadas?|En rejas de arado|En escudos de bronce;En azadones de hierro;En hoces de segar|Isaías 2:4
+2|Según Isaías 38:5, ¿cuántos años añadió Jehová a los días de Ezechîas?|Quince|Diez;Veinte;Siete|Isaías 38:5
+1|Según Jeremías 17:9, ¿cómo es el corazón más que todas las cosas?|Engañoso|Duro;Cansado;Ciego|Jeremías 17:9
+1|Según Jeremías 29:13, ¿cuándo hallaremos a Dios?|Cuando lo busquemos de todo corazón|Cuando ayunemos cuarenta días;Cuando vayamos al templo;Cuando estemos en paz|Jeremías 29:13
+1|Según Jeremías 33:3, ¿qué dice Jehová que hará cuando clamemos a él?|Responder y enseñar cosas grandes|Enviar fuego del cielo sobre ti;Darnos riquezas y honra;Cerrar las puertas de la ciudad|Jeremías 33:3
+2|Según Jeremías 31:31, ¿qué haría Jehová con la casa de Jacob y la casa de Judá?|Un nuevo pacto|Un nuevo templo;Un nuevo rey;Una nueva ley de piedra|Jeremías 31:31
+2|Según Jeremías 13:23, ¿qué no puede mudar el leopardo?|Sus manchas|Su velocidad;Su fuerza;Su camino|Jeremías 13:23
+2|Según Jeremías 8:22, ¿qué pregunta el profeta que había en Galaad?|Bálsamo|Oro;Un templo;Un profeta|Jeremías 8:22
+2|Según Jeremías 20:9, ¿cómo describe Jeremías la palabra de Jehová en su corazón?|Como un fuego ardiente metido en sus huesos|Como una luz que brilla en la oscuridad;Como una espada afilada de dos filos;Como un río de paz en el desierto|Jeremías 20:9
+1|Según Ezequiel 18:20, ¿quién morirá?|El alma que pecare|Todo el pueblo;El hijo por el padre;El que no ofrezca sacrificios|Ezequiel 18:20
+1|Según Ezequiel 37:4, ¿a qué debía profetizar Ezequiel?|A los huesos secos|A los montes de Israel;A los cuatro vientos;A los pastores|Ezequiel 37:4
+2|Según Ezequiel 34:2, ¿contra quiénes debía profetizar Ezequiel?|Contra los pastores de Israel|Contra los sacerdotes;Contra los reyes de Babilonia;Contra los falsos profetas|Ezequiel 34:2
+1|Según Daniel 1:8, ¿en qué propuso Daniel no contaminarse?|En la comida y el vino del rey|En los ídolos de Babilonia;En el día de reposo;En la ropa de los caldeos|Daniel 1:8
+0|Según Daniel 3:17, ¿de qué dijeron los tres jóvenes que su Dios los podía librar?|Del horno de fuego ardiendo|Del foso de los leones;De la espada del rey;Del mar|Daniel 3:17
+1|¿Quién hizo un gran banquete a mil de sus príncipes, según Daniel 5:1?|El rey Belsasar|El rey Nabucodonosor;El rey Darío;El rey Ciro|Daniel 5:1
+2|¿Cómo era el vestido del Anciano de grande edad en Daniel 7:9?|Blanco como la nieve|Rojo como la sangre;Dorado como el sol;Azul como el cielo|Daniel 7:9
+2|Según Daniel 12:3, ¿cómo resplandecerán los entendidos?|Como el resplandor del firmamento|Como el sol del mediodía;Como el oro del templo;Como un relámpago del cielo|Daniel 12:3
+2|En Daniel 9:2, ¿qué miró atentamente Daniel en los libros?|El número de los años|Los nombres de los reyes;Las leyes de Moisés;Las genealogías|Daniel 9:2
+1|¿Qué pidió Jonás a los marineros que hicieran con él para que se quietara la mar?|Que lo echaran a la mar|Que remaran más fuerte;Que oraran a su Dios;Que bajaran las velas|Jonás 1:12
+2|Según Jonás 2:10, ¿qué mandó Jehová al pez?|Que vomitase a Jonás en tierra|Que llevase a Jonás a Nínive;Que se hundiese en el mar;Que protegiese el barco|Jonás 2:10
+1|Según Jonás 3:10, ¿de qué se arrepintió Dios?|Del mal que había dicho que haría|De haber creado a Nínive;De haber enviado a Jonás;De haber enviado la tempestad|Jonás 3:10
+2|Según Jonás 4:11, ¿cuántas personas había en Nínive que no sabían distinguir su mano derecha de su izquierda?|Más de ciento veinte mil|Más de mil personas;Más de diez mil personas;Más de ochenta mil personas|Jonás 4:11
+1|Según Mateo 5:14, ¿qué no se puede esconder?|Una ciudad asentada sobre un monte|Una lámpara en el candelero;Una estrella;Un río|Mateo 5:14
+2|Según Mateo 6:26, ¿qué dice Jesús que miremos, que no siembran ni siegan?|Las aves del cielo|Los lirios del campo;Los peces del mar;Las hormigas|Mateo 6:26
+1|Según Mateo 11:28, ¿a quiénes invita Jesús a venir a él?|A los trabajados y cargados|A los ricos y poderosos;A los que no tienen pecado;A los sacerdotes|Mateo 11:28
+0|Según Mateo 19:14, ¿qué dijo Jesús que dejaran venir a él?|Los niños|Los enfermos;Los extranjeros;Los ancianos|Mateo 19:14
+2|Según Mateo 22:37, ¿con qué amarás al Señor, además del corazón y el alma?|Con toda tu mente|Con todas tus fuerzas;Con todos tus bienes;Con toda tu voluntad|Mateo 22:37
+2|Según Mateo 28:6, ¿qué dijo el ángel junto al sepulcro?|No está aquí, porque ha resucitado|Id y decid a Pedro que viene;No temáis, vuestro Señor vive;Venid y ved su cuerpo|Mateo 28:6
+1|Según Marcos 8:36, ¿qué no aprovecha al hombre?|Ganar todo el mundo y perder su alma|Perder todos sus bienes y riquezas;Vivir muchos años en la tierra;Tener muchos amigos y conocidos|Marcos 8:36
+2|¿Qué dijo el padre del muchacho a Jesús, según Marcos 9:24?|Creo, ayuda mi incredulidad|Señor, ten misericordia de mí;Hijo de David, sálvanos;Si puedes, sana a mi hijo|Marcos 9:24
+0|Según Marcos 16:15, ¿a quién debía predicarse el evangelio?|A toda criatura|A los judíos;A los príncipes;A los pobres|Marcos 16:15
+2|Según Lucas 2:52, ¿en qué crecía Jesús?|En sabiduría, edad y gracia|En fuerza, estatura y valentía;En poder, riquezas y honra;En fama, ciencia y prudencia|Lucas 2:52
+2|Según Lucas 5:4, ¿qué dijo Jesús a Simón que hiciera?|Tirar a alta mar y echar las redes|Volver a la orilla y descansar;Remendar las redes en el barco;Esperar hasta la noche para pescar|Lucas 5:4
+2|¿A quién dijo Jesús «Mancebo, a ti digo, levántate»?|Al hijo de una viuda|A la hija de Jairo;A Lázaro;Al paralítico de Capernaum|Lucas 7:14
+2|Según Lucas 9:62, ¿quién no es apto para el reino de Dios?|El que pone la mano al arado y mira atrás|El que deja su casa y su familia;El que no carga su cruz;El que no vende lo que tiene|Lucas 9:62
+2|Según Lucas 14:28, ¿qué debe hacer primero el que quiere edificar una torre?|Contar los gastos|Pedir permiso al rey;Buscar piedras;Orar|Lucas 14:28
+1|Según Lucas 19:10, ¿a qué vino el Hijo del hombre?|A buscar y salvar lo que se había perdido|A juzgar a las naciones de la tierra;A traer espada y no paz al mundo;A restaurar el reino a Israel|Lucas 19:10
+1|Según Juan 4:24, ¿cómo deben adorar a Dios los que le adoran?|En espíritu y en verdad|Con sacrificios y ofrendas;En el templo de Jerusalem;De rodillas y en silencio|Juan 4:24
+2|En Juan 6:9, ¿qué tenía el muchacho que estaba allí?|Cinco panes de cebada y dos pececillos|Siete panes y unos peces;Cinco panes de trigo y tres peces;Doce panes y un cordero|Juan 6:9
+2|¿Qué dijo Jesús a los que querían apedrear a la mujer adúltera?|El que esté sin pecado, arroje la primera piedra|Que ella se arrepienta primero de todo;Apedreadla fuera de las puertas de la ciudad;Id y no pequéis más en adelante|Juan 8:7
+2|Según Juan 10:10, ¿para qué viene el ladrón?|Para hurtar, matar y destruir|Para engañar y esclavizar;Para guardar el redil;Para vigilar la noche|Juan 10:10
+0|¿Qué dijo Jesús a gran voz ante el sepulcro de Lázaro?|Lázaro, ven fuera|Lázaro, despierta;Lázaro, levántate y anda;Lázaro, sal de la tumba|Juan 11:43
+2|Según Juan 15:5, ¿quién es la vid y quiénes los pámpanos?|Jesús es la vid y nosotros los pámpanos|Dios es la vid y Jesús el pámpano;Jesús es el labrador y nosotros la vid;Nosotros somos la vid y Dios el pámpano|Juan 15:5
+2|¿Cómo se llamaba el siervo del pontífice a quien Pedro cortó la oreja derecha?|Malco|Caifás;Anás;Barrabás|Juan 18:10
+2|Según Juan 20:29, ¿quiénes son bienaventurados?|Los que no vieron y creyeron|Los que ven milagros;Los que ayunan;Los que sirven al Señor|Juan 20:29
+1|Según Hechos 1:8, ¿dónde serían testigos los discípulos, además de Jerusalem y Judea?|En Samaria y hasta lo último de la tierra|En Galilea y en la tierra de Egipto;En Roma y en toda Grecia;En Babilonia y en toda Asia|Hechos 1:8
+1|¿Qué dijo Pedro al cojo de la puerta del templo?|Ni tengo plata ni oro; mas lo que tengo te doy|Levántate, que tu fe te ha sanado;Toma tu lecho y anda en paz ahora;Ve y lávate en el estanque de Siloé|Hechos 3:6
+2|¿Qué dijo Esteban al morir, de rodillas y a gran voz?|Señor, no les imputes este pecado|Señor Jesús, recibe mi espíritu;Padre, perdónalos;Dios mío, ayúdame|Hechos 7:60
+2|¿Qué cargo tenía el etíope que Felipe encontró en el camino?|Estaba puesto sobre todos los tesoros de la reina Candace|Era capitán del ejército de la reina;Era médico personal del rey de Etiopía;Era sacerdote de los dioses de Etiopía|Hechos 8:27
+0|¿Qué centurión de la compañía Italiana vivía en Cesarea?|Cornelio|Julio;Claudio;Sergio|Hechos 10:1
+1|¿A quién mató a cuchillo el rey Herodes, según Hechos 12:2?|A Jacobo, hermano de Juan|A Pedro, el pescador de Galilea;A Esteban, el diácono;A Pablo, el apóstol de los gentiles|Hechos 12:2
+1|¿Qué otro nombre tenía Saulo, según Hechos 13:9?|Pablo|Bernabé;Silas;Bar-jesús|Hechos 13:9
+2|Según Hechos 17:11, ¿por qué eran más nobles los de Berea?|Escudriñaban cada día las Escrituras|Daban más ofrendas al templo;Eran más ricos que los demás;Habían oído antes a Jesús|Hechos 17:11
+2|Según Hechos 20:35, ¿qué dijo el Señor Jesús que es más bienaventurado?|Dar que recibir|Orar que ayunar;Enseñar que aprender;Callar que hablar|Hechos 20:35
+1|Según Romanos 5:1, ¿qué tenemos para con Dios al ser justificados por la fe?|Paz|Gozo;Riquezas;Poder|Romanos 5:1
+2|Según Romanos 8:31, ¿qué pregunta hace Pablo si Dios es por nosotros?|¿Quién contra nosotros?|¿Quién nos separará?;¿Quién nos condenará?;¿Quién nos librará?|Romanos 8:31
+2|Según Romanos 12:18, ¿con quiénes debemos tener paz, si se puede?|Con todos los hombres|Con nuestros hermanos;Con los vecinos;Con los gobernantes|Romanos 12:18
+2|Según Romanos 15:13, ¿cómo se llama el Dios que nos llena de todo gozo y paz?|El Dios de esperanza|El Dios de paz;El Dios de toda gracia;El Dios de los ejércitos|Romanos 15:13
+2|Según 1 Corintios 3:6, ¿quién plantó y quién regó?|Pablo plantó y Apolos regó|Apolos plantó y Pablo regó;Pedro plantó y Pablo regó;Pablo plantó y Timoteo regó|1 Corintios 3:6
+2|Según 1 Corintios 6:19, ¿de qué es templo nuestro cuerpo?|Del Espíritu Santo|De Cristo Jesús mismo;De la iglesia universal;De la ley de Moisés|1 Corintios 6:19
+1|Según 1 Corintios 15:58, ¿cómo debemos estar?|Firmes y constantes|Alegres y ricos;Callados y quietos;Libres y solos|1 Corintios 15:58
+2|Según 2 Corintios 1:3, ¿cómo se llama al Padre del Señor Jesucristo?|Padre de misericordias|Padre de las luces;Padre de gloria;Padre de los ejércitos|2 Corintios 1:3
+2|Según 2 Corintios 3:17, ¿dónde hay libertad?|Donde está el Espíritu del Señor|Donde está la ley de Moisés;Donde hay riquezas y poder;Donde hay paz entre los hombres|2 Corintios 3:17
+2|¿Cuántos azotes recibió Pablo de los judíos cinco veces, según 2 Corintios 11:24?|Cuarenta menos uno|Treinta;Cincuenta;Cuarenta y uno|2 Corintios 11:24
+2|Según 2 Corintios 5:21, ¿qué hizo Dios con el que no conoció pecado?|Lo hizo pecado por nosotros|Lo exaltó;Lo ocultó;Lo juzgó por sus obras|2 Corintios 5:21
+2|Según Gálatas 4:4, ¿qué hizo Dios al venir el cumplimiento del tiempo?|Envió a su Hijo|Envió un profeta;Envió un ángel;Envió fuego|Gálatas 4:4
+1|Según Gálatas 5:1, ¿en qué debemos estar firmes?|En la libertad con que Cristo nos hizo libres|En la ley que dio Moisés al pueblo;En la tradición de los ancianos;En las obras que hacemos cada día|Gálatas 5:1
+2|Según Gálatas 6:14, ¿en qué quiere gloriarse Pablo?|En la cruz de nuestro Señor Jesucristo|En sus visiones y revelaciones;En sus obras y trabajos;En su linaje de hebreo|Gálatas 6:14
+2|Según Efesios 2:10, ¿de quién somos hechura?|De Dios|De la ley;Del tiempo;Del mundo|Efesios 2:10
+1|Según Efesios 4:5, ¿cuántos bautismos hay?|Uno|Dos;Tres;Siete|Efesios 4:5
+1|Según Efesios 6:14, ¿con qué debemos ceñir nuestros lomos?|Con la verdad|Con la fe;Con la justicia;Con la paz|Efesios 6:14
+1|Según Filipenses 1:21, ¿qué es para Pablo el vivir?|Cristo|Ganancia;Servicio;Esperanza|Filipenses 1:21
+2|Según Filipenses 3:14, ¿hacia qué prosigue Pablo?|Al blanco, al premio de la soberana vocación|A la meta final del cielo;A la tierra que Dios prometió;A la ciudad santa de Jerusalem|Filipenses 3:14
+2|Según Filipenses 3:20, ¿dónde está nuestra vivienda?|En los cielos|En la tierra;En Jerusalem;En el reino de David|Filipenses 3:20
+1|Según Filipenses 4:19, ¿cómo suplirá Dios todo lo que nos falta?|Conforme a sus riquezas en gloria|Conforme a nuestras buenas obras;Conforme a nuestro ahorro de dinero;Conforme a la ley de Moisés|Filipenses 4:19
+1|¿Qué profesión tenía Lucas, según Colosenses 4:14?|Médico|Pescador;Escriba;Recaudador|Colosenses 4:14
+2|Según Colosenses 3:16, ¿qué debe habitar en nosotros en abundancia?|La palabra de Cristo|El amor de Dios;La paz de Dios;La ley de Moisés|Colosenses 3:16
+1|Según 1 Tesalonicenses 5:18, ¿qué debemos hacer en todo?|Dar gracias|Orar sin cesar;Callar y esperar;Ayunar y velar|1 Tesalonicenses 5:18
+2|Según 1 Tesalonicenses 4:13, ¿cómo llama Pablo a los que mueren?|Los que duermen|Los que descansan;Los que parten;Los que se van|1 Tesalonicenses 4:13
+2|Según 2 Tesalonicenses 1:7, ¿con quiénes se manifestará el Señor Jesús del cielo?|Con los ángeles de su potencia|Con sus apóstoles y discípulos;Con los santos del Antiguo Testamento;Con fuego y con trompetas|2 Tesalonicenses 1:7
+2|Según 1 Timoteo 6:12, ¿qué debía pelear Timoteo?|La buena batalla de la fe|La batalla contra la carne;La carrera;La lucha contra los gentiles|1 Timoteo 6:12
+2|Según 1 Timoteo 5:23, ¿qué le recomienda Pablo a Timoteo por causa del estómago?|Un poco de vino|Más pan;Hierbas amargas;Agua de la fuente|1 Timoteo 5:23
+0|Según 1 Timoteo 1:15, ¿a qué vino Cristo Jesús al mundo?|A salvar a los pecadores|A juzgar a los malos;A fundar un reino;A enseñar la ley|1 Timoteo 1:15
+2|¿Qué le pide Pablo a Timoteo que le traiga de Troas?|El capote y los libros|El manto y el báculo;Su carta y su espada;El pan y el vino|2 Timoteo 4:13
+2|Según 2 Timoteo 3:12, ¿qué padecerán los que quieren vivir píamente en Cristo?|Persecución|Pobreza;Enfermedad;Soledad|2 Timoteo 3:12
+2|Según 2 Timoteo 4:2, ¿qué debe hacer Timoteo a tiempo y fuera de tiempo?|Instar, predicando la palabra|Callar y esperar en silencio;Orar y ayunar cada día;Viajar y enseñar a los gentiles|2 Timoteo 4:2
+2|Según Tito 1:12, ¿cómo llama uno de ellos, su propio profeta, a los cretenses?|Siempre mentirosos|Siempre rebeldes;Siempre pobres;Siempre guerreros|Tito 1:12
+1|Según Tito 3:1, ¿a quiénes debían sujetarse los creyentes?|A los príncipes y potestades|A los ancianos solamente;A los sacerdotes;A los vecinos|Tito 3:1
+2|Según Filemón 18, ¿qué le pide Pablo a Filemón si Onésimo le debía algo?|Ponerlo a su cuenta|Perdonarlo sin decirle;Venderlo como esclavo;Enviarlo de vuelta con azotes|Filemón 18
+1|Según Hebreos 4:16, ¿hacia dónde debemos llegarnos confiadamente?|Al trono de la gracia|Al templo de Jerusalem;Al monte Sión del Señor;Al altar de los sacrificios|Hebreos 4:16
+1|Según Hebreos 9:27, ¿qué está establecido a los hombres?|Morir una vez, y después el juicio|Vivir para siempre;Resucitar dos veces;Ser juzgados por los ángeles|Hebreos 9:27
+2|Según Hebreos 10:25, ¿qué no debemos dejar?|Nuestra congregación|Nuestras ofrendas;Nuestras casas;Nuestra oración|Hebreos 10:25
+2|Según Hebreos 11:3, ¿por medio de qué fueron compuestos los siglos?|Por la palabra de Dios|Por la sabiduría de los hombres;Por la luz;Por el tiempo|Hebreos 11:3
+2|Según Hebreos 12:6, ¿a quién castiga el Señor?|Al que ama|Al que peca;Al que se rebela;Al que duda|Hebreos 12:6
+2|Según Santiago 1:17, ¿cómo se llama a Dios, de quien desciende toda buena dádiva?|Padre de las luces|Padre de misericordias;Padre eterno;Padre de gloria|Santiago 1:17
+1|Según Santiago 5:14, ¿a quiénes debe llamar el enfermo?|A los ancianos de la iglesia|A los apóstoles de Jerusalem;A los médicos de la ciudad;A los profetas del Señor|Santiago 5:14
+2|Según 1 Pedro 1:24, ¿a qué se compara toda carne?|A la hierba|A la flor;Al polvo;A la nieve|1 Pedro 1:24
+1|Según 1 Pedro 2:2, ¿qué deben desear los creyentes como niños recién nacidos?|La leche espiritual|El pan del cielo;El vino nuevo;La miel|1 Pedro 2:2
+2|Según 1 Pedro 5:5, ¿de qué deben revestirse todos?|De humildad|De fortaleza;De oro;De sabiduría|1 Pedro 5:5
+2|Según 2 Pedro 1:21, ¿cómo hablaron los santos hombres de Dios?|Siendo inspirados por el Espíritu Santo|Por voluntad humana y por deseo;Por sueños y por visiones;Por la ley de Moisés|2 Pedro 1:21
+2|Según 2 Pedro 2:4, ¿qué hizo Dios con los ángeles que pecaron?|No los perdonó|Los restauró;Los envió a la tierra;Los hizo reyes|2 Pedro 2:4
+1|Según 1 Juan 2:15, ¿qué no debemos amar?|Al mundo|A nuestros enemigos;A los hermanos;A los extraños|1 Juan 2:15
+1|Según 1 Juan 3:16, ¿qué hemos conocido porque él puso su vida por nosotros?|El amor|La paz;La verdad;La esperanza|1 Juan 3:16
+1|Según 1 Juan 5:4, ¿qué es la victoria que vence al mundo?|Nuestra fe|Nuestra fuerza;Nuestra sabiduría;Nuestra paciencia|1 Juan 5:4
+2|Según 3 Juan 4, ¿cuál es el mayor gozo del autor?|Oír que sus hijos andan en la verdad|Ver crecer la iglesia en Éfeso;Recibir ofrendas de los santos;Volver pronto a Jerusalem|3 Juan 4
+2|En 2 Juan 12, ¿por qué medios no quiso comunicar muchas cosas el autor?|Por papel y tinta|Por carta sellada;Por mensajero;Por profecía|2 Juan 12
+2|Según Judas 21, ¿en qué debemos conservarnos?|En el amor de Dios|En la fe de los padres;En la ley;En la oración|Judas 21
+2|Según Judas 14, ¿qué patriarca profetizó, séptimo desde Adam?|Enoc|Noé;Set;Matusalén|Judas 14
+1|Según Apocalipsis 1:7, ¿cómo viene el Señor?|Con las nubes|En un carro de fuego;Sobre un caballo blanco;En silencio|Apocalipsis 1:7
+2|Según Apocalipsis 5:12, ¿quién es digno de tomar el poder y riquezas y sabiduría?|El Cordero que fue inmolado|El León de la tribu de Judá;El Anciano de grande edad;El primer ángel del trono|Apocalipsis 5:12
+2|Según Apocalipsis 7:9, ¿qué tenía en sus manos la gran compañía delante del trono?|Palmas|Arpas;Incensarios;Coronas|Apocalipsis 7:9
+1|¿Qué nombre está escrito en el muslo del que cabalga el caballo blanco?|Rey de reyes y Señor de señores|El Verbo de Dios, el Fiel;El Fiel y Verdadero, el Santo;Alpha y Omega, principio y fin|Apocalipsis 19:16
+2|Según Apocalipsis 21:1, ¿qué ya no es junto con el primer cielo y la primera tierra?|El mar|Los ríos;El desierto;Los montes|Apocalipsis 21:1
+1|Según Apocalipsis 22:13, ¿cómo se llama a sí mismo el que habla?|Alpha y Omega|Rey de reyes;Hijo de David;Pastor de las ovejas|Apocalipsis 22:13
+0|Según Génesis 1:27, ¿a imagen de quién creó Dios al hombre?|A imagen de Dios|A imagen de los ángeles;A imagen de la tierra;A imagen de los animales|Génesis 1:27
+0|Según Éxodo 20:13, ¿qué manda el sexto mandamiento?|No matarás|No hurtarás;No codiciarás;No mentirás|Éxodo 20:13
+0|Según Éxodo 20:12, ¿a quiénes debemos honrar?|A tu padre y a tu madre|A los reyes y a los sacerdotes;A los ancianos y a los profetas;A tus hermanos y amigos|Éxodo 20:12
+0|Según Mateo 5:9, ¿a quiénes llama Jesús bienaventurados, porque serán llamados hijos de Dios?|A los pacificadores|A los ricos;A los guerreros;A los sabios|Mateo 5:9
+0|¿Qué hizo Jesús a la cuarta vela de la noche, según Mateo 14:25?|Fue a ellos andando sobre la mar|Calmó la tempestad con su palabra;Multiplicó los panes y los peces;Oró solo en el monte|Mateo 14:25
+0|Según Lucas 2:11, ¿qué nació hoy en la ciudad de David?|Un Salvador, que es Cristo el Señor|Un rey poderoso para Israel;Un gran profeta como Moisés;Un sumo sacerdote del templo|Lucas 2:11
+0|¿Qué respondió Pablo al carcelero que preguntó qué debía hacer para ser salvo?|Cree en el Señor Jesucristo|Bautízate de inmediato;Cumple la ley;Ora tres veces al día|Hechos 16:31
+1|Según Mateo 4:4, ¿con qué debe vivir el hombre, además del pan?|Con toda palabra que sale de la boca de Dios|Con el trabajo de sus propias manos;Con la ayuda constante de los ángeles;Con el ayuno de cuarenta días|Mateo 4:4
+1|Según Lucas 10:27, ¿cómo debemos amar a nuestro prójimo?|Como a nosotros mismos|Más que a nosotros;Como a nuestros hijos;Como a Dios|Lucas 10:27
+1|Según Juan 13:35, ¿en qué conocerán todos que somos discípulos de Jesús?|Si tenemos amor los unos con los otros|Si ayunamos cada semana del año;Si vamos siempre al templo;Si nunca cometemos pecado|Juan 13:35
+1|Según Mateo 6:34, ¿de qué no debemos congojarnos?|Del día de mañana|Del vestido;Del pan;De los enemigos|Mateo 6:34
+1|Según Salmos 100:3, ¿qué somos de Jehová?|Pueblo suyo y ovejas de su prado|Siervos de su casa y de su templo;Amigos de su reino y de su mesa;Hijos de su ira y de su juicio|Salmos 100:3
+2|Según Romanos 3:10, ¿cuántos justos hay, según está escrito?|Ni aun uno|Solo unos pocos;Solo los sacerdotes;Solo los profetas|Romanos 3:10`;
 const VERSES=`Génesis 7:12|Y hubo lluvia sobre la tierra cuarenta días y cuarenta noches.
 Génesis 37|(37:28) Y como pasaban los Midianitas mercaderes, sacaron ellos á José de la cisterna, y trajéronle arriba, y le vendieron á los Ismaelitas por veinte piezas de plata. Y llevaron á José á Egipto.
 Éxodo 14|(14:21) Y extendió Moisés su mano sobre la mar, é hizo Jehová que la mar se retirase por recio viento oriental toda aquella noche; y tornó la mar en seco, y las aguas quedaron divididas.
@@ -2060,7 +2341,242 @@ Isaías 40:1|Consolaos, consolaos, pueblo mío, dice vuestro Dios.
 1 Timoteo 1:1-2|Pablo, apóstol de Jesucristo por la ordenación de Dios nuestro Salvador, y del Señor Jesucristo, nuestra esperanza; A Timoteo, verdadero hijo en la fe: Gracia, misericordia y paz de Dios nuestro Padre, y de Cristo Jesús nuestro Señor.
 Apocalipsis 6:2|Y miré, y he aquí un caballo blanco: y el que estaba sentado encima de él, tenía un arco; y le fué dada una corona, y salió victorioso, para que también venciese.
 1 Samuel 16:1|Y dijo Jehová á Samuel: ¿Hasta cuándo has tú de llorar á Saúl, habiéndolo yo desechado para que no reine sobre Israel? Hinche tu cuerno de aceite, y ven, te enviaré á Isaí de Beth-lehem: porque de sus hijos me he provisto de rey.
-1 Samuel 17:12|Y David era hijo de aquel hombre Ephrateo de Beth-lehem de Judá, cuyo nombre era Isaí, el cual tenía ocho hijos; y era este hombre en el tiempo de Saúl, viejo, y de grande edad entre los hombres.`;
+1 Samuel 17:12|Y David era hijo de aquel hombre Ephrateo de Beth-lehem de Judá, cuyo nombre era Isaí, el cual tenía ocho hijos; y era este hombre en el tiempo de Saúl, viejo, y de grande edad entre los hombres.
+Joel 1:4|Lo que quedó de la oruga comió la langosta, y lo que quedó de la langosta comió el pulgón; y el revoltón comió lo que del pulgón había quedado.
+Joel 3:10|Haced espadas de vuestros azadones, lanzas de vuestras hoces; diga el flaco: Fuerte soy.
+Amós 7:14|Entonces respondió Amós, y dijo á Amasías: No soy profeta, ni soy hijo de profeta, sino que soy boyero, y cogedor de cabrahigos:
+Amós 8:11|He aquí vienen días, dice el Señor Jehová, en los cuales enviaré hambre á la tierra, no hambre de pan, ni sed de agua, sino de oir palabra de Jehová.
+Abdías 1:15|Porque cercano está el día de Jehová sobre todas las gentes: como tú hiciste se hará contigo: tu galardón volverá sobre tu cabeza.
+Miqueas 7:19|El tornará, él tendrá misericordia de nosotros; él sujetará nuestras iniquidades, y echará en los profundos de la mar todos nuestros pecados.
+Nahúm 3:1|¡Ay de la ciudad de sangres, toda llena de mentira y de rapiña, sin apartarse de ella el pillaje!
+Habacuc 3:17|Aunque la higuera no florecerá, ni en las vides habrá frutos; mentirá la obra de la oliva, y los labrados no darán mantenimiento, y las ovejas serán quitadas de la majada, y no habrá vacas en los corrales;
+Hageo 1:4|¿Es para vosotros tiempo, para vosotros, de morar en vuestras casas enmaderadas, y esta casa está desierta?
+Zacarías 4:10|Porque los que menospreciaron el día de las pequeñeces se alegrarán, y verán la plomada en la mano de Zorobabel. Aquellas siete son los ojos de Jehová que recorren por toda la tierra.
+Lamentaciones 3:25|Bueno es Jehová á los que en él esperan, al alma que le buscare.
+Lamentaciones 5:21|Vuélvenos, oh Jehová, á ti, y nos volveremos: renueva nuestros días como al principio.
+Esdras 1:1|Y en el primer año de Ciro rey de Persia, para que se cumpliese la palabra de Jehová por boca de Jeremías, excitó Jehová el espíritu de Ciro rey de Persia, el cual hizo pasar pregón por todo su reino, y también por escrito, diciendo:
+Esdras 6:15|Y esta casa fué acabada al tercer día del mes de Adar, que era el sexto año del reinado del rey Darío.
+Esdras 3:11|Y cantaban, alabando y confesando á Jehová, y decían: Porque es bueno, porque para siempre es su misericordia sobre Israel. Y todo el pueblo aclamaba con grande júbilo, alabando á Jehová, porque á la casa de Jehová se echaba el cimiento.
+Génesis 3:15|Y enemistad pondré entre ti y la mujer, y entre tu simiente y la simiente suya; ésta te herirá en la cabeza, y tú le herirás en el calcañar.
+Génesis 3:20|Y llamó el hombre el nombre de su mujer, Eva; por cuanto ella era madre de todos los vivientes.
+Génesis 4:2|Y después parió á su hermano Abel. Y fué Abel pastor de ovejas, y Caín fué labrador de la tierra.
+Génesis 5:24|Caminó, pues, Henoch con Dios, y desapareció, porque le llevó Dios.
+Génesis 6:15|Y de esta manera la harás: de trescientos codos la longitud del arca, de cincuenta codos su anchura, y de treinta codos su altura.
+Génesis 10:9|Este fué vigoroso cazador delante de Jehová; por lo cual se dice: Así como Nimrod, vigoroso cazador delante de Jehová.
+Génesis 14:18|Entonces Melchîsedec, rey de Salem, sacó pan y vino; el cual era sacerdote del Dios alto;
+Génesis 18:12|Rióse, pues, Sara entre sí, diciendo: ¿Después que he envejecido tendré deleite, siendo también mi señor ya viejo?
+Génesis 22:2|Y dijo: Toma ahora tu hijo, tu único, Isaac, á quien amas, y vete á tierra de Moriah, y ofrécelo allí en holocausto sobre uno de los montes que yo te diré.
+Génesis 25:30|Dijo á Jacob: Ruégote que me des á comer de eso bermejo, pues estoy muy cansado. Por tanto fué llamado su nombre Edom.
+Génesis 29:20|Así sirvió Jacob por Rachêl siete años: y pareciéronle como pocos días, porque la amaba.
+Génesis 32:30|Y llamó Jacob el nombre de aquel lugar, Peniel: porque vi á Dios cara á cara, y fué librada mi alma.
+Génesis 39:2|Mas Jehová fué con José, y fué varón prosperado: y estaba en la casa de su señor el Egipcio.
+Génesis 50:20|Vosotros pensasteis mal sobre mí, mas Dios lo encaminó á bien, para hacer lo que vemos hoy, para mantener en vida á mucho pueblo.
+Génesis 50:26|Y murió José de edad de ciento diez años; y embalsamáronlo, y fué puesto en un ataúd en Egipto.
+Éxodo 3:14|Y respondió Dios á Moisés: YO SOY EL QUE SOY. Y dijo: Así dirás á los hijos de Israel: YO SOY me ha enviado á vosotros.
+Éxodo 12:37|Y partieron los hijos de Israel de Rameses á Succoth, como seiscientos mil hombres de á pie, sin contar los niños.
+Éxodo 15:20|Y María la profetisa, hermana de Aarón, tomó un pandero en su mano, y todas las mujeres salieron en pos de ella con panderos y danzas;
+Éxodo 17:12|Y las manos de Moisés estaban pesadas; por lo que tomaron una piedra, y pusiéronla debajo de él, y se sentó sobre ella: y Aarón y Hur sustentaban sus manos, el uno de una parte y el otro de otra; así hubo en sus manos firmeza hasta que se puso el sol.
+Éxodo 34:28|Y él estuvo allí con Jehová cuarenta días y cuarenta noches: no comió pan, ni bebió agua; y escribió en tablas las palabras de la alianza, las diez palabras.
+Levítico 11:3|De entre los animales, todo el de pezuña, y que tiene las pezuñas hendidas, y que rumia, éste comeréis.
+Levítico 23:24|Habla á los hijos de Israel, y diles: En el mes séptimo, al primero del mes tendréis sábado, una conmemoración al son de trompetas, y una santa convocación.
+Números 20:28|Y Moisés hizo desnudar á Aarón de sus vestidos y vistiólos á Eleazar su hijo: y Aarón murió allí en la cumbre del monte: y Moisés y Eleazar descendieron del monte.
+Números 23:19|Dios no es hombre, para que mienta; ni hijo de hombre para que se arrepienta: el dijo, ¿y no hará?; habló, ¿y no lo ejecutará?
+Números 24:17|Verélo, mas no ahora: lo miraré, mas no de cerca: saldrá ESTRELLA de Jacob, y levantaráse cetro de Israel, y herirá los cantones de Moab, y destruirá á todos los hijos de Seth.
+Números 21:6|Y Jehová envió entre el pueblo serpientes ardientes, que mordían al pueblo: y murió mucho pueblo de Israel.
+Deuteronomio 6:4|Oye, Israel: Jehová nuestro Dios, Jehová uno es:
+Deuteronomio 18:15|Profeta de en medio de ti, de tus hermanos, como yo, te levantará Jehová tu Dios: á él oiréis:
+Deuteronomio 32:10|Hallólo en tierra de desierto, y en desierto horrible y yermo; trájolo alrededor, instruyólo, guardólo como la niña de su ojo.
+Josué 5:12|Y el maná cesó el día siguiente, desde que comenzaron á comer del fruto de la tierra: y los hijos de Israel nunca más tuvieron maná, sino que comieron de los frutos de la tierra de Canaán aquel año.
+Josué 6:20|… y aconteció que como el pueblo hubo oído el sonido de la bocina, dió el pueblo grita con gran vocerío, y el muro cayó á plomo. El pueblo subió luego á la ciudad, cada uno en derecho de sí, y tomáronla.
+Jueces 4:4|Y gobernaba en aquel tiempo á Israel una mujer, Débora, profetisa, mujer de Lapidoth:
+Jueces 6:12|Y el ángel de Jehová se le apareció, y díjole: Jehová es contigo, varón esforzado.
+Jueces 14:14|Entonces les dijo: Del comedor salió comida, y del fuerte salió dulzura. Y ellos no pudieron declararle el enigma en tres días.
+Rut 4:21|Y Salmón engendró á Booz, y Booz engendró á Obed;
+Rut 1:22|Así volvió Noemi y Ruth Moabita su nuera con ella; volvió de los campos de Moab, y llegaron á Beth-lehem en el principio de la siega de las cebadas.
+1 Samuel 15:22|Y Samuel dijo: ¿Tiene Jehová tanto contentamiento con los holocaustos y víctimas, como en obedecer á las palabras de Jehová? Ciertamente el obedecer es mejor que los sacrificios; y el prestar atención que el sebo de los carneros:
+1 Samuel 16:7|Y Jehová respondió á Samuel: No mires á su parecer, ni á lo grande de su estatura, porque yo lo desecho; porque Jehová mira no lo que el hombre mira; pues que el hombre mira lo que está delante de sus ojos, mas Jehová mira el corazón.
+1 Samuel 7:12|Tomó luego Samuel una piedra, y púsola entre Mizpa y Sen, y púsole por nombre Eben-ezer, diciendo: Hasta aquí nos ayudó Jehová.
+1 Samuel 13:14|Mas ahora tu reino no será durable: Jehová se ha buscado varón según su corazón, al cual Jehová ha mandado que sea capitán sobre su pueblo, por cuanto tú no has guardado lo que Jehová te mandó.
+1 Samuel 9:2|Y tenía él un hijo que se llamaba Saúl, mancebo y hermoso, que entre los hijos de Israel no había otro más hermoso que él; del hombro arriba sobrepujaba á cualquiera del pueblo.
+2 Samuel 5:4|Era David de treinta años cuando comenzó á reinar, y reinó cuarenta años.
+2 Samuel 9:3|Y el rey dijo: ¿No ha quedado nadie de la casa de Saúl, á quien haga yo misericordia de Dios? Y Siba respondió al rey: Aun ha quedado un hijo de Jonathán, lisiado de los pies.
+2 Samuel 12:7|Entonces dijo Nathán á David: Tú eres aquel hombre. Así ha dicho Jehová, Dios de Israel: Yo te ungí por rey sobre Israel, y te libré de la mano de Saúl;
+2 Samuel 18:33|Entonces el rey se turbó, y subióse á la sala de la puerta, y lloró; y yendo, decía así: ¡Hijo mío Absalom, hijo mío, hijo mío Absalom! ¡Quién me diera que muriera yo en lugar de ti, Absalom, hijo mío, hijo mío!
+1 Reyes 11:3|Y tuvo setecientas mujeres reinas, y trescientas concubinas; y sus mujeres torcieron su corazón.
+1 Reyes 8:27|Empero ¿es verdad que Dios haya de morar sobre la tierra? He aquí que los cielos, los cielos de los cielos, no te pueden contener: ¿cuánto menos esta casa que yo he edificado?
+1 Reyes 18:21|Y acercándose Elías á todo el pueblo, dijo: ¿Hasta cuándo claudicaréis vosotros entre dos pensamientos? Si Jehová es Dios, seguidle; y si Baal, id en pos de él. Y el pueblo no respondió palabra.
+2 Reyes 6:17|Y oró Eliseo, y dijo: Ruégote, oh Jehová, que abras sus ojos para que vea. Entonces Jehová abrió los ojos del mozo, y miró: y he aquí que el monte estaba lleno de gente de á caballo, y de carros de fuego alrededor de Eliseo.
+2 Reyes 22:8|Entonces dijo el sumo sacerdote Hilcías á Saphán escriba: El libro de la ley he hallado en la casa de Jehová. E Hilcías dió el libro á Saphán, y leyólo.
+1 Crónicas 29:11|Tuya es, oh Jehová, la magnificencia, y el poder, y la gloria, la victoria, y el honor; porque todas las cosas que están en los cielos y en la tierra son tuyas. Tuyo, oh Jehová, es el reino, y la altura sobre todos los que están por cabeza.
+2 Crónicas 16:9|Porque los ojos de Jehová contemplan toda la tierra, para corroborar á los que tienen corazón perfecto para con él. Locamente has hecho en esto; porque de aquí adelante habrá guerra contra ti.
+2 Crónicas 20:15|Y dijo: Oid, Judá todo, y vosotros moradores de Jerusalem, y tú, rey Josaphat. Jehová os dice así: No temáis ni os amedrentéis delante de esta tan grande multitud; porque no es vuestra la guerra, sino de Dios.
+2 Crónicas 3:1|Y comenzó Salomón á edificar la casa en Jerusalem, en el monte Moria que había sido mostrado á David su padre, en el lugar que David había preparado en la era de Ornán Jebuseo.
+Nehemías 8:10|Díjoles luego: Id, comed grosuras, y bebed vino dulce, y enviad porciones á los que no tienen prevenido; porque día santo es á nuestro Señor: y no os entristezcáis, porque el gozo de Jehová es vuestra fortaleza.
+Nehemías 6:3|Y enviéles mensajeros, diciendo: Yo hago una grande obra, y no puedo ir; porque cesaría la obra, dejándola yo para ir á vosotros.
+Ester 4:14|Porque si absolutamente callares en este tiempo, respiro y libertación tendrán los Judíos de otra parte; mas tú y la casa de tu padre pereceréis. ¿Y quién sabe si para esta hora te han hecho llegar al reino?
+Ester 7:10|Así colgaron á Amán en la horca que él había hecho aparejar para Mardochêo; y apaciguóse la ira del rey.
+Ester 1:1|Y aconteció en los días de Assuero, (el Assuero que reinó desde la India hasta la Etiopía sobre ciento veinte y siete provincias,)
+Job 2:9|Díjole entonces su mujer: ¿Aun retienes tú tu simplicidad? Bendice á Dios, y muérete.
+Job 13:15|He aquí, aunque me matare, en él esperaré; empero defenderé delante de él mis caminos.
+Job 38:4|¿Dónde estabas cuando yo fundaba la tierra? házme lo saber, si tienes inteligencia.
+Job 42:5|De oídas te había oído; mas ahora mis ojos te ven.
+Salmos 14:1|Dijo el necio en su corazón: No hay Dios. Corrompiéronse, hicieron obras abominables; no hay quien haga bien.
+Salmos 22:1|Dios mío, Dios mío, ¿por qué me has dejado? ¿ por qué estás lejos de mi salud, y de las palabras de mi clamor?
+Salmos 24:1|De Jehová es la tierra y su plenitud; el mundo, y los que en él habitan.
+Salmos 42:1|Como el ciervo brama por las corrientes de las aguas, así clama por ti, oh Dios, el alma mía.
+Salmos 55:6|Y dije: ¡Quién me diese alas como de paloma! volaría yo, y descansaría.
+Salmos 84:10|Porque mejor es un día en tus atrios que mil fuera de ellos: escogería antes estar á la puerta de la casa de mi Dios, que habitar en las moradas de maldad.
+Salmos 90:12|Enséñanos de tal modo á contar nuestros días, que traigamos al corazón sabiduría.
+Salmos 110:1|Jehová dijo á mi Señor: Siéntate á mi diestra, en tanto que pongo tus enemigos por estrado de tus pies.
+Salmos 118:22|La piedra que desecharon los edificadores, ha venido á ser cabeza del ángulo.
+Salmos 121:2|Mi socorro viene de Jehová, que hizo los cielos y la tierra.
+Salmos 127:1|Si Jehová no edificare la casa, en vano trabajan los que la edifican: si Jehová no guardare la ciudad, en vano vela la guarda.
+Salmos 139:14|Te alabaré; porque formidables, maravillosas son tus obras: estoy maravillado, y mi alma lo conoce mucho.
+Proverbios 4:23|Sobre toda cosa guardada guarda tu corazón; porque de él mana la vida.
+Proverbios 14:12|Hay camino que al hombre parece derecho; empero su fin son caminos de muerte.
+Proverbios 17:22|El corazón alegre produce buena disposición: mas el espíritu triste seca los huesos.
+Proverbios 18:22|El que halló esposa halló el bien, y alcanzó la benevolencia de Jehová.
+Proverbios 27:1|No te jactes del día de mañana; porque no sabes qué dará de sí el día.
+Proverbios 28:13|El que encubre sus pecados, no prosperará: mas el que los confiesa y se aparta, alcanzará misericordia.
+Proverbios 29:18|Sin profecía el pueblo será disipado: mas el que guarda la ley, bienaventurado él.
+Eclesiastés 4:12|Y si alguno prevaleciere contra el uno, dos estarán contra él; y cordón de tres dobleces no presto se rompe.
+Eclesiastés 7:1|Mejor es la buena fama que el buen ungüento; y el día de la muerte que el día del nacimiento.
+Cantares 8:7|Las muchas aguas no podrán apagar el amor, ni lo ahogarán los ríos. Si diese el hombre toda la hacienda de su casa por este amor, de cierto lo menospreciaran.
+Isaías 9:2|El pueblo que andaba en tinieblas vió gran luz: los que moraban en tierra de sombra de muerte, luz resplandeció sobre ellos.
+Isaías 26:3|Tú le guardarás en completa paz, cuyo pensamiento en ti persevera; porque en ti se ha confiado.
+Isaías 40:8|Sécase la hierba, cáese la flor: mas la palabra del Dios nuestro permanece para siempre.
+Isaías 43:1|Y ahora, así dice Jehová Criador tuyo, oh Jacob, y Formador tuyo, oh Israel: No temas, porque yo te redimí; te puse nombre, mío eres tú.
+Isaías 49:15|¿Olvidaráse la mujer de lo que parió, para dejar de compadecerse del hijo de su vientre? Aunque se olviden ellas, yo no me olvidaré de ti.
+Isaías 52:7|¡Cuán hermosos son sobre los montes los pies del que trae alegres nuevas, del que publica la paz, del que trae nuevas del bien, del que publica salud, del que dice á Sión: Tu Dios reina!
+Isaías 55:1|A todos los sedientos: Venid á las aguas; y los que no tienen dinero, venid, comprad, y comed. Venid, comprad, sin dinero y sin precio, vino y leche.
+Isaías 64:8|Ahora pues, Jehová, tú eres nuestro padre; nosotros lodo, y tú el que nos formaste; así que obra de tus manos, todos nosotros.
+Isaías 2:4|Y juzgará entre las gentes, y reprenderá á muchos pueblos; y volverán sus espadas en rejas de arado, y sus lanzas en hoces: no alzará espada gente contra gente, ni se ensayarán más para la guerra.
+Isaías 38:5|Ve, y di á Ezechîas: Jehová Dios de David tu padre dice así: Tu oración he oído, y visto tus lágrimas: he aquí que yo añado á tus días quince años.
+Jeremías 17:9|Engañoso es el corazón más que todas las cosas, y perverso; ¿quién lo conocerá?
+Jeremías 29:13|Y me buscaréis y hallaréis, porque me buscaréis de todo vuestro corazón.
+Jeremías 33:3|Clama á mí, y te responderé, y te enseñaré cosas grandes y dificultosas que tú no sabes.
+Jeremías 31:31|He aquí que vienen días, dice Jehová, en los cuales haré nuevo pacto con la casa de Jacob y con la casa de Judá:
+Jeremías 13:23|¿Mudará el negro su pellejo, y el leopardo sus manchas? Así también podréis vosotros hacer bien, estando habituados á hacer mal.
+Jeremías 8:22|¿No hay bálsamo en Galaad? ¿no hay allí médico? ¿Por qué pues no hubo medicina para la hija de mi pueblo?
+Jeremías 20:9|Y dije: No me acordaré más de él, ni hablaré más en su nombre: empero fué en mi corazón como un fuego ardiente metido en mis huesos, trabajé por sufrirlo, y no pude.
+Ezequiel 18:20|El alma que pecare, esa morirá: el hijo no llevará por el pecado del padre, ni el padre llevará por el pecado del hijo: la justicia del justo será sobre él, y la impiedad del impío será sobre él.
+Ezequiel 37:4|Díjome entonces: Profetiza sobre estos huesos, y diles: Huesos secos, oid palabra de Jehová.
+Ezequiel 34:2|Hijo del hombre, profetiza contra los pastores de Israel; profetiza, y diles á los pastores: Así ha dicho el Señor Jehová: ¡Ay de los pastores de Israel, que se apacientan á sí mismos! ¿No apacientan los pastores los rebaños?
+Daniel 1:8|Y Daniel propuso en su corazón de no contaminarse en la ración de la comida del rey, ni en el vino de su beber: pidió por tanto al príncipe de los eunucos de no contaminarse.
+Daniel 3:17|He aquí nuestro Dios á quien honramos, puede librarnos del horno de fuego ardiendo; y de tu mano, oh rey, nos librará.
+Daniel 5:1|El rey Belsasar hizo un gran banquete á mil de sus príncipes, y en presencia de los mil bebía vino.
+Daniel 7:9|Estuve mirando hasta que fueron puestas sillas: y un Anciano de grande edad se sentó, cuyo vestido era blanco como la nieve, y el pelo de su cabeza como lana limpia; su silla llama de fuego, sus ruedas fuego ardiente.
+Daniel 12:3|Y los entendidos resplandecerán como el resplandor del firmamento; y los que enseñan á justicia la multitud, como las estrellas á perpetua eternidad.
+Daniel 9:2|En el año primero de su reinado, yo Daniel miré atentamente en los libros el número de los años, del cual habló Jehová al profeta Jeremías, que había de concluir la asolación de Jerusalem en setenta años.
+Jonás 1:12|El les respondió: Tomadme, y echadme á la mar, y la mar se os quietará: porque yo sé que por mí ha venido esta grande tempestad sobre vosotros.
+Jonás 2:10|Yo empero con voz de alabanza te sacrificaré; pagaré lo que prometí. La salvación pertenece á Jehová. Y mandó Jehová al pez, y vomitó á Jonás en tierra.
+Jonás 3:10|Y vió Dios lo que hicieron, que se convirtieron de su mal camino: y arrepintióse del mal que había dicho les había de hacer, y no lo hizo.
+Jonás 4:11|¿Y no tendré yo piedad de Nínive, aquella grande ciudad donde hay más de ciento y veinte mil personas que no conocen su mano derecha ni su mano izquierda, y muchos animales?
+Mateo 5:14|Vosotros sois la luz del mundo: una ciudad asentada sobre un monte no se puede esconder.
+Mateo 6:26|Mirad las aves del cielo, que no siembran, ni siegan, ni allegan en alfolíes; y vuestro Padre celestial las alimenta. ¿No sois vosotros mucho mejores que ellas?
+Mateo 11:28|Venid á mí todos los que estáis trabajados y cargados, que yo os haré descansar.
+Mateo 19:14|Y Jesús dijo: Dejad á los niños, y no les impidáis de venir á mí; porque de los tales es el reino de los cielos.
+Mateo 22:37|Y Jesús le dijo: Amarás al Señor tu Dios de todo tu corazón, y de toda tu alma, y de toda tu mente.
+Mateo 28:6|No está aquí; porque ha resucitado, como dijo. Venid, ved el lugar donde fué puesto el Señor.
+Marcos 8:36|Porque ¿qué aprovechará al hombre, si granjeare todo el mundo, y pierde su alma?
+Marcos 9:24|Y luego el padre del muchacho dijo clamando: Creo, ayuda mi incredulidad.
+Marcos 16:15|Y les dijo: Id por todo el mundo; predicad el evangelio á toda criatura.
+Lucas 2:52|Y Jesús crecía en sabiduría, y en edad, y en gracia para con Dios y los hombres.
+Lucas 5:4|Y como cesó de hablar, dijo á Simón: Tira á alta mar, y echad vuestras redes para pescar.
+Lucas 7:14|Y acercándose, tocó el féretro: y los que lo llevaban, pararon. Y dice: Mancebo, á ti digo, levántate.
+Lucas 9:62|Y Jesús le dijo: Ninguno que poniendo su mano al arado mira atrás, es apto para el reino de Dios.
+Lucas 14:28|Porque ¿cuál de vosotros, queriendo edificar una torre, no cuenta primero sentado los gastos, si tiene lo que necesita para acabarla?
+Lucas 19:10|Porque el Hijo del hombre vino á buscar y á salvar lo que se había perdido.
+Juan 4:24|Dios es Espíritu; y los que le adoran, en espíritu y en verdad es necesario que adoren.
+Juan 6:9|Un muchacho está aquí que tiene cinco panes de cebada y dos pececillos; ¿mas qué es esto entre tantos?
+Juan 8:7|Y como perseverasen preguntándole, enderezóse, y díjoles: El que de vosotros esté sin pecado, arroje contra ella la piedra el primero.
+Juan 10:10|El ladrón no viene sino para hurtar, y matar, y destruir: yo he venido para que tengan vida, y para que la tengan en abundancia.
+Juan 11:43|Y habiendo dicho estas cosas, clamó á gran voz: Lázaro, ven fuera.
+Juan 15:5|Yo soy la vid, vosotros los pámpanos: el que está en mí, y yo en él, éste lleva mucho fruto; porque sin mí nada podéis hacer.
+Juan 18:10|Entonces Simón Pedro, que tenía espada, sacóla, é hirió al siervo del pontífice, y le cortó la oreja derecha. Y el siervo se llamaba Malco.
+Juan 20:29|Dícele Jesús: Porque me has visto, Tomás, creiste: bienaventurados los que no vieron y creyeron.
+Hechos 1:8|Mas recibiréis la virtud del Espíritu Santo que vendrá sobre vosotros; y me sereís testigos en Jerusalem, y en toda Judea, y Samaria, y hasta lo último de la tierra.
+Hechos 3:6|Y Pedro dijo: Ni tengo plata ni oro; mas lo que tengo te doy: en el nombre de Jesucristo de Nazaret, levántate y anda.
+Hechos 7:60|Y puesto de rodillas, clamó á gran voz: Señor, no les imputes este pecado. Y habiendo dicho esto, durmió.
+Hechos 8:27|Entonces él se levantó, y fué: y he aquí un Etiope, eunuco, gobernador de Candace, reina de los Etiopes, el cual era puesto sobre todos sus tesoros, y había venido á adorar á Jerusalem,
+Hechos 10:1|Y había un varón en Cesarea llamado Cornelio, centurión de la compañía que se llamaba la Italiana,
+Hechos 12:2|Y mató á cuchillo á Jacobo, hermano de Juan.
+Hechos 13:9|Entonces Saulo, que también es Pablo, lleno del Espíritu Santo, poniendo en él los ojos,
+Hechos 17:11|Y fueron éstos más nobles que los que estaban en Tesalónica, pues recibieron la palabra con toda solicitud, escudriñando cada día las Escrituras, si estas cosas eran así.
+Hechos 20:35|En todo os he enseñado que, trabajando así, es necesario sobrellevar á los enfermos, y tener presente las palabras del Señor Jesús, el cual dijo: Más bienaventurada cosa es dar que recibir.
+Romanos 5:1|Justificados pues por la fe, tenemos paz para con Dios por medio de nuestro Señor Jesucristo:
+Romanos 8:31|¿Pues qué diremos á esto? Si Dios por nosotros, ¿quién contra nosotros?
+Romanos 12:18|Si se puede hacer, cuanto está en vosotros, tened paz con todos los hombres.
+Romanos 15:13|Y el Dios de esperanza os llene de todo gozo y paz creyendo, para que abundéis en esperanza por la virtud del Espíritu Santo.
+1 Corintios 3:6|Yo planté, Apolos regó: mas Dios ha dado el crecimiento.
+1 Corintios 6:19|¿O ignoráis que vuestro cuerpo es templo del Espíritu Santo, el cual está en vosotros, el cual tenéis de Dios, y que no sois vuestros?
+1 Corintios 15:58|Así que, hermanos míos amados, estad firmes y constantes, creciendo en la obra del Señor siempre, sabiendo que vuestro trabajo en el Señor no es vano.
+2 Corintios 1:3|Bendito sea el Dios y Padre del Señor Jesucristo, el Padre de misericordias, y el Dios de toda consolación,
+2 Corintios 3:17|Porque el Señor es el Espíritu; y donde hay el Espíritu del Señor, allí hay libertad.
+2 Corintios 11:24|De los judíos cinco veces he recibido cuarenta azotes menos uno.
+2 Corintios 5:21|Al que no conoció pecado, hizo pecado por nosotros, para que nosotros fuésemos hechos justicia de Dios en él.
+Gálatas 4:4|Mas venido el cumplimiento del tiempo, Dios envió su Hijo, hecho de mujer, hecho súbdito á la ley,
+Gálatas 5:1|Estad, pues, firmes en la libertad con que Cristo nos hizo libres, y no volváis otra vez á ser presos en el yugo de servidumbre.
+Gálatas 6:14|Mas lejos esté de mí gloriarme, sino en la cruz de nuestro Señor Jesucristo, por el cual el mundo me es crucificado á mí, y yo al mundo.
+Efesios 2:10|Porque somos hechura suya, criados en Cristo Jesús para buenas obras, las cuales Dios preparó para que anduviésemos en ellas.
+Efesios 4:5|Un Señor, una fe, un bautismo,
+Efesios 6:14|Estad pues firmes, ceñidos vuestros lomos de verdad, y vestidos de la cota de justicia,
+Filipenses 1:21|Porque para mí el vivir es Cristo, y el morir es ganancia.
+Filipenses 3:14|Prosigo al blanco, al premio de la soberana vocación de Dios en Cristo Jesús.
+Filipenses 3:20|Mas nuestra vivienda es en los cielos; de donde también esperamos al Salvador, al Señor Jesucristo;
+Filipenses 4:19|Mi Dios, pues, suplirá todo lo que os falta conforme á sus riquezas en gloria en Cristo Jesús.
+Colosenses 4:14|Os saluda Lucas, el médico amado, y Demas.
+Colosenses 3:16|La palabra de Cristo habite en vosotros en abundancia en toda sabiduría, enseñándoos y exhortándoos los unos á los otros con salmos é himnos y canciones espirituales, con gracia cantando en vuestros corazones al Señor.
+1 Tesalonicenses 5:18|Dad gracias en todo; porque esta es la voluntad de Dios para con vosotros en Cristo Jesús.
+1 Tesalonicenses 4:13|Tampoco, hermanos, queremos que ignoréis acerca de los que duermen, que no os entristezcáis como los otros que no tienen esperanza.
+2 Tesalonicenses 1:7|Y á vosotros, que sois atribulados, dar reposo con nosotros, cuando se manifestará el Señor Jesús del cielo con los ángeles de su potencia,
+1 Timoteo 6:12|Pelea la buena batalla de la fe, echa mano de la vida eterna, á la cual asimismo eres llamado, habiendo hecho buena profesión delante de muchos testigos.
+1 Timoteo 5:23|No bebas de aquí adelante agua, sino usa de un poco de vino por causa del estómago, y de tus continuas enfermedades.
+1 Timoteo 1:15|Palabra fiel y digna de ser recibida de todos: que Cristo Jesús vino al mundo para salvar á los pecadores, de los cuales yo soy el primero.
+2 Timoteo 4:13|Trae, cuando vinieres, el capote que dejé en Troas en casa de Carpo: y los libros, mayormente los pergaminos.
+2 Timoteo 3:12|Y también todos los que quieren vivir píamente en Cristo Jesús, padecerán persecución.
+2 Timoteo 4:2|Que prediques la palabra; que instes á tiempo y fuera de tiempo; redarguye, reprende, exhorta con toda paciencia y doctrina.
+Tito 1:12|Dijo uno de ellos, propio profeta de ellos: Los Cretenses, siempre mentirosos, malas bestias, vientres perezosos.
+Tito 3:1|Amonéstales que se sujeten á los príncipes y potestades, que obedezcan, que estén prontos á toda buena obra.
+Filemón 18|(1:18) Y si en algo te dañó, ó te debe, ponlo á mi cuenta.
+Hebreos 4:16|Lleguémonos pues confiadamente al trono de la gracia, para alcanzar misericordia, y hallar gracia para el oportuno socorro.
+Hebreos 9:27|Y de la manera que está establecido á los hombres que mueran una vez, y después el juicio;
+Hebreos 10:25|No dejando nuestra congregación, como algunos tienen por costumbre, mas exhortándonos; y tanto más, cuanto veis que aquel día se acerca.
+Hebreos 11:3|Por la fe entendemos haber sido compuestos los siglos por la palabra de Dios, siendo hecho lo que se ve, de lo que no se veía.
+Hebreos 12:6|Porque el Señor al que ama castiga, y azota á cualquiera que recibe por hijo.
+Santiago 1:17|Toda buena dádiva y todo don perfecto es de lo alto, que desciende del Padre de las luces, en el cual no hay mudanza, ni sombra de variación.
+Santiago 5:14|¿Está alguno enfermo entre vosotros? llame á los ancianos de la iglesia, y oren por él, ungiéndole con aceite en el nombre del Señor.
+1 Pedro 1:24|Porque Toda carne es como la hierba, y toda la gloria del hombre como la flor de la hierba: secóse la hierba, y la flor se cayó;
+1 Pedro 2:2|Desead, como niños recién nacidos, la leche espiritual, sin engaño, para que por ella crezcáis en salud:
+1 Pedro 5:5|Igualmente, mancebos, sed sujetos á los ancianos; y todos sumisos unos á otros, revestíos de humildad; porque Dios resiste á los soberbios, y da gracia á los humildes.
+2 Pedro 1:21|Porque la profecía no fué en los tiempos pasados traída por voluntad humana, sino los santos hombres de Dios hablaron siendo inspirados del Espíritu Santo.
+2 Pedro 2:4|Porque si Dios no perdonó á los ángeles que habían pecado, sino que habiéndolos despeñado en el infierno con cadenas de oscuridad, los entregó para ser reservados al juicio;
+1 Juan 2:15|No améis al mundo, ni las cosas que están en el mundo. Si alguno ama al mundo, el amor del Padre no está en él.
+1 Juan 3:16|En esto hemos conocido el amor, porque él puso su vida por nosotros: también nosotros debemos poner nuestras vidas por los hermanos.
+1 Juan 5:4|Porque todo aquello que es nacido de Dios vence al mundo: y esta es la victoria que vence al mundo, nuestra fe.
+3 Juan 4|(1:4) No tengo yo mayor gozo que éste, el oir que mis hijos andan en la verdad.
+2 Juan 12|(1:12) Aunque tengo muchas cosas que escribiros, no he querido comunicarlas por medio de papel y tinta; mas espero ir á vosotros, y hablar boca á boca, para que nuestro gozo sea cumplido.
+Judas 21|(1:21) Conservaos en el amor de Dios, esperando la misericordia de nuestro Señor Jesucristo, para vida eterna.
+Judas 14|(1:14) De los cuales también profetizó Enoc, séptimo desde Adam, diciendo: He aquí, el Señor es venido con sus santos millares,
+Apocalipsis 1:7|He aquí que viene con las nubes, y todo ojo le verá, y los que le traspasaron; y todos los linajes de la tierra se lamentarán sobre él. Así sea. Amén.
+Apocalipsis 5:12|Que decían en alta voz: El Cordero que fué inmolado es digno de tomar el poder y riquezas y sabiduría, y fortaleza y honra y gloria y alabanza.
+Apocalipsis 7:9|Después de estas cosas miré, y he aquí una gran compañía, la cual ninguno podía contar, de todas gentes y linajes y pueblos y lenguas, que estaban delante del trono y en la presencia del Cordero, vestidos de ropas blancas, y palmas en sus manos;
+Apocalipsis 19:16|Y en su vestidura y en su muslo tiene escrito este nombre: REY DE REYES Y SEÑOR DE SEÑORES.
+Apocalipsis 21:1|Y vi un cielo nuevo, y una tierra nueva: porque el primer cielo y la primera tierra se fueron, y el mar ya no es.
+Apocalipsis 22:13|Yo soy Alpha y Omega, principio y fin, el primero y el postrero.
+Génesis 1:27|Y crió Dios al hombre á su imagen, á imagen de Dios lo crió; varón y hembra los crió.
+Éxodo 20:13|No matarás.
+Éxodo 20:12|Honra á tu padre y á tu madre, porque tus días se alarguen en la tierra que Jehová tu Dios te da.
+Mateo 5:9|Bienaventurados los pacificadores: porque ellos serán llamados hijos de Dios.
+Mateo 14:25|Mas á la cuarta vela de la noche, Jesús fué á ellos andando sobre la mar.
+Lucas 2:11|Que os ha nacido hoy, en la ciudad de David, un Salvador, que es CRISTO el Señor.
+Hechos 16:31|Y ellos dijeron: Cree en el Señor Jesucristo, y serás salvo tú, y tu casa.
+Mateo 4:4|Mas él respondiendo, dijo: Escrito está: No con solo el pan vivirá el hombre, mas con toda palabra que sale de la boca de Dios.
+Lucas 10:27|Y él respondiendo, dijo: Amarás al Señor tu Dios de todo tu corazón, y de toda tu alma, y de todas tus fuerzas, y de todo tu entendimiento; y á tu prójimo como á ti mismo.
+Juan 13:35|En esto conocerán todos que sois mis discípulos, si tuviereis amor los unos con los otros.
+Mateo 6:34|Así que, no os congojéis por el día de mañana; que el día de mañana traerá su fatiga: basta al día su afán.
+Salmos 100:3|Reconoced que Jehová él es Dios: él nos hizo, y no nosotros á nosotros mismos; pueblo suyo somos, y ovejas de su prado.
+Romanos 3:10|Como está escrito: No hay justo, ni aun uno;`;
 const QS=BANK.trim().split("\n").map(l=>{const p=l.split("|"),b=B2I[bookOf(p[4])];return{q:p[1],a:p[2],d:p[3].split(";"),r:p[4],l:+p[0],b:b===undefined?5:b,id:(hstr(p[1])>>>0).toString(36)}});
 const BOOKN={};QS.forEach(q=>{const k=bookOf(q.r);BOOKN[k]=(BOOKN[k]||0)+1});
 const V={};VERSES.trim().split("\n").forEach(l=>{const i=l.indexOf("|");V[l.slice(0,i)]=l.slice(i+1)});
@@ -2286,7 +2802,7 @@ function view(html,name,cls=""){
   VIEW=name;A.className=cls;$$(".sheet").forEach(s=>s.remove());document.body.classList.remove("sheeted");
   A.innerHTML=`<div class="screen">${html}</div>`;window.scrollTo(0,0);try{A.focus({preventScroll:true})}catch(e){}
   const top=name==="home"||name==="stats"||name==="settings",nv=$("#nav");nv.hidden=!top;document.body.classList.toggle("hasnav",top);
-  if(top)$$("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.go===name))}
+  if(top)$$("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.go===name));rxBind()}
 function pushView(){try{if(!(history.state&&history.state.tb))history.pushState({tb:1},"")}catch(e){}}
 function goHome(){const sub=history.state&&history.state.tb;VIEW="home";if(sub){try{history.back()}catch(e){}}home()}
 function confirmExit(){confirmBox("¿Salir de la partida?","Se perderá el avance de esta partida.","Salir",goHome)}
@@ -2294,7 +2810,7 @@ addEventListener("popstate",()=>{if(VIEW==="home")return;if(VIEW==="play"){pushV
 let wl=null;
 async function wake(on){try{if(on){if(!wl&&navigator.wakeLock){wl=await navigator.wakeLock.request("screen");wl.addEventListener("release",()=>{wl=null})}}else if(wl){const w=wl;wl=null;await w.release()}}catch(e){}}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&(G||R||RM)&&!wl)wake(true)});
-function stopAll(){wake(false);Tm.stop();closeModal();if(G){clearTimeout(G.rtm);clearTimeout(G.adv);G=null}if(R){clearTimeout(R.bt);R=null}if(RM){try{RM.leave()}catch(e){}RM=null}for(const k in PICS)delete PICS[k]}
+function stopAll(){wake(false);Tm.stop();closeModal();if(G){clearTimeout(G.rtm);clearTimeout(G.adv);G=null}if(R){clearTimeout(R.bt);R=null}if(RM){try{RM.leave()}catch(e){}RM=null}for(const k in PICS)delete PICS[k];for(const k in RXS)delete RXS[k];["rxr","rxl"].forEach(i=>{const e=$("#"+i);if(e)e.remove()})}
 const standalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
 const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
 
@@ -2673,7 +3189,7 @@ function ask(){
   const me=D.name||"Tú",vs=duel?`<div class="vs"><div class="p"><span class="${avCls(D.pic)}" style="--avc:${avc(me)}">${avIn(me,D.pic)}</span><b>${esc(me)}</b><span class="sc" id="my">${G.pts}</span></div><span class="x">VS</span><div class="p" id="rvp"><span class="av" style="--avc:${avc(G.rn)}">${esc(ini(G.rn))}</span><b>${esc(G.rn)}</b><span class="sc" id="rv">${G.rv}</span></div></div>`:"";
   const rl=rush&&G.i>0?Math.max(0,Tm.left):60;
   const bar=rush?`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="rbar" role="timer" aria-label="Tiempo restante"><i id="gbar" style="width:${(rl/60*100).toFixed(1)}%"></i><b id="gtime">${Math.ceil(rl)}</b></div><div class="pill gold" id="sc">✅ ${G.ok}</div></div>`
-    :`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="dots" role="img" aria-label="Pregunta ${G.i+1} de ${G.n}">${dots}</div>${duel?"":`<div class="pill gold" id="sc">⭐ ${G.pts}</div>`}</div>`;
+    :`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="dots" role="img" aria-label="Pregunta ${G.i+1} de ${G.n}">${dots}</div>${online?rxBtn():""}${duel?"":`<div class="pill gold" id="sc">⭐ ${G.pts}</div>`}</div>`;
   view(`${bar}${vs}${online?'<div class="live" id="sb"></div>':""}
   <div class="qcard" style="${catStyle(b)}"><div class="qhead"><div><span class="qn">${modeLabel(G)} · ${rush?"#"+(G.i+1):(G.i+1)+"/"+G.n}</span>${b.e} ${b.n}</div>${ring}</div><p class="q${q.cz?" cz":""}">${q.q}</p></div>
   <div class="combo" id="cb" aria-live="polite">${G.combo>=3&&!rush?`<span>🔥 Racha de ${G.combo}</span>`:""}</div>
@@ -2768,6 +3284,7 @@ function endGame(){
    En línea, cada jugador publica sus eventos y los demás los repiten.
    ============================================================ */
 const PCOL=["#3e82f7","#e5484d","#2fbf7e","#9b5de5"];
+const TMN=["🔵 Equipo azul","🔴 Equipo rojo"]; /* ruleta por equipos: cada equipo comparte sus coronas y sus jugadores se turnan */
 let EV=[];
 function wheelSVG(){
   let s=`<svg class="wheel" id="wsvg" viewBox="-122 -134 244 256" role="img" aria-label="Ruleta con los seis bloques de la Biblia"><defs><radialGradient id="sh" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></radialGradient><linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe28f"/><stop offset=".5" stop-color="#e49b12"/><stop offset="1" stop-color="#8a5a06"/></linearGradient></defs><circle r="119" fill="url(#rim)"/><circle r="109" fill="#2a1a00" opacity=".55"/>`;
@@ -2792,36 +3309,50 @@ function spinWheel(idx,done){
   setTimeout(end,dur+300)}
 
 const crownsHTML=(n,w)=>"👑".repeat(n)+(w>n?`<span class="off">${"👑".repeat(w-n)}</span>`:"");
-const rBar=()=>`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="ttl">🎡 Ruleta de coronas</div><span style="width:2.75rem"></span></div>`;
+const rBar=()=>`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="ttl">🎡 Ruleta de coronas</div>${R.on?rxBtn():'<span style="width:2.75rem"></span>'}</div>`;
 /* foto de cada jugador: en línea se busca entre los de la sala; en local viene con el jugador */
 const picOf=(p,i)=>R.on?(i===R.mi?D.pic:peerPic(p.n)):(p.pic||"");
-const board=()=>`<div class="board">${R.ps.map((p,i)=>{const pc=picOf(p,i);return`<div class="pl${i===R.t?" on":""}"><span class="${avCls(pc)}"${okPic(pc)?"":` style="background:${PCOL[i%4]}"`}>${avIn(p.n,pc)}</span><b>${esc(p.n)}${p.bot?" 🤖":""}${R.on&&i===R.mi?" (tú)":""}</b><span class="cr" aria-label="${p.cr} de ${R.win} coronas">${crownsHTML(p.cr,R.win)}</span></div>`}).join("")}</div>`;
+const boardP=()=>`<div class="board">${R.ps.map((p,i)=>{const pc=picOf(p,i);return`<div class="pl${i===R.t?" on":""}"><span class="${avCls(pc)}"${okPic(pc)?"":` style="background:${PCOL[i%4]}"`}>${avIn(p.n,pc)}</span><b>${esc(p.n)}${p.bot?" 🤖":""}${R.on&&i===R.mi?" (tú)":""}</b><span class="cr" aria-label="${p.cr} de ${R.win} coronas">${crownsHTML(p.cr,R.win)}</span></div>`}).join("")}</div>`;
+const boardT=()=>`<div class="board teams">${R.TM.map((t,ti)=>{const on=R.ps[R.t]&&R.ps[R.t].tm===ti;return`<div class="tmb${on?" on":""}" style="--pc:${PCOL[ti]}"><b>${TMN[ti]}</b><span class="cr" aria-label="${t.cr} de ${R.win} coronas">${crownsHTML(t.cr,R.win)}</span><div class="mems">${t.mem.map(k=>{const p=R.ps[k],pc=picOf(p,k);return`<span class="${avCls(pc)}${k===R.t?" cur":""}"${okPic(pc)?"":` style="background:${PCOL[ti]}"`} title="${esc(p.n)}">${avIn(p.n,pc)}</span>`}).join("")}</div></div>`}).join("")}</div>`;
+const board=()=>R.TM?boardT():boardP();
+/* equipos: cada uno con los índices de sus jugadores y un turno rotativo; empieza el equipo azul */
+function tmInit(){R.TM=[0,1].map(ti=>({cr:0,ptr:0,mem:R.ps.map((p,k)=>p.tm===ti?k:-1).filter(k=>k>=0)}));R.t=R.TM[0].mem[0];R.TM[0].ptr=1}
+const nextT=()=>{if(!R.TM)return(R.t+1)%R.ps.length;const T=R.TM[(R.ps[R.t].tm+1)%2],k=T.mem[T.ptr%T.mem.length];T.ptr++;return k};
 const pips=()=>`<div class="pips" aria-label="Racha ${R.row} de 3">${[0,1,2].map(i=>`<i class="${i<R.row?"on":""}"></i>`).join("")}<span style="margin-left:.4rem">${R.row>=3?"¡Desafío de corona!":"3 seguidas = desafío de corona"}</span></div>`;
 const legend=()=>`<div class="legend">${BLK.map(b=>`<span style="--cc:${b.c}"><i></i>${b.e} ${b.s}</span>`).join("")}</div>`;
 const humanTurn=()=>R.on?R.t===R.mi:!R.ps[R.t].bot;
 
 function rSetup(){
-  pushView();let mode="bot",win=3,n=2;const names=[D.name||"","","",""];
+  pushView();let mode="bot",win=3,n=2,per=2;const names=[D.name||"","","","","","","",""];
   view(`<h1 class="h1">🎡 Ruleta de coronas</h1><p class="sub">Gira la ruleta y responde. Con 3 aciertos seguidos juegas un desafío de corona. ¡Un error pasa el turno!</p>
-  <div class="card"><label class="lbl" style="margin-top:0">¿Cómo quieres jugar?</label><div class="seg" id="rm"><button data-v="bot">🤖 Contra la compu</button><button data-v="amigos">👥 Con amigos aquí</button></div>
+  <div class="card"><label class="lbl" style="margin-top:0">¿Cómo quieres jugar?</label><div class="seg" id="rm"><button data-v="bot">🤖 Compu</button><button data-v="amigos">👥 Amigos</button><button data-v="equipos">🧩 Equipos</button></div>
   <div id="rin"></div><label class="lbl">Coronas para ganar</label><div class="seg" id="rw"><button data-v="2">2</button><button data-v="3">3</button><button data-v="4">4</button></div></div>
   <div style="margin-top:1rem"><button class="btn gold" id="gs">Empezar</button><button class="btn ghost" id="bk">Volver</button></div>`,"setup");
   const keep=()=>$$("#rin input").forEach(e=>names[+e.dataset.i]=e.value);
+  const inp=(i,lb,ph)=>`<label class="lbl" for="p${i}">${lb}</label><input id="p${i}" data-i="${i}" maxlength="14" placeholder="${ph}" value="${esc(names[i])}" autocomplete="off">`;
   const draw=()=>{
     $$("#rm button").forEach(b=>b.classList.toggle("on",b.dataset.v===mode));$$("#rw button").forEach(b=>b.classList.toggle("on",+b.dataset.v===win));
-    const cnt=mode==="bot"?1:n;
-    $("#rin").innerHTML=Array.from({length:cnt},(_,i)=>`<label class="lbl" for="p${i}">${mode==="bot"?"Tu nombre":"Jugador "+(i+1)}</label><input id="p${i}" data-i="${i}" maxlength="14" placeholder="${mode==="bot"?"Tu nombre":"Nombre del jugador "+(i+1)}" value="${esc(names[i])}" autocomplete="off">`).join("")
-      +(mode==="bot"?'<p class="note">Jugarás contra un rival simulado 🤖.</p>':`<div class="two" style="margin-top:.9rem"><button class="btn ghost sm" id="addp" ${n>=4?"disabled":""}>＋ Jugador</button><button class="btn ghost sm" id="delp" ${n<=2?"disabled":""}>－ Quitar</button></div>`);
-    const a=$("#addp"),d=$("#delp");if(a)a.onclick=()=>{keep();n++;draw()};if(d)d.onclick=()=>{keep();n--;draw()}};
+    let h;
+    if(mode==="bot")h=inp(0,"Tu nombre","Tu nombre")+'<p class="note">Jugarás contra un rival simulado 🤖.</p>';
+    else if(mode==="amigos")h=Array.from({length:n},(_,i)=>inp(i,"Jugador "+(i+1),"Nombre del jugador "+(i+1))).join("")
+      +`<div class="two" style="margin-top:.9rem"><button class="btn ghost sm" id="addp" ${n>=4?"disabled":""}>＋ Jugador</button><button class="btn ghost sm" id="delp" ${n<=2?"disabled":""}>－ Quitar</button></div>`;
+    else h=`<label class="lbl">Jugadores por equipo</label><div class="seg" id="rp"><button data-v="2">2</button><button data-v="3">3</button></div>`
+      +[0,1].map(ti=>`<h2 class="h2"><span>${TMN[ti]}</span></h2>`+Array.from({length:per},(_,k)=>inp(ti*3+k,"Jugador "+(k+1),"Nombre del jugador "+(k+1))).join("")).join("")
+      +'<p class="note">Los dos equipos comparten sus coronas y sus jugadores se turnan. Gana el primer equipo que las reúna.</p>';
+    $("#rin").innerHTML=h;
+    const a=$("#addp"),d=$("#delp");if(a)a.onclick=()=>{keep();n++;draw()};if(d)d.onclick=()=>{keep();n--;draw()};
+    $$("#rp button").forEach(b=>{b.classList.toggle("on",+b.dataset.v===per);b.onclick=()=>{keep();per=+b.dataset.v;Snd.play("click");draw()}})};
   $$("#rm button").forEach(b=>b.onclick=()=>{keep();mode=b.dataset.v;Snd.play("click");draw()});
   $$("#rw button").forEach(b=>b.onclick=()=>{keep();win=+b.dataset.v;Snd.play("click");draw()});
   draw();$("#bk").onclick=goHome;
   $("#gs").onclick=()=>{keep();let ps;
     if(mode==="bot"){const me=(names[0]||"").trim()||"Jugador";D.name=(names[0]||"").trim()||D.name;sv();let bn=BOTS[Math.random()*BOTS.length|0];if(bn===me)bn=BOTS[(BOTS.indexOf(bn)+1)%BOTS.length];ps=[{n:me,pic:D.pic},{n:bn,bot:true}]}
-    else{const seen={};ps=names.slice(0,n).map((x,i)=>{let v=(x||"").trim()||"Jugador "+(i+1);if(seen[v.toLowerCase()])v+=" "+(i+1);seen[v.toLowerCase()]=1;return{n:v,pic:i===0?D.pic:""}});if((names[0]||"").trim()){D.name=names[0].trim();sv()}}
-    ruleta(ps,win,false)}}
-function ruleta(ps,win,on,seed,mi){
-  EV=[];R={on:!!on,ps:ps.map(p=>({n:p.n,cr:0,k:0,bot:!!p.bot,pic:p.pic||""})),t:0,row:0,used:new Set(),win:win||3,rg:on?rng(seed):Math.random,mi:mi||0,me:on?mi:0,phase:"turn",q:null};
+    else if(mode==="amigos"){const seen={};ps=names.slice(0,n).map((x,i)=>{let v=(x||"").trim()||"Jugador "+(i+1);if(seen[v.toLowerCase()])v+=" "+(i+1);seen[v.toLowerCase()]=1;return{n:v,pic:i===0?D.pic:""}});if((names[0]||"").trim()){D.name=names[0].trim();sv()}}
+    else{const seen={};ps=[];[0,1].forEach(ti=>{for(let k=0;k<per;k++){const num=ti*per+k+1;let v=(names[ti*3+k]||"").trim()||"Jugador "+num;if(seen[v.toLowerCase()])v+=" "+num;seen[v.toLowerCase()]=1;ps.push({n:v,tm:ti,pic:ti===0&&k===0?D.pic:""})}});if((names[0]||"").trim()){D.name=names[0].trim();sv()}}
+    ruleta(ps,win,false,undefined,0,mode==="equipos")}}
+function ruleta(ps,win,on,seed,mi,teams){
+  EV=[];R={on:!!on,ps:ps.map(p=>({n:p.n,cr:0,k:0,bot:!!p.bot,pic:p.pic||"",tm:teams?(p.tm?1:0):undefined})),t:0,row:0,used:new Set(),win:win||3,rg:on?rng(seed):Math.random,mi:mi||0,me:on?mi:0,phase:"turn",q:null};
+  if(teams)tmInit();
   wake(true);pushView();rTurn("¡Comienza la partida!")}
 function emit(e){if(!R)return;if(R.on){EV.push(e);R.ps[R.mi].k++;if(RM)RM.presence({ev:EV.slice()})}rApply(e)}
 function pickQ(b,min){const all=QS.filter(q=>q.b===b&&q.l>=min);let p=all.filter(q=>!R.used.has(q.q));if(!p.length){all.forEach(q=>R.used.delete(q.q));p=all}const q=p[Math.floor(R.rg()*p.length)];R.used.add(q.q);return q}
@@ -2837,7 +3368,7 @@ function rApply(e){
   else if(k==="n"){if(R.phase!=="fin")return;rNext()}}
 function rTurn(msg){
   R.phase="turn";R.q=null;clearTimeout(R.bt);Tm.stop();const p=R.ps[R.t],mine=humanTurn();
-  view(`${rBar()}${board()}<p class="turn">${msg}<br><b>Turno de ${esc(p.n)}${R.on&&R.t===R.mi?" (tú)":""}</b></p>${pips()}<div class="wheelbox">${wheelSVG()}</div>
+  view(`${rBar()}${board()}<p class="turn">${msg}<br><b>Turno de ${esc(p.n)}${R.on&&R.t===R.mi?" (tú)":""}</b>${R.TM?` · ${TMN[p.tm]}`:""}</p>${pips()}<div class="wheelbox">${wheelSVG()}</div>
   <div id="slot">${mine?'<button class="btn gold" id="sp">¡Girar!</button>':`<p class="sub" style="margin:.2rem 0">${p.bot?esc(p.n)+" está girando…":"Esperando a que "+esc(p.n)+" gire…"}</p>`}</div>${legend()}`,"play");
   $("#ex").onclick=confirmExit;
   if(mine)$("#sp").onclick=()=>{Snd.play("click");emit(["s",Math.floor(Math.random()*6)])};
@@ -2852,7 +3383,7 @@ function rCrown(){
 function rQView(){
   const{q,o,i,cr}=R.q,b=BLK[i],p=R.ps[R.t],mine=humanTurn(),tl=R.on?15:D.set.time;
   const ring=tl&&mine?`<div class="ring" id="ring" aria-hidden="true"><svg viewBox="0 0 40 40"><circle class="tr" cx="20" cy="20" r="16"/><circle class="pg" id="pg" cx="20" cy="20" r="16"/></svg><b id="rn">${tl}</b></div>`:"";
-  view(`${rBar()}<div class="qcard" style="${catStyle(b)}"><div class="qhead"><div><span class="qn">${esc(p.n)}${cr?" · 👑 Desafío de corona":""}</span>${b.e} ${b.n}</div>${ring}</div><p class="q">${q.q}</p></div>
+  view(`${rBar()}<div class="qcard" style="${catStyle(b)}"><div class="qhead"><div><span class="qn">${esc(p.n)}${R.TM?" · "+TMN[p.tm]:""}${cr?" · 👑 Desafío de corona":""}</span>${b.e} ${b.n}</div>${ring}</div><p class="q">${q.q}</p></div>
   <div class="opts" style="margin-top:1rem" role="group" aria-label="Respuestas">${o.map((x,j)=>`<button class="opt" data-i="${j}" ${mine?"":"disabled"}><span class="ltr">${"ABCD"[j]}</span><span>${x}</span></button>`).join("")}</div>
   ${mine?"":`<p class="sub" style="margin-top:.9rem">${p.bot?esc(p.n)+" está pensando…":esc(p.n)+" está respondiendo…"}</p>`}`,"play");
   $("#ex").onclick=confirmExit}
@@ -2865,7 +3396,7 @@ function rFin(j){
   R.phase="fin";Tm.stop();clearTimeout(R.bt);
   const{q,o,cr}=R.q,p=R.ps[R.t],ok=j>=0&&o[j]===q.a,nm=esc(p.n),isMe=R.t===R.me,other=p.bot||(R.on&&!isMe);
   R.ok=ok;let msg;
-  if(ok){if(cr){p.cr++;R.row=0;msg=`👑 ¡Corona para ${nm}!`;if(isMe)D.crowns++}else{R.row++;msg=other?nm+" acertó":"¡Correcto!"}}
+  if(ok){if(cr){p.cr++;if(R.TM)R.TM[p.tm].cr++;R.row=0;msg=R.TM?`👑 ¡Corona para el ${TMN[p.tm]}!`:`👑 ¡Corona para ${nm}!`;if(isMe)D.crowns++}else{R.row++;msg=other?nm+" acertó":"¡Correcto!"}}
   else{R.row=0;msg=j<0?"¡Se acabó el tiempo!":other?nm+" falló":"Incorrecto"}
   if(isMe){logAnswer(q,ok);sv()}
   $$(".opt").forEach((x,k)=>{x.disabled=true;if(o[k]===q.a)x.classList.add("ok");else if(k===j)x.classList.add("bad");else x.classList.add("dim")});
@@ -2874,24 +3405,30 @@ function rFin(j){
   showSheet({good:ok,q,title:msg,btn:can?"Continuar":null,btnCls:ok?"green":"blue",wait:`Esperando a que ${nm} continúe…`,next:()=>emit(["n"])})}
 function rNext(){
   const p=R.ps[R.t],ok=R.ok,cr=R.q&&R.q.cr;R.q=null;
-  if(p.cr>=R.win)return rEnd(p);
+  if(R.TM?R.TM[p.tm].cr>=R.win:p.cr>=R.win)return rEnd(R.TM?R.TM[p.tm]:p);
   if(ok&&cr)return rTurn("¡Sigue el turno!");
   if(ok&&R.row>=3)return rCrown();
   if(ok)return rTurn("¡Sigue tu turno!");
-  R.t=(R.t+1)%R.ps.length;R.row=0;rTurn("Cambio de turno")}
-function rEnd(p){
-  R.phase="end";clearTimeout(R.bt);const won=p===R.ps[R.me];
+  R.t=nextT();R.row=0;rTurn("Cambio de turno")}
+function rEnd(w){ /* w: el jugador ganador o, por equipos, el equipo ganador */
+  R.phase="end";clearTimeout(R.bt);const T=!!R.TM,wi=T?R.TM.indexOf(w):-1,won=T?R.ps[R.me].tm===wi:w===R.ps[R.me];
   D.games++;if(won)D.wins++;if(R.on)D.online++;const nm=checkMedals();sv();
-  view(`<div class="res"><div class="trophy">🏆</div><h1 class="h1" style="font-size:1.9rem">¡${esc(p.n)} ganó!</h1><p class="sub">${won?"¡Felicidades, buen trabajo!":"¡Buena partida!"}</p>
-  <div class="card rank">${R.ps.map((q,i)=>`<div class="${q===p?"me":""}"><span><i class="mav" style="--avc:${avc(q.n)}">${avIn(q.n,picOf(q,i))}</i>${esc(q.n)}${q.bot?" 🤖":""}</span><span>${"👑".repeat(q.cr)||"—"}</span></div>`).join("")}</div>
+  const rows=T?R.TM.map((t,ti)=>`<div class="${ti===wi?"me":""}"><span>${TMN[ti]}<small style="display:block;color:var(--mut);font-weight:600">${t.mem.map(k=>esc(R.ps[k].n)).join(", ")}</small></span><span>${"👑".repeat(t.cr)||"—"}</span></div>`).join("")
+    :R.ps.map((q,i)=>`<div class="${q===w?"me":""}"><span><i class="mav" style="--avc:${avc(q.n)}">${avIn(q.n,picOf(q,i))}</i>${esc(q.n)}${q.bot?" 🤖":""}</span><span>${"👑".repeat(q.cr)||"—"}</span></div>`).join("");
+  view(`<div class="res"><div class="trophy">🏆</div><h1 class="h1" style="font-size:1.9rem">¡${T?TMN[wi]:esc(w.n)} ganó!</h1><p class="sub">${won?"¡Felicidades, buen trabajo!":"¡Buena partida!"}</p>
+  <div class="card rank">${rows}</div>
   <div class="chips">${nm.map(m=>`<span class="chip new">${m.e} ${m.t}</span>`).join("")}</div></div>
   <button class="btn gold" id="ag">${R.on?"Volver a la sala":"Revancha"}</button><button class="btn ghost" id="hm">Inicio</button>`,"result");
   if(won){confetti();Snd.play("win")}else Snd.play("lose");
-  $("#ag").onclick=()=>{if(R.on)lobby();else{R.ps.forEach(q=>q.cr=0);R.t=0;R.row=0;rTurn("¡Revancha!")}};
+  $("#ag").onclick=()=>{if(R.on)lobby();else{R.ps.forEach(q=>q.cr=0);if(R.TM)tmInit();else R.t=0;R.row=0;rTurn("¡Revancha!")}};
   $("#hm").onclick=goHome}
 /* un jugador desconectado en su turno se saca de la partida (todos lo detectan igual) */
 function dropPlayer(i){
   const p=R.ps[i],nm=esc(p.n);clearTimeout(R.bt);Tm.stop();R.ps.splice(i,1);if(R.mi>i)R.mi--;if(R.me>i)R.me--;
+  if(R.TM){ /* se reacomodan los equipos; si uno se queda sin jugadores, gana el otro */
+    R.TM=R.TM.map((t,ti)=>({cr:t.cr,ptr:t.ptr,mem:R.ps.map((q,k)=>q.tm===ti?k:-1).filter(k=>k>=0)}));
+    const e=R.TM.findIndex(t=>!t.mem.length);if(e>=0)return rEnd(R.TM[1-e]);
+    const T=R.TM[(p.tm+1)%2];R.t=T.mem[T.ptr%T.mem.length];T.ptr++;R.row=0;R.q=null;return rTurn(`${nm} salió de la partida`)}
   if(R.ps.length<2)return rEnd(R.ps[0]);
   R.t=i%R.ps.length;R.row=0;R.q=null;rTurn(`${nm} salió de la partida`)}
 function rSync(){
@@ -2940,7 +3477,7 @@ function lobby(inv){
   <div class="card"><label class="lbl" for="nm" style="margin-top:0">Tu nombre</label><input id="nm" maxlength="14" placeholder="Tu nombre" value="${esc(D.name||"")}" autocomplete="nickname">
   <label class="lbl" for="cd">Nombre de la sala</label><input id="cd" maxlength="20" placeholder="ej. iglesia1" value="${esc((inv&&inv.sala)||"")}" autocapitalize="none" autocomplete="off">
   <label class="lbl" for="pw">Contraseña</label><input id="pw" maxlength="20" placeholder="Contraseña de la sala" value="${esc((inv&&inv.clave)||"")}" autocomplete="off">
-  <label class="lbl">Modo de juego (al crear la sala)</label><div class="seg" id="md"><button data-m="q">❓ Solo preguntas</button><button data-m="r">🎡 Ruleta de coronas</button></div></div>
+  <label class="lbl">Modo de juego (al crear la sala)</label><div class="seg" id="md"><button data-m="q">❓ Preguntas</button><button data-m="r">🎡 Ruleta</button><button data-m="t">🧩 Equipos</button></div></div>
   <div style="margin-top:1rem"><button class="btn gold" id="cr">Crear sala</button><button class="btn" id="jn">Unirme a una sala</button><button class="btn ghost" id="bk">Volver</button></div><p class="sub" id="msg" role="status" style="margin-top:.8rem"></p>`,"menu");
   const pm=()=>$$("#md button").forEach(b=>b.classList.toggle("on",b.dataset.m===MODE));pm();
   $$("#md button").forEach(b=>b.onclick=()=>{MODE=b.dataset.m;Snd.play("click");pm()});
@@ -2963,27 +3500,57 @@ function renderLobby(){
   const ps=RM.peers().filter(p=>p.isMe||!p.gone),h=ps.find(p=>p.presence.host),mo=h?h.presence.host.m:MODE,me=ps.find(p=>p.isMe);
   if(me&&ps.some(p=>!p.isMe&&p.presence.name===me.presence.name)){ME=ME.replace(/\d+$/,"")+Math.floor(Math.random()*90+10);RM.presence({name:ME})}
   if(!h&&me&&ps.length>=2&&ps.map(p=>p.id).sort()[0]===me.id)RM.presence({host:{m:MODE}});
+  const T=mo==="t",tmv=p=>p.presence.tm?1:0;
+  if(T&&me&&me.presence.tm===undefined){const c=[0,1].map(t=>ps.filter(p=>!p.isMe&&p.presence.tm===t).length);RM.presence({tm:c[0]<=c[1]?0:1})} /* cada uno entra al equipo con menos gente */
+  const teamsOk=!T||(ps.some(p=>tmv(p)===0)&&ps.some(p=>tmv(p)===1));
+  const prow=p=>`<div class="prow"><span class="${avCls(pic4(p))}" style="--avc:${avc(p.presence.name||"Amigo")}">${avIn(p.presence.name||"A",pic4(p))}</span><b>${esc(p.presence.name||"Amigo")}${p.isMe?" (tú)":""}</b>${p.presence.host?"<small>👑 anfitrión</small>":""}</div>`;
+  const teamsHTML=`<div class="teamsel">${[0,1].map(t=>`<div class="tcol" style="--pc:${PCOL[t]}"><b>${TMN[t]}</b>${ps.filter(p=>tmv(p)===t).map(prow).join("")||'<small class="mut">Sin jugadores</small>'}</div>`).join("")}</div>`;
   const iHost=!!(me&&me.presence.host),bad=ps.filter(p=>p.presence.v!==NETV),code=RM.name.slice(7).replace(/-[^-]*$/,"");
-  const html=`<h1 class="h1">Sala</h1><div class="card room"><div class="code">${esc(code)}</div><p class="sub" style="margin:.2rem 0 0">Modo: <b>${mo==="r"?"🎡 Ruleta de coronas":"❓ Solo preguntas"}</b> · ${ps.length} conectado${ps.length>1?"s":""}</p>
-  <div class="plist">${ps.map(p=>`<div class="prow"><span class="${avCls(pic4(p))}" style="--avc:${avc(p.presence.name||"Amigo")}">${avIn(p.presence.name||"A",pic4(p))}</span><b>${esc(p.presence.name||"Amigo")}${p.isMe?" (tú)":""}</b>${p.presence.host?"<small>👑 anfitrión</small>":""}</div>`).join("")}</div></div>
+  const html=`<h1 class="h1">Sala</h1><div class="card room" style="position:relative"><span class="rxpos">${rxBtn()}</span><div class="code">${esc(code)}</div><p class="sub" style="margin:.2rem 0 0">Modo: <b>${mo==="r"?"🎡 Ruleta de coronas":T?"🧩 Ruleta por equipos":"❓ Solo preguntas"}</b> · ${ps.length} conectado${ps.length>1?"s":""}</p>
+  ${T?teamsHTML:`<div class="plist">${ps.map(prow).join("")}</div>`}</div>
   ${bad.length?`<div class="warn">⚠️ ${bad.map(p=>esc(p.presence.name||"Alguien")).join(", ")} tiene otra versión de la app. Pídele que cierre y vuelva a abrir la app para poder jugar juntos.</div>`:""}
-  <div style="margin-top:1rem">${iHost?(ps.length<2?'<p class="sub" style="margin:0 0 .8rem">Esperando a que entre al menos un jugador más…</p><button class="btn gold" disabled>Empezar partida</button>':`<button class="btn gold" id="st" ${bad.length?"disabled":""}>Empezar partida</button>`):'<p class="sub" style="margin:0 0 .8rem">Esperando a que el anfitrión empiece la partida…</p>'}
-  <button class="btn" id="inv">📣 Invitar amigos</button><button class="btn ghost" id="bk">Salir de la sala</button></div>`;
+  <div style="margin-top:1rem">${iHost?(ps.length<2?'<p class="sub" style="margin:0 0 .8rem">Esperando a que entre al menos un jugador más…</p><button class="btn gold" disabled>Empezar partida</button>':`${teamsOk?"":'<p class="sub" style="margin:0 0 .8rem">Cada equipo necesita al menos un jugador.</p>'}<button class="btn gold" id="st" ${bad.length||!teamsOk?"disabled":""}>Empezar partida</button>`):'<p class="sub" style="margin:0 0 .8rem">Esperando a que el anfitrión empiece la partida…</p>'}
+  ${T?'<button class="btn" id="swt">🔁 Cambiar de equipo</button>':""}<button class="btn" id="inv">📣 Invitar amigos</button><button class="btn ghost" id="bk">Salir de la sala</button></div>`;
   if(html===lobbyHTML&&$("#lobbyroot"))return;lobbyHTML=html;
   if($("#lobbyroot"))$("#lobbyroot").innerHTML=html;else view(`<div id="lobbyroot">${html}</div>`,"lobby");
-  const st=$("#st");if(st)st.onclick=()=>{Snd.play("click");RM.presence({go:{s:Math.floor(Math.random()*1e9)+1,m:mo,pl:ps.map(p=>p.presence.name),v:NETV}})};
+  const st=$("#st");if(st)st.onclick=()=>{Snd.play("click");RM.presence({go:{s:Math.floor(Math.random()*1e9)+1,m:mo,pl:ps.map(p=>p.presence.name),tm:ps.map(tmv),v:NETV}})};
+  const sw=$("#swt");if(sw)sw.onclick=()=>{Snd.play("click");RM.presence({tm:tmv(me)?0:1})};
+  rxBind();
   $("#inv").onclick=()=>{if(!CUR)return;shareTxt(`🎮 ¡Juega conmigo en Trivia Bíblica!\nSala: ${CUR.cd}\nContraseña: ${CUR.pw}\n${APPURL}#sala=${encodeURIComponent(CUR.cd)}&clave=${encodeURIComponent(CUR.pw)}`)};
   $("#bk").onclick=goHome}
 function startFromGo(g){
   seen=g.s;lobbyHTML="";
-  if(g.m==="r"){const mi=g.pl.indexOf(ME);if(mi<0)return;ruleta(g.pl.map(n=>({n})),3,true,g.s,mi)}
+  if(g.m==="r"||g.m==="t"){const mi=g.pl.indexOf(ME);if(mi<0)return;ruleta(g.pl.map((n,i)=>({n,tm:g.tm?g.tm[i]:0})),3,true,g.s,mi,g.m==="t")}
   else startGame(shuffle(QS,rng(g.s)),"online")}
 function upd(){
-  if(!RM)return;wantPics();
+  if(!RM)return;wantPics();rxPeers();
   if(R&&R.on&&VIEW==="play"){rSync();return}
-  if(VIEW==="lobby"){const g=RM.peers().map(p=>p.presence.go).find(x=>x&&x.s);if(g&&g.s!==seen&&(g.m!=="r"||g.pl.includes(ME))&&g.v===NETV){startFromGo(g);return}renderLobby();return}
+  if(VIEW==="lobby"){const g=RM.peers().map(p=>p.presence.go).find(x=>x&&x.s);if(g&&g.s!==seen&&(g.m==="q"||g.pl.includes(ME))&&g.v===NETV){startFromGo(g);return}renderLobby();return}
   if(G&&G.mode==="online"&&VIEW==="play")updSB();
   if(VIEW==="result"&&$("#rk"))updRank()}
+/* ---- reacciones con emojis: se mandan por la presencia y flotan en la pantalla de todos ---- */
+const RXE=["👏","🙌","🙏","😮","😂","🔥"],RXS={};let RXN=0,rxLast=0;
+const rxBtn=()=>'<button type="button" class="ibtn" id="rxo" aria-label="Enviar un emoji a tus amigos" aria-haspopup="true">😀</button>';
+function rxBind(){const r=$("#rxr");if(r)r.remove();const b=$("#rxo");if(b)b.onclick=rxToggle}
+function rxToggle(){
+  const old=$("#rxr");if(old){old.remove();return}
+  const r=document.createElement("div");r.id="rxr";r.setAttribute("role","group");r.setAttribute("aria-label","Emojis");
+  r.innerHTML=RXE.map(e=>`<button type="button" data-e="${e}" aria-label="Enviar ${e}">${e}</button>`).join("");
+  document.body.appendChild(r);$$("button",r).forEach(b=>b.onclick=()=>{rxSend(b.dataset.e);r.remove()})}
+function rxShow(name,e){
+  if(!RXE.includes(e))return; /* solo los emojis de la lista: lo demás se ignora */
+  let box=$("#rxl");if(!box){box=document.createElement("div");box.id="rxl";box.setAttribute("aria-hidden","true");document.body.appendChild(box)}
+  while(box.children.length>=8)box.firstChild.remove();
+  const s=document.createElement("span");s.className="rxf";s.style.setProperty("--x",(8+Math.random()*72).toFixed(0)+"%");
+  s.innerHTML=`<i>${e}</i><small>${esc(name)}</small>`;box.appendChild(s);setTimeout(()=>s.remove(),REDUCED?1800:2800)}
+function rxSend(e){
+  if(!RM||!RXE.includes(e))return;const now=Date.now();if(now-rxLast<1200)return;rxLast=now; /* una por vez, sin saturar */
+  RM.presence({rx:{e,n:++RXN}});rxShow("Tú",e);Snd.play("click")}
+function rxPeers(){ /* muestra las reacciones nuevas de los demás; lo que ya estaba al verlos por primera vez no se repite */
+  if(!RM)return;
+  RM.peers().forEach(p=>{if(p.isMe)return;const r=p.presence.rx,n=r&&+r.n||0;
+    if(RXS[p.id]===undefined){RXS[p.id]=n;return}
+    if(n>RXS[p.id]){RXS[p.id]=n;if(r&&!p.gone)rxShow(String(p.presence.name||"Amigo").slice(0,14),r.e)}})}
 /* ---- fotos de los amigos: se bajan una sola vez cuando aparece su huella (ap) ---- */
 const pic4=p=>p.isMe?D.pic:((PICS[p.id]||{}).u||"");
 const mini=p=>{const n=p.presence.name||"Amigo";return`<i class="mav" style="--avc:${avc(n)}">${avIn(n,pic4(p))}</i>`};
