@@ -188,6 +188,10 @@ button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visibl
 .qhead{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.5rem .8rem .5rem 1.05rem;min-height:3.4rem;background:linear-gradient(180deg,var(--cc),var(--ccd,var(--cc)));color:var(--on);font-weight:800;font-size:.95rem}
 .qhead .qn{opacity:.85;font-weight:700;font-size:.78rem;display:block}
 .q{font-family:var(--f-disp);font-size:1.38rem;line-height:1.3;margin:1rem 1.1rem 0;font-weight:700}
+.q.cz{font-family:var(--f-ui);font-size:1.04rem;line-height:1.55;font-weight:600;text-align:left}
+.q.cz .czr{display:block;font-size:.74rem;font-weight:800;letter-spacing:.02em;opacity:.72;margin-bottom:.45rem}
+.blank{display:inline-block;min-width:3.4em;padding:0 .3em;border-bottom:3px solid var(--cc);color:var(--cc);font-weight:800;text-align:center;border-radius:.2em .2em 0 0;background:rgba(120,120,120,.14);background:color-mix(in srgb,var(--cc) 12%,transparent)}
+.blank.ok{color:#0f8a56;border-color:#0f8a56;background:rgba(15,138,86,.13)}.blank.bad{color:#c8323a;border-color:#c8323a;background:rgba(200,50,58,.12)}
 .ring{position:relative;width:2.8rem;height:2.8rem;flex:none}
 .ring:before{content:"";position:absolute;inset:-1px;border-radius:50%;background:rgba(0,0,0,.28)}
 .ring svg{position:relative;width:100%;height:100%;transform:rotate(-90deg)}
@@ -327,6 +331,8 @@ label.lbl{display:block;font-size:.8rem;font-weight:800;color:var(--mut);margin:
 input{width:100%;font:inherit;font-size:1rem;color:var(--ink);background:var(--panel);border:2px solid var(--line);border-radius:1rem;padding:.8rem 1rem;margin-top:.45rem;outline:0;transition:border-color .2s}
 input:focus{border-color:var(--gold)}
 input::placeholder{color:var(--soft)}
+textarea.bkt{width:100%;font:inherit;font-size:.82rem;line-height:1.35;color:var(--ink);background:var(--panel);border:2px solid var(--line);border-radius:1rem;padding:.7rem .8rem;margin:.2rem 0 .4rem;outline:0;resize:none;word-break:break-all;font-family:ui-monospace,Menlo,Consolas,monospace}textarea.bkt:focus{border-color:var(--gold)}
+.note.bad{border-color:var(--bad);color:var(--ink)}
 .seg{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:1rem;padding:.2rem;gap:.2rem;margin-top:.5rem}
 .seg button{flex:1;padding:.55rem .4rem;border-radius:.8rem;font-size:.82rem;font-weight:800;color:var(--mut);transition:background .2s}
 .seg button.on{background:var(--gold);color:var(--goldink)}
@@ -420,7 +426,7 @@ noscript{display:block;padding:2rem;text-align:center;color:var(--ink)}
    Secciones: núcleo · inicio / logros / ajustes · partida solo ·
               ruleta · en línea · arranque (PWA)
    ============================================================ */
-const APPV="3.5.2";
+const APPV="3.6.0";
 /* NETV = versión del juego EN LÍNEA (preguntas y reglas). Súbela solo cuando cambien las
    preguntas o las reglas del juego: así quien tenga la app un poco más vieja puede seguir
    jugando con los demás. (La 3.2 y la 3.3 solo agregaron fotos y el lector de la RVR1960, por eso
@@ -2218,7 +2224,8 @@ const MEDALS=[
  {id:"combo",e:"⚡",t:"Imparable",d:"10 aciertos seguidos",ok:()=>D.combo>=10},
  {id:"friends",e:"🤝",t:"En comunidad",d:"Termina una partida con amigos",ok:()=>D.online>=1},
  {id:"rev10",e:"🔁",t:"Aprendiz",d:"Corrige 10 preguntas que habías fallado",ok:()=>D.fixed>=10},
- {id:"rush15",e:"⏱️",t:"Rayo",d:"15 aciertos en Contrarreloj",ok:()=>D.rush>=15}
+ {id:"rush15",e:"⏱️",t:"Rayo",d:"15 aciertos en Contrarreloj",ok:()=>D.rush>=15},
+ {id:"cloze",e:"✍️",t:"Escriba",d:"Completa 20 versículos",ok:()=>(D.cz||0)>=20}
 ];
 function checkMedals(){const nw=[];for(const m of MEDALS)if(!D.medals[m.id]&&m.ok()){D.medals[m.id]=todayS();nw.push(m)}if(nw.length)sv();return nw}
 const AVC=["#3e82f7","#2fbf7e","#e5484d","#9b5de5","#e49b12","#d2601f","#14a39a","#d6409f"];
@@ -2320,6 +2327,7 @@ function home(){
     <button class="tile" id="rush"><span class="ic" style="--tc:#d4531a">⏱️</span><b>Contrarreloj</b><small>${D.rush?"Tu récord: "+D.rush+" aciertos":"60 segundos, ¡a toda!"}</small></button>
     <button class="tile" id="onl"><span class="ic" style="--tc:#127850">🌍</span><b>Con amigos</b><small>Juega en línea</small></button>
     <button class="tile" id="lib"><span class="ic" style="--tc:#2f6fe0">📚</span><b>Por libro</b><small>Practica un libro</small></button>
+    <button class="tile wide" id="cz"><span class="ic" style="--tc:#b7791f">✍️</span><span><b>Completa el versículo</b><small>Una palabra tapada: ¿cuál falta?</small></span><span class="tag">Nuevo</span></button>
     <button class="tile wide" id="rev" ${nmiss?"":"disabled"}><span class="ic" style="--tc:#0f8a8a">🔁</span><span><b>Repaso de errores</b><small>${nmiss?nmiss+" pregunta"+(nmiss>1?"s":"")+" por repasar":"¡Sin errores pendientes!"}</small></span></button>
   </div>
   ${canInstall?`<button class="tile" id="inst" style="width:100%;margin-top:.7rem;min-height:0;flex-direction:row;align-items:center;gap:.8rem"><span class="ic" style="--tc:#2f6fe0">📲</span><span><b style="display:block">Instalar la app</b><small>Ábrela desde tu pantalla de inicio, incluso sin internet</small></span></button>`:""}
@@ -2338,6 +2346,7 @@ function home(){
   $("#duel").onclick=()=>startGame(shuffle(inF()),"duel");
   $("#rush").onclick=()=>startGame(shuffle(inF()),"rush");
   $("#lib").onclick=()=>{Snd.play("click");libros()};
+  $("#cz").onclick=()=>{Snd.play("click");startCloze()};
   $("#rev").onclick=()=>{const m=missed();if(m.length)startGame(shuffle(m),"rev")};
   $("#mix").onclick=()=>startGame(shuffle(inF()),"mix");
   $("#onl").onclick=()=>{Snd.play("click");lobby()};
@@ -2394,6 +2403,75 @@ function stats(){
 /* ============================================================
    AJUSTES Y AYUDA
    ============================================================ */
+/* ---------- copia de seguridad: un código con el progreso (sin foto ni clave) ----------
+   TBP1z.<datos comprimidos>.<control>   (z = comprimido; u = sin comprimir, si el teléfono no sabe comprimir).
+   Al recuperar se valida todo, campo por campo: lo que no es un dato conocido y razonable se descarta. */
+const BK_NUM=["pts","streak","best","fixed","rush","games","ok","tot","wins","crowns","perfect","duels","online","combo","cz"];
+const bkHash=s=>{let h=2166136261>>>0;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)>>>0}return h.toString(36).padStart(7,"0")};
+const b64e=u=>{let s="";u.forEach(c=>s+=String.fromCharCode(c));return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")};
+const b64d=t=>{t=t.replace(/-/g,"+").replace(/_/g,"/");while(t.length%4)t+="=";const b=atob(t),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u};
+const bkZip=async(u,Cls)=>new Uint8Array(await new Response(new Blob([u]).stream().pipeThrough(new Cls("deflate-raw"))).arrayBuffer());
+async function bkMake(){
+  const o={};BK_NUM.concat(["last","st","pass","name","miss","bk","medals","set"]).forEach(k=>{if(D[k]!==undefined)o[k]=D[k]});
+  const json=JSON.stringify(o),raw=new TextEncoder().encode(json);let mode="u",body=raw;
+  if(typeof CompressionStream==="function"){try{body=await bkZip(raw,CompressionStream);mode="z"}catch(e){body=raw}}
+  return"TBP1"+mode+"."+b64e(body)+"."+bkHash(json)}
+function bkClean(o){
+  if(!o||typeof o!=="object"||Array.isArray(o))throw Object.assign(new Error("x"),{why:"el código no trae datos de la app"});
+  const n=(v,max=1e8)=>Number.isFinite(+v)?Math.max(0,Math.min(max,Math.floor(+v))):0,R=DEF();
+  BK_NUM.forEach(k=>R[k]=n(o[k]));
+  R.last=/^\d{4}-\d{2}-\d{2}$/.test(o.last)?o.last:"";
+  R.name=String(o.name||"").replace(/[\u0000-\u001f<>]/g,"").trim().slice(0,14);
+  const pairs=(src,keys)=>{const r={};if(src&&typeof src==="object")keys.forEach(k=>{const a=src[k];if(Array.isArray(a))r[k]=[n(a[0],1e6),n(a[1],1e6)]});return r};
+  R.st=pairs(o.st,LN);R.bk=pairs(o.bk,["0","1","2","3","4","5"]);
+  R.pass=[0,1,2].map(i=>o.pass&&(o.pass[i]===1||o.pass[i]===true)?1:0);
+  const ids=new Set(QS.map(q=>q.id));R.miss={};
+  if(o.miss&&typeof o.miss==="object")Object.keys(o.miss).filter(k=>ids.has(k)).slice(0,150).forEach(k=>R.miss[k]=n(o.miss[k],4e12));
+  R.medals={};if(o.medals&&typeof o.medals==="object")MEDALS.forEach(m=>{if(o.medals[m.id])R.medals[m.id]=String(o.medals[m.id]).replace(/[^\d-]/g,"").slice(0,10)});
+  const s=o.set&&typeof o.set==="object"?o.set:{};
+  R.set={snd:s.snd===0||s.snd===false?0:1,vib:s.vib===0||s.vib===false?0:1,big:s.big===1||s.big===true?1:0,theme:["auto","light","dark"].includes(s.theme)?s.theme:"auto",time:[0,15,30].includes(+s.time)?+s.time:15};
+  return R}
+async function bkRead(code){
+  const m=String(code||"").match(/TBP1([zu])\.([A-Za-z0-9_\-\s]+)\.([0-9a-z]{7})/);
+  if(!m)throw Object.assign(new Error("x"),{why:/TBP1[zu]\./.test(String(code||""))?"el código está incompleto (se cortó al copiarlo)":"no parece un código de la app (tiene que empezar con TBP1)"});
+  let body;try{body=b64d(m[2].replace(/\s+/g,""))}catch(e){throw Object.assign(new Error("x"),{why:"el código está dañado"})}
+  if(m[1]==="z"){if(typeof DecompressionStream!=="function")throw Object.assign(new Error("x"),{why:"este teléfono no puede abrir códigos comprimidos"});
+    try{body=await bkZip(body,DecompressionStream)}catch(e){throw Object.assign(new Error("x"),{why:"el código está incompleto o dañado"})}}
+  const json=new TextDecoder().decode(body);
+  if(bkHash(json)!==m[3])throw Object.assign(new Error("x"),{why:"el código está incompleto (se cortó al copiarlo)"});
+  let o;try{o=JSON.parse(json)}catch(e){throw Object.assign(new Error("x"),{why:"el código está dañado"})}
+  return bkClean(o)}
+const bkSum=R=>`<b>${esc(R.name||"Sin nombre")}</b> · ${R.pts} puntos · ${R.games} partidas · ${R.crowns} coronas · ${Object.keys(R.medals).length} logros`;
+function bkShow(code){ /* si el teléfono no deja copiar solo, se muestra el código para copiarlo a mano */
+  const o=modal(`<h3>💾 Tu código</h3><p>Mantén apretado el texto, elige «Copiar» y guárdalo en un lugar seguro (por ejemplo, en un mensaje para ti mismo).</p><textarea class="bkt" id="bkO" readonly rows="6"></textarea>`,[{t:"Listo",cls:"gold"}]);
+  const t=$("#bkO",o);t.value=code;t.focus();t.select()}
+async function bkCopy(){
+  let c;try{c=await bkMake()}catch(e){toast("No se pudo armar el código");return}
+  try{await navigator.clipboard.writeText(c);toast("Código copiado ✓ Guárdalo en un lugar seguro",{ms:4200})}catch(e){bkShow(c)}}
+async function bkSend(){
+  let c;try{c=await bkMake()}catch(e){toast("No se pudo armar el código");return}
+  try{if(navigator.share){await navigator.share({title:"Mi progreso de Trivia Bíblica",text:c});return}}catch(e){if(e&&e.name==="AbortError")return}
+  try{await navigator.clipboard.writeText(c);toast("Código copiado ✓ Guárdalo en un lugar seguro",{ms:4200})}catch(e){bkShow(c)}}
+function bkRestore(prefill="",err=""){
+  modal(`<h3>📥 Recuperar progreso</h3><p>Pega el código que guardaste (empieza con TBP1).</p>
+    <textarea class="bkt" id="bkT" rows="5" placeholder="TBP1z.…" autocomplete="off" autocapitalize="none" spellcheck="false"></textarea>
+    ${err?`<p class="note bad" id="bkE" role="alert">${esc(err)}</p>`:""}`,
+   [{t:"Cancelar",cls:"ghost"},{t:"Revisar",cls:"gold",fn:o=>{const v=$("#bkT",o).value;
+     bkRead(v).then(R=>bkConfirm(R),e=>bkRestore(v,"No se pudo recuperar: "+(e&&e.why||"el código no es válido")+"."))}}]);
+  const t=$("#bkT");t.value=prefill;t.focus()}
+function bkConfirm(R){
+  const now=Object.keys(D.medals).length;
+  modal(`<h3>📥 ¿Recuperar este progreso?</h3><p>${bkSum(R)}</p>
+    <p>Ahora en este celular: ${D.pts} puntos, ${D.games} partidas, ${now} logros. Al recuperar, ese progreso se <b>reemplaza</b> por el del código.</p>
+    ${R.pts<D.pts?'<p class="note bad"><b>Ojo:</b> el código tiene menos puntos que tu progreso actual.</p>':""}`,
+   [{t:"Cancelar",cls:"ghost"},{t:"Sí, recuperar",cls:"gold",fn:()=>bkApply(R)}])}
+function bkApply(R){
+  const prev=JSON.stringify(D);
+  D=Object.assign(DEF(),R,{pic:D.pic,picS:D.picS,yvk:D.yvk}); /* la foto y la clave de este celular se quedan */
+  sv();applyTheme();
+  modal(`<h3>✅ Progreso recuperado</h3><p>${bkSum(R)}</p><p>Se guardó en este celular.</p>`,
+   [{t:"Deshacer",cls:"ghost",fn:()=>{D=Object.assign(DEF(),JSON.parse(prev));sv();applyTheme();toast("Volviste a tu progreso anterior");goHome()}},{t:"Listo",cls:"gold",fn:goHome}])}
+
 function settings(){
   pushView();const s=D.set,inst=!standalone()&&(IP||isIOS);
   const sw=(id,on,t,sm)=>`<div class="srow"><div><b>${t}</b><small>${sm}</small></div><button class="switch" role="switch" id="${id}" aria-checked="${!!on}" aria-label="${t}"></button></div>`;
@@ -2404,6 +2482,9 @@ function settings(){
   ${sw("sSnd",s.snd,"Sonidos","Efectos de acierto, error y ruleta")}${sw("sVib",s.vib,"Vibración","Al responder (solo en celulares compatibles)")}${sw("sBig",s.big,"Texto grande","Letras más grandes en toda la app")}
   <div class="srow" style="display:block"><b>Tema</b><div class="seg" id="sTh"><button data-v="auto">Automático</button><button data-v="light">Claro</button><button data-v="dark">Oscuro</button></div></div>
   <div class="srow" style="display:block"><b>Tiempo por pregunta</b><small>Normal: 15 s · Relajado: 30 s. En línea siempre son 15 s</small><div class="seg" id="sTm"><button data-v="15">15 s</button><button data-v="30">30 s</button><button data-v="0">Sin tiempo</button></div></div></div>
+  <div class="card" style="margin-top:.8rem"><div class="srow" style="display:block;padding-top:0"><b>💾 Copia de seguridad</b><small>Guarda tu progreso en un código y recupéralo en otro celular o si se borran los datos. No incluye tu foto.</small></div>
+    <div class="two"><button class="btn ghost sm" id="bkC">📋 Copiar código</button><button class="btn ghost sm" id="bkS">📤 Compartir</button></div>
+    <button class="btn ghost sm" id="bkR" style="margin-top:.6rem;width:100%">📥 Recuperar progreso</button></div>
   ${YV_ON?`<details class="card adv"><summary>📖 Reina-Valera 1960 dentro de la app (avanzado)</summary>
     <p class="sub" style="text-align:left;margin:.6rem 0 0">Para leer el versículo en la Reina-Valera 1960 sin salir de la app hace falta una clave gratuita de la Plataforma de YouVersion (platform.youversion.com) y que su licencia lo permita. Estado: <b id="yvS">${yvState()}</b>.</p>
     <label class="lbl" for="yvk">Clave de YouVersion</label><input id="yvk" placeholder="Pega aquí la clave" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(D.yvk||"")}">
@@ -2415,6 +2496,7 @@ function settings(){
   $("#sname").onchange=e=>{D.name=e.target.value.trim().slice(0,14);sv();toast("Nombre guardado ✓")};
   const paintPic=()=>{const a=$("#sav");if(a){a.className=avCls(D.pic);a.innerHTML=avIn(D.name||"Jugador",D.pic)}$("#sPic").textContent="📷 "+(D.pic?"Cambiar foto":"Elegir foto");$("#sPicX").disabled=!D.pic};
   $("#sPic").onclick=()=>pickPhoto(paintPic);$("#sPicX").onclick=()=>dropPhoto(paintPic);
+  $("#bkC").onclick=bkCopy;$("#bkS").onclick=bkSend;$("#bkR").onclick=()=>bkRestore();
   if(YV_ON){
     $("#yvT").onclick=()=>{D.yvk=($("#yvk").value||"").replace(/["'\s]/g,"");$("#yvk").value=D.yvk;sv();$("#yvX").disabled=!D.yvk;RVR_OK=null;$("#yvS").textContent=yvState();if(!D.yvk){$("#yvR").textContent="Pega primero la clave.";return}yvTest($("#yvR")).then(()=>{const s=$("#yvS");if(s)s.textContent=yvState()})};
     $("#yvX").onclick=()=>{D.yvk="";sv();$("#yvk").value="";$("#yvX").disabled=true;$("#yvR").textContent="";RVR_OK=null;$("#yvS").textContent=yvState();toast("Clave quitada");yvProbe().then(()=>{const s=$("#yvS");if(s)s.textContent=yvState()})};}
@@ -2431,6 +2513,7 @@ function help(){
   <h3>🎡 Ruleta de coronas</h3><p>Gira la ruleta: cae en un bloque de la Biblia y respondes una pregunta. Con <b>3 aciertos seguidos</b> consigues un <b>desafío de corona</b>: eliges el bloque y la pregunta es más difícil. Si fallas, pasa el turno. Gana quien reúna primero las coronas acordadas.</p>
   <h3>⭐ Desafío diario</h3><p>10 preguntas, las mismas para todos cada día. Juega todos los días para mantener tu racha 🔥.</p>
   <h3>🎲 Rápida y ⚔️ Duelo</h3><p>10 preguntas al azar. En el duelo compites contra un rival simulado.</p>
+  <h3>✍️ Completa el versículo</h3><p>Un versículo con una palabra tapada: elige cuál falta entre 4 opciones. Al responder ves el versículo completo.</p>
   <h3>📚 Niveles</h3><p>Saca 7 de 10 para desbloquear el siguiente nivel.</p>
   <h3>🌍 Con amigos</h3><p>Crea una sala con nombre y contraseña; tus amigos entran con los mismos datos. Puedes jugar solo preguntas o ruleta por turnos.</p>
   <h3>📷 Tu foto</h3><p>En el inicio, toca tu círculo para elegir una foto de tu galería. Tus amigos la verán en la ruleta, los duelos y las salas. Para cambiar tu nombre, toca tu nombre.</p>
@@ -2445,7 +2528,7 @@ function about(){
    repaso de errores, por libro y «solo preguntas» en línea
    ============================================================ */
 const MAXQ=10,BOTS=["Mateo","Lidia","Samuel","Rut","Daniel","Débora","Pablo","Ana"];
-const MODEN={daily:"⭐ Desafío diario",mix:"🎲 Partida rápida",duel:"⚔️ Duelo",online:"🌍 Con amigos",rush:"⏱️ Contrarreloj",rev:"🔁 Repaso","0":"🌱 Fácil","1":"📖 Intermedio","2":"🔥 Difícil"};
+const MODEN={daily:"⭐ Desafío diario",mix:"🎲 Partida rápida",duel:"⚔️ Duelo",online:"🌍 Con amigos",rush:"⏱️ Contrarreloj",rev:"🔁 Repaso",cloze:"✍️ Completa el versículo","0":"🌱 Fácil","1":"📖 Intermedio","2":"🔥 Difícil"};
 const modeLabel=g=>g.mode==="book"?"📖 "+g.book:MODEN[g.mode];
 const missed=()=>QS.filter(q=>D.miss[q.id]);
 const booksQ=k=>QS.filter(q=>bookOf(q.r)===k);
@@ -2453,8 +2536,9 @@ let lastSec=0;
 
 function logAnswer(q,good){
   D.tot++;if(good)D.ok++;const bk=D.bk[q.b]||[0,0];bk[1]++;if(good)bk[0]++;D.bk[q.b]=bk;const c=LN[q.l],s=D.st[c]||[0,0];s[1]++;if(good)s[0]++;D.st[c]=s;
+  if(q.cz&&good)D.cz=(D.cz||0)+1; /* «Completa el versículo» no entra en el repaso de errores */
   if(good){if(D.miss[q.id]){delete D.miss[q.id];D.fixed=(D.fixed||0)+1}}
-  else{D.miss[q.id]=Date.now();const ks=Object.keys(D.miss);if(ks.length>150)ks.sort((a,b)=>D.miss[a]-D.miss[b]).slice(0,ks.length-150).forEach(k=>delete D.miss[k])}}
+  else if(!q.cz){D.miss[q.id]=Date.now();const ks=Object.keys(D.miss);if(ks.length>150)ks.sort((a,b)=>D.miss[a]-D.miss[b]).slice(0,ks.length-150).forEach(k=>delete D.miss[k])}}
 function ringTick(l,t){const pg=$("#pg"),r=$("#ring");if(!pg)return;pg.style.strokeDashoffset=(100.53*(1-l/t)).toFixed(2);$("#rn").textContent=Math.ceil(l);
   const w=l<=5&&l>0;r.classList.toggle("warn",w);if(w&&Math.ceil(l)!==lastSec){lastSec=Math.ceil(l);Snd.play("time")}}
 function rushTick(l,t){const b=$("#gbar"),g=$("#gtime"),r=$(".rbar");if(b)b.style.width=Math.max(0,l/t*100).toFixed(1)+"%";if(g)g.textContent=Math.ceil(l);if(r){r.classList.toggle("warn",l<=10);if(l<=5&&l>0&&Math.ceil(l)!==lastSec){lastSec=Math.ceil(l);Snd.play("time")}}}
@@ -2522,6 +2606,63 @@ function startGame(qs,mode,x={}){
   G.n=G.qs.length;wake(true);pushView();ask();
   if(rush)Tm.start(60,rushTick,rushEnd)}
 
+/* ---------- Completa el versículo: un versículo exacto (RV 1909) con una palabra tapada y 4 opciones ----------
+   Todo se arma en el teléfono con los versículos que ya trae la app: se elige una palabra de contenido (que no sea muy común
+   ni esté repetida en el versículo) y 3 palabras parecidas (mismo largo, misma terminación y mayúscula) de otros versículos. */
+const CZL="A-Za-zÁÉÍÓÚÜÑáéíóúüñ";
+const czEn=w=>w.length>=5&&/[áéíóú]/.test(w)&&/(lo|la|le|los|las|les|me|te|se|nos|os)$/i.test(w); /* formas antiguas como «echólo» o «trajéronle»: no sirven de opción ni de palabra tapada */
+const CZ_FN=new Set(("cuales cual quien quienes aquel aquella aquellos aquellas aquello alguno alguna algunos algunas ningun ninguno ninguna ningunos ningunas mismo misma mismos mismas todos todas todo toda cuanto cuantos cuanta cuantas mucho mucha muchos muchas poco pocos pocas otros otras otro otra ellos ellas nosotros vosotros "+
+ "vuestro vuestra vuestros vuestras nuestro nuestra nuestros nuestras suyo suya suyos suyas entonces porque aunque siempre ahora antes despues delante donde cuando mientras sobre entre hasta desde segun contra hacia tambien tampoco apenas ademas asimismo luego aqui alli arriba abajo dentro fuera "+
+ "estas estos esas esos aquestos aquestas cuyo cuya cuyos cuyas tanto tanta tantos tantas tales bien mejor mayor menor primero primera primeros primeras segundo segunda tercero tercera cierto cierta ciertos ciertas sino pues cinco seis siete ocho nueve diez doce veinte treinta cuarenta cincuenta sesenta setenta ochenta noventa ciento cien mil "+
+ "estaba estaban estais esteis habia habian hubiese hubiere hubiesen fueron sido siendo tenia tenian haber tener hacer poder deber querer saber venir decir").split(" ")); /* palabras que no sirven (pronombres, adverbios, números, verbos comodín): ni tapadas ni de opción falsa */
+const czNorm=w=>w.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+let CZP=null;
+function czInit(){
+  if(CZP)return CZP;
+  const re=new RegExp("^([^"+CZL+"]*)(["+CZL+"]+)([^"+CZL+"]*)$"),vs=[],df=Object.create(null),all=[];
+  Object.keys(V).forEach(r=>{
+    const vi=verseInfo({r}),tk=vi.text.split(/\s+/).filter(Boolean).map((raw,i,a)=>{
+      const m=raw.match(re);if(!m)return{raw};
+      const first=i===0||/[.?!:]["»”)]*$/.test(a[i-1])||/[«“¿¡"(—]/.test(m[1]);
+      return{raw,pre:m[1],w:m[2],post:m[3],n:czNorm(m[2]),cap:/^[A-ZÁÉÍÓÚÜÑ]/.test(m[2]),first}});
+    const ns=new Set(tk.filter(t=>t.n).map(t=>t.n));ns.forEach(n=>df[n]=(df[n]||0)+1);
+    all.push({r,vi,tk,ns})});
+  const idx={},seen=new Set();
+  all.forEach(e=>{
+    e.tk.forEach(t=>{ /* palabras "de contenido" para usar de opciones falsas */
+      if(!t.n||t.first||t.n.length<4||df[t.n]>40||czEn(t.w)||CZ_FN.has(t.n)||seen.has(t.n+t.cap))return;seen.add(t.n+t.cap);
+      (idx[(t.cap?"C":"l")+t.n.length]=idx[(t.cap?"C":"l")+t.n.length]||[]).push({w:t.w,n:t.n})});
+    const tx=e.vi.text;
+    if(/^…|…$/.test(tx)||/\d-\d+$/.test(e.vi.label)||tx.length<45||tx.length>210)return; /* sin fragmentos ni rangos; ni muy cortos ni muy largos */
+    e.cand=e.tk.map((t,i)=>i).filter(i=>{const t=e.tk[i];return t.n&&!t.first&&t.n.length>=5&&df[t.n]<=25&&!czEn(t.w)&&!CZ_FN.has(t.n)&&e.tk.filter(x=>x.n===t.n).length===1});
+    if(e.cand.length)vs.push(e)});
+  return CZP={vs,idx}}
+function czBuild(e){
+  const P=CZP;
+  for(const i of shuffle(e.cand).slice(0,5)){
+    const t=e.tk[i],len=t.n.length,pool=[];
+    for(let L=len-2;L<=len+2;L++)for(const x of P.idx[(t.cap?"C":"l")+L]||[])if(x.n!==t.n&&!e.ns.has(x.n)&&x.n.slice(0,3)!==t.n.slice(0,3))pool.push(x);
+    if(pool.length<3)continue;
+    const sc=x=>(x.n.slice(-2)===t.n.slice(-2)?2:x.n.slice(-1)===t.n.slice(-1)?1:0)+Math.random()*1.5-Math.abs(x.n.length-len)*.25,d=[];
+    let same=0;pool.map(x=>[sc(x),x]).sort((p,q)=>q[0]-p[0]).forEach(([s,x])=>{const sf=x.n.slice(-2)===t.n.slice(-2); /* a lo sumo 2 con la misma terminación: si no, las opciones se vuelven demasiado parecidas */
+      if(d.length<3&&!(sf&&same>=2)&&d.every(y=>y.n!==x.n&&y.n.slice(0,3)!==x.n.slice(0,3))){d.push(x);if(sf)same++}});
+    if(d.length<3)continue;
+    const bef=e.tk.slice(0,i).map(x=>x.raw).join(" "),aft=e.tk.slice(i+1).map(x=>x.raw).join(" "),b=B2I[bookOf(e.r)];
+    return{cz:1,id:"z"+(hstr(e.r+"|"+i)>>>0).toString(36),l:1,b:b===undefined?5:b,r:e.r,a:t.w,d:d.map(x=>x.w),
+      q:`<span class="czr">📖 ${esc(e.vi.label)}</span>«${esc((bef?bef+" ":"")+t.pre)}<span class="blank">_____</span>${esc(t.post+(aft?" "+aft:""))}»`}}
+  return null}
+function czPool(n=13){ /* n preguntas, sin repetir versículo y con a lo sumo 2 por libro (si no alcanzan, se completa) */
+  const P=czInit(),out=[],cnt={},used=new Set();
+  for(const lim of[2,99])for(const e of shuffle(P.vs)){
+    if(out.length>=n)break;const k=bookOf(e.r);
+    if(used.has(e.r)||(cnt[k]||0)>=lim)continue;
+    const q=czBuild(e);if(q){out.push(q);cnt[k]=(cnt[k]||0)+1;used.add(e.r)}}
+  return out}
+function startCloze(){
+  const qs=czPool(MAXQ+3);
+  if(qs.length<MAXQ){toast("No se pudo armar la partida, intenta de nuevo");return}
+  startGame(qs,"cloze",{tl:D.set.time?Math.max(D.set.time,25):0})} /* leer un versículo lleva más tiempo: mínimo 25 s */
+
 function ask(){
   clearTimeout(G.rtm);
   const q=G.qs[G.i],b=BLK[q.b],online=G.mode==="online",duel=G.mode==="duel",rush=G.mode==="rush",tl=G.tl;
@@ -2534,7 +2675,7 @@ function ask(){
   const bar=rush?`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="rbar" role="timer" aria-label="Tiempo restante"><i id="gbar" style="width:${(rl/60*100).toFixed(1)}%"></i><b id="gtime">${Math.ceil(rl)}</b></div><div class="pill gold" id="sc">✅ ${G.ok}</div></div>`
     :`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="dots" role="img" aria-label="Pregunta ${G.i+1} de ${G.n}">${dots}</div>${duel?"":`<div class="pill gold" id="sc">⭐ ${G.pts}</div>`}</div>`;
   view(`${bar}${vs}${online?'<div class="live" id="sb"></div>':""}
-  <div class="qcard" style="${catStyle(b)}"><div class="qhead"><div><span class="qn">${modeLabel(G)} · ${rush?"#"+(G.i+1):(G.i+1)+"/"+G.n}</span>${b.e} ${b.n}</div>${ring}</div><p class="q">${q.q}</p></div>
+  <div class="qcard" style="${catStyle(b)}"><div class="qhead"><div><span class="qn">${modeLabel(G)} · ${rush?"#"+(G.i+1):(G.i+1)+"/"+G.n}</span>${b.e} ${b.n}</div>${ring}</div><p class="q${q.cz?" cz":""}">${q.q}</p></div>
   <div class="combo" id="cb" aria-live="polite">${G.combo>=3&&!rush?`<span>🔥 Racha de ${G.combo}</span>`:""}</div>
   <div class="opts" role="group" aria-label="Respuestas">${G.o.map((o,i)=>`<button class="opt" data-i="${i}"><span class="ltr">${"ABCD"[i]}</span><span>${o}</span></button>`).join("")}</div>${lf}`,"play");
   $("#ex").onclick=confirmExit;
@@ -2562,6 +2703,7 @@ function pick(i){
   const q=G.q,good=i>=0&&G.o[i]===q.a;
   $$(".opt").forEach((o,x)=>{o.disabled=true;if(G.o[x]===q.a)o.classList.add("ok");else if(x===i)o.classList.add("bad");else o.classList.add("dim")});
   $$(".lf").forEach(b=>b.disabled=true);
+  if(q.cz){const bl=$(".blank");if(bl){bl.textContent=q.a;bl.classList.add(good?"ok":"bad")}}
   let gain=0,bonus=0;
   if(good){G.combo++;G.best=Math.max(G.best,G.combo);D.combo=Math.max(D.combo||0,G.combo);
     const tb=rush?0:G.tl?Math.round(Math.min(1,Tm.left/G.tl)*50):25;bonus=G.combo>=2?Math.min(5,G.combo-1)*10:0;gain=100+tb+bonus;G.pts+=gain;G.ok++;Snd.play("ok");vib(30)}
@@ -2578,7 +2720,7 @@ function pick(i){
 
 function countUp(el,to,ms=900){if(!el)return;if(REDUCED||!to){el.textContent=to;return}const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/ms);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)}
 function shareText(g){const n=g.mode==="rush"?g.res.length:g.n;
-  const nm={daily:"Desafío diario "+todayS(),mix:"Partida rápida",duel:"Duelo",online:"Partida con amigos",rush:"Contrarreloj",rev:"Repaso de errores",book:"Libro de "+g.book,"0":"Nivel Fácil","1":"Nivel Intermedio","2":"Nivel Difícil"};
+  const nm={cloze:"Completa el versículo",daily:"Desafío diario "+todayS(),mix:"Partida rápida",duel:"Duelo",online:"Partida con amigos",rush:"Contrarreloj",rev:"Repaso de errores",book:"Libro de "+g.book,"0":"Nivel Fácil","1":"Nivel Intermedio","2":"Nivel Difícil"};
   const line=g.mode==="rush"?`⏱️ ${g.ok} aciertos en 60 s`:`${g.res.map(x=>x?"🟩":"🟥").join("")} ${g.ok}/${n}`;
   return`✝️ Trivia Bíblica · ${nm[g.mode]}\n${line}\n⭐ ${g.pts} puntos\n${APPURL}`}
 function endGame(){
@@ -2609,6 +2751,7 @@ function endGame(){
   if(g.mode==="online")setTimeout(()=>updRank(),80);
   const ag=$("#again");if(ag)ag.onclick=()=>{const m=g.mode;
     if(m==="mix"||m==="duel"||m==="rush")startGame(shuffle(inF()),m);
+    else if(m==="cloze")startCloze();
     else if(m==="online")lobby();
     else if(m==="book")startGame(shuffle(booksQ(g.book)),"book",{book:g.book});
     else if(m==="rev"){const ms=missed();if(ms.length)startGame(shuffle(ms),"rev");else{toast("¡No te quedan errores por repasar! 🎉");goHome()}}

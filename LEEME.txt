@@ -1,5 +1,21 @@
-TRIVIA BÍBLICA · versión 3.5.2
+TRIVIA BÍBLICA · versión 3.6.0
 ==============================
+
+NOVEDADES DE LA 3.6
+  - ✍️ Completa el versículo: modo nuevo (tarjeta en el inicio). Aparece un
+    versículo exacto de la RV 1909 con una palabra tapada y eliges cuál falta entre
+    4 opciones. Las palabras falsas salen de otros versículos (mismo largo, misma
+    terminación y mayúscula). Tiene comodines, puntos, racha y la medalla «Escriba»
+    (20 versículos completados). Da 25 s por pregunta (leer lleva más tiempo) y no
+    entra en el «Repaso de errores». Todo se arma en el teléfono con los versículos
+    que ya trae la app: no hace falta internet.
+  - 💾 Copia de seguridad (Ajustes): «Copiar código» o «Compartir» arman un código
+    (empieza con TBP1) con tus puntos, coronas, logros, estadísticas, errores por
+    repasar y ajustes. En otro celular (o si se borran los datos): «Recuperar
+    progreso» → pegar el código → Revisar → Sí, recuperar. Reemplaza el progreso de
+    ese celular (con «Deshacer»). No incluye la foto ni la clave. Se valida cada
+    dato; un código cortado o cambiado se rechaza con un mensaje claro.
+  - Para jugar en línea no hace falta nada nuevo: sigue siendo compatible con la 3.4.
 
 NOVEDADES DE LA 3.5.2
   - La lectura de la Reina-Valera 1960 dentro de la app quedó APAGADA: se probó con
