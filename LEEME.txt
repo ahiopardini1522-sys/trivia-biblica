@@ -1,5 +1,17 @@
-TRIVIA BÍBLICA · versión 3.9.0
+TRIVIA BÍBLICA · versión 3.9.1
 ==============================
+
+NOVEDADES DE LA 3.9.1
+  - 📖 Los enlaces «Leer» (en cada pregunta y en el Versículo del día) ahora abren
+    el pasaje en la Reina-Valera 1960 de BibliaTodo (bibliatodo.com), en vez de
+    BibleGateway. Funciona con versículos sueltos («Juan 3:16»), con rangos
+    («Juan 2:1-11»), con capítulos («Génesis 37»; en un rango de capítulos abre
+    el primero) y con los libros de un solo capítulo (Abdías, Filemón, 2 Juan,
+    3 Juan y Judas).
+  - La app NO copia el texto de la Reina-Valera 1960 (tiene derechos de autor:
+    © Sociedades Bíblicas en América Latina, Sociedades Bíblicas Unidas): solo
+    abre la página de BibliaTodo. Para mostrarlo DENTRO de la app habría que
+    pedirles permiso por escrito; en «Acerca de» la app lo explica.
 
 NOVEDADES DE LA 3.9
   - 🗺️ Mapa de la Biblia: la tarjeta «Por libro» ahora es el mapa. Muestra los 66
