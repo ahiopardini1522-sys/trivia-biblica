@@ -1,5 +1,48 @@
-TRIVIA BÍBLICA · versión 4.2.0
+TRIVIA BÍBLICA · versión 4.3.0
 ==============================
+
+NOVEDADES DE LA 4.3 · AMIGOS Y CHAT EN LA SALA
+  - 👥 Mis amigos (en «Con amigos» y en Ajustes). Cada persona tiene un código de
+    amigo de 8 letras y números (por ejemplo KQ7X-29MD) que se crea solo la primera
+    vez y no cambia. Hay tres formas de agregar a alguien: abriendo su enlace (la app
+    pregunta «¿Agregar a …?»), escribiendo su código, o tocando el ➕ que aparece al
+    lado de cada jugador dentro de una sala. Quien ya es tu amigo se marca con ⭐.
+    Puedes tener hasta 60 amigos.
+  - Cuando alguien te agrega, a ti te llega un aviso: «Aceptar» o ✕. Si compartiste
+    tu enlace o tu código en las últimas 24 horas, esos pedidos se aceptan solos.
+    Los pedidos duran 7 días.
+  - 🟢 Se ve quién de tus amigos está en línea (tiene la app abierta) y quién está
+    en una sala. Si no quieres aparecer, en Ajustes → Amigos apaga «Aparecer en
+    línea»: tú sigues viendo a tus amigos y recibiendo invitaciones.
+  - ⚡ Invitar con un toque. Dentro de la sala, el botón «👥 Invitar a mis amigos»
+    muestra tus amigos con un botón «Invitar» en cada uno. También se puede invitar
+    desde Mis amigos: la app crea una sala nueva (nombre y contraseña al azar), te
+    lleva adentro y le avisa a tu amigo. A tu amigo le sale un cartel arriba con
+    «Unirme» y la invitación queda también en Mis amigos → Avisos durante 15 minutos.
+    Con un toque entra directo a la sala, sin escribir nada. Si está en medio de una
+    partida, el cartel espera a que termine; si está en otra sala, la app le pregunta
+    antes de cambiarlo. «📣 Compartir enlace de la sala» (WhatsApp) sigue como antes.
+  - 💬 Chat de la sala. En la sala de espera hay un chat; durante la partida
+    (preguntas y ruleta) hay un botón 💬 al lado del 😀 con un globito que cuenta los
+    mensajes nuevos, y también aparece en la pantalla de resultados. Trae 6 mensajes
+    rápidos («¿Listos?», «¡Vamos!»…) y se puede escribir hasta 120 letras. El chat
+    existe solo mientras la sala está abierta: al salir se borra.
+  - IMPORTANTE: las invitaciones y los pedidos llegan solo si tu amigo tiene la app
+    abierta en ese momento (la app revisa cada 10 segundos). No hay avisos al teléfono
+    con la app cerrada. El chat privado de uno a uno todavía no está.
+  - Para recibir invitaciones y ver el chat, tus amigos también necesitan la 4.3
+    (Ajustes → abajo de todo dice la versión). Alguien con una versión anterior sí
+    puede jugar en la misma sala (el juego en línea sigue en la 3.7.0) y la sala avisa
+    que esa persona no ve el chat.
+  - La copia de seguridad NO guarda tu código ni tus amigos: son de cada teléfono. Si
+    restauras en otro teléfono, ahí se crea un código nuevo y hay que volver a agregar
+    a los amigos. «Borrar todo» sí los borra.
+  - Firebase: no hay que cambiar las reglas. La función usa dos tipos de salas nuevas
+    que las reglas de abajo ya permiten: «pr-CÓDIGO» (tu nombre, si estás en línea y
+    si estás en una sala) y «fr-CÓDIGO» (el buzón con las invitaciones y los pedidos
+    que te mandan; las invitaciones llevan la contraseña de la sala). Los avisos
+    viejos se borran solos. Tu código de amigo es como la llave de tu buzón: pásaselo
+    a quien quieras como amigo, pero no lo publiques en lugares abiertos.
 
 NOVEDADES DE LA 4.2 · MEJORA GRÁFICA
   - 🌅 Cabecera ilustrada en el inicio: un cielo con estrellas que titilan, rayos de
@@ -288,6 +331,10 @@ PARA JUGAR CON AMIGOS (EN LÍNEA)
   - Las fotos se guardan en la misma base de datos, en salas con el final «-av»,
     y se borran cuando el jugador sale. No hace falta cambiar las reglas de
     Firebase: las de abajo ya las permiten.
+  - Los amigos (4.3) y el chat de la sala usan la misma base de datos y las mismas
+    reglas: no hay nada que cambiar. El chat viaja dentro de los datos de cada
+    jugador en la sala (los últimos 8 mensajes de cada uno) y desaparece cuando
+    todos salen.
   - Usa tu base de datos de Firebase (Realtime Database). Si "Con amigos" dice
     "No se pudo conectar" teniendo internet, entra a la consola de Firebase →
     Realtime Database → Reglas. Estas reglas permiten jugar y no dejan listar

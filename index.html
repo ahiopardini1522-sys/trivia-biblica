@@ -726,6 +726,95 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;backg
 .md.on i{filter:drop-shadow(0 3px 6px rgba(246,195,80,.6))}
 .xp{height:.7rem;box-shadow:inset 0 1px 3px rgba(0,0,0,.35)}
 .xp i{background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,0) 60%),linear-gradient(90deg,var(--gold2),var(--gold));box-shadow:0 0 10px var(--glow)}
+/* ---- 4.3 · amigos, invitaciones de un toque y chat de la sala ---- */
+.fcard{text-align:center}
+.fcard>small{color:var(--mut);font-weight:700;font-size:.82rem}
+.fcode{font-family:var(--f-disp);font-size:min(2.1rem,8vw);font-weight:900;letter-spacing:.08em;color:var(--goldtxt);margin:.3rem 0 .85rem;overflow-wrap:anywhere;user-select:all;-webkit-user-select:all}
+.fcard .two .btn{min-width:0}
+.flist{padding:.25rem .9rem}
+.frow{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem .6rem;padding:.65rem 0}
+.frow+.frow{border-top:1px solid var(--line)}
+.frow .av{width:2.4rem;height:2.4rem;flex:none;font-size:1rem;border-width:2px}
+.frow .fi{flex:1 1 5rem;min-width:0}
+.frow .fi b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.frow .fi small{display:block;color:var(--mut);font-size:.78rem;font-weight:700;line-height:1.3}
+.frow .fi small.on{color:var(--ok)}
+.frow .btn.sm{width:auto;flex:none;min-height:2.4rem;padding:.35rem .75rem;font-size:.9rem;margin:0}
+.frow .ibtn{width:2.2rem;height:2.2rem;font-size:.8rem}
+#frs{max-height:44vh;overflow-y:auto;margin:0 -.3rem;padding:0 .3rem;overscroll-behavior:contain}
+#frs .h2{font-size:1rem;margin:.9rem 0 .4rem}
+#frs .card{padding:.1rem .7rem;box-shadow:none}
+.md2 .fcode{text-align:center}
+/* cartel de aviso (pedido de amistad o invitación a jugar) */
+#invb{position:fixed;left:.6rem;right:.6rem;top:calc(env(safe-area-inset-top,0px) + .5rem);z-index:47;max-width:29rem;margin:0 auto;display:flex;align-items:center;flex-wrap:wrap;gap:.4rem .6rem;padding:.6rem .7rem;border-radius:1.2rem;background:var(--sheetbg);color:var(--ink);border:1px solid var(--line);border-left:5px solid var(--gold);box-shadow:0 14px 34px rgba(0,0,0,.45);animation:invin .35s both}
+#invb .ie{font-size:1.6rem;line-height:1;flex:none}
+#invb>div{flex:1 1 6rem;min-width:0}
+#invb b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#invb small{display:block;color:var(--mut);font-size:.78rem;font-weight:700}
+#invb .btn.sm{width:auto;flex:none;min-height:2.4rem;padding:.35rem .85rem;font-size:.9rem;margin:0}
+#invb .ibtn{width:2.2rem;height:2.2rem;font-size:.8rem}
+@keyframes invin{from{transform:translateY(-130%);opacity:0}to{transform:none;opacity:1}}
+/* en la sala: agregar o ver que ya es amigo */
+.addf{flex:none;width:2.2rem;height:2.2rem;border-radius:50%;border:2px solid var(--gold);background:var(--panel2);display:grid;place-items:center;color:var(--goldtxt)}
+.addf svg{width:1rem;height:1rem;display:block}
+.addf:active{transform:scale(.9)}
+.isf{flex:none;font-size:1.05rem;line-height:1}
+.tcol .prow .addf{width:1.8rem;height:1.8rem}.tcol .prow .addf svg{width:.8rem;height:.8rem}
+.tcol .prow .isf{font-size:.9rem}
+/* globito con el número de mensajes sin leer */
+.chb{position:relative}
+.bdg{font-style:normal;min-width:1.2rem;height:1.2rem;padding:0 .3rem;border-radius:1rem;background:var(--bad);color:#fff;font:800 .72rem/1.2rem var(--f-ui);text-align:center;box-shadow:0 0 0 2px var(--sheetbg)}
+.bdg[hidden]{display:none}
+.ibtn .bdg{position:absolute;top:-.3rem;right:-.3rem}
+.btn .bdg{margin-left:.2rem;box-shadow:none}
+/* chat */
+.chcard{margin-top:1rem;padding:.8rem}
+.chat{display:flex;flex-direction:column;min-height:0}
+.chh b{font-family:var(--f-disp);font-size:1.02rem}
+.chlist{overflow-y:auto;overscroll-behavior:contain;max-height:11.5rem;min-height:5.5rem;margin:.5rem 0;padding:.15rem;display:flex;flex-direction:column;gap:.35rem}
+.chm{align-self:flex-start;max-width:88%;padding:.4rem .7rem;border-radius:1rem 1rem 1rem .3rem;background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--avc,var(--line));font-size:.92rem;line-height:1.3;overflow-wrap:anywhere}
+.chm b{display:block;font-size:.72rem;color:var(--mut);margin-bottom:.05rem}
+.chm.me{align-self:flex-end;background:var(--gold);color:var(--goldink);border-color:transparent;border-radius:1rem 1rem .3rem 1rem}
+.chm.me b{color:inherit;opacity:.8}
+.chempty{color:var(--mut);text-align:center;font-size:.86rem;margin:auto 0}
+.chnote{font-size:.78rem;color:var(--mut);margin:0 0 .4rem}
+.chh,.chnote,.chf{flex:none}
+.chq{display:flex;flex:none;gap:.4rem;overflow-x:auto;scrollbar-width:none;padding:.15rem 0 .5rem}
+.chq::-webkit-scrollbar{display:none}
+.chq .pill{flex:none;font-size:.8rem;padding:.35rem .7rem}
+.chf{display:flex;gap:.5rem;align-items:center}
+.chi{flex:1;min-width:0;margin:0!important}
+.chs{flex:none;width:2.9rem;height:2.9rem;border-radius:50%;background:linear-gradient(180deg,#ffd870,#f2a916);color:var(--goldink);font-size:1.1rem;font-weight:900;box-shadow:0 3px 0 #a86d07,inset 0 1.5px 0 rgba(255,255,255,.45);display:grid;place-items:center}
+.chs:active{transform:translateY(2px);box-shadow:0 1px 0 #a86d07}
+#chov{position:fixed;inset:0;z-index:45;background:rgba(3,8,25,.5);animation:fade .2s both}
+#chp{position:fixed;left:.6rem;right:.6rem;top:calc(env(safe-area-inset-top,0px) + .5rem);max-width:30rem;margin:0 auto;z-index:46;display:flex;flex-direction:column;background:var(--sheetbg);color:var(--ink);border:1px solid var(--line);border-radius:1.4rem;box-shadow:0 18px 44px rgba(0,0,0,.5);overflow:hidden;animation:pop .22s both}
+#chp header{display:flex;align-items:center;gap:.6rem;padding:.5rem .6rem .5rem 1rem;border-bottom:1px solid var(--line);flex:none}
+#chp header b{flex:1;font-family:var(--f-disp)}
+#chp .chbody{padding:.4rem .8rem .8rem;display:flex;flex-direction:column;min-height:0;flex:1}
+#chp .chat{min-height:0;flex:1}
+#chp .chlist{flex:1 1 auto;max-height:none;min-height:4rem}
+html.xbig .chlist{max-height:9rem}
+/* equipos en la sala: las columnas nunca se salen de la tarjeta (nombres largos + botón ➕); en pantallas chicas o con letra grande quedan una arriba de la otra */
+.teamsel{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.tcol{min-width:0}
+.tcol .prow .addf,.tcol .prow .isf{flex:none}
+@media (max-width:400px){.teamsel{grid-template-columns:minmax(0,1fr)}}
+html.big .teamsel,html.xbig .teamsel{grid-template-columns:minmax(0,1fr)}
+#chp.short .chq{display:none}
+#chp.short .chlist{min-height:2.4rem;margin:.3rem 0}
+/* nombre del jugador en la sala: si es largo se corta con «…» pero el «(tú)» siempre se ve */
+.prow b.pn{display:flex;min-width:0}
+.prow b.pn span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prow b.pn i{flex:none;font-style:normal;white-space:pre}
+/* barra de arriba de la partida: con letra grande los botones se achican para que entren ✕, 😀 y 💬 sin salirse */
+.gtop .ttl{min-width:0;overflow-wrap:anywhere}
+html.big .gtop .ibtn{width:2.3rem;height:2.3rem;font-size:1rem}
+html.xbig .gtop .ibtn{width:2rem;height:2rem;font-size:.9rem}
+html.big .gtop,html.xbig .gtop{gap:.5rem}
+/* leyenda de la ruleta: las etiquetas no se salen de la pantalla con letra grande */
+.legend{grid-template-columns:repeat(3,minmax(0,1fr))}
+.legend span{min-width:0;overflow-wrap:anywhere}
+html.big .legend,html.xbig .legend{grid-template-columns:repeat(2,minmax(0,1fr))}
 
 </style>
 </head>
@@ -832,7 +921,7 @@ function burstAt(el,n=16){
    Secciones: núcleo · inicio / logros / ajustes · partida solo ·
               ruleta · en línea · arranque (PWA)
    ============================================================ */
-const APPV="4.2.0";
+const APPV="4.3.0";
 /* NETV = versión del juego EN LÍNEA (preguntas y reglas). Súbela solo cuando cambien las
    preguntas o las reglas del juego: así quien tenga la app un poco más vieja puede seguir
    jugando con los demás. (La 3.2 y la 3.3 solo agregaron fotos y el lector de la RVR1960, por eso
@@ -3116,7 +3205,7 @@ const VOD=["Juan 3:16","Salmos 23:1","Proverbios 3:5","Isaías 40:31","Filipense
 function verseOfDay(){const n=new Date(),i=Math.floor((new Date(n.getFullYear(),n.getMonth(),n.getDate())-new Date(2026,0,1))/864e5);const r=VOD[((i%VOD.length)+VOD.length)%VOD.length];return{r,t:V[r]||"",url:btUrl(r)}}
 
 /* ---------- progreso guardado ---------- */
-const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",pic:"",picS:"",yvk:"",miss:{},bq:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0,tts:0,vr:0,kv:1},kg:0,kst:[],lad:0,lai:0});
+const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",pic:"",picS:"",yvk:"",miss:{},bq:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0,tts:0,vr:0,kv:1,fon:1},kg:0,kst:[],lad:0,lai:0,fid:"",fr:[],fsh:0});
 let D=DEF();
 try{const s=JSON.parse(localStorage.getItem("tb")||"{}");Object.assign(D,s);D.set=Object.assign(DEF().set,s.set||{});if(!Array.isArray(D.pass))D.pass=[0,0,0];if(!D.medals||typeof D.medals!=="object")D.medals={};if(!D.bk)D.bk={};if(!D.st)D.st={};if(!D.miss||typeof D.miss!=="object")D.miss={};if(!D.bq||typeof D.bq!=="object"||Array.isArray(D.bq))D.bq={};D.kst=Array.isArray(D.kst)?[...new Set(D.kst.filter(i=>Number.isInteger(i)&&i>=0&&i<64))]:[];D.kg=Number.isFinite(+D.kg)&&+D.kg>0?Math.floor(+D.kg):0;D.lad=Number.isFinite(+D.lad)?Math.max(0,Math.min(15,Math.floor(+D.lad))):0;D.lai=D.lai?1:0;if(!okPic(D.pic)||!okPic(D.picS,12000)){D.pic="";D.picS=""}}catch(e){}
 const sv=()=>{try{localStorage.setItem("tb",JSON.stringify(D))}catch(e){}};
@@ -3251,15 +3340,15 @@ function view(html,name,cls=""){
   Tts.stop();VIEW=name;A.className=cls;$$(".sheet").forEach(s=>s.remove());document.body.classList.remove("sheeted");
   A.innerHTML=`<div class="screen">${html}</div>`;window.scrollTo(0,0);try{A.focus({preventScroll:true})}catch(e){}
   const top=name==="home"||name==="stats"||name==="settings",nv=$("#nav");nv.hidden=!top;document.body.classList.toggle("hasnav",top);
-  if(top)$$("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.go===name));rxBind()}
+  if(top)$$("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.go===name));rxBind();frPaint();chBadge()}
 function pushView(){try{if(!(history.state&&history.state.tb))history.pushState({tb:1},"")}catch(e){}}
 function goHome(){const sub=history.state&&history.state.tb;VIEW="home";if(sub){try{history.back()}catch(e){}}home()}
 function confirmExit(){confirmBox("¿Salir de la partida?","Se perderá el avance de esta partida.","Salir",goHome)}
-addEventListener("popstate",()=>{if(VIEW==="home")return;if(VIEW==="play"){pushView();confirmExit();return}home()});
+addEventListener("popstate",()=>{if($("#chp")){chClose();pushView();return}if(VIEW==="home")return;if(VIEW==="play"){pushView();confirmExit();return}home()});
 let wl=null;
 async function wake(on){try{if(on){if(!wl&&navigator.wakeLock){wl=await navigator.wakeLock.request("screen");wl.addEventListener("release",()=>{wl=null})}}else if(wl){const w=wl;wl=null;await w.release()}}catch(e){}}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&(G||R||RM||AR)&&!wl)wake(true)});
-function stopAll(){wake(false);Tts.stop();Tm.stop();closeModal();if(G){clearTimeout(G.rtm);clearTimeout(G.adv);G=null}AR=null;if(R){clearTimeout(R.bt);R=null}if(RM){try{RM.leave()}catch(e){}RM=null}for(const k in PICS)delete PICS[k];for(const k in RXS)delete RXS[k];["rxr","rxl"].forEach(i=>{const e=$("#"+i);if(e)e.remove()})}
+function stopAll(){wake(false);Tts.stop();Tm.stop();closeModal();if(G){clearTimeout(G.rtm);clearTimeout(G.adv);G=null}AR=null;if(R){clearTimeout(R.bt);R=null}if(RM){try{RM.leave()}catch(e){}RM=null;frBeat()}chReset();for(const k in PICS)delete PICS[k];for(const k in RXS)delete RXS[k];["rxr","rxl"].forEach(i=>{const e=$("#"+i);if(e)e.remove()})}
 const standalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
 const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
 
@@ -3409,7 +3498,7 @@ function bkClean(o){
   R.kst=Array.isArray(o.kst)?[...new Set(o.kst.filter(i=>Number.isInteger(i)&&i>=0&&i<KST.length))].sort((a,b)=>a-b):[];
   R.medals={};if(o.medals&&typeof o.medals==="object")MEDALS.forEach(m=>{if(o.medals[m.id])R.medals[m.id]=String(o.medals[m.id]).replace(/[^\d-]/g,"").slice(0,10)});
   const s=o.set&&typeof o.set==="object"?o.set:{};
-  R.set={snd:s.snd===0||s.snd===false?0:1,vib:s.vib===0||s.vib===false?0:1,big:s.big===2?2:s.big===1||s.big===true?1:0,tts:s.tts===1||s.tts===true?1:0,vr:s.vr===1||s.vr===true?1:0,kv:s.kv===0||s.kv===false?0:1,theme:["auto","light","dark"].includes(s.theme)?s.theme:"auto",time:[0,15,30].includes(+s.time)?+s.time:15};
+  R.set={snd:s.snd===0||s.snd===false?0:1,vib:s.vib===0||s.vib===false?0:1,big:s.big===2?2:s.big===1||s.big===true?1:0,tts:s.tts===1||s.tts===true?1:0,vr:s.vr===1||s.vr===true?1:0,kv:s.kv===0||s.kv===false?0:1,fon:s.fon===0||s.fon===false?0:1,theme:["auto","light","dark"].includes(s.theme)?s.theme:"auto",time:[0,15,30].includes(+s.time)?+s.time:15};
   return R}
 async function bkRead(code){
   const m=String(code||"").match(/TBP1([zu])\.([A-Za-z0-9_\-\s]+)\.([0-9a-z]{7})/);
@@ -3447,7 +3536,7 @@ function bkConfirm(R){
    [{t:"Cancelar",cls:"ghost"},{t:"Sí, recuperar",cls:"gold",fn:()=>bkApply(R)}])}
 function bkApply(R){
   const prev=JSON.stringify(D);
-  D=Object.assign(DEF(),R,{pic:D.pic,picS:D.picS,yvk:D.yvk}); /* la foto y la clave de este celular se quedan */
+  D=Object.assign(DEF(),R,{pic:D.pic,picS:D.picS,yvk:D.yvk,fid:D.fid,fr:D.fr,fsh:D.fsh}); /* la foto, la clave y los amigos de este celular se quedan */
   sv();applyTheme();
   modal(`<h3>✅ Progreso recuperado</h3><p>${bkSum(R)}</p><p>Se guardó en este celular.</p>`,
    [{t:"Deshacer",cls:"ghost",fn:()=>{D=Object.assign(DEF(),JSON.parse(prev));sv();applyTheme();toast("Volviste a tu progreso anterior");goHome()}},{t:"Listo",cls:"gold",fn:goHome}])}
@@ -3463,6 +3552,9 @@ function settings(){
   <div class="srow" style="display:block"><b>Tamaño del texto</b><small>Para leer mejor en toda la app. También lo cambias con el botón <b>Aa</b> del inicio</small><div class="seg" id="sFs"><button data-v="0" style="font-size:16px">Normal</button><button data-v="1" style="font-size:19px">Grande</button><button data-v="2" style="font-size:22px">Muy grande</button></div></div>
   <div class="srow" style="display:block"><b>Tema</b><div class="seg" id="sTh"><button data-v="auto">Automático</button><button data-v="light">Claro</button><button data-v="dark">Oscuro</button></div></div>
   <div class="srow" style="display:block"><b>Tiempo por pregunta</b><small>Normal: 15 s · Relajado: 30 s. En línea siempre son 15 s</small><div class="seg" id="sTm"><button data-v="15">15 s</button><button data-v="30">30 s</button><button data-v="0">Sin tiempo</button></div></div></div>
+  <div class="card" style="margin-top:.8rem"><div class="srow" style="display:block;padding-top:0"><b>👥 Amigos</b><small>Agrégalos una vez y después los invitas a jugar con un toque.</small></div>
+  ${sw("sFon",s.fon!==0,"Aparecer en línea","Tus amigos ven que tienes la app abierta y pueden invitarte")}
+  <button class="btn ghost sm" id="sFr" type="button" style="margin-top:.6rem;width:100%">👥 Mis amigos${D.fr.length?" ("+D.fr.length+")":""}</button></div>
   <div class="card" style="margin-top:.8rem"><div class="srow" style="display:block;padding-top:0"><b>🔊 Leer en voz alta</b><small>El teléfono lee las preguntas y los versículos con su propia voz en español. Los botones 🔊 aparecen en cada pregunta y en cada versículo.</small></div>
   ${Tts.ok?`${sw("sTts",s.tts,"Leer cada pregunta sola","Al empezar cada pregunta (menos en Contrarreloj)")}
   <div class="srow" style="display:block"><b>Velocidad de la voz</b><div class="seg" id="sVr"><button data-v="0">Normal</button><button data-v="1">Lenta</button></div></div>
@@ -3487,6 +3579,7 @@ function settings(){
     $("#yvX").onclick=()=>{D.yvk="";sv();$("#yvk").value="";$("#yvX").disabled=true;$("#yvR").textContent="";RVR_OK=null;$("#yvS").textContent=yvState();toast("Clave quitada");yvProbe().then(()=>{const s=$("#yvS");if(s)s.textContent=yvState()})};}
   const tg=(id,k,fn)=>$("#"+id).onclick=e=>{D.set[k]=D.set[k]?0:1;sv();e.currentTarget.setAttribute("aria-checked",!!D.set[k]);fn&&fn();Snd.play("click");if(k==="vib")vib(40)};
   tg("sSnd","snd");tg("sVib","vib");seg("sFs",fsz,v=>{D.set.big=+v;applyTheme()});
+  tg("sFon","fon",()=>{frQuiet=0;frBeat()});$("#sFr").onclick=()=>{Snd.play("click");amigos()};
   if(Tts.ok){tg("sTts","tts");seg("sVr",()=>D.set.vr,v=>{D.set.vr=+v;Tts.stop()});
     $("#sTest").onclick=()=>{Tts.say("Hola, esta es la voz de Trivia Bíblica. «Lámpara es a mis pies tu palabra».");const v=Tts.voice(),r=$("#sTestR");r.hidden=false;
       r.textContent=v?"Voz: "+v.name+" ("+v.lang+")":"No encontré una voz en español instalada: se usa la que trae el teléfono. En Android puedes instalar una en Ajustes › Idioma › Texto a voz."}}
@@ -3494,7 +3587,7 @@ function settings(){
   if($("#sIn"))$("#sIn").onclick=installApp;
   $("#sSh").onclick=()=>shareTxt("✝️ Trivia Bíblica: pon a prueba tu conocimiento de la Palabra. ¡Juega conmigo!",APPURL);
   $("#sHl").onclick=help;$("#sAb").onclick=about;
-  $("#sRs").onclick=()=>confirmBox("¿Borrar todo tu progreso?","Se borrarán tus puntos, rachas, logros, foto y ajustes. No se puede deshacer.","Borrar todo",()=>{D=DEF();sv();applyTheme();toast("Progreso borrado");home()});
+  $("#sRs").onclick=()=>confirmBox("¿Borrar todo tu progreso?","Se borrarán tus puntos, rachas, logros, foto, amigos y ajustes. No se puede deshacer.","Borrar todo",()=>{const of=D.fid;D=DEF();sv();applyTheme();frReset(of);toast("Progreso borrado");home()});
 }
 function help(){
   modal(`<div class="help"><h3>Cómo jugar</h3>
@@ -3895,7 +3988,7 @@ function ask(){
   const me=D.name||"Tú",vs=duel?`<div class="vs"><div class="p"><span class="${avCls(D.pic)}" style="--avc:${avc(me)}">${avIn(me,D.pic)}</span><b>${esc(me)}</b><span class="sc" id="my">${G.pts}</span></div><span class="x">VS</span><div class="p" id="rvp"><span class="av" style="--avc:${avc(G.rn)}">${esc(ini(G.rn))}</span><b>${esc(G.rn)}</b><span class="sc" id="rv">${G.rv}</span></div></div>`:"";
   const rl=rush&&G.i>0?Math.max(0,Tm.left):60;
   const bar=rush?`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="rbar" role="timer" aria-label="Tiempo restante"><i id="gbar" style="width:${(rl/60*100).toFixed(1)}%"></i><b id="gtime">${Math.ceil(rl)}</b></div><div class="pill gold" id="sc">✅ ${G.ok}</div></div>`
-    :`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="dots" role="img" aria-label="Pregunta ${G.i+1} de ${G.n}">${dots}</div>${online?rxBtn():""}${duel?"":`<div class="pill gold" id="sc">⭐ ${G.pts}</div>`}</div>`;
+    :`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="dots" role="img" aria-label="Pregunta ${G.i+1} de ${G.n}">${dots}</div>${online?rxBtn()+chBtn():""}${duel||online?"":`<div class="pill gold" id="sc">⭐ ${G.pts}</div>`}</div>`;
   const rto=G.mode==="reto"&&G.rival?`<div class="live"><span>⚔️ Contra ${esc(G.rival.n)} · ${G.rival.p} pts (${G.rival.a}/10)</span></div>`:"";
   view(`${bar}${vs}${rto}${lad?ladBar():""}${online?'<div class="live" id="sb"></div>':""}
   <div class="qcard" style="${catStyle(b)}"><div class="qhead"><div><span class="qn">${modeLabel(G)} · ${rush?"#"+(G.i+1):(G.i+1)+"/"+G.n}</span>${b.e} ${b.n}</div><div class="qrt">${Tts.ok?'<button type="button" class="spk" id="spk" aria-label="Escuchar la pregunta">🔊</button>':""}${ring}</div></div><p class="q${q.cz?" cz":""}">${q.q}</p></div>
@@ -3982,6 +4075,7 @@ function endGame(){
   if(g.mode==="kids")btns=`<button class="btn gold" id="again">▶️ Jugar otra vez</button><button class="btn ghost" id="kal">🖼️ Mi álbum de figuritas</button><button class="btn ghost" id="hm">Inicio</button>`;
   if(g.mode==="reto")btns=g.rival?`<button class="btn gold" id="again">🔁 Revancha: ahora retas tú</button><button class="btn ghost" id="shr">📣 Contarle a ${esc(g.rival.n)}</button><button class="btn ghost" id="hm">Inicio</button>`
     :`<button class="btn gold" id="rsend">⚔️ Mandar el reto a un amigo</button><button class="btn ghost" id="again">Jugar otro reto</button><button class="btn ghost" id="hm">Inicio</button>`;
+  if(g.mode==="online"&&RM)btns=btns.replace('<button class="btn ghost" id="shr">',chRes()+'<button class="btn ghost" id="shr">');
   view(`<div class="res"><div class="trophy">${trophy}</div>
   <div class="stars" aria-label="${stars} de 3 estrellas">${[0,1,2].map(i=>`<span class="${i<stars?"on":""}" style="animation-delay:${.35+i*.22}s">⭐</span>`).join("")}</div>
   <div class="score" id="scn">0</div><p class="sub" style="margin:.1rem 0 0">puntos · ${g.mode==="lad"?`peldaño ${g.ok} de ${n}`:`${g.ok}/${n} correctas`}</p>
@@ -4122,7 +4216,7 @@ function spinWheel(idx,done){
   setTimeout(end,dur+300)}
 
 const crownsHTML=(n,w)=>"👑".repeat(n)+(w>n?`<span class="off">${"👑".repeat(w-n)}</span>`:"");
-const rBar=()=>`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="ttl">🎡 Ruleta de coronas</div>${R.on?rxBtn():'<span style="width:2.75rem"></span>'}</div>`;
+const rBar=()=>`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="ttl">🎡 Ruleta de coronas</div>${R.on?rxBtn()+chBtn():'<span style="width:2.75rem"></span>'}</div>`;
 /* foto de cada jugador: en línea se busca entre los de la sala; en local viene con el jugador */
 const picOf=(p,i)=>R.on?(i===R.mi?D.pic:peerPic(p.n)):(p.pic||"");
 const boardP=()=>`<div class="board">${R.ps.map((p,i)=>{const pc=picOf(p,i);return`<div class="pl${i===R.t?" on":""}"><span class="${avCls(pc)}"${okPic(pc)?"":` style="background:${PCOL[i%4]}"`}>${avIn(p.n,pc)}</span><b>${esc(p.n)}${p.bot?" 🤖":""}${R.on&&i===R.mi?" (tú)":""}</b><span class="cr" aria-label="${p.cr} de ${R.win} coronas">${crownsHTML(p.cr,R.win)}</span></div>`}).join("")}</div>`;
@@ -4233,7 +4327,7 @@ function rEnd(w){ /* w: el jugador ganador o, por equipos, el equipo ganador */
   view(`<div class="res"><div class="trophy">🏆</div><h1 class="h1" style="font-size:1.9rem">¡${T?TMN[wi]:esc(w.n)} ganó!</h1><p class="sub">${won?"¡Felicidades, buen trabajo!":"¡Buena partida!"}</p>
   <div class="card rank">${rows}</div>
   <div class="chips">${nm.map(m=>`<span class="chip new">${m.e} ${m.t}</span>`).join("")}</div></div>
-  <button class="btn gold" id="ag">${R.on?"Volver a la sala":"Revancha"}</button><button class="btn ghost" id="hm">Inicio</button>`,"result");
+  <button class="btn gold" id="ag">${R.on?"Volver a la sala":"Revancha"}</button>${R.on&&RM?chRes():""}<button class="btn ghost" id="hm">Inicio</button>`,"result");
   if(won){confetti();Snd.play("win")}else Snd.play("lose");
   $("#ag").onclick=()=>{if(R.on)lobby();else{R.ps.forEach(q=>q.cr=0);if(R.TM)tmInit();else R.t=0;R.row=0;rTurn("¡Revancha!")}};
   $("#hm").onclick=goHome}
@@ -4285,10 +4379,26 @@ const FB={async join(name){
     leave(){if(dead)return;dead=1;clearInterval(t1);clearInterval(t2);try{es&&es.close()}catch(e){}cbs=[];q=q.then(()=>fetch(url+"/"+id+".json",{method:"DELETE"})).then(()=>avSent?fetch(avUrl+"/"+id+".json",{method:"DELETE"}):0).catch(()=>{})}}
 }};
 let ME="",CUR=null,MODE="q",seen=0,lobbyHTML="";
+/* entrar a una sala (o crearla). Lo usan el formulario de «Con amigos», las invitaciones de un toque y «crear sala y invitar».
+   o = {nm, cd, pw, host, view (pantalla en la que debe seguir la persona mientras se conecta), msg(texto), lock(bool), nf (texto si la sala no existe)} → true si entró */
+async function roomEnter(o){
+  const{nm,cd,pw,host}=o,msg=o.msg||(()=>{}),lock=o.lock||(()=>{});
+  D.name=nm;sv();ME=nm;CUR={cd,pw};msg("Conectando…");lock(true);
+  let room;try{room=await FB.join("trivia-"+cd+"-"+hh(pw))}catch(e){msg("No se pudo conectar. Revisa tu internet e inténtalo otra vez.");lock(false);return false}
+  if(VIEW!==(o.view||"menu")){try{room.leave()}catch(e){}return false}
+  RM=room;{const g0=RM.all().map(p=>p.presence.go).find(x=>x&&x.s);if(g0)seen=g0.s}
+  chReset();
+  RM.presence({name:nm,v:NETV,av:APPV,fc:frEnsure(),score:0,i:0,done:0,go:null,ev:[],host:host?{m:MODE}:null});
+  if(okPic(D.picS,12000))RM.setAvatar(D.picS);
+  EV=[];lobbyHTML="";wake(true);RM.onPeers(upd);VIEW="lobby";renderLobby();frBeat();
+  if(!host)setTimeout(()=>{if(VIEW==="lobby"&&RM===room&&!RM.peers().some(p=>p.presence.host)){try{RM.leave()}catch(e){}RM=null;chReset();lobby();setTimeout(()=>{const m=$("#msg");if(m)m.textContent=o.nf||"Sala no encontrada o contraseña incorrecta."},60)}},3500);
+  return true}
 function lobby(inv){
   pushView();
   if(RM){EV=[];lobbyHTML="";RM.presence({score:0,i:0,done:0,go:null,ev:[]});VIEW="lobby";renderLobby();return}
+  const nF=D.fr.length,nA=Object.keys(REQS).length+Object.keys(INVS).length;
   view(`<h1 class="h1"><span class="em">🌍</span> Con amigos</h1><p class="sub">Crea una sala con contraseña o únete a la de tu amigo con los mismos datos.</p>
+  <div class="tiles" style="margin:0 0 .9rem"><button type="button" class="tile wide" id="fri" style="--tc:#127850"><span class="ic" style="--tc:#127850">${ico("users")}</span><span><b>Mis amigos</b><small>${nF?nF+" amigo"+(nF>1?"s":"")+(nA?" · 🔔 "+nA+" aviso"+(nA>1?"s":""):""):"Agrégalos e invítalos con un toque"}</small></span></button></div>
   <div class="card"><label class="lbl" for="nm" style="margin-top:0">Tu nombre</label><input id="nm" maxlength="14" placeholder="Tu nombre" value="${esc(D.name||"")}" autocomplete="nickname">
   <label class="lbl" for="cd">Nombre de la sala</label><input id="cd" maxlength="20" placeholder="ej. iglesia1" value="${esc((inv&&inv.sala)||"")}" autocapitalize="none" autocomplete="off">
   <label class="lbl" for="pw">Contraseña</label><input id="pw" maxlength="20" placeholder="Contraseña de la sala" value="${esc((inv&&inv.clave)||"")}" autocomplete="off">
@@ -4296,41 +4406,40 @@ function lobby(inv){
   <div style="margin-top:1rem"><button class="btn gold" id="cr">Crear sala</button><button class="btn" id="jn">Unirme a una sala</button><button class="btn ghost" id="bk">Volver</button></div><p class="sub" id="msg" role="status" style="margin-top:.8rem"></p>`,"menu");
   const pm=()=>$$("#md button").forEach(b=>b.classList.toggle("on",b.dataset.m===MODE));pm();
   $$("#md button").forEach(b=>b.onclick=()=>{MODE=b.dataset.m;Snd.play("click");pm()});
-  $("#bk").onclick=goHome;
+  $("#bk").onclick=goHome;$("#fri").onclick=()=>{Snd.play("click");amigos()};
   const msg=t=>{const m=$("#msg");if(m)m.textContent=t},lock=v=>{["cr","jn"].forEach(i=>{const e=$("#"+i);if(e)e.disabled=v})};
-  const enter=async host=>{
+  const enter=async(host,nf)=>{
     const nm=$("#nm").value.trim().slice(0,14)||"Amigo",cd=$("#cd").value.trim().toLowerCase().replace(/[^a-z0-9]/g,""),pw=$("#pw").value;
     if(!cd||!pw){msg("Escribe el nombre de la sala y la contraseña.");return}
-    D.name=nm;sv();ME=nm;CUR={cd,pw};msg("Conectando…");lock(true);
-    let room;try{room=await FB.join("trivia-"+cd+"-"+hh(pw))}catch(e){msg("No se pudo conectar. Revisa tu internet e inténtalo otra vez.");lock(false);return}
-    if(VIEW!=="menu"){try{room.leave()}catch(e){}return}
-    RM=room;{const g0=RM.all().map(p=>p.presence.go).find(x=>x&&x.s);if(g0)seen=g0.s}
-    RM.presence({name:nm,v:NETV,score:0,i:0,done:0,go:null,ev:[],host:host?{m:MODE}:null});
-    if(okPic(D.picS,12000))RM.setAvatar(D.picS);
-    EV=[];lobbyHTML="";wake(true);RM.onPeers(upd);VIEW="lobby";renderLobby();
-    if(!host)setTimeout(()=>{if(VIEW==="lobby"&&RM&&!RM.peers().some(p=>p.presence.host)){try{RM.leave()}catch(e){}RM=null;lobby();setTimeout(()=>msg("Sala no encontrada o contraseña incorrecta."),60)}},3500)};
-  $("#cr").onclick=()=>enter(true);$("#jn").onclick=()=>enter(false)}
+    await roomEnter({nm,cd,pw,host,view:"menu",msg,lock,nf})};
+  $("#cr").onclick=()=>enter(true);$("#jn").onclick=()=>enter(false);
+  if(inv&&inv.auto&&inv.sala&&inv.clave)enter(false,"Esa sala ya no está abierta. Pídele a tu amigo que te vuelva a invitar.")} /* invitación de un toque: entra sola */
 function renderLobby(){
   if(!RM||VIEW!=="lobby")return;
   const ps=RM.peers().filter(p=>p.isMe||!p.gone),h=ps.find(p=>p.presence.host),mo=h?h.presence.host.m:MODE,me=ps.find(p=>p.isMe);
+  LMODE=mo;
   if(me&&ps.some(p=>!p.isMe&&p.presence.name===me.presence.name)){ME=ME.replace(/\d+$/,"")+Math.floor(Math.random()*90+10);RM.presence({name:ME})}
   if(!h&&me&&ps.length>=2&&ps.map(p=>p.id).sort()[0]===me.id)RM.presence({host:{m:MODE}});
   const T=mo==="t",tmv=p=>p.presence.tm?1:0;
   if(T&&me&&me.presence.tm===undefined){const c=[0,1].map(t=>ps.filter(p=>!p.isMe&&p.presence.tm===t).length);RM.presence({tm:c[0]<=c[1]?0:1})} /* cada uno entra al equipo con menos gente */
   const teamsOk=!T||(ps.some(p=>tmv(p)===0)&&ps.some(p=>tmv(p)===1));
-  const prow=p=>`<div class="prow"><span class="${avCls(pic4(p))}" style="--avc:${avc(p.presence.name||"Amigo")}">${avIn(p.presence.name||"A",pic4(p))}</span><b>${esc(p.presence.name||"Amigo")}${p.isMe?" (tú)":""}</b>${p.presence.host?"<small>👑 anfitrión</small>":""}</div>`;
+  const frs=new Set(D.fr.map(f=>f.i));
+  const fbtn=p=>{const c=p.presence.fc,nm=p.presence.name||"Amigo";if(p.isMe||p.gone||!fcOk(c)||c===D.fid)return"";
+    return frs.has(c)?`<span class="isf" role="img" aria-label="${esc(nm)} es tu amigo" title="Es tu amigo">⭐</span>`:`<button type="button" class="addf" data-c="${c}" data-n="${esc(nm)}" aria-label="Agregar a ${esc(nm)} como amigo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5.5v13M5.5 12h13" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button>`};
+  const prow=p=>`<div class="prow"><span class="${avCls(pic4(p))}" style="--avc:${avc(p.presence.name||"Amigo")}">${avIn(p.presence.name||"A",pic4(p))}</span><b class="pn"><span>${esc(p.presence.name||"Amigo")}</span>${p.isMe?"<i> (tú)</i>":""}</b>${p.presence.host?"<small>👑 anfitrión</small>":""}${fbtn(p)}</div>`;
   const teamsHTML=`<div class="teamsel">${[0,1].map(t=>`<div class="tcol" style="--pc:${PCOL[t]}"><b>${TMN[t]}</b>${ps.filter(p=>tmv(p)===t).map(prow).join("")||'<small class="mut">Sin jugadores</small>'}</div>`).join("")}</div>`;
   const iHost=!!(me&&me.presence.host),bad=ps.filter(p=>p.presence.v!==NETV),code=RM.name.slice(7).replace(/-[^-]*$/,"");
   const html=`<h1 class="h1">Sala</h1><div class="card room" style="position:relative"><span class="rxpos">${rxBtn()}</span><div class="code">${esc(code)}</div><p class="sub" style="margin:.2rem 0 0">Modo: <b>${mo==="r"?"🎡 Ruleta de coronas":T?"🧩 Ruleta por equipos":"❓ Solo preguntas"}</b> · ${ps.length} conectado${ps.length>1?"s":""}</p>
   ${T?teamsHTML:`<div class="plist">${ps.map(prow).join("")}</div>`}</div>
   ${bad.length?`<div class="warn">⚠️ ${bad.map(p=>esc(p.presence.name||"Alguien")).join(", ")} tiene otra versión de la app. Pídele que cierre y vuelva a abrir la app para poder jugar juntos.</div>`:""}
   <div style="margin-top:1rem">${iHost?(ps.length<2?'<p class="sub" style="margin:0 0 .8rem">Esperando a que entre al menos un jugador más…</p><button class="btn gold" disabled>Empezar partida</button>':`${teamsOk?"":'<p class="sub" style="margin:0 0 .8rem">Cada equipo necesita al menos un jugador.</p>'}<button class="btn gold" id="st" ${bad.length||!teamsOk?"disabled":""}>Empezar partida</button>`):'<p class="sub" style="margin:0 0 .8rem">Esperando a que el anfitrión empiece la partida…</p>'}
-  ${T?'<button class="btn" id="swt">🔁 Cambiar de equipo</button>':""}<button class="btn" id="inv">📣 Invitar amigos</button><button class="btn ghost" id="bk">Salir de la sala</button></div>`;
+  ${T?'<button class="btn" id="swt">🔁 Cambiar de equipo</button>':""}<button class="btn" id="invf">👥 Invitar a mis amigos</button><button class="btn" id="inv">📣 Compartir enlace de la sala</button><button class="btn ghost" id="bk">Salir de la sala</button></div>`;
   if(html===lobbyHTML&&$("#lobbyroot"))return;lobbyHTML=html;
-  if($("#lobbyroot"))$("#lobbyroot").innerHTML=html;else view(`<div id="lobbyroot">${html}</div>`,"lobby");
+  if($("#lobbyroot"))$("#lobbyroot").innerHTML=html;else{view(`<div id="lobbyroot">${html}</div><div class="card chcard" id="chatroot"></div>`,"lobby");chMount($("#chatroot"),true)} /* el chat queda fuera de #lobbyroot: así no se borra lo que escribes cuando la sala se actualiza */
   const st=$("#st");if(st)st.onclick=()=>{Snd.play("click");RM.presence({go:{s:Math.floor(Math.random()*1e9)+1,m:mo,pl:ps.map(p=>p.presence.name),tm:ps.map(tmv),v:NETV}})};
   const sw=$("#swt");if(sw)sw.onclick=()=>{Snd.play("click");RM.presence({tm:tmv(me)?0:1})};
   rxBind();
+  $("#invf").onclick=()=>{Snd.play("click");frSheet()};$$(".addf").forEach(b=>b.onclick=()=>{Snd.play("click");addFromRoom(b.dataset.c,b.dataset.n)});
   $("#inv").onclick=()=>{if(!CUR)return;shareTxt(`🎮 ¡Juega conmigo en Trivia Bíblica!\nSala: ${CUR.cd}\nContraseña: ${CUR.pw}\n${APPURL}#sala=${encodeURIComponent(CUR.cd)}&clave=${encodeURIComponent(CUR.pw)}`)};
   $("#bk").onclick=goHome}
 function startFromGo(g){
@@ -4338,7 +4447,7 @@ function startFromGo(g){
   if(g.m==="r"||g.m==="t"){const mi=g.pl.indexOf(ME);if(mi<0)return;ruleta(g.pl.map((n,i)=>({n,tm:g.tm?g.tm[i]:0})),3,true,g.s,mi,g.m==="t")}
   else startGame(shuffle(QS,rng(g.s)),"online")}
 function upd(){
-  if(!RM)return;wantPics();rxPeers();
+  if(!RM)return;wantPics();rxPeers();chSync();
   if(R&&R.on&&VIEW==="play"){rSync();return}
   if(VIEW==="lobby"){const g=RM.peers().map(p=>p.presence.go).find(x=>x&&x.s);if(g&&g.s!==seen&&(g.m==="q"||g.pl.includes(ME))&&g.v===NETV){startFromGo(g);return}renderLobby();return}
   if(G&&G.mode==="online"&&VIEW==="play")updSB();
@@ -4385,6 +4494,310 @@ const byScore=()=>[...RM.peers().filter(p=>p.isMe||!p.gone)].sort((a,b)=>(b.pres
 function updSB(){const sb=$("#sb");if(!sb||!RM)return;sb.innerHTML=byScore().map(p=>`<span class="${p.isMe?"me":""}">${mini(p)}${esc(p.presence.name||"Amigo")} · ${p.presence.score||0}</span>`).join("")}
 function updRank(){const rk=$("#rk");if(!rk||!RM)return;rk.innerHTML="<b>Clasificación</b>"+byScore().map((p,i)=>`<div class="${p.isMe?"me":""}"><span>${["🥇","🥈","🥉"][i]||(i+1)+"."} ${mini(p)}${esc(p.presence.name||"Amigo")}${p.presence.done?"":" · jugando…"}</span><b>${p.presence.score||0}</b></div>`).join("")}
 
+/* ============================================================
+   AMIGOS Y CHAT (4.3)
+   · Código de amigo propio, lista de amigos y pedidos de amistad.
+   · Invitar con un toque: la invitación llega al buzón del amigo y, si tiene la app abierta, le aparece un cartel (dura 15 min).
+   · «En línea»: cada celular con la app abierta avisa cada 30 s que está ahí (se puede apagar en Ajustes).
+   · Chat de la sala: los mensajes viajan dentro de la presencia de cada jugador (campo ch), igual que las reacciones con emojis.
+   Todo usa la misma base de datos y las mismas reglas de siempre (rooms/<sala>/<jugador>), sin tocar nada en Firebase:
+     rooms/pr-<código>/<código>        presencia: {n nombre, t hora del servidor, o en línea, h oculto, r en una sala}
+     rooms/fr-<código>/<remitente>-i   invitación: {k, c, n, t, s sala, p clave, m modo}
+     rooms/fr-<código>/<remitente>-f   pedido de amistad: {k, c, n, t}
+   ============================================================ */
+const FRA="abcdefghjkmnpqrstuvwxyz23456789",FRMAX=60,INVTTL=15*60000,REQTTL=7*864e5,ONLMS=75000,FRQ=/^[a-hj-km-np-z2-9]{8}$/;
+const fcOk=c=>typeof c==="string"&&FRQ.test(c);
+const fcFmt=c=>String(c).toUpperCase().replace(/^(.{4})(.{4})$/,"$1-$2");
+const fcParse=s=>String(s||"").toLowerCase().replace(/[^a-z0-9]/g,"");
+const nmClean=s=>String(s||"").replace(/[\u0000-\u001f\u007f<>]/g,"").replace(/\s+/g," ").trim().slice(0,14);
+let frOff=0,frHas=0,frBeatT=0,frPollT=0,frBusy=0,frQuiet=0,frScrT=0,LMODE="q";
+const INVS={},REQS={},FST={},FDIS=new Set(),FSHOWN={};
+const frNow=()=>Date.now()+frOff,frUrl=(room,id)=>FBURL+"/rooms/"+room+(id?"/"+id:"")+".json";
+const frAgo=ms=>{const m=Math.floor(ms/6e4);return m<2?"hace un momento":m<60?"hace "+m+" min":m<1440?"hace "+Math.floor(m/60)+" h":"hace "+Math.floor(m/1440)+" d"};
+(function(){ /* lo que viene guardado (o de una copia de seguridad) se revisa siempre */
+  if(!fcOk(D.fid))D.fid="";
+  const seen=new Set(),a=[];
+  (Array.isArray(D.fr)?D.fr:[]).forEach(f=>{if(f&&fcOk(f.i)&&f.i!==D.fid&&!seen.has(f.i)&&a.length<FRMAX){seen.add(f.i);a.push({i:f.i,n:nmClean(f.n)||"Amigo",t:Number.isFinite(+f.t)?+f.t:0})}});
+  D.fr=a;D.fsh=Number.isFinite(+D.fsh)&&+D.fsh>0?+D.fsh:0})();
+
+/* ---------- mi código y mi presencia ---------- */
+function frEnsure(){
+  if(!fcOk(D.fid)){
+    let c="";try{for(const x of crypto.getRandomValues(new Uint8Array(8)))c+=FRA[x%FRA.length]}catch(e){c="";for(let i=0;i<8;i++)c+=FRA[Math.random()*FRA.length|0]}
+    D.fid=c;sv();frHas=0;frQuiet=0;
+    if(frBeatT){frBeat();frPoll()}}
+  frStart();return D.fid}
+function frStart(){
+  if(frBeatT||!fcOk(D.fid))return;
+  frBeatT=setInterval(frBeat,window.__TB_FRBEAT||30000);frPollT=setInterval(frPoll,window.__TB_FRPOLL||10000);
+  frBeat();frPoll()}
+async function frBeat(){
+  if(!fcOk(D.fid)||document.hidden)return;
+  const on=D.set.fon===0?0:1;
+  if(!on&&frQuiet)return;frQuiet=on?0:1; /* sin «en línea»: se avisa una sola vez que estoy oculto */
+  try{
+    const r=await fetch(frUrl("pr-"+D.fid,D.fid),{method:"PUT",body:JSON.stringify({n:nmClean(D.name)||"Amigo",t:{".sv":"timestamp"},o:on,h:on?0:1,r:RM?1:0})});
+    if(!r.ok)return;const j=await r.json().catch(()=>null);frHas=1;
+    if(j&&typeof j.t==="number")frOff=j.t-Date.now();else frClock()
+  }catch(e){}}
+async function frClock(){try{const r=await fetch(frUrl("pr-"+D.fid,D.fid)),j=await r.json();if(j&&typeof j.t==="number")frOff=j.t-Date.now()}catch(e){}}
+function frOffline(){if(!fcOk(D.fid))return;frQuiet=0;try{fetch(frUrl("pr-"+D.fid,D.fid),{method:"PATCH",body:JSON.stringify({o:0,r:0,t:{".sv":"timestamp"}}),keepalive:true}).catch(()=>{})}catch(e){}}
+document.addEventListener("visibilitychange",()=>{if(!fcOk(D.fid))return;if(document.hidden)frOffline();else{frBeat();frPoll()}});
+addEventListener("pagehide",frOffline);
+function frReset(old){ /* «Borrar mi progreso»: también se borra lo de amigos de este celular */
+  [INVS,REQS,FST,FSHOWN].forEach(o=>Object.keys(o).forEach(k=>delete o[k]));FDIS.clear();frHas=0;frQuiet=0;frOff=0;
+  if(fcOk(old)){try{fetch(frUrl("pr-"+old,old),{method:"DELETE"}).catch(()=>{})}catch(e){}}
+  const b=$("#invb");if(b)b.remove()}
+
+/* ---------- el buzón: invitaciones y pedidos de amistad ---------- */
+async function frPoll(){
+  if(!fcOk(D.fid)||document.hidden||frBusy)return;frBusy=1;
+  try{if(!frHas)await frBeat();const r=await fetch(frUrl("fr-"+D.fid));if(r.ok){const d=await r.json();frIn(d&&typeof d==="object"?d:{})}}catch(e){console.error(e)}
+  frBusy=0}
+function frIn(d){
+  const now=frNow(),R2={},I2={};let fresh=0,auto=0;
+  Object.keys(d).forEach(k=>{
+    const v=d[k],m=/^([a-hj-km-np-z2-9]{8})-([if])$/.exec(k),del=()=>{fetch(frUrl("fr-"+D.fid,k),{method:"DELETE"}).catch(()=>{})};
+    if(!m||!v||typeof v!=="object"){del();return}
+    const c=m[1],kind=m[2],t=+v.t||0;
+    if(v.c!==c||t<=0||now-t>(kind==="i"?INVTTL:REQTTL)){del();return} /* vencida o rara: se borra */
+    const n=nmClean(v.n)||"Amigo",id=k+":"+t;
+    if(FDIS.has(id))return;
+    let isF=D.fr.some(f=>f.i===c);
+    if(!isF&&D.fsh&&Date.now()-D.fsh<864e5&&frAdd(c,n)){isF=true;auto=n} /* compartí mi enlace o mi código hace poco: se acepta solo */
+    if(kind==="f"){
+      if(isF){del();FDIS.add(id);return}
+      R2[k]=REQS[k]&&REQS[k].id===id?REQS[k]:(fresh=1,{id,k,c,n,t});return}
+    const s=String(v.s||""),p=String(v.p||"");
+    if(!/^[a-z0-9]{1,20}$/.test(s)||!p||p.length>20){del();return}
+    if(!isF){R2[k]=REQS[k]&&REQS[k].id===id?REQS[k]:(fresh=1,{id,k,c,n,t,i:1});return} /* todavía no es amigo: se ve como pedido y la invitación espera */
+    I2[k]=INVS[k]&&INVS[k].id===id?INVS[k]:(fresh=1,{id,k,c,n,s,p,m:["q","r","t"].includes(v.m)?v.m:"q",t})});
+  const same=(a,b)=>{const x=Object.keys(a),y=Object.keys(b);return x.length===y.length&&x.every(k=>a[k]===b[k])};
+  const ch=!same(R2,REQS)||!same(I2,INVS)||auto;
+  [[REQS,R2],[INVS,I2]].forEach(([o,n])=>{Object.keys(o).forEach(k=>delete o[k]);Object.assign(o,n)});
+  if(auto)toast("¡"+esc(auto)+" ahora es tu amigo! 🎉");
+  if(fresh||auto)Snd.play("ok");
+  if(ch){frPaint();frListPaint()}}
+async function frStatusAll(){
+  if(!D.fr.length)return;let ch=0;
+  if(!frHas)await frBeat();
+  await Promise.all(D.fr.map(async f=>{
+    try{const r=await fetch(frUrl("pr-"+f.i));if(!r.ok)return;const j=await r.json(),v=j&&j[f.i];
+      if(v&&typeof v==="object"){FST[f.i]={n:nmClean(v.n),t:+v.t||0,o:v.o?1:0,h:v.h?1:0,r:v.r?1:0};const n=FST[f.i].n;if(n&&n!==f.n){f.n=n;ch=1}}}catch(e){}}));
+  if(ch)sv()}
+const frOn=f=>{const s=FST[f.i];return!!(s&&s.o&&frNow()-s.t<ONLMS)};
+
+/* ---------- amigos: agregar, quitar, mandar ---------- */
+function frAdd(c,n){
+  if(!fcOk(c)||c===D.fid)return false;
+  if(D.fr.some(f=>f.i===c))return true;
+  if(D.fr.length>=FRMAX){toast("Llegaste al máximo de "+FRMAX+" amigos");return false}
+  D.fr.push({i:c,n:nmClean(n)||"Amigo",t:Date.now()});sv();return true}
+function frDel(c){D.fr=D.fr.filter(f=>f.i!==c);delete FST[c];sv()}
+async function frSend(c,kind,extra){
+  if(!fcOk(c))return false;frEnsure();
+  try{const r=await fetch(frUrl("fr-"+c,D.fid+"-"+kind),{method:"PUT",body:JSON.stringify(Object.assign({k:kind,c:D.fid,n:nmClean(D.name)||"Amigo",t:{".sv":"timestamp"}},extra||{}))});return r.ok}catch(e){return false}}
+const frLink=()=>`${APPURL}#amigo=${D.fid}&n=${encodeURIComponent(nmClean(D.name)||"Amigo")}`;
+function frShare(){frEnsure();D.fsh=Date.now();sv();shareTxt(`👥 ¡Agrégame como amigo en Trivia Bíblica!\nMi código: ${fcFmt(D.fid)}\n${frLink()}`)}
+function frCopy(){frEnsure();D.fsh=Date.now();sv();const c=fcFmt(D.fid);(navigator.clipboard?navigator.clipboard.writeText(c):Promise.reject()).then(()=>toast("Código copiado ✓"),()=>toast("Anota tu código: "+c,{ms:6000}))}
+function reqAccept(r){
+  if(!frAdd(r.c,r.n))return;delete REQS[r.k];
+  if(r.i)setTimeout(frPoll,50); /* la invitación que venía con el pedido ahora sí cuenta */
+  else{FDIS.add(r.id);fetch(frUrl("fr-"+D.fid,r.k),{method:"DELETE"}).catch(()=>{})}
+  toast("¡"+esc(r.n)+" ahora es tu amigo! 🎉");frPaint();frListPaint();frStatusAll().then(frListPaint)}
+function reqIgnore(r){delete REQS[r.k];FDIS.add(r.id);fetch(frUrl("fr-"+D.fid,r.k),{method:"DELETE"}).catch(()=>{});frPaint();frListPaint()}
+function invDrop(v){delete INVS[v.k];FDIS.add(v.id);fetch(frUrl("fr-"+D.fid,v.k),{method:"DELETE"}).catch(()=>{});frPaint();frListPaint()}
+function invJoin(v){
+  invDrop(v);
+  if(RM&&CUR&&CUR.cd===v.s){toast("Ya estás en esa sala");return}
+  const go=()=>{stopAll();lobby({sala:v.s,clave:v.p,auto:1})};
+  if(RM||VIEW==="play")confirmBox("¿Unirte a la sala de "+esc(v.n)+"?","Dejarás lo que estás haciendo para entrar a su sala.","Unirme",go,"gold");else go()}
+
+/* ---------- el cartel de arriba (pedidos e invitaciones nuevos) ---------- */
+function frPaint(){
+  try{
+    const b=$("#invb"),now=Date.now(),nq=Object.keys(REQS).length,ni=Object.keys(INVS).length;
+    const items=[...Object.values(REQS).map(x=>({r:1,x})),...Object.values(INVS).map(x=>({r:0,x}))].filter(o=>!FSHOWN[o.x.id]||now-FSHOWN[o.x.id]<30000);
+    const hint=$("#onl small");
+    if(VIEW==="home"&&hint){const n=nq+ni;hint.textContent=n?"🔔 "+n+" aviso"+(n>1?"s":"")+" de amigos":"Juega en línea"}
+    if(VIEW==="play"||VIEW==="amigos"||!items.length){if(b)b.remove();return}
+    const o=items[0],id=o.x.id;
+    if(b&&b.dataset.id===id)return;
+    if(b)b.remove();
+    if(!FSHOWN[id]){FSHOWN[id]=now;setTimeout(frPaint,30500)}
+    const el=document.createElement("div");el.id="invb";el.dataset.id=id;el.setAttribute("role","alert");
+    el.innerHTML=`<span class="ie" aria-hidden="true">${o.r?"👥":"🎮"}</span><div><b>${esc(o.x.n)}</b><small>${o.r?(o.x.i?"Te invita a jugar":"Quiere ser tu amigo"):"Te invita a jugar"}</small></div><button type="button" class="btn gold sm" id="invy">${o.r?"Aceptar":"Unirme"}</button><button type="button" class="ibtn" id="invn" aria-label="Cerrar el aviso">✕</button>`;
+    document.body.appendChild(el);
+    $("#invy").onclick=()=>{Snd.play("click");el.remove();o.r?reqAccept(o.x):invJoin(o.x)};
+    $("#invn").onclick=()=>{FSHOWN[id]=now-31000;el.remove()}
+  }catch(e){console.error(e)}}
+
+/* ---------- lista de amigos (pantalla «Mis amigos» y hoja de invitar de la sala) ---------- */
+function frRow(f,sheet){
+  const s=FST[f.i],on=frOn(f),nm=f.n||"Amigo",
+    st=on?(s.r?"🟢 En una sala":"🟢 En línea"):s&&s.t&&!s.h?"⚪ "+frAgo(frNow()-s.t):"⚪ Sin conexión";
+  return`<div class="frow" data-c="${f.i}"><span class="av" style="--avc:${avc(nm)}" aria-hidden="true">${esc(ini(nm))}</span><div class="fi"><b>${esc(nm)}</b><small class="fs${on?" on":""}">${st}</small></div><button type="button" class="btn gold sm fin" data-c="${f.i}" aria-label="Invitar a ${esc(nm)}">Invitar</button>${sheet?"":`<button type="button" class="ibtn fx" data-c="${f.i}" aria-label="Quitar a ${esc(nm)} de mis amigos">✕</button>`}</div>`}
+function frListHTML(sheet){
+  const rq=Object.values(REQS),iv=Object.values(INVS);
+  const row=(n,ic,sub,yes,no,k,cy,cn)=>`<div class="frow"><span class="av" style="--avc:${avc(n)}" aria-hidden="true">${ic}</span><div class="fi"><b>${esc(n)}</b><small>${sub}</small></div><button type="button" class="btn gold sm ${cy}" data-k="${k}">${yes}</button><button type="button" class="ibtn ${cn}" data-k="${k}" aria-label="${no} de ${esc(n)}">✕</button></div>`;
+  const avisos=rq.map(r=>row(r.n,esc(ini(r.n)),r.i?"Te invita a jugar · quiere ser tu amigo":"Quiere ser tu amigo","Aceptar","Ignorar el pedido",r.k,"rqa","rqx")).join("")+iv.map(v=>row(v.n,"🎮","Te invita a jugar","Unirme","Descartar la invitación",v.k,"ivj","ivx")).join("");
+  const fl=D.fr.slice().sort((a,b)=>(frOn(a)?0:1)-(frOn(b)?0:1)||a.n.toLowerCase().localeCompare(b.n.toLowerCase())).map(f=>frRow(f,sheet)).join("");
+  return`${avisos?`<h2 class="h2">Avisos</h2><div class="card flist">${avisos}</div>`:""}
+  <h2 class="h2">Amigos <small>${D.fr.length}</small></h2>
+  ${D.fr.length?`<div class="card flist">${fl}</div>`:`<div class="card"><p class="sub" style="margin:0;text-align:left">Todavía no tienes amigos agregados. Comparte tu enlace por WhatsApp o escribe el código de un amigo.</p></div>`}`}
+function frListPaint(){const a=$("#frl"),b=$("#frs");if(a)a.innerHTML=frListHTML(0);if(b)b.innerHTML=frListHTML(1)}
+function frListBind(root){root.onclick=e=>{
+  const b=e.target.closest("button");if(!b||!root.contains(b))return;const c=b.dataset.c,k=b.dataset.k,has=n=>b.classList.contains(n);
+  if(has("fin"))frInvite(c,b);
+  else if(has("fx")){const f=D.fr.find(x=>x.i===c);if(f)confirmBox("¿Quitar a "+esc(f.n)+"?","Ya no podrás invitarlo con un toque. Puedes volver a agregarlo cuando quieras.","Quitar",()=>{frDel(c);frListPaint()})}
+  else if(has("rqa")&&REQS[k])reqAccept(REQS[k]);
+  else if(has("rqx")&&REQS[k])reqIgnore(REQS[k]);
+  else if(has("ivj")&&INVS[k])invJoin(INVS[k]);
+  else if(has("ivx")&&INVS[k])invDrop(INVS[k])}}
+function amigos(){
+  if(!D.name&&!D.skipName){askName(amigos);return}
+  pushView();frEnsure();
+  view(`<h1 class="h1"><span class="em">👥</span> Mis amigos</h1><p class="sub">Agrégalos una vez y después los invitas con un toque.</p>
+  <div class="card fcard"><small>Tu código de amigo</small><div class="fcode" id="fcc">${fcFmt(D.fid)}</div>
+  <div class="two"><button type="button" class="btn gold sm" id="fcs">📤 Compartir mi enlace</button><button type="button" class="btn ghost sm" id="fcp">📋 Copiar código</button></div></div>
+  <div id="frl"></div>
+  <div style="margin-top:1rem"><button type="button" class="btn" id="fca">➕ Agregar con un código</button><button type="button" class="btn ghost" id="fcb">Volver</button></div>`,"amigos");
+  $("#fcs").onclick=frShare;$("#fcp").onclick=frCopy;$("#fca").onclick=()=>frCodeModal();$("#fcb").onclick=goHome;
+  frListBind($("#frl"));frListPaint();
+  const tick=()=>frStatusAll().then(()=>{if(VIEW==="amigos")frListPaint()});tick();
+  clearInterval(frScrT);frScrT=setInterval(()=>{if(VIEW!=="amigos"){clearInterval(frScrT);return}tick()},10000)}
+function frAddModal(){ /* tu código y tu enlace para pasárselos a un amigo */
+  frEnsure();
+  const o=modal(`<h3>➕ Agregar amigos</h3><p>Pásale tu enlace o tu código a tu amigo. Cuando lo abra, quedan agregados.</p>
+  <div class="fcode" style="font-size:1.6rem">${fcFmt(D.fid)}</div>
+  <div class="two"><button type="button" class="btn gold sm" id="fcs2">📤 Compartir mi enlace</button><button type="button" class="btn ghost sm" id="fcp2">📋 Copiar código</button></div>`,
+  [{t:"Cerrar",cls:"ghost"},{t:"✍️ Tengo un código",cls:"gold",fn:()=>frCodeModal()}]);
+  $("#fcs2",o).onclick=frShare;$("#fcp2",o).onclick=frCopy}
+function frCodeModal(raw,err){ /* escribir el código que me pasó un amigo */
+  const o=modal(`<h3>✍️ Código de tu amigo</h3><p>Escribe el código que te pasó (tiene 8 letras y números).</p>
+  <input id="fcin" maxlength="12" placeholder="Ej. KQ7X-29MD" autocapitalize="characters" autocomplete="off" spellcheck="false" aria-label="Código de tu amigo">
+  ${err?`<p class="note bad" role="alert">${esc(err)}</p>`:""}`,
+  [{t:"Cancelar",cls:"ghost"},{t:"Agregar",cls:"gold",fn:m=>{
+    const v=$("#fcin",m).value,c=fcParse(v);if(!c)return;
+    if(!fcOk(c))return frCodeModal(v,"Ese código no parece correcto. Revísalo: tiene 8 letras y números, por ejemplo KQ7X-29MD.");
+    frEnsure();
+    if(c===D.fid)return frCodeModal(v,"Ese es tu propio código 🙂");
+    if(D.fr.some(f=>f.i===c))return frCodeModal(v,"Ya tienes a esa persona entre tus amigos.");
+    if(!frAdd(c,"Amigo"))return;
+    frSend(c,"f");toast("Agregado ✓ Le avisamos para que te acepte");
+    frListPaint();frStatusAll().then(frListPaint)}}]);
+  const i=$("#fcin",o);i.value=raw||"";i.onkeydown=e=>{if(e.key==="Enter"){const b=$$(".mbtns button",o)[1];b&&b.click()}}}
+function frSheet(){ /* desde la sala: elegir a quién invitar */
+  frEnsure();
+  const o=modal(`<h3>👥 Invitar a mis amigos</h3><div id="frs"></div>`,
+  [{t:"📤 Compartir enlace de la sala",cls:"ghost",fn:()=>{const b=$("#inv");if(b)b.click()}},{t:"➕ Agregar amigos",cls:"ghost",fn:()=>frAddModal()},{t:"Cerrar",cls:"ghost"}],"col");
+  const root=$("#frs",o);
+  frListBind(root);frListPaint();frStatusAll().then(frListPaint);
+  const iv=setInterval(()=>{if(!o.isConnected){clearInterval(iv);return}frStatusAll().then(frListPaint)},8000)}
+async function frInvite(c,btn){
+  const f=D.fr.find(x=>x.i===c);if(!f)return;
+  if(!RM||!CUR){frModePick(c);return}
+  if(btn){btn.disabled=true;btn.textContent="Enviando…"}
+  const ok=await frSend(c,"i",{s:CUR.cd,p:CUR.pw,m:LMODE}),on=frOn(f);
+  if(btn&&btn.isConnected){btn.textContent=ok?"Invitado ✓":"Reintentar";if(!ok)btn.disabled=false}
+  toast(ok?"Invitación enviada a "+esc(f.n)+" ✓"+(on?"":" · la verá cuando abra la app"):"No se pudo enviar. Revisa tu internet.",{ms:3200});
+  if(ok&&btn)setTimeout(()=>{if(btn.isConnected){btn.disabled=false;btn.textContent="Invitar"}},20000)}
+function frModePick(c){ /* sin sala todavía: se crea una y se invita */
+  const f=D.fr.find(x=>x.i===c);if(!f)return;
+  modal(`<h3>🎮 Crear una sala</h3><p>Elige cómo van a jugar. Le llega la invitación a <b>${esc(f.n)}</b> y después puedes invitar a más amigos desde la sala.</p>`,
+  [{t:"❓ Solo preguntas",cls:"gold",fn:()=>quickHost(c,"q")},{t:"🎡 Ruleta de coronas",fn:()=>quickHost(c,"r")},{t:"🧩 Ruleta por equipos",fn:()=>quickHost(c,"t")},{t:"Cancelar",cls:"ghost"}],"col")}
+async function quickHost(c,mode){
+  MODE=mode;frEnsure();
+  const cd="sala"+Math.random().toString(36).replace(/[^a-z0-9]/g,"").slice(1,5).padEnd(4,"x"),pw=String(1000+Math.floor(Math.random()*9000));
+  toast("Creando la sala…");
+  const ok=await roomEnter({nm:D.name||"Amigo",cd,pw,host:true,view:VIEW,msg:t=>{if(/conectar/.test(t))toast(t,{ms:3600})}});
+  if(ok&&RM&&CUR){const r=await frSend(c,"i",{s:cd,p:pw,m:mode});toast(r?"Invitación enviada ✓":"No se pudo enviar la invitación",{ms:3000})}}
+function amigoOpen(p){ /* enlace #amigo=CÓDIGO&n=NOMBRE */
+  const c=fcParse(p.get("amigo")),n=nmClean(p.get("n"))||"Amigo";
+  if(!fcOk(c)){toast("Ese enlace de amigo no es válido");return}
+  if(!D.name&&!D.skipName){askName(()=>amigoOpen(p));return}
+  frEnsure();
+  if(c===D.fid){toast("Ese es tu propio código 🙂");amigos();return}
+  if(D.fr.some(f=>f.i===c)){toast(esc(n)+" ya es tu amigo");amigos();return}
+  modal(`<h3>👥 ¿Agregar a ${esc(n)}?</h3><p>Será tu amigo en Trivia Bíblica: podrán invitarse a jugar con un toque y verse en línea.</p>`,
+  [{t:"Ahora no",cls:"ghost"},{t:"Agregar",cls:"gold",fn:()=>{if(frAdd(c,n)){frSend(c,"f");amigos();toast("¡"+esc(n)+" ahora es tu amigo! 🎉")}}}])}
+function addFromRoom(c,n){ /* tocando a un jugador de la sala */
+  if(!fcOk(c)||c===D.fid)return;
+  confirmBox("¿Agregar a "+esc(n)+"?","Será tu amigo y podrás invitarlo con un toque. Le llega un aviso para que te acepte.","Agregar",()=>{if(frAdd(c,n)){frSend(c,"f");toast(esc(n)+" agregado ✓");lobbyHTML="";renderLobby()}},"gold")}
+
+/* ============================================================
+   CHAT DE LA SALA
+   ============================================================ */
+const CHQ=["¿Listos?","¡Vamos!","Buena partida 👏","Dios te bendiga 🙏","Un momento…","¡Qué difícil! 😅"],CHEMPTY='<p class="chempty">Nadie escribió todavía. ¡Saluda! 👋</p>';
+const CH={log:[],keys:new Set(),my:[],seq:0,init:0,unread:0,last:0,mounts:[]};
+const chText=x=>String(x==null?"":x).replace(/[\u0000-\u001f\u007f]/g," ").replace(/\s+/g," ").trim().slice(0,120);
+const chBtn=()=>'<button type="button" class="ibtn chb" aria-label="Abrir el chat de la sala">💬<i class="bdg" hidden></i></button>';
+const chRes=()=>'<button type="button" class="btn ghost chb" id="chr">💬 Chat de la sala<i class="bdg" hidden></i></button>';
+const chSort=()=>CH.log.sort((a,b)=>a.s-b.s||(a.pid<b.pid?-1:a.pid>b.pid?1:0));
+function chReset(){CH.log=[];CH.keys=new Set();CH.my=[];CH.seq=0;CH.init=0;CH.unread=0;CH.mounts=[];["chp","chov"].forEach(i=>{const e=$("#"+i);if(e)e.remove()});chBadge()}
+function chSync(){ /* junta los mensajes de todos los jugadores (están en su presencia) */
+  if(!RM)return;
+  try{
+    const fresh=[];let mx=CH.seq;
+    RM.all().forEach(p=>{
+      const a=p.presence&&p.presence.ch;if(!a||typeof a!=="object")return;
+      (Array.isArray(a)?a:Object.values(a)).slice(-8).forEach(m=>{
+        if(!m||typeof m!=="object")return;const s=Math.floor(+m.s),x=typeof m.x==="string"?chText(m.x):"";if(!(s>0&&s<1e9)||!x)return;mx=Math.max(mx,s);
+        const k=p.id+":"+s;if(CH.keys.has(k))return;CH.keys.add(k);
+        fresh.push({k,s,pid:p.id,me:!!p.isMe,n:nmClean(p.presence.name)||"Amigo",x})})});
+    CH.seq=mx;
+    if(fresh.length){
+      CH.log.push(...fresh);chSort();if(CH.log.length>200)CH.log.splice(0,CH.log.length-200);
+      const others=fresh.filter(m=>!m.me).length;
+      if(CH.init&&others){if(!CH.mounts.some(m=>m.el.isConnected))CH.unread+=others;Snd.play("click")}}
+    CH.init=1;if(fresh.length)chPaint();chBadge();chNote()
+  }catch(e){console.error(e)}}
+function chSend(raw){
+  if(!RM)return false;const x=chText(raw);if(!x)return false;
+  const now=Date.now();if(now-CH.last<1200){toast("Un momento… escribe más despacio 🙂");return false}CH.last=now;
+  const s=CH.seq+1;CH.seq=s;CH.my.push({s,x});if(CH.my.length>8)CH.my.shift();
+  const k=RM.id+":"+s;CH.keys.add(k);CH.log.push({k,s,pid:RM.id,me:true,n:nmClean(D.name)||"Tú",x});chSort();
+  RM.presence({ch:CH.my.slice()});chPaint();return true}
+const chHTML=x=>`<div class="chm${x.me?" me":""}" style="--avc:${avc(x.n)}"><b>${esc(x.n)}</b><span>${esc(x.x)}</span></div>`;
+function chPaint(){
+  CH.mounts=CH.mounts.filter(m=>m.el.isConnected);
+  CH.mounts.forEach(m=>{const l=$(".chlist",m.el);if(!l)return;
+    const stick=!m.n||l.scrollTop+l.clientHeight>=l.scrollHeight-30,n=CH.log.length;
+    if(m.n&&n>=m.n&&CH.log[m.n-1].k===m.k){if(n>m.n)l.insertAdjacentHTML("beforeend",CH.log.slice(m.n).map(chHTML).join(""))} /* solo se agregan los nuevos */
+    else l.innerHTML=n?CH.log.map(chHTML).join(""):CHEMPTY;
+    m.n=n;m.k=n?CH.log[n-1].k:"";if(stick)l.scrollTop=l.scrollHeight});
+  if(CH.mounts.length&&CH.unread){CH.unread=0;chBadge()}}
+function chBadge(){const n=CH.unread,t=n>9?"9+":String(n);$$(".chb .bdg").forEach(i=>{i.textContent=t;i.hidden=!n})}
+function chNote(){ /* avisa si alguien tiene una versión sin chat */
+  const old=RM?RM.all().filter(p=>!p.isMe&&!p.gone&&p.presence&&p.presence.name&&!p.presence.av).map(p=>nmClean(p.presence.name)||"Alguien"):[];
+  $$(".chnote").forEach(e=>{if(old.length){e.hidden=false;e.textContent=old.join(", ")+(old.length>1?" tienen una versión anterior de la app y no ven el chat.":" tiene una versión anterior de la app y no ve el chat.")}else e.hidden=true})}
+function chMount(el,inline){
+  el.innerHTML=`<div class="chat">${inline?'<div class="chh"><b>💬 Chat de la sala</b></div>':""}<div class="chlist" role="log" aria-label="Mensajes de la sala" aria-relevant="additions"></div><p class="chnote" hidden></p>
+  <div class="chq" role="group" aria-label="Mensajes rápidos">${CHQ.map(q=>`<button type="button" class="pill" data-q="${esc(q)}">${esc(q)}</button>`).join("")}</div>
+  <form class="chf" autocomplete="off"><input class="chi" maxlength="120" placeholder="Escribe un mensaje…" enterkeyhint="send" aria-label="Escribe un mensaje" autocomplete="off"><button class="chs" type="submit" aria-label="Enviar mensaje">➤</button></form></div>`;
+  const inp=$(".chi",el);
+  $(".chf",el).onsubmit=e=>{e.preventDefault();if(chSend(inp.value))inp.value="";inp.focus()};
+  $$(".chq .pill",el).forEach(b=>b.onclick=()=>{if(chSend(b.dataset.q))Snd.play("click")});
+  CH.mounts=CH.mounts.filter(m=>m.el.isConnected);CH.mounts.push({el,inline:!!inline,n:0,k:""});chPaint();chNote()}
+function chOpen(){
+  if(!RM||$("#chp"))return;
+  const ov=document.createElement("div");ov.id="chov";ov.onclick=chClose;document.body.appendChild(ov);
+  const p=document.createElement("div");p.id="chp";p.setAttribute("role","dialog");p.setAttribute("aria-modal","true");p.setAttribute("aria-label","Chat de la sala");
+  p.innerHTML=`<header><b>💬 Chat de la sala</b><button type="button" class="ibtn" id="chx" aria-label="Cerrar el chat">✕</button></header><div class="chbody"></div>`;
+  document.body.appendChild(p);chMount($(".chbody",p),false);$("#chx").onclick=chClose;chFit();
+  CH.unread=0;chBadge()}
+function chClose(){["chp","chov"].forEach(i=>{const e=$("#"+i);if(e)e.remove()});CH.mounts=CH.mounts.filter(m=>m.el.isConnected);chBadge()}
+function chFit(){ /* el panel queda siempre entero a la vista, también con el teclado abierto */
+  const p=$("#chp");if(!p)return;const v=window.visualViewport,h=v?v.height:innerHeight,t=v?v.offsetTop:0;
+  p.style.top=`calc(env(safe-area-inset-top,0px) + ${Math.round(t)+8}px)`;p.style.maxHeight=Math.max(240,Math.round(h*(h<540?.95:.64)))+"px";
+  chShort();requestAnimationFrame(()=>requestAnimationFrame(chShort));setTimeout(chShort,250)}
+/* si no entra todo (teclado abierto + letra grande) se esconden los mensajes rápidos para que el cuadro de escribir siempre se vea; se mide un par de cuadros después porque el teléfono tarda en acomodar la altura */
+function chShort(){const p=$("#chp");if(!p)return;p.classList.remove("short");if(p.scrollHeight>p.clientHeight+1)p.classList.add("short")}
+if(window.visualViewport){visualViewport.addEventListener("resize",chFit);visualViewport.addEventListener("scroll",chFit)}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".chb");if(b){Snd.play("click");chOpen()}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#chp"))chClose()});
+if(fcOk(D.fid))setTimeout(frStart,600);
+
 
 /* ============================================================
    ARRANQUE · instalación, actualizaciones, atajos y enlaces de invitación
@@ -4404,6 +4817,7 @@ function route(){
   const p=new URLSearchParams(h);
   if(p.get("sala")){lobby({sala:p.get("sala"),clave:p.get("clave")||""});return true}
   if(p.get("reto")){retoOpen(p);return true}
+  if(p.get("amigo")){amigoOpen(p);return true}
   if(h==="daily"){const b=$("#daily");if(b&&!b.disabled)b.click()}
   else if(h==="ruleta")rSetup();
   else if(h==="amigos")lobby();
@@ -4414,7 +4828,7 @@ if("serviceWorker" in navigator&&location.protocol.startsWith("http")){
     let had=!!navigator.serviceWorker.controller;
     navigator.serviceWorker.register("sw.js").catch(()=>{});
     navigator.serviceWorker.addEventListener("controllerchange",()=>{if(had)toast("Hay una versión nueva de la app",{act:"Actualizar",fn:()=>location.reload(),ms:15000});had=true})})}
-window.__tb={get G(){return G},get R(){return R},get D(){return D},get RM(){return RM},get VIEW(){return VIEW},QS,BLK,V,home,startGame,startLadder,rSetup,lobby,stats,settings,optsOf,APPV,NETV,PICS,get RVR_OK(){return RVR_OK}};
+window.__tb={get G(){return G},get R(){return R},get D(){return D},get RM(){return RM},get VIEW(){return VIEW},QS,BLK,V,home,startGame,startLadder,rSetup,lobby,stats,settings,optsOf,APPV,NETV,PICS,get RVR_OK(){return RVR_OK},amigos,frEnsure,frIn,frPoll,frBeat,frStatusAll,INVS,REQS,FST,CH,chSend,chOpen,fcOk,fcFmt};
 try{history.replaceState({tb:0},"")}catch(e){}
 home();
 const routed=route();
