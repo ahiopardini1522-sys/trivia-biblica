@@ -1,5 +1,38 @@
-TRIVIA BÍBLICA · versión 3.9.1
+TRIVIA BÍBLICA · versión 4.0.0
 ==============================
+
+NOVEDADES DE LA 4.0
+  - 🧒 Modo niños (para la escuela dominical y los más chicos): tarjeta nueva al
+    principio del inicio. Usa solo preguntas del nivel Fácil que sean cortas (la
+    pregunta hasta 80 letras y las opciones hasta 32) y sin temas pesados (muerte,
+    violencia: quedan fuera, por ejemplo, la cabeza de Goliat o la muerte de Abel):
+    unas 150 preguntas. SIN reloj (nada se acaba solo), letras y botones grandes
+    con una letra de color por opción, y ayudas con nombres para niños («Ayuda»
+    saca dos respuestas equivocadas; «Otra» cambia la pregunta). La voz lee sola
+    cada pregunta con sus opciones (más despacio y con un tono más amable que la
+    lectura normal), y al responder dice «¡Muy bien!» o «¡Casi!» y repite la
+    respuesta correcta. En lugar de «Incorrecto» siempre se anima. El interruptor
+    de la voz está en el menú del Modo niños (si el navegador no sabe leer, no
+    aparece) y es independiente de «Leer cada pregunta sola» de Ajustes.
+    Los puntos, los aciertos, el repaso de errores y el Mapa de la Biblia cuentan
+    igual que en las otras partidas (salen primero las preguntas que todavía no se
+    acertaron).
+  - 🖼️ Álbum de figuritas: con 6 o más aciertos de 10 se gana una figurita nueva al
+    azar (24 en total: el arco iris, el arca de Noé, David y Goliat, Daniel y los
+    leones…). En el álbum se ven las que ya tienes (tócalas para verlas grandes y
+    escuchar su frase) y las que faltan aparecen tapadas. Logros nuevos: «Pequeño
+    explorador» (primera partida), «Coleccionista» (12 figuritas) y «Álbum
+    completo» (24). El álbum y las partidas entran en la copia de seguridad.
+  - 🔠 Letra grande en 3 tamaños (Normal, Grande y Muy grande): botón «Aa» en el
+    inicio y selector en Ajustes. Se revisó que ninguna pantalla se salga ni
+    corte textos en celulares de 360 y 320 px, y que el botón «Siguiente» de la
+    hoja de respuesta quede siempre a la vista.
+  - Los dibujitos de los títulos (🗺️, 🌍, 🎡…) ya no salen como una mancha lisa.
+  - La voz ahora lee las citas dentro de las preguntas y de las opciones («Juan
+    3:16» → «capítulo 3, versículo 16») y los huecos «___» como «espacio en blanco».
+  - Las tarjetas «Arma el versículo» y «Reta a un amigo» ya no dicen «Nuevo».
+  - El juego en línea y los retos siguen en la versión 3.7.0 (no cambió el banco de
+    preguntas ni las reglas): los amigos NO necesitan actualizar para jugar juntos.
 
 NOVEDADES DE LA 3.9.1
   - 📖 Los enlaces «Leer» (en cada pregunta y en el Versículo del día) ahora abren

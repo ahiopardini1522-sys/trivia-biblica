@@ -489,6 +489,103 @@ noscript{display:block;padding:2rem;text-align:center;color:var(--ink)}
 .verse .vsp.on{text-decoration:underline}
 .vod .vr #vsp.on{background:rgba(122,79,5,.18);border-radius:.6rem}
 
+/* ---- tamaño del texto: Normal 16 px · Grande 19 px · Muy grande 22 px (Ajustes o el botón Aa) ---- */
+html.xbig{font-size:22px}
+/* la cabecera NO crece con el texto (mide casi lo mismo en px en los 3 tamaños): así los 3 botones entran en celulares chicos */
+.top,.brand{gap:.5rem}
+.brand img{width:2.25rem;height:2.25rem}
+.brand b{font-size:1.25rem}
+.top .ibtn{width:2.5rem;height:2.5rem;font-size:1.1rem}
+.top .ibtn.fz{font:800 1rem var(--f-disp);letter-spacing:-.04em}
+.top .ibtn.fz.on{background:var(--gold);color:var(--goldink);border-color:transparent}
+html.big .top,html.big .brand{gap:.42rem}
+html.big .brand img{width:1.9rem;height:1.9rem}
+html.big .brand b{font-size:1.05rem}
+html.big .top .ibtn{width:2.1rem;height:2.1rem;font-size:.93rem}
+html.big .top .ibtn.fz{font-size:.85rem}
+html.xbig .top,html.xbig .brand{gap:.36rem}
+html.xbig .brand img{width:1.64rem;height:1.64rem}
+html.xbig .brand b{font-size:.91rem}
+html.xbig .top .ibtn{width:1.82rem;height:1.82rem;font-size:.8rem}
+html.xbig .top .ibtn.fz{font-size:.73rem}
+@media (max-width:350px){html.big .brand img,html.xbig .brand img{display:none}}
+/* rejillas que no se ensanchan por una palabra larga (si no, se salen del ancho de la pantalla) */
+.tiles,.two,.bkm{grid-template-columns:repeat(2,minmax(0,1fr))}
+.stats3,.lvls,.medals{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tile b,.tile small,.md b,.md small,.lv b,.lv small,.st3 span{overflow-wrap:anywhere}
+.h2{flex-wrap:wrap;gap:.1rem .6rem}
+html.big .tile{padding:.8rem .7rem}
+html.big .tile b{font-size:.94rem}
+html.big .seg button,html.xbig .seg button{padding:.55rem .25rem;min-width:0}
+html.big .life,html.xbig .life{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem}
+html.big .lf,html.xbig .lf{min-width:0;padding:.45rem .2rem}
+html.big .lf em,html.xbig .lf em{right:.1rem;top:-.35rem}
+/* texto muy grande: todo en una columna, y los botones en fila vuelven a apilarse */
+html.xbig .tiles,html.xbig .lvls,html.xbig .two,html.xbig .bkm{grid-template-columns:minmax(0,1fr)}
+html.xbig .medals{grid-template-columns:repeat(2,minmax(0,1fr))}
+html.xbig .seg{flex-wrap:wrap}
+html.xbig .seg button{flex:1 1 40%}
+html.xbig .tile.wide .tag{position:static;margin-left:auto;flex:none}
+html.xbig .prof .nm{white-space:normal;overflow-wrap:anywhere}
+@media (max-width:340px){html.big .tiles,html.big .two{grid-template-columns:minmax(0,1fr)}}
+.opts{grid-template-columns:minmax(0,1fr)}
+.opt{overflow-wrap:anywhere}
+
+/* ---- Modo niños (v4.0): botones y letras grandes, colores alegres, figuritas ---- */
+.tile.kidt{background:linear-gradient(135deg,rgba(255,196,64,.24),var(--panel));border-color:rgba(232,168,23,.6)}
+.kbig{min-height:4.6rem;font-size:1.6rem;border-radius:1.5rem;margin:.3rem 0 1rem}
+.kalb .khd{display:flex;justify-content:space-between;align-items:baseline;gap:.2rem .6rem;flex-wrap:wrap}
+.kalb .khd span{font:800 1.2rem var(--f-disp);color:var(--goldtxt)}
+.kalb .ksub{margin:.55rem 0 .7rem;color:var(--mut);font-size:.9rem}
+.kids .qcard{border-radius:1.6rem}
+.kids .q{font-size:1.65rem;line-height:1.32;text-align:center;margin:1.15rem 1.1rem 0;overflow-wrap:anywhere}
+.kids .opts{gap:.8rem}
+.kids .opt{min-height:4.4rem;font-size:1.2rem;font-weight:750;border-width:3px;border-radius:1.4rem;padding:.8rem 1rem}
+.kids .opt .ltr{width:2.7rem;height:2.7rem;border-radius:50%;font-size:1.25rem;color:#fff;background:#e5484d}
+.kids .opt:nth-child(2) .ltr{background:#2f6fe0}
+.kids .opt:nth-child(3) .ltr{background:#178a55}
+.kids .opt:nth-child(4) .ltr{background:#ffd24a;color:#3a2500}
+.kids .opt.ok .ltr{background:#0b5a37;color:#fff}
+.kids .opt.bad .ltr{background:#fff;color:#a02027}
+.kids .spk{width:3.1rem;height:3.1rem;font-size:1.4rem}
+.kids .dots i{height:.7rem}
+.kids .life{margin-top:1.2rem}
+.kids .lf{min-width:5.8rem;padding:.6rem .8rem;font-size:.85rem}
+.kids .lf span{font-size:1.6rem}
+.sheet.kid h3{font-size:1.75rem}
+.sheet.kid h3 b{font-size:1.1rem}
+.sheet.kid .ans{font-size:1.2rem}
+.sheet.kid .btn{min-height:4.2rem;font-size:1.3rem}
+.newst{display:flex;align-items:center;gap:1rem;margin:1rem auto 0;max-width:21rem;padding:.8rem 1.1rem;border-radius:1.4rem;background:linear-gradient(180deg,#ffe49a,#f6b72d);color:#3a2500;box-shadow:0 5px 0 #a86d07;text-align:left;animation:pop .6s .5s both}
+.newst i{font-style:normal;font-size:3.4rem;line-height:1;flex:none}
+.newst span{display:block;font-size:.88rem;font-weight:800;min-width:0}
+.newst b{display:block;font:800 1.25rem/1.15 var(--f-disp);overflow-wrap:anywhere}
+.kst{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem}
+.ks{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;padding:.7rem .3rem;min-height:6.8rem;border-radius:1.15rem;background:var(--panel);border:2px solid var(--line);text-align:center}
+.ks i{font-style:normal;font-size:2.5rem;line-height:1.1}
+.ks b{font-size:.76rem;line-height:1.2;overflow-wrap:anywhere}
+.ks.on{border-color:var(--kc);box-shadow:0 4px 0 var(--kc);background:linear-gradient(180deg,var(--panel),var(--panel2))}
+.ks.on:active{transform:translateY(3px);box-shadow:0 1px 0 var(--kc)}
+.ks.off{opacity:.5}
+.ks.off i{filter:grayscale(1)}
+.kmd{text-align:center}
+.kmd i{display:block;font-style:normal;font-size:5.2rem;line-height:1.15;filter:drop-shadow(0 6px 8px rgba(0,0,0,.3))}
+.kmd h3{color:var(--kc);margin-bottom:.3rem}
+.kmd .btn{margin-top:.2rem}
+html.big .kids .q{font-size:1.5rem}
+html.big .kids .opt{font-size:1.1rem}
+html.xbig .kids .q{font-size:1.35rem}
+html.xbig .kids .opt{font-size:1rem;min-height:4rem}
+html.xbig .kids .opt .ltr{width:2.4rem;height:2.4rem}
+html.big .kbig,html.xbig .kbig{font-size:1.3rem}
+html.xbig .kst{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:340px){html.big .kst{grid-template-columns:repeat(2,minmax(0,1fr))}.kids .lf{min-width:0}}
+/* los dibujitos (emoji) de los títulos: el degradado del título los pintaba como una mancha lisa; así conservan sus colores */
+.h1 .em{-webkit-text-fill-color:#fff;color:#fff}
+/* si la hoja de respuesta es más alta que la pantalla (texto muy grande en un celular chico), «Siguiente» se queda a la vista y lo demás se desplaza */
+.sheet #nx{position:sticky;bottom:calc(env(safe-area-inset-bottom,0px) + .5rem);box-shadow:0 5px 0 var(--d),0 .9rem 0 .35rem var(--sheetbg)}
+.sheet #nx:active:not(:disabled){box-shadow:0 1px 0 var(--d),0 .9rem 0 .35rem var(--sheetbg)}
+
 </style>
 </head>
 <body>
@@ -508,7 +605,7 @@ noscript{display:block;padding:2rem;text-align:center;color:var(--ink)}
    Secciones: núcleo · inicio / logros / ajustes · partida solo ·
               ruleta · en línea · arranque (PWA)
    ============================================================ */
-const APPV="3.9.1";
+const APPV="4.0.0";
 /* NETV = versión del juego EN LÍNEA (preguntas y reglas). Súbela solo cuando cambien las
    preguntas o las reglas del juego: así quien tenga la app un poco más vieja puede seguir
    jugando con los demás. (La 3.2 y la 3.3 solo agregaron fotos y el lector de la RVR1960, por eso
@@ -2792,11 +2889,13 @@ const VOD=["Juan 3:16","Salmos 23:1","Proverbios 3:5","Isaías 40:31","Filipense
 function verseOfDay(){const n=new Date(),i=Math.floor((new Date(n.getFullYear(),n.getMonth(),n.getDate())-new Date(2026,0,1))/864e5);const r=VOD[((i%VOD.length)+VOD.length)%VOD.length];return{r,t:V[r]||"",url:btUrl(r)}}
 
 /* ---------- progreso guardado ---------- */
-const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",pic:"",picS:"",yvk:"",miss:{},bq:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0,tts:0,vr:0}});
+const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",pic:"",picS:"",yvk:"",miss:{},bq:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0,tts:0,vr:0,kv:1},kg:0,kst:[]});
 let D=DEF();
-try{const s=JSON.parse(localStorage.getItem("tb")||"{}");Object.assign(D,s);D.set=Object.assign(DEF().set,s.set||{});if(!Array.isArray(D.pass))D.pass=[0,0,0];if(!D.medals||typeof D.medals!=="object")D.medals={};if(!D.bk)D.bk={};if(!D.st)D.st={};if(!D.miss||typeof D.miss!=="object")D.miss={};if(!D.bq||typeof D.bq!=="object"||Array.isArray(D.bq))D.bq={};if(!okPic(D.pic)||!okPic(D.picS,12000)){D.pic="";D.picS=""}}catch(e){}
+try{const s=JSON.parse(localStorage.getItem("tb")||"{}");Object.assign(D,s);D.set=Object.assign(DEF().set,s.set||{});if(!Array.isArray(D.pass))D.pass=[0,0,0];if(!D.medals||typeof D.medals!=="object")D.medals={};if(!D.bk)D.bk={};if(!D.st)D.st={};if(!D.miss||typeof D.miss!=="object")D.miss={};if(!D.bq||typeof D.bq!=="object"||Array.isArray(D.bq))D.bq={};D.kst=Array.isArray(D.kst)?[...new Set(D.kst.filter(i=>Number.isInteger(i)&&i>=0&&i<64))]:[];D.kg=Number.isFinite(+D.kg)&&+D.kg>0?Math.floor(+D.kg):0;if(!okPic(D.pic)||!okPic(D.picS,12000)){D.pic="";D.picS=""}}catch(e){}
 const sv=()=>{try{localStorage.setItem("tb",JSON.stringify(D))}catch(e){}};
-function applyTheme(){const t=D.set.theme,r=document.documentElement;if(t==="auto")r.removeAttribute("data-theme");else r.dataset.theme=t;r.classList.toggle("big",!!D.set.big);
+/* tamaño del texto: 0 normal · 1 grande · 2 muy grande (antes era un interruptor: true/1 sigue valiendo «grande») */
+const fsz=()=>D.set.big===2?2:D.set.big?1:0,FSN=["Texto normal","Texto grande","Texto muy grande"];
+function applyTheme(){const t=D.set.theme,r=document.documentElement;if(t==="auto")r.removeAttribute("data-theme");else r.dataset.theme=t;r.classList.toggle("big",fsz()===1);r.classList.toggle("xbig",fsz()===2);
   const dark=t==="dark"||(t==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);const m=$('meta[name="theme-color"]');if(m)m.content=dark?"#0b1536":"#f6efd9"}
 applyTheme();
 try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",applyTheme)}catch(e){}
@@ -2827,7 +2926,10 @@ const MEDALS=[
  {id:"reto1",e:"📨",t:"Retador",d:"Gana un reto a un amigo",ok:()=>(D.ret||0)>=1},
  {id:"map10",e:"🧭",t:"Explorador",d:"Consigue estrellas en 10 libros del mapa",ok:()=>mapInfo().started>=10},
  {id:"map5",e:"⛰️",t:"Peregrino",d:"Consigue las 3 estrellas en 5 libros",ok:()=>mapInfo().full>=5},
- {id:"map66",e:"🗺️",t:"Cartógrafo",d:"Consigue al menos 1 estrella en los 66 libros",ok:()=>mapInfo().started>=NBOOKS}
+ {id:"map66",e:"🗺️",t:"Cartógrafo",d:"Consigue al menos 1 estrella en los 66 libros",ok:()=>mapInfo().started>=NBOOKS},
+ {id:"kid1",e:"🧒",t:"Pequeño explorador",d:"Juega una partida en el Modo niños",ok:()=>(D.kg||0)>=1},
+ {id:"kid12",e:"🖼️",t:"Coleccionista",d:"Consigue 12 figuritas en el Modo niños",ok:()=>(D.kst||[]).length>=12},
+ {id:"kid24",e:"🏅",t:"Álbum completo",d:"Completa el álbum de figuritas del Modo niños",ok:()=>(D.kst||[]).length>=KST.length}
 ];
 function checkMedals(){const nw=[];for(const m of MEDALS)if(!D.medals[m.id]&&m.ok()){D.medals[m.id]=todayS();nw.push(m)}if(nw.length)sv();return nw}
 const AVC=["#3e82f7","#2fbf7e","#e5484d","#9b5de5","#e49b12","#d2601f","#14a39a","#d6409f"];
@@ -2861,23 +2963,24 @@ const Tts={ok:TTS_OK,u:null,b:null,
   voice(){try{const es=(speechSynthesis.getVoices()||[]).filter(v=>/^es([-_]|$)/i.test(v.lang||"")),L=v=>String(v.lang).replace("_","-").toLowerCase();
     for(const p of["es-ar","es-us","es-mx","es-419","es-co","es-cl","es-uy","es-es"]){const f=es.find(v=>L(v)===p);if(f)return f}return es[0]||null}catch(e){return null}},
   stop(){if(!TTS_OK)return;this.u=null;if(this.b){this.b.classList.remove("on");this.b=null}try{speechSynthesis.cancel()}catch(e){}},
-  say(text,btn){
+  say(text,btn,o={}){
     if(!TTS_OK||!text)return;this.stop();
-    const u=new SpeechSynthesisUtterance(text),v=this.voice();u.lang=v&&v.lang?v.lang:"es-AR";if(v)u.voice=v;u.rate=D.set.vr?.8:1;
+    const u=new SpeechSynthesisUtterance(text),v=this.voice();u.lang=v&&v.lang?v.lang:"es-AR";if(v)u.voice=v;u.rate=o.rate||(D.set.vr?.8:1);if(o.pitch)u.pitch=o.pitch;
     const done=()=>{if(this.u===u){this.u=null;if(this.b){this.b.classList.remove("on");this.b=null}}};
     u.onend=done;u.onerror=done;this.u=u;if(btn){this.b=btn;btn.classList.add("on")}
     setTimeout(()=>{if(this.u===u){try{speechSynthesis.speak(u)}catch(e){done()}}},50)}, /* una pausa corta tras cancelar: algunos navegadores se comen la frase si no */
-  toggle(text,btn){if(this.u&&this.b===btn){this.stop();return}this.say(text,btn)}};
+  toggle(text,btn,o){if(this.u&&this.b===btn){this.stop();return}this.say(text,btn,o)}};
 /* textos para leer: «1 Juan 3:16» se dice «Primera de Juan, capítulo 3, versículo 16» */
 function ttsRef(l){return String(l).replace(/^([123]) (Samuel|Reyes|Crónicas)\b/,(m,n,b)=>["Primero","Segundo","Tercero"][n-1]+" de "+b).replace(/^([123]) /,(m,n)=>["Primera","Segunda","Tercera"][n-1]+" de ")
   .replace(/(\d+):(\d+)-(\d+)/,"capítulo $1, versículos $2 al $3").replace(/(\d+):(\d+)/,"capítulo $1, versículo $2")}
 const ttsVerse=(label,text)=>ttsRef(label)+". "+String(text).replace(/…/g,", ").replace(/\s+/g," ").trim();
+const ttsCV=t=>String(t).replace(/(\d+):(\d+)-(\d+)/g,"capítulo $1, versículos $2 al $3").replace(/(\d+):(\d+)/g,"capítulo $1, versículo $2"); /* «3:16» lo dirían como una hora */
 function ttsQuestion(q,o,gone=[]){ /* la pregunta (o el versículo con el hueco) y las opciones que siguen en juego */
   const d=document.createElement("div");d.innerHTML=q.q;let pre="";const cz=d.querySelector(".czr");
   if(cz){pre=ttsRef(cz.textContent.replace(/^[^A-Za-z0-9ÁÉÍÓÚÑ¿¡]+/,"").replace(/\s*RV 1909\s*$/,""))+". ";cz.remove()}
   d.querySelectorAll(".blank").forEach(x=>x.textContent=" espacio en blanco ");
-  const t=pre+d.textContent.replace(/[«»]/g," ").replace(/\s+/g," ").trim();
-  return t+" "+o.map((x,i)=>gone.includes(i)?"":`Opción ${"ABCD"[i]}: ${x}.`).filter(Boolean).join(" ")}
+  const t=pre+ttsCV(d.textContent.replace(/[«»]/g," ").replace(/_{2,}/g," espacio en blanco ")).replace(/\s+/g," ").trim();
+  return t+" "+o.map((x,i)=>gone.includes(i)?"":`Opción ${"ABCD"[i]}: ${ttsCV(x)}.`).filter(Boolean).join(" ")}
 document.addEventListener("visibilitychange",()=>{if(document.hidden)Tts.stop()});
 addEventListener("pagehide",()=>Tts.stop());
 
@@ -2942,6 +3045,7 @@ function home(){
   const canInstall=!standalone()&&(IP||isIOS);
   view(`
   <header class="top"><div class="brand"><img src="icons/icon-192.png" alt="" width="40" height="40"><b>Trivia Bíblica</b></div>
+    <button class="ibtn fz${fsz()?" on":""}" id="fzb" aria-label="${FSN[fsz()]}. Toca para cambiar el tamaño del texto">Aa</button>
     <button class="ibtn" id="snd" aria-label="${D.set.snd?"Silenciar":"Activar sonido"}">${D.set.snd?"🔊":"🔇"}</button>
     <button class="ibtn" id="hlp" aria-label="Cómo jugar">❓</button></header>
   <section class="card"><div class="prof"><div class="avw"><button class="${avCls(D.pic)}" id="avb" style="--avc:${avc(me)}" aria-label="Elegir mi foto de perfil">${avIn(me,D.pic)}</button><span class="cam" aria-hidden="true">📷</span></div>
@@ -2951,6 +3055,7 @@ function home(){
   <section class="vod"><small>Versículo del día</small><p>«${esc(vr.t.replace(/^\(\d+:\d+\)\s*/,""))}»</p><div class="vr"><span>${esc(vr.r)} · RV 1909</span><span>${rvrOn(vr.r)?'<button id="vrd" type="button">Leer</button>':`<a href="${vr.url}" target="_blank" rel="noopener">Leer ↗</a>`} &nbsp; ${Tts.ok?'<button id="vsp" type="button" aria-label="Escuchar el versículo">🔊</button> &nbsp; ':""}<button id="vsh" type="button" aria-label="Compartir versículo como imagen">Compartir</button></span></div></section>
   <button class="cta" id="rl">${miniWheel()}<div><b>Ruleta de coronas</b><span>Gira, responde y gana ${3} coronas</span></div></button>
   <div class="tiles">
+    <button class="tile wide kidt" id="kd"><span class="ic" style="--tc:#e0732f">🧒</span><span><b>Modo niños</b><small>Preguntas fáciles, sin reloj${Tts.ok?" y con voz":""}</small></span><span class="tag">Nuevo</span></button>
     <button class="tile" id="daily" ${done?"disabled":""}><span class="ic" style="--tc:#e49b12">⭐</span><b>Desafío diario</b><small>${done?"¡Completado! Vuelve mañana":"10 preguntas · una vez al día"}</small>${done?"":'<span class="tag">Nuevo</span>'}</button>
     <button class="tile" id="duel"><span class="ic" style="--tc:#d93a40">⚔️</span><b>Duelo</b><small>Contra un rival</small></button>
     <button class="tile" id="mix"><span class="ic" style="--tc:#8b47d9">🎲</span><b>Partida rápida</b><small>10 preguntas al azar</small></button>
@@ -2958,8 +3063,8 @@ function home(){
     <button class="tile" id="onl"><span class="ic" style="--tc:#127850">🌍</span><b>Con amigos</b><small>Juega en línea</small></button>
     <button class="tile" id="lib"><span class="ic" style="--tc:#2f6fe0">🗺️</span><b>Mapa de la Biblia</b><small>${mapInfo().stars} de ${NBOOKS*3} ⭐ · practica por libro</small></button>
     <button class="tile" id="cz"><span class="ic" style="--tc:#b7791f">✍️</span><b>Completa el versículo</b><small>Elige la palabra que falta</small></button>
-    <button class="tile" id="az"><span class="ic" style="--tc:#7a4fd0">🧩</span><b>Arma el versículo</b><small>Toca las palabras en orden</small><span class="tag">Nuevo</span></button>
-    <button class="tile wide" id="rt"><span class="ic" style="--tc:#d9541e">📨</span><span><b>Reta a un amigo</b><small>Las mismas 10 preguntas: juegas y le mandas el enlace</small></span><span class="tag">Nuevo</span></button>
+    <button class="tile" id="az"><span class="ic" style="--tc:#7a4fd0">🧩</span><b>Arma el versículo</b><small>Toca las palabras en orden</small></button>
+    <button class="tile wide" id="rt"><span class="ic" style="--tc:#d9541e">📨</span><span><b>Reta a un amigo</b><small>Las mismas 10 preguntas: juegas y le mandas el enlace</small></span></button>
     <button class="tile wide" id="rev" ${nmiss?"":"disabled"}><span class="ic" style="--tc:#0f8a8a">🔁</span><span><b>Repaso de errores</b><small>${nmiss?nmiss+" pregunta"+(nmiss>1?"s":"")+" por repasar":"¡Sin errores pendientes!"}</small></span></button>
   </div>
   ${canInstall?`<button class="tile" id="inst" style="width:100%;margin-top:.7rem;min-height:0;flex-direction:row;align-items:center;gap:.8rem"><span class="ic" style="--tc:#2f6fe0">📲</span><span><b style="display:block">Instalar la app</b><small>Ábrela desde tu pantalla de inicio, incluso sin internet</small></span></button>`:""}
@@ -2968,6 +3073,7 @@ function home(){
   <h2 class="h2">Tema <small>aplica a niveles, rápida, duelo y contrarreloj</small></h2>
   <div class="pills" role="group" aria-label="Filtrar por bloque"><button class="pill ${F<0?"on":""}" data-f="-1">📖 Toda la Biblia</button>${BLK.map((b,i)=>`<button class="pill ${F===i?"on":""}" data-f="${i}">${b.e} ${b.s}</button>`).join("")}</div>`,"home");
   $("#snd").onclick=()=>{D.set.snd=D.set.snd?0:1;sv();Snd.play("click");home()};
+  $("#fzb").onclick=()=>{D.set.big=(fsz()+1)%3;sv();applyTheme();Snd.play("click");home();toast(FSN[fsz()])};
   $("#hlp").onclick=help;
   $("#avb").onclick=()=>pickPhoto(home);
   $("#nmb").onclick=()=>askName(home);
@@ -2980,6 +3086,7 @@ function home(){
   $("#rush").onclick=()=>startGame(shuffle(inF()),"rush");
   $("#lib").onclick=()=>{Snd.play("click");libros()};
   $("#cz").onclick=()=>{Snd.play("click");startCloze()};
+  $("#kd").onclick=()=>{Snd.play("click");kidsMenu()};
   $("#az").onclick=armaMenu;
   $("#rt").onclick=retoMenu;
   $("#rev").onclick=()=>{const m=missed();if(m.length)startGame(shuffle(m),"rev")};
@@ -3041,13 +3148,13 @@ function stats(){
 /* ---------- copia de seguridad: un código con el progreso (sin foto ni clave) ----------
    TBP1z.<datos comprimidos>.<control>   (z = comprimido; u = sin comprimir, si el teléfono no sabe comprimir).
    Al recuperar se valida todo, campo por campo: lo que no es un dato conocido y razonable se descarta. */
-const BK_NUM=["pts","streak","best","fixed","rush","games","ok","tot","wins","crowns","perfect","duels","online","combo","cz","arm","armP","ret"];
+const BK_NUM=["pts","streak","best","fixed","rush","games","ok","tot","wins","crowns","perfect","duels","online","combo","cz","arm","armP","ret","kg"];
 const bkHash=s=>{let h=2166136261>>>0;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)>>>0}return h.toString(36).padStart(7,"0")};
 const b64e=u=>{let s="";u.forEach(c=>s+=String.fromCharCode(c));return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")};
 const b64d=t=>{t=t.replace(/-/g,"+").replace(/_/g,"/");while(t.length%4)t+="=";const b=atob(t),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u};
 const bkZip=async(u,Cls)=>new Uint8Array(await new Response(new Blob([u]).stream().pipeThrough(new Cls("deflate-raw"))).arrayBuffer());
 async function bkMake(){
-  const o={};BK_NUM.concat(["last","st","pass","name","miss","bk","bq","medals","set"]).forEach(k=>{if(D[k]!==undefined)o[k]=D[k]});
+  const o={};BK_NUM.concat(["last","st","pass","name","miss","bk","bq","medals","set","kst"]).forEach(k=>{if(D[k]!==undefined)o[k]=D[k]});
   const json=JSON.stringify(o),raw=new TextEncoder().encode(json);let mode="u",body=raw;
   if(typeof CompressionStream==="function"){try{body=await bkZip(raw,CompressionStream);mode="z"}catch(e){body=raw}}
   return"TBP1"+mode+"."+b64e(body)+"."+bkHash(json)}
@@ -3063,9 +3170,10 @@ function bkClean(o){
   const ids=new Set(QS.map(q=>q.id));R.miss={};
   if(o.miss&&typeof o.miss==="object")Object.keys(o.miss).filter(k=>ids.has(k)).slice(0,150).forEach(k=>R.miss[k]=n(o.miss[k],4e12));
   R.bq={};if(o.bq&&typeof o.bq==="object"&&!Array.isArray(o.bq))Object.keys(BQS).forEach(k=>{const a=o.bq[k];if(!Array.isArray(a))return;const ok=new Set(BQS[k].map(sid)),ids=[...new Set(a.filter(x=>typeof x==="string"&&ok.has(x)))];if(ids.length)R.bq[k]=ids});
+  R.kst=Array.isArray(o.kst)?[...new Set(o.kst.filter(i=>Number.isInteger(i)&&i>=0&&i<KST.length))].sort((a,b)=>a-b):[];
   R.medals={};if(o.medals&&typeof o.medals==="object")MEDALS.forEach(m=>{if(o.medals[m.id])R.medals[m.id]=String(o.medals[m.id]).replace(/[^\d-]/g,"").slice(0,10)});
   const s=o.set&&typeof o.set==="object"?o.set:{};
-  R.set={snd:s.snd===0||s.snd===false?0:1,vib:s.vib===0||s.vib===false?0:1,big:s.big===1||s.big===true?1:0,tts:s.tts===1||s.tts===true?1:0,vr:s.vr===1||s.vr===true?1:0,theme:["auto","light","dark"].includes(s.theme)?s.theme:"auto",time:[0,15,30].includes(+s.time)?+s.time:15};
+  R.set={snd:s.snd===0||s.snd===false?0:1,vib:s.vib===0||s.vib===false?0:1,big:s.big===2?2:s.big===1||s.big===true?1:0,tts:s.tts===1||s.tts===true?1:0,vr:s.vr===1||s.vr===true?1:0,kv:s.kv===0||s.kv===false?0:1,theme:["auto","light","dark"].includes(s.theme)?s.theme:"auto",time:[0,15,30].includes(+s.time)?+s.time:15};
   return R}
 async function bkRead(code){
   const m=String(code||"").match(/TBP1([zu])\.([A-Za-z0-9_\-\s]+)\.([0-9a-z]{7})/);
@@ -3115,7 +3223,8 @@ function settings(){
   <div class="card"><div class="srow" style="padding-top:0"><span class="${avCls(D.pic)}" id="sav" style="--avc:${avc(D.name||"Jugador")}">${avIn(D.name||"Jugador",D.pic)}</span><div style="flex:1;min-width:0"><b>Foto de perfil</b><small>La ven tus amigos en la ruleta, los duelos y las salas</small></div></div>
   <div class="two"><button class="btn ghost sm" id="sPic">📷 ${D.pic?"Cambiar foto":"Elegir foto"}</button><button class="btn ghost sm" id="sPicX" ${D.pic?"":"disabled"}>Quitar foto</button></div>
   <label class="lbl" for="sname">Mi nombre</label><input id="sname" maxlength="14" placeholder="Tu nombre" value="${esc(D.name||"")}">
-  ${sw("sSnd",s.snd,"Sonidos","Efectos de acierto, error y ruleta")}${sw("sVib",s.vib,"Vibración","Al responder (solo en celulares compatibles)")}${sw("sBig",s.big,"Texto grande","Letras más grandes en toda la app")}
+  ${sw("sSnd",s.snd,"Sonidos","Efectos de acierto, error y ruleta")}${sw("sVib",s.vib,"Vibración","Al responder (solo en celulares compatibles)")}
+  <div class="srow" style="display:block"><b>Tamaño del texto</b><small>Para leer mejor en toda la app. También lo cambias con el botón <b>Aa</b> del inicio</small><div class="seg" id="sFs"><button data-v="0" style="font-size:16px">Normal</button><button data-v="1" style="font-size:19px">Grande</button><button data-v="2" style="font-size:22px">Muy grande</button></div></div>
   <div class="srow" style="display:block"><b>Tema</b><div class="seg" id="sTh"><button data-v="auto">Automático</button><button data-v="light">Claro</button><button data-v="dark">Oscuro</button></div></div>
   <div class="srow" style="display:block"><b>Tiempo por pregunta</b><small>Normal: 15 s · Relajado: 30 s. En línea siempre son 15 s</small><div class="seg" id="sTm"><button data-v="15">15 s</button><button data-v="30">30 s</button><button data-v="0">Sin tiempo</button></div></div></div>
   <div class="card" style="margin-top:.8rem"><div class="srow" style="display:block;padding-top:0"><b>🔊 Leer en voz alta</b><small>El teléfono lee las preguntas y los versículos con su propia voz en español. Los botones 🔊 aparecen en cada pregunta y en cada versículo.</small></div>
@@ -3141,7 +3250,7 @@ function settings(){
     $("#yvT").onclick=()=>{D.yvk=($("#yvk").value||"").replace(/["'\s]/g,"");$("#yvk").value=D.yvk;sv();$("#yvX").disabled=!D.yvk;RVR_OK=null;$("#yvS").textContent=yvState();if(!D.yvk){$("#yvR").textContent="Pega primero la clave.";return}yvTest($("#yvR")).then(()=>{const s=$("#yvS");if(s)s.textContent=yvState()})};
     $("#yvX").onclick=()=>{D.yvk="";sv();$("#yvk").value="";$("#yvX").disabled=true;$("#yvR").textContent="";RVR_OK=null;$("#yvS").textContent=yvState();toast("Clave quitada");yvProbe().then(()=>{const s=$("#yvS");if(s)s.textContent=yvState()})};}
   const tg=(id,k,fn)=>$("#"+id).onclick=e=>{D.set[k]=D.set[k]?0:1;sv();e.currentTarget.setAttribute("aria-checked",!!D.set[k]);fn&&fn();Snd.play("click");if(k==="vib")vib(40)};
-  tg("sSnd","snd");tg("sVib","vib");tg("sBig","big",applyTheme);
+  tg("sSnd","snd");tg("sVib","vib");seg("sFs",fsz,v=>{D.set.big=+v;applyTheme()});
   if(Tts.ok){tg("sTts","tts");seg("sVr",()=>D.set.vr,v=>{D.set.vr=+v;Tts.stop()});
     $("#sTest").onclick=()=>{Tts.say("Hola, esta es la voz de Trivia Bíblica. «Lámpara es a mis pies tu palabra».");const v=Tts.voice(),r=$("#sTestR");r.hidden=false;
       r.textContent=v?"Voz: "+v.name+" ("+v.lang+")":"No encontré una voz en español instalada: se usa la que trae el teléfono. En Android puedes instalar una en Ajustes › Idioma › Texto a voz."}}
@@ -3161,6 +3270,8 @@ function help(){
   <h3>🗺️ Mapa de la Biblia</h3><p>Toca «Mapa de la Biblia» para ver los 66 libros. Cada libro se llena de estrellas a medida que aciertas preguntas distintas de ese libro (⭐ la primera, ⭐⭐⭐ cuando dominas casi todas). Toca un libro para practicar solo con sus preguntas; las que aún no acertaste salen primero.</p>
   <h3>📨 Reta a un amigo</h3><p>Respondes 10 preguntas y te damos un enlace para mandárselo a tu amigo por WhatsApp. Él juega <b>las mismas 10 preguntas</b> y la app compara los puntos. Son 15 segundos por pregunta y sin comodines, para que sea parejo.</p>
   <h3>🧩 Arma el versículo</h3><p>Para memorizar: toca las palabras en el orden correcto para reconstruir el versículo. Cada error resta puntos y <b>💡 Pista</b> te pone la siguiente palabra. Hay 3 niveles y no hay reloj.</p>
+  <h3>🧒 Modo niños</h3><p>Para la escuela dominical y los más chicos: preguntas fáciles y cortas, <b>sin reloj</b>, con letras grandes y la voz que lee cada pregunta (se apaga en el mismo menú). Si aciertas 6 o más, ¡ganas una <b>figurita</b> para tu álbum!</p>
+  <h3>🔠 Letra grande</h3><p>Toca el botón <b>Aa</b> del inicio para cambiar el tamaño del texto de toda la app: normal, grande o muy grande.</p>
   <h3>📚 Niveles</h3><p>Saca 7 de 10 para desbloquear el siguiente nivel.</p>
   <h3>🌍 Con amigos</h3><p>Crea una sala con nombre y contraseña; tus amigos entran con los mismos datos. Puedes jugar solo preguntas o ruleta por turnos.</p>
   <h3>📷 Tu foto</h3><p>En el inicio, toca tu círculo para elegir una foto de tu galería. Tus amigos la verán en la ruleta, los duelos y las salas. Para cambiar tu nombre, toca tu nombre.</p>
@@ -3175,7 +3286,7 @@ function about(){
    repaso de errores, por libro y «solo preguntas» en línea
    ============================================================ */
 const MAXQ=10,BOTS=["Mateo","Lidia","Samuel","Rut","Daniel","Débora","Pablo","Ana"];
-const MODEN={daily:"⭐ Desafío diario",mix:"🎲 Partida rápida",duel:"⚔️ Duelo",online:"🌍 Con amigos",rush:"⏱️ Contrarreloj",rev:"🔁 Repaso",cloze:"✍️ Completa el versículo",reto:"⚔️ Reto","0":"🌱 Fácil","1":"📖 Intermedio","2":"🔥 Difícil"};
+const MODEN={daily:"⭐ Desafío diario",mix:"🎲 Partida rápida",duel:"⚔️ Duelo",online:"🌍 Con amigos",rush:"⏱️ Contrarreloj",rev:"🔁 Repaso",cloze:"✍️ Completa el versículo",reto:"⚔️ Reto",kids:"🧒 Modo niños","0":"🌱 Fácil","1":"📖 Intermedio","2":"🔥 Difícil"};
 const modeLabel=g=>g.mode==="book"?"📖 "+g.book:MODEN[g.mode];
 const missed=()=>QS.filter(q=>D.miss[q.id]);
 const booksQ=k=>BQS[k]||[];
@@ -3193,14 +3304,15 @@ function ringTick(l,t){const pg=$("#pg"),r=$("#ring");if(!pg)return;pg.style.str
   const w=l<=5&&l>0;r.classList.toggle("warn",w);if(w&&Math.ceil(l)!==lastSec){lastSec=Math.ceil(l);Snd.play("time")}}
 function rushTick(l,t){const b=$("#gbar"),g=$("#gtime"),r=$(".rbar");if(b)b.style.width=Math.max(0,l/t*100).toFixed(1)+"%";if(g)g.textContent=Math.ceil(l);if(r){r.classList.toggle("warn",l<=10);if(l<=5&&l>0&&Math.ceil(l)!==lastSec){lastSec=Math.ceil(l);Snd.play("time")}}}
 function rushEnd(){if(!G||G.over)return;G.over=1;clearTimeout(G.adv);Tm.stop();endGame()}
-function showSheet({good,title,q,btn,btnCls,wait,next}){
+function showSheet({good,title,q,btn,btnCls,wait,next,kid,auto}){ /* auto: undefined = lo normal (leer el versículo si está activado); un texto = leerlo; false = no leer nada */
   document.body.classList.add("sheeted");
-  const el=document.createElement("div");el.className="sheet "+(good?"ok":"bad");el.setAttribute("role","status");
+  const el=document.createElement("div");el.className="sheet "+(good?"ok":"bad")+(kid?" kid":"");el.setAttribute("role","status");
   el.innerHTML=`<div><h3>${title}</h3>${good||!q?"":`<p class="ans">Respuesta correcta: <b>${q.a}</b></p>`}${q?verseHTML(q):""}${btn?`<button class="btn ${btnCls||"blue"}" id="nx">${btn}</button>`:`<p class="sub" style="margin:.2rem 0 0">${wait||""}</p>`}</div>`;
   document.body.appendChild(el);
   const vb=$(".vsh",el);if(vb&&q){const v=verseInfo(q);vb.onclick=()=>shareVerse(v.label,v.text)}
   const rb=$(".vrv",el);if(rb&&q){const v=verseInfo(q);rb.onclick=()=>rvrRead(q.r,v.label)}
-  const sp=$(".vsp",el);if(sp&&q){const v=verseInfo(q),tx=ttsVerse(v.label,v.text);sp.onclick=()=>Tts.toggle(tx,sp);if(D.set.tts)setTimeout(()=>{if(el.isConnected)Tts.say(tx,sp)},350)}
+  const sp=$(".vsp",el);if(sp&&q){const v=verseInfo(q),tx=ttsVerse(v.label,v.text);sp.onclick=()=>Tts.toggle(tx,sp,kid?kidVoice():undefined);if(auto===undefined&&D.set.tts)setTimeout(()=>{if(el.isConnected)Tts.say(tx,sp)},350)}
+  if(auto&&Tts.ok)setTimeout(()=>{if(el.isConnected)Tts.say(auto,null,kidVoice())},250);
   const b=$("#nx");if(b){b.onclick=()=>{b.disabled=true;next&&next()};b.focus({preventScroll:true})}
   setTimeout(()=>{const ok=$(".opt.ok"),sh=$(".sheet>div");if(ok&&sh){const r=ok.getBoundingClientRect(),s=sh.getBoundingClientRect();if(r.bottom>s.top-10)window.scrollBy({top:r.bottom-s.top+18,behavior:REDUCED?"auto":"smooth"})}},60)}
 
@@ -3246,7 +3358,7 @@ async function shareVerse(label,text){
 const srow=s=>`<span class="sr" role="img" aria-label="${s} de 3 estrellas">${[1,2,3].map(i=>`<i class="${i<=s?"on":""}">★</i>`).join("")}</span>`;
 function libros(){
   pushView();const mi=mapInfo();
-  view(`<h1 class="h1">🗺️ Mapa de la Biblia</h1><p class="sub">Acierta preguntas de cada libro para llenarlo de estrellas. Toca un libro para practicar.</p>
+  view(`<h1 class="h1"><span class="em">🗺️</span> Mapa de la Biblia</h1><p class="sub">Acierta preguntas de cada libro para llenarlo de estrellas. Toca un libro para practicar.</p>
   <div class="card mapsum"><div class="mst"><b>⭐ ${mi.stars}</b><span>de ${mi.max}</span></div><div class="xp"><i style="--w:${Math.round(100*mi.stars/mi.max)}%"></i></div><small>${mi.started} de ${NBOOKS} libros empezados · ${mi.full} dominados</small></div>
   ${BLK.map(b=>{const ks=b.b.split(","),bs=ks.reduce((n,k)=>n+bkStars(k),0);
     return`<h2 class="h2"><span>${b.e} ${b.n}</span><small>${bs}/${ks.length*3} ⭐</small></h2><div class="bkm">${ks.map(k=>{const n=BOOKN[k]||0,o=bkOk(k),s=bkStars(k,o);
@@ -3256,9 +3368,78 @@ function libros(){
   $$(".bkb").forEach(b=>b.onclick=()=>{Snd.play("click");startBook(b.dataset.b)});
   $("#bk").onclick=goHome}
 
+/* ============================================================
+   MODO NIÑOS (escuela dominical): preguntas fáciles y cortas, sin reloj, con la voz leyendo sola, letras y botones grandes
+   y un álbum de figuritas de premio (una figurita nueva cuando se aciertan 6 o más de 10)
+   ============================================================ */
+const KST=[ /* [dibujo, nombre, frase corta] */
+ ["🌈","El arco iris","Dios prometió que nunca más cubriría la tierra con un diluvio."],
+ ["🚢","El arca de Noé","Noé obedeció a Dios y cuidó a su familia y a los animales."],
+ ["🌳","El huerto del Edén","Dios hizo un jardín hermoso para Adán y Eva."],
+ ["🌟","La estrella de Belén","Unos magos siguieron una estrella para encontrar a Jesús."],
+ ["👶","Jesús en el pesebre","Jesús nació en Belén y María lo acostó en un pesebre."],
+ ["🐑","La oveja perdida","Jesús es el buen pastor: busca a cada oveja y la cuida."],
+ ["🦁","Daniel y los leones","Dios cerró la boca de los leones y cuidó a Daniel."],
+ ["🐋","Jonás y el gran pez","Jonás estuvo tres días dentro de un gran pez."],
+ ["💪","David y Goliat","David confió en Dios y venció al gigante con una honda."],
+ ["🔥","La zarza ardiente","Dios habló con Moisés desde una zarza que ardía sin quemarse."],
+ ["🌊","El mar Rojo","Dios abrió el mar para que su pueblo pasara."],
+ ["🍞","Panes y peces","Jesús dio de comer a miles de personas con cinco panes y dos peces."],
+ ["🛶","Moisés en el Nilo","Su mamá lo puso en una canasta sobre el río para cuidarlo."],
+ ["🧥","La túnica de colores","Jacob le regaló a su hijo José una túnica de colores."],
+ ["🎺","Los muros de Jericó","El pueblo obedeció a Dios y los muros de Jericó cayeron."],
+ ["🕊️","La paloma","Cuando Jesús fue bautizado, el Espíritu de Dios bajó como una paloma."],
+ ["🎣","Pedro el pescador","Jesús llamó a Pedro, un pescador, para que lo siguiera."],
+ ["🌿","Zaqueo en el árbol","Zaqueo subió a un árbol para ver a Jesús."],
+ ["🏠","La casa sobre la roca","El hombre prudente edificó su casa sobre la roca."],
+ ["📖","La Biblia","La Biblia tiene 66 libros con la Palabra de Dios."],
+ ["🎶","David y el arpa","David tocaba el arpa y cantaba alabanzas a Dios."],
+ ["👑","El rey Salomón","Salomón le pidió sabiduría a Dios."],
+ ["🌅","¡Jesús resucitó!","Al tercer día Jesús resucitó. ¡Jesús vive!"],
+ ["💡","La luz del mundo","Jesús dijo: «Yo soy la luz del mundo»."]];
+const KC=["#e5484d","#2f6fe0","#22a869","#e49b12","#8b47d9","#14a39a","#d6409f","#d2601f"];
+const KID_OK=["¡Muy bien!","¡Excelente!","¡Bravo!","¡Eso es!","¡Genial!","¡Qué bien!"];
+const kidPick=a=>a[Math.random()*a.length|0];
+const kidVoice=()=>({rate:D.set.vr?.72:.88,pitch:1.1}); /* la voz de los niños: más despacio y un poco más aguda */
+const kidMsg=r=>r>=.9?"¡Eres un campeón de la Biblia! 🏆":r>=.7?"¡Muy bien! Sigues aprendiendo la Palabra.":r>=.4?"¡Bien! Cada vez sabrás más.":"¡No importa! Aprender es divertido. ¡Vamos otra vez!";
+/* preguntas del Modo niños: solo del nivel Fácil, cortas, y sin temas pesados (muerte, violencia…) */
+const KID_DARK=/\bmat(?:ó|ar|arás|aron|aba|an|e)(?![a-záéíóúñ])|muert|morir|cort[óo]|crucific|traicion|sepulcro|sangre|guerra|diablo|espina|cruz/i;
+const kidOk=q=>q.l===0&&q.q.length<=80&&q.a.length<=32&&q.d.every(x=>x.length<=32)&&!KID_DARK.test(q.q+" "+q.a);
+/* primero salen las que todavía no acertó: así el Mapa de la Biblia también sube */
+function kidsPool(){const all=QS.filter(kidOk),got=q=>{const a=D.bq&&D.bq[bookOf(q.r)];return Array.isArray(a)&&a.includes(sid(q))};
+  return[...shuffle(all.filter(q=>!got(q))),...shuffle(all.filter(got))]}
+/* con 6 o más aciertos hay una figurita nueva (si todavía falta alguna) */
+function kidReward(ok){
+  const miss=KST.map((_,i)=>i).filter(i=>!D.kst.includes(i));
+  if(ok<6||!miss.length)return{i:-1,full:!miss.length};
+  const i=miss[Math.random()*miss.length|0];D.kst.push(i);return{i,full:false}}
+function startKids(){Snd.play("click");startGame(kidsPool(),"kids")}
+function kidsMenu(){
+  pushView();const n=D.kst.length,N=KST.length;
+  view(`<h1 class="h1"><span class="em">🧒</span> Modo niños</h1><p class="sub">Preguntas fáciles de la Biblia, sin reloj${Tts.ok?" y con una voz que las lee":""}.</p>
+  <button class="btn green kbig" id="kgo" type="button">▶️ ¡A jugar!</button>
+  <div class="card kalb"><div class="khd"><b>🖼️ Mi álbum de figuritas</b><span>${n}/${N}</span></div><div class="xp" style="height:.8rem"><i style="--w:${Math.round(100*n/N)}%"></i></div>
+    <p class="ksub">${n>=N?"¡Completaste el álbum! 🏆":"Acierta 6 o más preguntas de 10 y ganas una figurita nueva."}</p><button class="btn ghost sm" id="kal" type="button">Ver mi álbum</button></div>
+  ${Tts.ok?`<div class="card" style="margin-top:.8rem"><div class="srow" style="padding:0"><div><b>🔊 Leer en voz alta</b><small>La voz lee cada pregunta y sus opciones, y dice si acertaste.</small></div><button class="switch" role="switch" id="kvs" aria-checked="${!!D.set.kv}" aria-label="Leer en voz alta en el Modo niños"></button></div></div>`:""}
+  <button class="btn ghost" id="kbk" type="button" style="margin-top:1rem">Volver</button>`,"kids");
+  $("#kgo").onclick=startKids;$("#kal").onclick=()=>{Snd.play("click");kidsAlbum()};$("#kbk").onclick=goHome;
+  const sw=$("#kvs");if(sw)sw.onclick=e=>{D.set.kv=D.set.kv?0:1;sv();e.currentTarget.setAttribute("aria-checked",!!D.set.kv);Snd.play("click");if(!D.set.kv)Tts.stop()}}
+function kidsAlbum(){
+  pushView();const n=D.kst.length,N=KST.length;
+  view(`<h1 class="h1"><span class="em">🖼️</span> Mi álbum</h1><p class="sub">${n>=N?"¡Completaste el álbum! 🏆":`Tienes ${n} de ${N} figuritas. Acierta 6 o más y ganas otra.`}</p>
+  <div class="kst">${KST.map((s,i)=>D.kst.includes(i)?`<button type="button" class="ks on" style="--kc:${KC[i%KC.length]}" data-i="${i}" aria-label="${esc(s[1])}"><i aria-hidden="true">${s[0]}</i><b>${esc(s[1])}</b></button>`
+    :`<div class="ks off" role="img" aria-label="Figurita sin descubrir"><i aria-hidden="true">❔</i><b>¿Cuál será?</b></div>`).join("")}</div>
+  <button class="btn ghost" id="kbk" type="button" style="margin-top:1.2rem">Volver</button>`,"kalbum");
+  $$(".ks.on").forEach(b=>b.onclick=()=>{Snd.play("click");kidStick(+b.dataset.i)});
+  $("#kbk").onclick=kidsMenu}
+function kidStick(i){
+  const s=KST[i];if(!s)return;
+  modal(`<div class="kmd" style="--kc:${KC[i%KC.length]}"><i aria-hidden="true">${s[0]}</i><h3>${esc(s[1])}</h3><p>${esc(s[2])}</p>${Tts.ok?'<button type="button" class="btn ghost sm" id="ksp">🔊 Escuchar</button>':""}</div>`,[{t:"Cerrar",cls:"gold",fn:()=>Tts.stop()}]);
+  const b=$("#ksp");if(b){const tx=s[1]+". "+s[2];b.onclick=()=>Tts.toggle(tx,b,kidVoice());if(D.set.kv)setTimeout(()=>{if($("#ksp")===b)Tts.say(tx,b,kidVoice())},350)}}
+
 function startGame(qs,mode,x={}){
   const online=mode==="online",rush=mode==="rush",max=rush?qs.length:MAXQ;
-  G=Object.assign({qs:qs.slice(0,max),spare:rush?[]:qs.slice(max,max+3),mode,i:0,pts:0,ok:0,combo:0,best:0,rv:0,rn:BOTS[Math.random()*BOTS.length|0],res:[],tl:(online||mode==="reto")?15:rush?0:D.set.time,life:{f:1,t:1,s:1},over:0,st0:mapInfo().stars},x);
+  G=Object.assign({qs:qs.slice(0,max),spare:rush?[]:qs.slice(max,max+3),mode,i:0,pts:0,ok:0,combo:0,best:0,rv:0,rn:BOTS[Math.random()*BOTS.length|0],res:[],tl:(online||mode==="reto")?15:(rush||mode==="kids")?0:D.set.time,life:{f:1,t:1,s:1},over:0,st0:mapInfo().stars},x);
   G.n=G.qs.length;wake(true);pushView();ask();
   if(rush)Tm.start(60,rushTick,rushEnd)}
 
@@ -3421,11 +3602,11 @@ function arEnd(){
 
 function ask(){
   clearTimeout(G.rtm);
-  const q=G.qs[G.i],b=BLK[q.b],online=G.mode==="online",duel=G.mode==="duel",rush=G.mode==="rush",tl=G.tl;
+  const q=G.qs[G.i],b=BLK[q.b],online=G.mode==="online",duel=G.mode==="duel",rush=G.mode==="rush",kids=G.mode==="kids",tl=G.tl;
   G.q=q;G.o=optsOf(q);G.done=0;G.gone=[];lastSec=0;
   const dots=G.qs.map((_,i)=>`<i class="${i<G.i?(G.res[i]?"ok":"bad"):i===G.i?"cur":""}"></i>`).join("");
   const ring=tl?`<div class="ring" id="ring" aria-hidden="true"><svg viewBox="0 0 40 40"><circle class="tr" cx="20" cy="20" r="16"/><circle class="pg" id="pg" cx="20" cy="20" r="16"/></svg><b id="rn">${tl}</b></div>`:"";
-  const lf=(online||rush||G.mode==="reto")?"":`<div class="life"><button class="lf" data-k="f" ${G.life.f?"":"disabled"}><span>✂️</span>50/50<em>${G.life.f}</em></button>${tl?`<button class="lf" data-k="t" ${G.life.t?"":"disabled"}><span>⏱️</span>+10 s<em>${G.life.t}</em></button>`:""}<button class="lf" data-k="s" ${G.life.s&&G.spare.length?"":"disabled"}><span>🔄</span>Cambiar<em>${G.life.s}</em></button></div>`;
+  const lf=(online||rush||G.mode==="reto")?"":`<div class="life"><button class="lf" data-k="f" ${G.life.f?"":"disabled"}><span>${kids?"✨":"✂️"}</span>${kids?"Ayuda":"50/50"}<em>${G.life.f}</em></button>${tl?`<button class="lf" data-k="t" ${G.life.t?"":"disabled"}><span>⏱️</span>+10 s<em>${G.life.t}</em></button>`:""}<button class="lf" data-k="s" ${G.life.s&&G.spare.length?"":"disabled"}><span>🔄</span>${kids?"Otra":"Cambiar"}<em>${G.life.s}</em></button></div>`;
   const me=D.name||"Tú",vs=duel?`<div class="vs"><div class="p"><span class="${avCls(D.pic)}" style="--avc:${avc(me)}">${avIn(me,D.pic)}</span><b>${esc(me)}</b><span class="sc" id="my">${G.pts}</span></div><span class="x">VS</span><div class="p" id="rvp"><span class="av" style="--avc:${avc(G.rn)}">${esc(ini(G.rn))}</span><b>${esc(G.rn)}</b><span class="sc" id="rv">${G.rv}</span></div></div>`:"";
   const rl=rush&&G.i>0?Math.max(0,Tm.left):60;
   const bar=rush?`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="rbar" role="timer" aria-label="Tiempo restante"><i id="gbar" style="width:${(rl/60*100).toFixed(1)}%"></i><b id="gtime">${Math.ceil(rl)}</b></div><div class="pill gold" id="sc">✅ ${G.ok}</div></div>`
@@ -3434,11 +3615,11 @@ function ask(){
   view(`${bar}${vs}${rto}${online?'<div class="live" id="sb"></div>':""}
   <div class="qcard" style="${catStyle(b)}"><div class="qhead"><div><span class="qn">${modeLabel(G)} · ${rush?"#"+(G.i+1):(G.i+1)+"/"+G.n}</span>${b.e} ${b.n}</div><div class="qrt">${Tts.ok?'<button type="button" class="spk" id="spk" aria-label="Escuchar la pregunta">🔊</button>':""}${ring}</div></div><p class="q${q.cz?" cz":""}">${q.q}</p></div>
   <div class="combo" id="cb" aria-live="polite">${G.combo>=3&&!rush?`<span>🔥 Racha de ${G.combo}</span>`:""}</div>
-  <div class="opts" role="group" aria-label="Respuestas">${G.o.map((o,i)=>`<button class="opt" data-i="${i}"><span class="ltr">${"ABCD"[i]}</span><span>${o}</span></button>`).join("")}</div>${lf}`,"play");
+  <div class="opts" role="group" aria-label="Respuestas">${G.o.map((o,i)=>`<button class="opt" data-i="${i}"><span class="ltr">${"ABCD"[i]}</span><span>${o}</span></button>`).join("")}</div>${lf}`,"play",kids?"kids":"");
   $("#ex").onclick=confirmExit;
   $$(".opt").forEach(x=>x.onclick=()=>pick(+x.dataset.i));
   $$(".lf").forEach(x=>x.onclick=()=>useLife(x.dataset.k));
-  const spk=$("#spk");if(spk){spk.onclick=()=>Tts.toggle(ttsQuestion(q,G.o,G.gone),spk);if(D.set.tts&&!rush)setTimeout(()=>{if(G&&G.q===q&&!G.done)Tts.say(ttsQuestion(q,G.o,G.gone),$("#spk"))},300)}
+  const spk=$("#spk");if(spk){const kv=kids?kidVoice():undefined;spk.onclick=()=>Tts.toggle(ttsQuestion(q,G.o,G.gone),spk,kv);if((kids?D.set.kv:D.set.tts)&&!rush)setTimeout(()=>{if(G&&G.q===q&&!G.done)Tts.say(ttsQuestion(q,G.o,G.gone),$("#spk"),kv)},kids?450:300)}
   if(tl)Tm.start(tl,ringTick,()=>pick(-1));
   if(online)updSB();
   if(duel){G.rdone=0;G.rt=3+Math.random()*9;G.rc=Math.random()<[.85,.7,.5][q.l];G.rtm=setTimeout(rivalAnswer,G.rt*1000)}
@@ -3472,19 +3653,21 @@ function pick(i){
   if(rush){const cb=$("#cb");if(cb)cb.innerHTML=good?`<span>✅ +${gain}${G.combo>=3?" · 🔥 x"+G.combo:""}</span>`:'<span style="background:linear-gradient(180deg,#d23f45,#b92b32);box-shadow:0 3px 0 #7d1b20">❌ −4 s</span>';
     G.adv=setTimeout(()=>{if(!G||G.over)return;G.i++;G.i<G.qs.length?ask():rushEnd()},good?420:950);return}
   if(good&&G.combo>=3)$("#cb").innerHTML=`<span>🔥 Racha de ${G.combo} · +${bonus}</span>`;else $("#cb").innerHTML="";
-  const last=G.i+1>=G.n;
-  showSheet({good,q,title:good?`¡Correcto! <b>+${gain}</b>`:i<0?"¡Se acabó el tiempo!":"Incorrecto",btn:last?"Ver resultado":"Siguiente",btnCls:good?"green":"blue",next:()=>{G.i++;G.i<G.n?ask():endGame()}});
+  const last=G.i+1>=G.n,kid=G.mode==="kids",kt=kid?kidPick(KID_OK):"";
+  showSheet({good,q,kid,auto:kid?(D.set.kv?(good?kt+" "+q.a+".":"¡Casi! La respuesta es: "+q.a+"."):false):undefined,
+    title:kid?(good?`${kt} <b>+${gain}</b>`:"¡Casi! 💪"):good?`¡Correcto! <b>+${gain}</b>`:i<0?"¡Se acabó el tiempo!":"Incorrecto",
+    btn:last?"Ver resultado":"Siguiente",btnCls:good?"green":"blue",next:()=>{G.i++;G.i<G.n?ask():endGame()}});
 }
 
 function countUp(el,to,ms=900){if(!el)return;if(REDUCED||!to){el.textContent=to;return}const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/ms);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)}
 function shareText(g){const n=g.mode==="rush"?g.res.length:g.n;
-  const nm={cloze:"Completa el versículo",reto:"Reto a un amigo",daily:"Desafío diario "+todayS(),mix:"Partida rápida",duel:"Duelo",online:"Partida con amigos",rush:"Contrarreloj",rev:"Repaso de errores",book:"Libro de "+g.book,"0":"Nivel Fácil","1":"Nivel Intermedio","2":"Nivel Difícil"};
+  const nm={cloze:"Completa el versículo",reto:"Reto a un amigo",daily:"Desafío diario "+todayS(),mix:"Partida rápida",duel:"Duelo",online:"Partida con amigos",rush:"Contrarreloj",rev:"Repaso de errores",kids:"Modo niños",book:"Libro de "+g.book,"0":"Nivel Fácil","1":"Nivel Intermedio","2":"Nivel Difícil"};
   const line=g.mode==="rush"?`⏱️ ${g.ok} aciertos en 60 s`:`${g.res.map(x=>x?"🟩":"🟥").join("")} ${g.ok}/${n}`;
   return`✝️ Trivia Bíblica · ${nm[g.mode]}\n${line}\n⭐ ${g.pts} puntos\n${APPURL}`}
 function endGame(){
   Tm.stop();const g=G,before=rank().i,rush=g.mode==="rush",n=rush?g.res.length:g.n;
   D.pts+=g.pts;D.games++;if(!rush&&g.ok===n&&n>=10)D.perfect++;
-  let extra="",duelTxt="";
+  let extra="",duelTxt="",kidSay="";
   if(/^[012]$/.test(g.mode)&&g.ok>=7){const m=+g.mode,nw=!D.pass[m]&&m<2;D.pass[m]=1;if(nw)extra+=`<span class="chip new">🔓 Nivel ${LN[m+1]} desbloqueado</span>`}
   if(g.mode==="daily"){const y=day(new Date(Date.now()-864e5));D.streak=D.last===y?D.streak+1:1;D.last=todayS();D.best=Math.max(D.best,D.streak);extra+=`<span class="chip new">🔥 Racha: ${D.streak} día${D.streak>1?"s":""}</span>`}
   if(g.mode==="duel"){const w=g.pts>g.rv,t=g.pts===g.rv;if(w)D.duels++;
@@ -3494,15 +3677,19 @@ function endGame(){
     retoSaved(g.seed,g.pts,!g.rival);
     if(g.rival){const r=g.rival,w=g.pts>r.p,t=g.pts===r.p;if(w)D.ret=(D.ret||0)+1;
       duelTxt=`<p class="msg">${w?"🏆 ¡Le ganaste a "+esc(r.n)+"!":t?"🤝 ¡Empate con "+esc(r.n)+"!":esc(r.n)+" ganó esta vez, ¡revancha!"}</p><p class="sub" style="margin:.1rem 0 .4rem">${esc(D.name||"Tú")}: ${g.pts} pts (${g.ok}/10) · ${esc(r.n)}: ${r.p} pts (${r.a}/10)</p>`}}
+  if(g.mode==="kids"){D.kg=(D.kg||0)+1;const k=kidReward(g.ok);
+    if(k.i>=0){duelTxt=`<div class="newst" role="status"><i aria-hidden="true">${KST[k.i][0]}</i><span>¡Ganaste una figurita!<b>${esc(KST[k.i][1])}</b></span></div>`;kidSay=" ¡Ganaste una figurita nueva: "+KST[k.i][1]+"!"}
+    else if(k.full)extra+=`<span class="chip new">🏅 ¡Tienes todas las figuritas!</span>`}
   if(rush){const rec=g.ok>(D.rush||0);if(rec)D.rush=g.ok;extra+=`<span class="chip new">🏅 ${rec?"¡Nuevo récord!":"Tu récord"}: ${D.rush}</span>`}
   const nm=checkMedals();
   const gs=mapInfo().stars-(g.st0||0);if(gs>0)extra+=`<span class="chip new">🗺️ +${gs} ⭐ en el mapa</span>`;
   if(g.mode==="rev"){const left=missed().length;extra+=`<span class="chip new">✅ ${g.ok} dominada${g.ok===1?"":"s"}</span><span class="chip">${left?left+" por repasar":"¡Sin pendientes!"}</span>`}
   sv();const rk=rank(),ratio=n?g.ok/n:0;
   const stars=rush?(g.ok>=15?3:g.ok>=10?2:g.ok>=5?1:0):(ratio>=.9?3:ratio>=.7?2:ratio>=.4?1:0),good=rush?g.ok>=10:ratio>=.7;
-  const msg=rush?(g.ok>=15?"¡Increíble velocidad!":g.ok>=8?"¡Muy buen tiempo!":"¡Buen intento, inténtalo otra vez!"):(ratio===1&&n>=3?"¡Perfecto! Eres un erudito bíblico.":ratio>=.7?"¡Muy bien! Sigue creciendo en la Palabra.":ratio>=.4?"Vas por buen camino, ¡sigue practicando!":"Sigue estudiando, ¡la Palabra es una luz!");
+  const msg=g.mode==="kids"?kidMsg(ratio):rush?(g.ok>=15?"¡Increíble velocidad!":g.ok>=8?"¡Muy buen tiempo!":"¡Buen intento, inténtalo otra vez!"):(ratio===1&&n>=3?"¡Perfecto! Eres un erudito bíblico.":ratio>=.7?"¡Muy bien! Sigue creciendo en la Palabra.":ratio>=.4?"Vas por buen camino, ¡sigue practicando!":"Sigue estudiando, ¡la Palabra es una luz!");
   const trophy=rush?(g.ok>=15?"🏆":g.ok>=10?"🎉":"⏱️"):(ratio===1&&n>=3?"🏆":ratio>=.7?"🎉":ratio>=.4?"📖":"🌱");
   let btns=`${g.mode==="daily"?"":'<button class="btn gold" id="again">Jugar de nuevo</button>'}<button class="btn ghost" id="shr">📣 Compartir resultado</button><button class="btn ghost" id="hm">Inicio</button>`;
+  if(g.mode==="kids")btns=`<button class="btn gold" id="again">▶️ Jugar otra vez</button><button class="btn ghost" id="kal">🖼️ Mi álbum de figuritas</button><button class="btn ghost" id="hm">Inicio</button>`;
   if(g.mode==="reto")btns=g.rival?`<button class="btn gold" id="again">🔁 Revancha: ahora retas tú</button><button class="btn ghost" id="shr">📣 Contarle a ${esc(g.rival.n)}</button><button class="btn ghost" id="hm">Inicio</button>`
     :`<button class="btn gold" id="rsend">⚔️ Mandar el reto a un amigo</button><button class="btn ghost" id="again">Jugar otro reto</button><button class="btn ghost" id="hm">Inicio</button>`;
   view(`<div class="res"><div class="trophy">${trophy}</div>
@@ -3515,8 +3702,10 @@ function endGame(){
   countUp($("#scn"),g.pts);
   if(good){confetti();Snd.play("win")}else Snd.play(stars>=1?"ok":"lose");
   if(g.mode==="online")setTimeout(()=>updRank(),80);
+  if(g.mode==="kids"){const ka=$("#kal");if(ka)ka.onclick=kidsAlbum;if(D.set.kv&&Tts.ok)setTimeout(()=>{if(VIEW==="result")Tts.say(kidMsg(ratio).replace(/[^\p{L}\p{N}\s¡!¿?.,]/gu,"").trim()+` Acertaste ${g.ok} de ${n}.`+kidSay,null,kidVoice())},700)}
   const ag=$("#again");if(ag)ag.onclick=()=>{const m=g.mode;
-    if(m==="mix"||m==="duel"||m==="rush")startGame(shuffle(inF()),m);
+    if(m==="kids")startKids();
+    else if(m==="mix"||m==="duel"||m==="rush")startGame(shuffle(inF()),m);
     else if(m==="cloze")startCloze();
     else if(m==="reto")startReto();
     else if(m==="online")lobby();
@@ -3607,7 +3796,7 @@ const humanTurn=()=>R.on?R.t===R.mi:!R.ps[R.t].bot;
 
 function rSetup(){
   pushView();let mode="bot",win=3,n=2,per=2;const names=[D.name||"","","","","","","",""];
-  view(`<h1 class="h1">🎡 Ruleta de coronas</h1><p class="sub">Gira la ruleta y responde. Con 3 aciertos seguidos juegas un desafío de corona. ¡Un error pasa el turno!</p>
+  view(`<h1 class="h1"><span class="em">🎡</span> Ruleta de coronas</h1><p class="sub">Gira la ruleta y responde. Con 3 aciertos seguidos juegas un desafío de corona. ¡Un error pasa el turno!</p>
   <div class="card"><label class="lbl" style="margin-top:0">¿Cómo quieres jugar?</label><div class="seg" id="rm"><button data-v="bot">🤖 Compu</button><button data-v="amigos">👥 Amigos</button><button data-v="equipos">🧩 Equipos</button></div>
   <div id="rin"></div><label class="lbl">Coronas para ganar</label><div class="seg" id="rw"><button data-v="2">2</button><button data-v="3">3</button><button data-v="4">4</button></div></div>
   <div style="margin-top:1rem"><button class="btn gold" id="gs">Empezar</button><button class="btn ghost" id="bk">Volver</button></div>`,"setup");
@@ -3658,7 +3847,7 @@ function rTurn(msg){
   else if(p.bot)R.bt=setTimeout(()=>{if(R&&R.phase==="turn")emit(["s",Math.floor(Math.random()*6)])},1000)}
 function rCrown(){
   R.phase="crown";clearTimeout(R.bt);const p=R.ps[R.t],mine=humanTurn();
-  view(`${rBar()}${board()}<h2 class="h1" style="margin-top:.9rem">👑 ¡Desafío de corona!</h2><p class="sub">${esc(p.n)}, elige el bloque${mine?":":"…"}</p>
+  view(`${rBar()}${board()}<h2 class="h1" style="margin-top:.9rem"><span class="em">👑</span> ¡Desafío de corona!</h2><p class="sub">${esc(p.n)}, elige el bloque${mine?":":"…"}</p>
   <div class="cats">${BLK.map((b,i)=>`<button class="cat" data-i="${i}" style="${catStyle(b)}" ${mine?"":"disabled"}><i>${b.e}</i>${b.n}</button>`).join("")}</div>`,"play");
   $("#ex").onclick=confirmExit;
   if(mine)$$(".cat").forEach(b=>b.onclick=()=>{Snd.play("click");emit(["c",+b.dataset.i])});
@@ -3758,7 +3947,7 @@ let ME="",CUR=null,MODE="q",seen=0,lobbyHTML="";
 function lobby(inv){
   pushView();
   if(RM){EV=[];lobbyHTML="";RM.presence({score:0,i:0,done:0,go:null,ev:[]});VIEW="lobby";renderLobby();return}
-  view(`<h1 class="h1">🌍 Con amigos</h1><p class="sub">Crea una sala con contraseña o únete a la de tu amigo con los mismos datos.</p>
+  view(`<h1 class="h1"><span class="em">🌍</span> Con amigos</h1><p class="sub">Crea una sala con contraseña o únete a la de tu amigo con los mismos datos.</p>
   <div class="card"><label class="lbl" for="nm" style="margin-top:0">Tu nombre</label><input id="nm" maxlength="14" placeholder="Tu nombre" value="${esc(D.name||"")}" autocomplete="nickname">
   <label class="lbl" for="cd">Nombre de la sala</label><input id="cd" maxlength="20" placeholder="ej. iglesia1" value="${esc((inv&&inv.sala)||"")}" autocapitalize="none" autocomplete="off">
   <label class="lbl" for="pw">Contraseña</label><input id="pw" maxlength="20" placeholder="Contraseña de la sala" value="${esc((inv&&inv.clave)||"")}" autocomplete="off">
