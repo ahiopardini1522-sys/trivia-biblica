@@ -1,5 +1,35 @@
-TRIVIA BÍBLICA · versión 4.1.0
+TRIVIA BÍBLICA · versión 4.2.0
 ==============================
+
+NOVEDADES DE LA 4.2 · MEJORA GRÁFICA
+  - 🌅 Cabecera ilustrada en el inicio: un cielo con estrellas que titilan, rayos de
+    luz que salen de una Biblia abierta y colinas al fondo. Con el tema claro es un
+    cielo de día; con el oscuro, de noche. La tarjeta de tu perfil queda encima.
+  - Íconos propios (dibujados con código, sin imágenes) en lugar de emojis sueltos:
+    las fichas del inicio (con insignia brillante y un resplandor del color de cada
+    modo), los niveles (brote, libro, llama, candado), el menú de abajo (casa,
+    medalla, engranaje), los botones de arriba (sonido y ayuda) y los comodines
+    (50/50, Público, +10 s, Cambiar).
+  - Tipografías nuevas incrustadas en la app (funcionan sin internet): Lora para
+    los títulos, las preguntas y los versículos, y Poppins para botones, fichas y
+    respuestas. Licencia SIL Open Font License 1.1 (Lora © Cyreal, Poppins ©
+    Indian Type Foundry); solo se incluyen las letras del español.
+  - Botones y tarjetas con más relieve: brillo arriba, sombra abajo y bordes de luz.
+    Las respuestas llevan una moneda dorada con la letra, y al contestar aparece
+    un ✓ verde o una ✕ roja con un resplandor. La tarjeta de la pregunta tiene
+    una marca de agua del tema (📜, 🏰, 🕊️…). La hoja de respuesta tiene un ícono
+    ✓/✕ y el versículo se ve como un papel pergamino.
+  - Chispitas de colores al acertar (no en Contrarreloj, que es muy rápido) y un halo
+    de luz que gira detrás del trofeo en la pantalla de resultado.
+  - Fondo con más profundidad (resplandores de colores) y estrellas arriba; los
+    logros ganados brillan en dorado y la barra de nivel tiene brillo.
+  - Todo el movimiento nuevo (estrellas, rayos, halo, chispitas) se apaga solo si
+    en el teléfono está activado «reducir movimiento».
+  - Ícono nuevo de la app: la rueda de colores con borde dorado, una corona y una
+    cruz al centro, sobre un cielo con rayos de luz (combina con la cabecera). Para
+    verlo en la pantalla de inicio del teléfono hay que borrar el acceso directo y
+    volver a instalar la app (el teléfono guarda el ícono viejo hasta entonces).
+  - La app pesa un poco más (unos 120 KB) por las tipografías.
 
 NOVEDADES DE LA 4.1
   - 🧗 Escalera de la fe (tarjeta nueva en el inicio, junto a «Reta a un amigo»):
