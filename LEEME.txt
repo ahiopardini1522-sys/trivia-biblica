@@ -1,5 +1,46 @@
-TRIVIA BÍBLICA · versión 4.3.0
+TRIVIA BÍBLICA · versión 4.4.0
 ==============================
+
+NOVEDADES DE LA 4.4 · TORNEO CON AMIGOS, ADIVINA EL PERSONAJE Y MÁS PREGUNTAS
+  - 🏆 Torneo con amigos. Al crear una sala en «Con amigos» elige «🏆 Torneo» (también
+    aparece al invitar a un amigo desde «Mis amigos»). Son 3 rondas de 5 preguntas, las
+    mismas para todos: 🌱 Fácil, 📖 Intermedia y 🔥 Final, donde todos los puntos valen
+    el doble. Cada uno juega a su ritmo (15 segundos por pregunta). Al terminar cada
+    ronda aparece una pantalla de posiciones, con medallas y lo que sumó cada uno en
+    esa ronda; la ronda siguiente se abre cuando todos terminaron la anterior (cada
+    uno toca «Empezar la ronda 2»). Mientras esperas puedes mandar emojis y chatear.
+    Al terminar la Final se espera a los que faltan y aparece el PODIO 🥇🥈🥉 con los
+    puntos de cada ronda; si hay empate comparten el puesto. Si alguien sale de la
+    sala sin haber terminado, no se lo espera; si ya había terminado y se va (o vuelve
+    a la sala), igual figura en el podio de los demás. Hacen falta 2 jugadores o más.
+    Logros: «Competidor» (terminar un torneo) y «Campeón» (ganar uno). En Logros
+    también se ve cuántos torneos ganaste.
+  - 🕵️ Adivina el personaje (tarjeta nueva en el inicio). Cada partida son 10
+    personajes de la Biblia (3 fáciles, 4 intermedios y 3 difíciles) de un total de 68.
+    Cada uno trae 5 pistas escritas en primera persona («Mi nombre hebreo era
+    Hadasa…»), de la más difícil a la más fácil. Se ve solo la primera; con «Otra
+    pista» aparece la siguiente. Acertar con la 1.ª pista vale 160 puntos; con la 2.ª,
+    130; con la 3.ª, 100; con la 4.ª, 70 y con la 5.ª, 40. Si fallas, 0. Son 4
+    opciones, sin comodines, y el reloj nunca baja de 30 segundos (o «Sin tiempo» si
+    así lo tienes en Ajustes). Al responder se ven las 5 pistas y el versículo del
+    personaje (Reina-Valera 1909). La voz lee las pistas que están a la vista. No
+    cuenta para el Mapa de la Biblia ni para el Repaso de errores (como «Completa el
+    versículo»). La primera vez explica cómo se juega.
+    Logros: «Detective» (adivina 10 personajes) y «Ojo de águila» (5 personajes con
+    solo 1 o 2 pistas). En Logros se ve cuántos personajes adivinaste.
+  - ➕ 356 preguntas nuevas (ahora son 1428: 200 fáciles, 637 intermedias y 591
+    difíciles), de los 66 libros (mínimo 5 de cada libro). Cada una trae su cita y
+    su versículo (Reina-Valera 1909) para ver al responder.
+  - IMPORTANTE para jugar en línea: cambió el banco de preguntas y se agregó el
+    Torneo, así que TODOS deben tener la 4.4 (Ajustes → abajo de todo dice la
+    versión). La sala avisa si alguien tiene otra versión y no deja empezar. Un
+    enlace de reto mandado desde una versión anterior también avisa que hay que
+    actualizar. El resto de la app (solo, duelo, niños, escalera, etc.) funciona igual.
+  - La copia de seguridad guarda los contadores nuevos (personajes adivinados,
+    torneos jugados y ganados).
+  - En la hoja de respuesta, «Compartir como imagen» y «Escuchar el versículo» ahora
+    son más fáciles de tocar (la zona de toque es más alta).
+  - Firebase: no hay que cambiar las reglas. El torneo usa las mismas salas de siempre.
 
 NOVEDADES DE LA 4.3 · AMIGOS Y CHAT EN LA SALA
   - 👥 Mis amigos (en «Con amigos» y en Ajustes). Cada persona tiene un código de
@@ -327,7 +368,8 @@ PARA JUGAR CON AMIGOS (EN LÍNEA)
   - Todos los jugadores deben tener la misma versión del juego en línea (NETV).
     Si alguien tiene una más vieja, la sala lo avisa y no deja empezar. NETV solo
     cambia cuando cambian las preguntas o las reglas: la 3.7 NO juega en línea
-    con la 3.6 o anteriores porque cambió el banco de preguntas y la sala.
+    con la 3.6 o anteriores porque cambió el banco de preguntas y la sala, y la 3.8
+    (app 4.4) NO juega con la 3.7 o anteriores porque agregó preguntas y el Torneo.
   - Las fotos se guardan en la misma base de datos, en salas con el final «-av»,
     y se borran cuando el jugador sale. No hace falta cambiar las reglas de
     Firebase: las de abajo ya las permiten.
