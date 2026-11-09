@@ -373,8 +373,9 @@ textarea.bkt{width:100%;font:inherit;font-size:.82rem;line-height:1.35;color:var
 .md2{width:100%;max-width:23.5rem;background:var(--sheetbg);color:var(--ink);border:1px solid var(--line);border-radius:1.5rem;padding:1.3rem;box-shadow:var(--sh);animation:pop .28s both;max-height:88vh;overflow:auto}
 .md2 h3{font-size:1.3rem;margin-bottom:.4rem}
 .md2 p{color:var(--mut);margin-bottom:.6rem}
-.mbtns{display:flex;gap:.6rem;margin-top:1rem}
+.mbtns{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,7rem),1fr));gap:.6rem;margin-top:1rem} /* dos botones lado a lado si entran; si no (celular chico con letra grande), uno debajo del otro */
 .mbtns .btn{margin:0!important}
+.mbtns.col{grid-template-columns:minmax(0,1fr)}
 .toast{position:fixed;left:50%;bottom:calc(6.2rem + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:60;max-width:92vw;padding:.7rem 1rem;border-radius:1rem;background:#0b1536;color:#fff;border:1px solid rgba(255,255,255,.22);font-weight:700;font-size:.92rem;box-shadow:var(--sh);transition:opacity .25s,transform .25s;display:flex;gap:.8rem;align-items:center}
 .toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 .toast button{color:#ffd470;font-weight:900;white-space:nowrap}
@@ -586,6 +587,21 @@ html.xbig .kst{grid-template-columns:repeat(2,minmax(0,1fr))}
 .sheet #nx{position:sticky;bottom:calc(env(safe-area-inset-bottom,0px) + .5rem);box-shadow:0 5px 0 var(--d),0 .9rem 0 .35rem var(--sheetbg)}
 .sheet #nx:active:not(:disabled){box-shadow:0 1px 0 var(--d),0 .9rem 0 .35rem var(--sheetbg)}
 
+/* ---- Escalera de la fe (v4.1): peldaño, puntos, seguro, porcentajes del público ---- */
+.ladbar{display:flex;flex-wrap:wrap;justify-content:center;gap:.35rem;margin:-.2rem 0 .8rem}
+.ladbar span{padding:.28rem .65rem;border-radius:2rem;background:var(--panel);border:1px solid var(--line);font-size:.78rem;font-weight:800}
+.ladbar .lv{background:linear-gradient(180deg,#ffd870,#f2a916);color:var(--goldink);border-color:transparent}
+.ladbar .sf{border-color:var(--ok)}
+.lad .dots{gap:2px}
+.lad .dots i{max-width:1.4rem}
+.lad .dots i.cur{box-shadow:0 0 0 2px var(--glow)}
+.dots i.cp:not(.ok):not(.bad):not(.cur){background:rgba(240,176,34,.7)}
+.lad .dots i.cp{height:.75rem;align-self:center}
+.opt .pc{flex:none;margin-left:auto;padding:.12rem .55rem;border-radius:2rem;background:var(--gold);color:var(--goldink);font-size:.82rem;font-weight:900}
+.opt.gone .pc{display:none}
+#ret{display:flex;margin:.9rem auto 0;max-width:100%}
+.sheet .lnote{margin:.1rem 0 .35rem;font-weight:700;font-size:.92rem}
+
 </style>
 </head>
 <body>
@@ -605,7 +621,7 @@ html.xbig .kst{grid-template-columns:repeat(2,minmax(0,1fr))}
    Secciones: núcleo · inicio / logros / ajustes · partida solo ·
               ruleta · en línea · arranque (PWA)
    ============================================================ */
-const APPV="4.0.0";
+const APPV="4.1.0";
 /* NETV = versión del juego EN LÍNEA (preguntas y reglas). Súbela solo cuando cambien las
    preguntas o las reglas del juego: así quien tenga la app un poco más vieja puede seguir
    jugando con los demás. (La 3.2 y la 3.3 solo agregaron fotos y el lector de la RVR1960, por eso
@@ -2889,9 +2905,9 @@ const VOD=["Juan 3:16","Salmos 23:1","Proverbios 3:5","Isaías 40:31","Filipense
 function verseOfDay(){const n=new Date(),i=Math.floor((new Date(n.getFullYear(),n.getMonth(),n.getDate())-new Date(2026,0,1))/864e5);const r=VOD[((i%VOD.length)+VOD.length)%VOD.length];return{r,t:V[r]||"",url:btUrl(r)}}
 
 /* ---------- progreso guardado ---------- */
-const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",pic:"",picS:"",yvk:"",miss:{},bq:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0,tts:0,vr:0,kv:1},kg:0,kst:[]});
+const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",pic:"",picS:"",yvk:"",miss:{},bq:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0,tts:0,vr:0,kv:1},kg:0,kst:[],lad:0,lai:0});
 let D=DEF();
-try{const s=JSON.parse(localStorage.getItem("tb")||"{}");Object.assign(D,s);D.set=Object.assign(DEF().set,s.set||{});if(!Array.isArray(D.pass))D.pass=[0,0,0];if(!D.medals||typeof D.medals!=="object")D.medals={};if(!D.bk)D.bk={};if(!D.st)D.st={};if(!D.miss||typeof D.miss!=="object")D.miss={};if(!D.bq||typeof D.bq!=="object"||Array.isArray(D.bq))D.bq={};D.kst=Array.isArray(D.kst)?[...new Set(D.kst.filter(i=>Number.isInteger(i)&&i>=0&&i<64))]:[];D.kg=Number.isFinite(+D.kg)&&+D.kg>0?Math.floor(+D.kg):0;if(!okPic(D.pic)||!okPic(D.picS,12000)){D.pic="";D.picS=""}}catch(e){}
+try{const s=JSON.parse(localStorage.getItem("tb")||"{}");Object.assign(D,s);D.set=Object.assign(DEF().set,s.set||{});if(!Array.isArray(D.pass))D.pass=[0,0,0];if(!D.medals||typeof D.medals!=="object")D.medals={};if(!D.bk)D.bk={};if(!D.st)D.st={};if(!D.miss||typeof D.miss!=="object")D.miss={};if(!D.bq||typeof D.bq!=="object"||Array.isArray(D.bq))D.bq={};D.kst=Array.isArray(D.kst)?[...new Set(D.kst.filter(i=>Number.isInteger(i)&&i>=0&&i<64))]:[];D.kg=Number.isFinite(+D.kg)&&+D.kg>0?Math.floor(+D.kg):0;D.lad=Number.isFinite(+D.lad)?Math.max(0,Math.min(15,Math.floor(+D.lad))):0;D.lai=D.lai?1:0;if(!okPic(D.pic)||!okPic(D.picS,12000)){D.pic="";D.picS=""}}catch(e){}
 const sv=()=>{try{localStorage.setItem("tb",JSON.stringify(D))}catch(e){}};
 /* tamaño del texto: 0 normal · 1 grande · 2 muy grande (antes era un interruptor: true/1 sigue valiendo «grande») */
 const fsz=()=>D.set.big===2?2:D.set.big?1:0,FSN=["Texto normal","Texto grande","Texto muy grande"];
@@ -2929,7 +2945,10 @@ const MEDALS=[
  {id:"map66",e:"🗺️",t:"Cartógrafo",d:"Consigue al menos 1 estrella en los 66 libros",ok:()=>mapInfo().started>=NBOOKS},
  {id:"kid1",e:"🧒",t:"Pequeño explorador",d:"Juega una partida en el Modo niños",ok:()=>(D.kg||0)>=1},
  {id:"kid12",e:"🖼️",t:"Coleccionista",d:"Consigue 12 figuritas en el Modo niños",ok:()=>(D.kst||[]).length>=12},
- {id:"kid24",e:"🏅",t:"Álbum completo",d:"Completa el álbum de figuritas del Modo niños",ok:()=>(D.kst||[]).length>=KST.length}
+ {id:"kid24",e:"🏅",t:"Álbum completo",d:"Completa el álbum de figuritas del Modo niños",ok:()=>(D.kst||[]).length>=KST.length},
+  {id:"lad5",e:"🛡️",t:"Primer seguro",d:"Llega al peldaño 5 de la Escalera de la fe",ok:()=>(D.lad||0)>=5},
+  {id:"lad10",e:"🧗",t:"Escalador",d:"Llega al peldaño 10 de la Escalera de la fe",ok:()=>(D.lad||0)>=10},
+  {id:"lad15",e:"🏔️",t:"En la cima",d:"Sube los 15 peldaños de la Escalera de la fe",ok:()=>(D.lad||0)>=15}
 ];
 function checkMedals(){const nw=[];for(const m of MEDALS)if(!D.medals[m.id]&&m.ok()){D.medals[m.id]=todayS();nw.push(m)}if(nw.length)sv();return nw}
 const AVC=["#3e82f7","#2fbf7e","#e5484d","#9b5de5","#e49b12","#d2601f","#14a39a","#d6409f"];
@@ -2989,16 +3008,18 @@ const Tm={id:0,left:0,tot:0,last:0,tick:null,end:null,
   start(s,tick,end){this.stop();this.tot=this.left=s;this.last=performance.now();this.tick=tick;this.end=end;this.id=setInterval(()=>this.step(),100);tick&&tick(this.left,this.tot)},
   step(){const n=performance.now();if(document.hidden){this.last=n;return}this.left-=(n-this.last)/1000;this.last=n;if(this.left<=0){this.left=0;const e=this.end;this.stop();this.tick&&this.tick(0,this.tot);e&&e()}else this.tick&&this.tick(this.left,this.tot)},
   add(s){this.left+=s;this.tot=Math.max(this.tot,this.left)},
-  stop(){clearInterval(this.id);this.id=0}};
+  stop(){clearInterval(this.id);this.id=0;this.pz=null},
+  pause(){if(!this.id)return;const z={l:this.left,t:this.tot,k:this.tick,e:this.end};this.stop();this.pz=z},
+  unpause(){const z=this.pz;this.pz=null;if(!z)return;this.start(z.l,z.k,z.e);this.tot=z.t;z.k&&z.k(z.l,z.t)}};
 document.addEventListener("visibilitychange",()=>{Tm.last=performance.now()});
 
 /* ---------- avisos, ventanas, confeti ---------- */
 let toastT=0;
 function toast(msg,o={}){const t=$("#toast");t.innerHTML=`<span>${msg}</span>${o.act?`<button type="button">${o.act}</button>`:""}`;t.classList.add("on");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("on"),o.ms||2600);
   if(o.act)$("button",t).onclick=()=>{t.classList.remove("on");o.fn&&o.fn()}}
-const closeModal=()=>{const o=$("#modal");if(o)o.remove()};
-function modal(html,btns){closeModal();const o=document.createElement("div");o.className="ov";o.id="modal";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");
-  o.innerHTML=`<div class="md2">${html}<div class="mbtns">${btns.map((b,i)=>`<button type="button" class="btn ${b.cls||""} sm" data-i="${i}">${b.t}</button>`).join("")}</div></div>`;
+const closeModal=()=>{const o=$("#modal");if(o){o.remove();Tm.unpause()}};
+function modal(html,btns,cls){closeModal();const o=document.createElement("div");o.className="ov";o.id="modal";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");
+  o.innerHTML=`<div class="md2">${html}<div class="mbtns${cls?" "+cls:""}">${btns.map((b,i)=>`<button type="button" class="btn ${b.cls||""} sm" data-i="${i}">${b.t}</button>`).join("")}</div></div>`;
   document.body.appendChild(o);
   $$("button[data-i]",o).forEach(b=>b.onclick=()=>{const x=btns[+b.dataset.i];try{x.fn&&x.fn(o)}finally{if($("#modal")===o)closeModal()}});
   const f=$("input",o);if(f)f.focus();return o}
@@ -3064,7 +3085,8 @@ function home(){
     <button class="tile" id="lib"><span class="ic" style="--tc:#2f6fe0">🗺️</span><b>Mapa de la Biblia</b><small>${mapInfo().stars} de ${NBOOKS*3} ⭐ · practica por libro</small></button>
     <button class="tile" id="cz"><span class="ic" style="--tc:#b7791f">✍️</span><b>Completa el versículo</b><small>Elige la palabra que falta</small></button>
     <button class="tile" id="az"><span class="ic" style="--tc:#7a4fd0">🧩</span><b>Arma el versículo</b><small>Toca las palabras en orden</small></button>
-    <button class="tile wide" id="rt"><span class="ic" style="--tc:#d9541e">📨</span><span><b>Reta a un amigo</b><small>Las mismas 10 preguntas: juegas y le mandas el enlace</small></span></button>
+    <button class="tile" id="rt"><span class="ic" style="--tc:#d9541e">📨</span><b>Reta a un amigo</b><small>Juegas y le mandas el enlace</small></button>
+    <button class="tile" id="esc"><span class="ic" style="--tc:#a8641c">🧗</span><b>Escalera de la fe</b><small>${D.lad?"Tu récord: peldaño "+D.lad:"15 peldaños, ¡no te caigas!"}</small>${D.lad?"":'<span class="tag">Nuevo</span>'}</button>
     <button class="tile wide" id="rev" ${nmiss?"":"disabled"}><span class="ic" style="--tc:#0f8a8a">🔁</span><span><b>Repaso de errores</b><small>${nmiss?nmiss+" pregunta"+(nmiss>1?"s":"")+" por repasar":"¡Sin errores pendientes!"}</small></span></button>
   </div>
   ${canInstall?`<button class="tile" id="inst" style="width:100%;margin-top:.7rem;min-height:0;flex-direction:row;align-items:center;gap:.8rem"><span class="ic" style="--tc:#2f6fe0">📲</span><span><b style="display:block">Instalar la app</b><small>Ábrela desde tu pantalla de inicio, incluso sin internet</small></span></button>`:""}
@@ -3089,6 +3111,7 @@ function home(){
   $("#kd").onclick=()=>{Snd.play("click");kidsMenu()};
   $("#az").onclick=armaMenu;
   $("#rt").onclick=retoMenu;
+  $("#esc").onclick=()=>{Snd.play("click");ladGo()};
   $("#rev").onclick=()=>{const m=missed();if(m.length)startGame(shuffle(m),"rev")};
   $("#mix").onclick=()=>startGame(shuffle(inF()),"mix");
   $("#onl").onclick=()=>{Snd.play("click");lobby()};
@@ -3134,12 +3157,14 @@ function stats(){
   pushView();const rk=rank(),acc=D.tot?Math.round(100*D.ok/D.tot):0,got=MEDALS.filter(m=>D.medals[m.id]).length;
   view(`<h1 class="h1">Tu progreso</h1><p class="sub">${rk.e} ${rk.n}${rk.next?" · siguiente: "+rk.next:""}</p>
   <div class="card"><div class="xp" style="height:.8rem"><i style="--w:${rk.pct}%"></i></div><div class="xpl"><span>${D.pts.toLocaleString("es")} puntos</span><span>${rk.pct}%</span></div></div>
-  <div class="sgrid"><div class="sbox"><b>${D.games}</b><span>Partidas</span></div><div class="sbox"><b>${D.ok}</b><span>Respuestas correctas</span></div>
+  <button type="button" class="btn gold" id="shp" style="margin-top:.9rem">📣 Compartir mi progreso</button>
+  <div class="sgrid" style="margin-top:1.3rem"><div class="sbox"><b>${D.games}</b><span>Partidas</span></div><div class="sbox"><b>${D.ok}</b><span>Respuestas correctas</span></div>
     <div class="sbox"><b>${acc}%</b><span>Precisión</span></div><div class="sbox"><b>🔥 ${D.best}</b><span>Mejor racha diaria</span></div>
     <div class="sbox"><b>👑 ${D.crowns}</b><span>Coronas ganadas</span></div><div class="sbox"><b>🏆 ${D.wins}</b><span>Ruletas ganadas</span></div></div>
   <h2 class="h2">Aciertos por bloque</h2><div class="card">${BLK.map((b,i)=>{const s=D.bk[i]||[0,0],p=s[1]?Math.round(100*s[0]/s[1]):0;return`<div class="bk" style="--cc:${b.c};--w:${p}%"><span>${b.e}</span><div><div style="margin-bottom:.25rem">${b.n}</div><div class="bar"><i></i></div></div><em>${s[1]?p+"%":"—"}</em></div>`}).join("")}</div>
   <h2 class="h2">Logros <small>${got} de ${MEDALS.length}</small></h2>
   <div class="medals">${MEDALS.map(m=>`<div class="md ${D.medals[m.id]?"on":"off"}"><i>${m.e}</i><b>${m.t}</b><small>${m.d}</small></div>`).join("")}</div>`,"stats");
+  $("#shp").onclick=()=>{Snd.play("click");shareProgress()};
 }
 
 /* ============================================================
@@ -3148,7 +3173,7 @@ function stats(){
 /* ---------- copia de seguridad: un código con el progreso (sin foto ni clave) ----------
    TBP1z.<datos comprimidos>.<control>   (z = comprimido; u = sin comprimir, si el teléfono no sabe comprimir).
    Al recuperar se valida todo, campo por campo: lo que no es un dato conocido y razonable se descarta. */
-const BK_NUM=["pts","streak","best","fixed","rush","games","ok","tot","wins","crowns","perfect","duels","online","combo","cz","arm","armP","ret","kg"];
+const BK_NUM=["pts","streak","best","fixed","rush","games","ok","tot","wins","crowns","perfect","duels","online","combo","cz","arm","armP","ret","kg","lad"];
 const bkHash=s=>{let h=2166136261>>>0;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)>>>0}return h.toString(36).padStart(7,"0")};
 const b64e=u=>{let s="";u.forEach(c=>s+=String.fromCharCode(c));return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")};
 const b64d=t=>{t=t.replace(/-/g,"+").replace(/_/g,"/");while(t.length%4)t+="=";const b=atob(t),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u};
@@ -3161,7 +3186,7 @@ async function bkMake(){
 function bkClean(o){
   if(!o||typeof o!=="object"||Array.isArray(o))throw Object.assign(new Error("x"),{why:"el código no trae datos de la app"});
   const n=(v,max=1e8)=>Number.isFinite(+v)?Math.max(0,Math.min(max,Math.floor(+v))):0,R=DEF();
-  BK_NUM.forEach(k=>R[k]=n(o[k]));
+  BK_NUM.forEach(k=>R[k]=n(o[k]));R.lad=Math.min(15,R.lad);
   R.last=/^\d{4}-\d{2}-\d{2}$/.test(o.last)?o.last:"";
   R.name=String(o.name||"").replace(/[\u0000-\u001f<>]/g,"").trim().slice(0,14);
   const pairs=(src,keys)=>{const r={};if(src&&typeof src==="object")keys.forEach(k=>{const a=src[k];if(Array.isArray(a))r[k]=[n(a[0],1e6),n(a[1],1e6)]});return r};
@@ -3270,6 +3295,8 @@ function help(){
   <h3>🗺️ Mapa de la Biblia</h3><p>Toca «Mapa de la Biblia» para ver los 66 libros. Cada libro se llena de estrellas a medida que aciertas preguntas distintas de ese libro (⭐ la primera, ⭐⭐⭐ cuando dominas casi todas). Toca un libro para practicar solo con sus preguntas; las que aún no acertaste salen primero.</p>
   <h3>📨 Reta a un amigo</h3><p>Respondes 10 preguntas y te damos un enlace para mandárselo a tu amigo por WhatsApp. Él juega <b>las mismas 10 preguntas</b> y la app compara los puntos. Son 15 segundos por pregunta y sin comodines, para que sea parejo.</p>
   <h3>🧩 Arma el versículo</h3><p>Para memorizar: toca las palabras en el orden correcto para reconstruir el versículo. Cada error resta puntos y <b>💡 Pista</b> te pone la siguiente palabra. Hay 3 niveles y no hay reloj.</p>
+  <h3>🧗 Escalera de la fe</h3><p>Sube <b>15 peldaños</b> (5 fáciles, 5 intermedios y 5 difíciles) y cada uno vale más puntos. En los peldaños <b>5 y 10</b> hay un <b>🛡️ seguro</b>: si fallas, te quedas con el último que pasaste. Antes de cada pregunta puedes <b>💰 retirarte</b> y llevarte tus puntos. Tienes <b>50/50</b>, <b>👥 Público</b> (muestra qué porcentaje eligió cada respuesta) y <b>Cambiar</b>, una vez cada uno.</p>
+  <h3>📣 Compartir mi progreso</h3><p>En <b>Logros</b>, toca «Compartir mi progreso»: la app arma una imagen con tu foto, tu rango, tus puntos y tus logros, para mandarla por WhatsApp o ponerla en tus estados.</p>
   <h3>🧒 Modo niños</h3><p>Para la escuela dominical y los más chicos: preguntas fáciles y cortas, <b>sin reloj</b>, con letras grandes y la voz que lee cada pregunta (se apaga en el mismo menú). Si aciertas 6 o más, ¡ganas una <b>figurita</b> para tu álbum!</p>
   <h3>🔠 Letra grande</h3><p>Toca el botón <b>Aa</b> del inicio para cambiar el tamaño del texto de toda la app: normal, grande o muy grande.</p>
   <h3>📚 Niveles</h3><p>Saca 7 de 10 para desbloquear el siguiente nivel.</p>
@@ -3286,7 +3313,7 @@ function about(){
    repaso de errores, por libro y «solo preguntas» en línea
    ============================================================ */
 const MAXQ=10,BOTS=["Mateo","Lidia","Samuel","Rut","Daniel","Débora","Pablo","Ana"];
-const MODEN={daily:"⭐ Desafío diario",mix:"🎲 Partida rápida",duel:"⚔️ Duelo",online:"🌍 Con amigos",rush:"⏱️ Contrarreloj",rev:"🔁 Repaso",cloze:"✍️ Completa el versículo",reto:"⚔️ Reto",kids:"🧒 Modo niños","0":"🌱 Fácil","1":"📖 Intermedio","2":"🔥 Difícil"};
+const MODEN={daily:"⭐ Desafío diario",mix:"🎲 Partida rápida",duel:"⚔️ Duelo",online:"🌍 Con amigos",rush:"⏱️ Contrarreloj",rev:"🔁 Repaso",cloze:"✍️ Completa el versículo",reto:"⚔️ Reto",kids:"🧒 Modo niños",lad:"🧗 Escalera de la fe","0":"🌱 Fácil","1":"📖 Intermedio","2":"🔥 Difícil"};
 const modeLabel=g=>g.mode==="book"?"📖 "+g.book:MODEN[g.mode];
 const missed=()=>QS.filter(q=>D.miss[q.id]);
 const booksQ=k=>BQS[k]||[];
@@ -3304,10 +3331,10 @@ function ringTick(l,t){const pg=$("#pg"),r=$("#ring");if(!pg)return;pg.style.str
   const w=l<=5&&l>0;r.classList.toggle("warn",w);if(w&&Math.ceil(l)!==lastSec){lastSec=Math.ceil(l);Snd.play("time")}}
 function rushTick(l,t){const b=$("#gbar"),g=$("#gtime"),r=$(".rbar");if(b)b.style.width=Math.max(0,l/t*100).toFixed(1)+"%";if(g)g.textContent=Math.ceil(l);if(r){r.classList.toggle("warn",l<=10);if(l<=5&&l>0&&Math.ceil(l)!==lastSec){lastSec=Math.ceil(l);Snd.play("time")}}}
 function rushEnd(){if(!G||G.over)return;G.over=1;clearTimeout(G.adv);Tm.stop();endGame()}
-function showSheet({good,title,q,btn,btnCls,wait,next,kid,auto}){ /* auto: undefined = lo normal (leer el versículo si está activado); un texto = leerlo; false = no leer nada */
+function showSheet({good,title,q,btn,btnCls,wait,next,kid,auto,note}){ /* auto: undefined = lo normal (leer el versículo si está activado); un texto = leerlo; false = no leer nada */
   document.body.classList.add("sheeted");
   const el=document.createElement("div");el.className="sheet "+(good?"ok":"bad")+(kid?" kid":"");el.setAttribute("role","status");
-  el.innerHTML=`<div><h3>${title}</h3>${good||!q?"":`<p class="ans">Respuesta correcta: <b>${q.a}</b></p>`}${q?verseHTML(q):""}${btn?`<button class="btn ${btnCls||"blue"}" id="nx">${btn}</button>`:`<p class="sub" style="margin:.2rem 0 0">${wait||""}</p>`}</div>`;
+  el.innerHTML=`<div><h3>${title}</h3>${note?`<p class="lnote">${note}</p>`:""}${good||!q?"":`<p class="ans">Respuesta correcta: <b>${q.a}</b></p>`}${q?verseHTML(q):""}${btn?`<button class="btn ${btnCls||"blue"}" id="nx">${btn}</button>`:`<p class="sub" style="margin:.2rem 0 0">${wait||""}</p>`}</div>`;
   document.body.appendChild(el);
   const vb=$(".vsh",el);if(vb&&q){const v=verseInfo(q);vb.onclick=()=>shareVerse(v.label,v.text)}
   const rb=$(".vrv",el);if(rb&&q){const v=verseInfo(q);rb.onclick=()=>rvrRead(q.r,v.label)}
@@ -3321,9 +3348,8 @@ function wrapText(x,t,maxW){const w=t.split(/\s+/),L=[];let cur="";for(const wor
 function wheelMini(x,cx,cy,r){x.save();x.translate(cx,cy);x.beginPath();x.arc(0,0,r+7,0,6.2832);x.fillStyle="#e8a317";x.fill();
   for(let i=0;i<6;i++){x.beginPath();x.moveTo(0,0);x.arc(0,0,r,(i*60-90)*Math.PI/180,((i+1)*60-90)*Math.PI/180);x.closePath();x.fillStyle=BLK[i].c;x.fill();x.strokeStyle="#fff";x.lineWidth=2.5;x.stroke()}
   x.beginPath();x.arc(0,0,r*.3,0,6.2832);x.fillStyle="#fff6d6";x.fill();x.restore()}
-function verseCanvas(label,text){
-  const W=1080,H=1350,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
-  const SER='"Iowan Old Style","Palatino Linotype",Palatino,"Noto Serif","Book Antiqua",Georgia,serif',SANS='system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
+/* fondo de las tarjetas para compartir: azul con degradé, cruces suaves y doble marco dorado. Devuelve rr(x,y,ancho,alto,radio) para dibujar rectángulos redondeados */
+function cardBg(x,W,H){
   let g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,"#1c3d95");g.addColorStop(.5,"#0f1d4d");g.addColorStop(1,"#070e26");x.fillStyle=g;x.fillRect(0,0,W,H);
   g=x.createRadialGradient(W/2,300,10,W/2,300,820);g.addColorStop(0,"rgba(246,195,80,.22)");g.addColorStop(1,"rgba(246,195,80,0)");x.fillStyle=g;x.fillRect(0,0,W,H);
   x.strokeStyle="rgba(255,255,255,.045)";x.lineWidth=5;x.lineCap="round";
@@ -3331,6 +3357,11 @@ function verseCanvas(label,text){
   const rr=(a,b,w,h,r)=>{x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()};
   x.strokeStyle="#f6c350";x.lineWidth=6;rr(44,44,W-88,H-88,44);x.stroke();
   x.strokeStyle="rgba(246,195,80,.4)";x.lineWidth=2;rr(68,68,W-136,H-136,32);x.stroke();
+  return rr}
+function verseCanvas(label,text){
+  const W=1080,H=1350,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
+  const SER='"Iowan Old Style","Palatino Linotype",Palatino,"Noto Serif","Book Antiqua",Georgia,serif',SANS='system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
+  cardBg(x,W,H);
   x.fillStyle="#f6c350";x.fillRect(W/2-9,150,18,84);x.fillRect(W/2-34,172,68,18);x.fillRect(W/2-250,196,190,3);x.fillRect(W/2+60,196,190,3);
   x.textAlign="center";x.textBaseline="alphabetic";
   const t="«"+text+"»";let size=72,lines=[];
@@ -3353,6 +3384,49 @@ async function shareVerse(label,text){
     modal(`<h3>Versículo para compartir</h3><img class="vimg" src="${url}" alt="${esc(label)}"><p>${can?"Compártelo por WhatsApp, en tus estados o donde quieras.":"Mantén presionada la imagen para guardarla."}</p>`,
       [{t:"Cerrar",cls:"ghost"},can?{t:"Compartir",cls:"gold",fn:()=>{navigator.share({files:[file],text:`«${text}» — ${label}`}).catch(()=>{})}}:{t:"Guardar",cls:"gold",fn:()=>{const a=document.createElement("a");a.href=url;a.download="versiculo.jpg";document.body.appendChild(a);a.click();a.remove()}}]);
   }finally{svBusy=0;$("#toast").classList.remove("on")}}
+
+/* ---------- «Compartir mi progreso»: una tarjeta con tu foto, nombre, rango, puntos y logros (para WhatsApp, estados, etc.) ---------- */
+function loadPicSrc(src){return new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=()=>no(new Error("img"));i.src=src})}
+async function progressCanvas(){
+  const W=1080,H=1350,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
+  const SER='"Iowan Old Style","Palatino Linotype",Palatino,"Noto Serif","Book Antiqua",Georgia,serif',SANS='system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
+  const rr=cardBg(x,W,H),rk=rank(),nm=D.name||"Jugador bíblico",got=MEDALS.filter(m=>D.medals[m.id]).length,mi=mapInfo();
+  const fit=(t,maxW,size,min,fnt)=>{for(;size>min;size-=2){x.font=fnt(size);if(x.measureText(t).width<=maxW)break}x.font=fnt(size)}; /* achica la letra hasta que el texto entre */
+  x.textAlign="center";x.textBaseline="alphabetic";
+  x.fillStyle="#f6c350";x.font=`bold 32px ${SANS}`;x.fillText("MI PROGRESO",W/2,120);
+  const ax=W/2,ay=236,ar=84;let img=null;if(okPic(D.pic)){try{img=await loadPicSrc(D.pic)}catch(e){}}
+  x.save();x.beginPath();x.arc(ax,ay,ar,0,6.2832);x.closePath();x.clip();
+  if(img){const s=Math.max(2*ar/img.width,2*ar/img.height),w=img.width*s,h=img.height*s;x.drawImage(img,ax-w/2,ay-h/2,w,h)}
+  else{x.fillStyle=avc(nm);x.fillRect(ax-ar,ay-ar,2*ar,2*ar);x.fillStyle="#fff";x.textBaseline="middle";x.font=`bold 96px ${SER}`;x.fillText(ini(nm),ax,ay+5);x.textBaseline="alphabetic"}
+  x.restore();x.strokeStyle="#f6c350";x.lineWidth=9;x.beginPath();x.arc(ax,ay,ar+6,0,6.2832);x.stroke();
+  fit(nm,820,76,40,s=>`bold ${s}px ${SER}`);x.fillStyle="#fff4d6";x.fillText(nm,W/2,424,820);
+  const rt=`${rk.e} ${rk.n}`;fit(rt,820,44,28,s=>`bold ${s}px ${SANS}`);x.fillStyle="#f6c350";x.fillText(rt,W/2,482,820);
+  const pts=D.pts.toLocaleString("es");fit(pts,820,132,64,s=>`bold ${s}px ${SER}`);x.fillStyle="#f6c350";x.fillText(pts,W/2,628,820);
+  x.fillStyle="rgba(255,244,214,.75)";x.font=`500 36px ${SANS}`;x.fillText("puntos",W/2,676);
+  x.fillStyle="rgba(255,255,255,.14)";rr(140,708,800,30,15);x.fill();
+  if(rk.pct>0){const g=x.createLinearGradient(140,0,940,0);g.addColorStop(0,"#ffd870");g.addColorStop(1,"#f2a916");x.fillStyle=g;rr(140,708,Math.max(30,Math.round(800*rk.pct/100)),30,15);x.fill()}
+  x.fillStyle="rgba(255,244,214,.8)";x.font=`500 30px ${SANS}`;
+  const nx=rk.next?"Sigue: "+rk.next:"¡Rango máximo!";x.textAlign="left";x.fillText(nx,140,786,640);x.textAlign="right";x.fillText(rk.pct+"%",940,786);x.textAlign="center";
+  const bxs=[[`🏅 ${got}/${MEDALS.length}`,"Logros"],[`⭐ ${mi.stars}/${mi.max}`,"Estrellas del mapa"],[`✅ ${D.ok.toLocaleString("es")}`,"Respuestas correctas"],[`🔥 ${D.best}`,"Mejor racha diaria"],[`👑 ${D.crowns}`,"Coronas"],[`🧗 ${D.lad||0}/15`,"Escalera de la fe"]];
+  bxs.forEach(([v,l],k)=>{const bx=100+(k%3)*300,by=824+Math.floor(k/3)*140;
+    x.fillStyle="rgba(255,255,255,.07)";rr(bx,by,280,120,26);x.fill();x.strokeStyle="rgba(246,195,80,.38)";x.lineWidth=2;rr(bx,by,280,120,26);x.stroke();
+    fit(v,252,50,28,s=>`bold ${s}px ${SANS}`);x.fillStyle="#fff4d6";x.fillText(v,bx+140,by+62,252);
+    fit(l,252,26,18,s=>`500 ${s}px ${SANS}`);x.fillStyle="rgba(255,244,214,.72)";x.fillText(l,bx+140,by+100,252)});
+  const cx=W/2-190,cy=1180;wheelMini(x,cx,cy,40);x.textAlign="left";x.fillStyle="#f6c350";x.font=`bold 52px ${SER}`;x.fillText("Trivia Bíblica",cx+66,cy+18);
+  x.textAlign="center";x.fillStyle="rgba(255,244,214,.7)";x.font=`500 28px ${SANS}`;x.fillText(APPURL.replace(/^https?:\/\//,"").replace(/\/$/,""),W/2,1250,820);
+  return c}
+let spBusy=0;
+async function shareProgress(){
+  if(spBusy)return;spBusy=1;toast("Preparando la imagen…",{ms:2500});
+  try{
+    const rk=rank(),txt=`✝️ Mi progreso en Trivia Bíblica\n${rk.e} ${rk.n} · ${D.pts.toLocaleString("es")} puntos\n${APPURL}`;
+    let blob=null;try{const cv=await progressCanvas();blob=await new Promise(r=>cv.toBlob(r,"image/jpeg",.92))}catch(e){}
+    if(!blob)return shareTxt(txt);
+    const file=new File([blob],"mi-progreso.jpg",{type:"image/jpeg"}),url=URL.createObjectURL(blob);
+    const can=!!(navigator.canShare&&navigator.canShare({files:[file]}));
+    modal(`<h3>Mi progreso</h3><img class="vimg" src="${url}" alt="Mi progreso en Trivia Bíblica: ${esc(rk.n)}, ${D.pts} puntos"><p>${can?"Compártelo por WhatsApp, en tus estados o donde quieras.":"Mantén presionada la imagen para guardarla."}</p>`,
+      [{t:"Cerrar",cls:"ghost"},can?{t:"Compartir",cls:"gold",fn:()=>{navigator.share({files:[file],text:txt}).catch(()=>{})}}:{t:"Guardar",cls:"gold",fn:()=>{const a=document.createElement("a");a.href=url;a.download="mi-progreso.jpg";document.body.appendChild(a);a.click();a.remove()}}]);
+  }finally{spBusy=0;$("#toast").classList.remove("on")}}
 
 /* ---------- Mapa de la Biblia: los 66 libros con sus estrellas; tocar uno es practicar solo ese libro ---------- */
 const srow=s=>`<span class="sr" role="img" aria-label="${s} de 3 estrellas">${[1,2,3].map(i=>`<i class="${i<=s?"on":""}">★</i>`).join("")}</span>`;
@@ -3438,8 +3512,8 @@ function kidStick(i){
   const b=$("#ksp");if(b){const tx=s[1]+". "+s[2];b.onclick=()=>Tts.toggle(tx,b,kidVoice());if(D.set.kv)setTimeout(()=>{if($("#ksp")===b)Tts.say(tx,b,kidVoice())},350)}}
 
 function startGame(qs,mode,x={}){
-  const online=mode==="online",rush=mode==="rush",max=rush?qs.length:MAXQ;
-  G=Object.assign({qs:qs.slice(0,max),spare:rush?[]:qs.slice(max,max+3),mode,i:0,pts:0,ok:0,combo:0,best:0,rv:0,rn:BOTS[Math.random()*BOTS.length|0],res:[],tl:(online||mode==="reto")?15:(rush||mode==="kids")?0:D.set.time,life:{f:1,t:1,s:1},over:0,st0:mapInfo().stars},x);
+  const online=mode==="online",rush=mode==="rush",lad=mode==="lad",max=rush?qs.length:lad?LADN:MAXQ;
+  G=Object.assign({qs:qs.slice(0,max),spare:rush||lad?[]:qs.slice(max,max+3),mode,i:0,pts:0,ok:0,combo:0,best:0,rv:0,rn:BOTS[Math.random()*BOTS.length|0],res:[],tl:(online||mode==="reto")?15:(rush||mode==="kids")?0:lad?(D.set.time?30:0):D.set.time,life:{f:1,t:1,s:1,p:1},over:0,st0:mapInfo().stars},x);
   G.n=G.qs.length;wake(true);pushView();ask();
   if(rush)Tm.start(60,rushTick,rushEnd)}
 
@@ -3602,23 +3676,24 @@ function arEnd(){
 
 function ask(){
   clearTimeout(G.rtm);
-  const q=G.qs[G.i],b=BLK[q.b],online=G.mode==="online",duel=G.mode==="duel",rush=G.mode==="rush",kids=G.mode==="kids",tl=G.tl;
+  const q=G.qs[G.i],b=BLK[q.b],online=G.mode==="online",duel=G.mode==="duel",rush=G.mode==="rush",kids=G.mode==="kids",lad=G.mode==="lad",tl=G.tl;
   G.q=q;G.o=optsOf(q);G.done=0;G.gone=[];lastSec=0;
-  const dots=G.qs.map((_,i)=>`<i class="${i<G.i?(G.res[i]?"ok":"bad"):i===G.i?"cur":""}"></i>`).join("");
+  const dots=G.qs.map((_,i)=>`<i class="${i<G.i?(G.res[i]?"ok":"bad"):i===G.i?"cur":""}${lad&&(i===4||i===9)?" cp":""}"></i>`).join("");
   const ring=tl?`<div class="ring" id="ring" aria-hidden="true"><svg viewBox="0 0 40 40"><circle class="tr" cx="20" cy="20" r="16"/><circle class="pg" id="pg" cx="20" cy="20" r="16"/></svg><b id="rn">${tl}</b></div>`:"";
-  const lf=(online||rush||G.mode==="reto")?"":`<div class="life"><button class="lf" data-k="f" ${G.life.f?"":"disabled"}><span>${kids?"✨":"✂️"}</span>${kids?"Ayuda":"50/50"}<em>${G.life.f}</em></button>${tl?`<button class="lf" data-k="t" ${G.life.t?"":"disabled"}><span>⏱️</span>+10 s<em>${G.life.t}</em></button>`:""}<button class="lf" data-k="s" ${G.life.s&&G.spare.length?"":"disabled"}><span>🔄</span>${kids?"Otra":"Cambiar"}<em>${G.life.s}</em></button></div>`;
+  const lf=(online||rush||G.mode==="reto")?"":`<div class="life"><button class="lf" data-k="f" ${G.life.f?"":"disabled"}><span>${kids?"✨":"✂️"}</span>${kids?"Ayuda":"50/50"}<em>${G.life.f}</em></button>${lad?`<button class="lf" data-k="p" ${G.life.p?"":"disabled"}><span>👥</span>Público<em>${G.life.p}</em></button>`:tl?`<button class="lf" data-k="t" ${G.life.t?"":"disabled"}><span>⏱️</span>+10 s<em>${G.life.t}</em></button>`:""}<button class="lf" data-k="s" ${G.life.s&&(lad?G.sp[G.i]:G.spare.length)?"":"disabled"}><span>🔄</span>${kids?"Otra":"Cambiar"}<em>${G.life.s}</em></button></div>`;
   const me=D.name||"Tú",vs=duel?`<div class="vs"><div class="p"><span class="${avCls(D.pic)}" style="--avc:${avc(me)}">${avIn(me,D.pic)}</span><b>${esc(me)}</b><span class="sc" id="my">${G.pts}</span></div><span class="x">VS</span><div class="p" id="rvp"><span class="av" style="--avc:${avc(G.rn)}">${esc(ini(G.rn))}</span><b>${esc(G.rn)}</b><span class="sc" id="rv">${G.rv}</span></div></div>`:"";
   const rl=rush&&G.i>0?Math.max(0,Tm.left):60;
   const bar=rush?`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="rbar" role="timer" aria-label="Tiempo restante"><i id="gbar" style="width:${(rl/60*100).toFixed(1)}%"></i><b id="gtime">${Math.ceil(rl)}</b></div><div class="pill gold" id="sc">✅ ${G.ok}</div></div>`
     :`<div class="gtop"><button class="ibtn" id="ex" aria-label="Salir de la partida">✕</button><div class="dots" role="img" aria-label="Pregunta ${G.i+1} de ${G.n}">${dots}</div>${online?rxBtn():""}${duel?"":`<div class="pill gold" id="sc">⭐ ${G.pts}</div>`}</div>`;
   const rto=G.mode==="reto"&&G.rival?`<div class="live"><span>⚔️ Contra ${esc(G.rival.n)} · ${G.rival.p} pts (${G.rival.a}/10)</span></div>`:"";
-  view(`${bar}${vs}${rto}${online?'<div class="live" id="sb"></div>':""}
+  view(`${bar}${vs}${rto}${lad?ladBar():""}${online?'<div class="live" id="sb"></div>':""}
   <div class="qcard" style="${catStyle(b)}"><div class="qhead"><div><span class="qn">${modeLabel(G)} · ${rush?"#"+(G.i+1):(G.i+1)+"/"+G.n}</span>${b.e} ${b.n}</div><div class="qrt">${Tts.ok?'<button type="button" class="spk" id="spk" aria-label="Escuchar la pregunta">🔊</button>':""}${ring}</div></div><p class="q${q.cz?" cz":""}">${q.q}</p></div>
   <div class="combo" id="cb" aria-live="polite">${G.combo>=3&&!rush?`<span>🔥 Racha de ${G.combo}</span>`:""}</div>
-  <div class="opts" role="group" aria-label="Respuestas">${G.o.map((o,i)=>`<button class="opt" data-i="${i}"><span class="ltr">${"ABCD"[i]}</span><span>${o}</span></button>`).join("")}</div>${lf}`,"play",kids?"kids":"");
+  <div class="opts" role="group" aria-label="Respuestas">${G.o.map((o,i)=>`<button class="opt" data-i="${i}"><span class="ltr">${"ABCD"[i]}</span><span>${o}</span></button>`).join("")}</div>${lf}${lad&&G.i>=1?`<button type="button" class="btn ghost sm" id="ret">💰 Retirarme con ${G.pts} pts</button>`:""}`,"play",kids?"kids":lad?"lad":"");
   $("#ex").onclick=confirmExit;
   $$(".opt").forEach(x=>x.onclick=()=>pick(+x.dataset.i));
   $$(".lf").forEach(x=>x.onclick=()=>useLife(x.dataset.k));
+  const rtb=$("#ret");if(rtb)rtb.onclick=ladRetire;
   const spk=$("#spk");if(spk){const kv=kids?kidVoice():undefined;spk.onclick=()=>Tts.toggle(ttsQuestion(q,G.o,G.gone),spk,kv);if((kids?D.set.kv:D.set.tts)&&!rush)setTimeout(()=>{if(G&&G.q===q&&!G.done)Tts.say(ttsQuestion(q,G.o,G.gone),$("#spk"),kv)},kids?450:300)}
   if(tl)Tm.start(tl,ringTick,()=>pick(-1));
   if(online)updSB();
@@ -3630,10 +3705,11 @@ function rivalAnswer(){
   const e=$("#rv");if(e)e.textContent=G.rv;const p=$("#rvp");if(p){p.classList.remove("hit");void p.offsetWidth;p.classList.add("hit")}}
 function useLife(k){
   if(!G||G.done||!G.life[k])return;
-  if(k==="s"){if(!G.spare.length)return;G.life.s--;G.qs[G.i]=G.spare.shift();Snd.play("click");ask();return}
+  if(k==="s"){if(G.mode==="lad"){const sq=G.sp&&G.sp[G.i];if(!sq)return;G.life.s--;G.qs[G.i]=sq;Snd.play("click");ask();return}if(!G.spare.length)return;G.life.s--;G.qs[G.i]=G.spare.shift();Snd.play("click");ask();return}
   G.life[k]--;Snd.play("click");
   if(k==="f"){const w=G.o.map((_,x)=>x).filter(x=>G.o[x]!==G.q.a&&!G.gone.includes(x));shuffle(w).slice(0,2).forEach(x=>{G.gone.push(x);const o=$$(".opt")[x];o.classList.add("gone");o.disabled=true})}
   if(k==="t")Tm.add(10);
+  if(k==="p")ladPoll();
   const b=$(`.lf[data-k="${k}"]`);if(b){b.disabled=true;$("em",b).textContent=G.life[k]}}
 
 function pick(i){
@@ -3643,6 +3719,7 @@ function pick(i){
   $$(".opt").forEach((o,x)=>{o.disabled=true;if(G.o[x]===q.a)o.classList.add("ok");else if(x===i)o.classList.add("bad");else o.classList.add("dim")});
   $$(".lf").forEach(b=>b.disabled=true);
   if(q.cz){const bl=$(".blank");if(bl){bl.textContent=q.a;bl.classList.add(good?"ok":"bad")}}
+  if(G.mode==="lad")return ladPick(good,i,q);
   let gain=0,bonus=0;
   if(good){G.combo++;G.best=Math.max(G.best,G.combo);D.combo=Math.max(D.combo||0,G.combo);
     const tb=rush?0:G.tl?Math.round(Math.min(1,Tm.left/G.tl)*50):25;bonus=G.combo>=2?Math.min(5,G.combo-1)*10:0;gain=100+tb+bonus;G.pts+=gain;G.ok++;Snd.play("ok");vib(30)}
@@ -3661,8 +3738,8 @@ function pick(i){
 
 function countUp(el,to,ms=900){if(!el)return;if(REDUCED||!to){el.textContent=to;return}const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/ms);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)}
 function shareText(g){const n=g.mode==="rush"?g.res.length:g.n;
-  const nm={cloze:"Completa el versículo",reto:"Reto a un amigo",daily:"Desafío diario "+todayS(),mix:"Partida rápida",duel:"Duelo",online:"Partida con amigos",rush:"Contrarreloj",rev:"Repaso de errores",kids:"Modo niños",book:"Libro de "+g.book,"0":"Nivel Fácil","1":"Nivel Intermedio","2":"Nivel Difícil"};
-  const line=g.mode==="rush"?`⏱️ ${g.ok} aciertos en 60 s`:`${g.res.map(x=>x?"🟩":"🟥").join("")} ${g.ok}/${n}`;
+  const nm={cloze:"Completa el versículo",reto:"Reto a un amigo",daily:"Desafío diario "+todayS(),mix:"Partida rápida",duel:"Duelo",online:"Partida con amigos",rush:"Contrarreloj",rev:"Repaso de errores",kids:"Modo niños",lad:"Escalera de la fe",book:"Libro de "+g.book,"0":"Nivel Fácil","1":"Nivel Intermedio","2":"Nivel Difícil"};
+  const line=g.mode==="rush"?`⏱️ ${g.ok} aciertos en 60 s`:g.mode==="lad"?`🧗 Peldaño ${g.ok} de ${n} ${g.res.map(x=>x?"🟩":"🟥").join("")}`:`${g.res.map(x=>x?"🟩":"🟥").join("")} ${g.ok}/${n}`;
   return`✝️ Trivia Bíblica · ${nm[g.mode]}\n${line}\n⭐ ${g.pts} puntos\n${APPURL}`}
 function endGame(){
   Tm.stop();const g=G,before=rank().i,rush=g.mode==="rush",n=rush?g.res.length:g.n;
@@ -3680,21 +3757,22 @@ function endGame(){
   if(g.mode==="kids"){D.kg=(D.kg||0)+1;const k=kidReward(g.ok);
     if(k.i>=0){duelTxt=`<div class="newst" role="status"><i aria-hidden="true">${KST[k.i][0]}</i><span>¡Ganaste una figurita!<b>${esc(KST[k.i][1])}</b></span></div>`;kidSay=" ¡Ganaste una figurita nueva: "+KST[k.i][1]+"!"}
     else if(k.full)extra+=`<span class="chip new">🏅 ¡Tienes todas las figuritas!</span>`}
+  if(g.mode==="lad"){const rec=g.ok>(D.lad||0);if(rec)D.lad=g.ok;extra+=`<span class="chip new">🧗 Peldaño ${g.ok} de ${n}</span>${D.lad?`<span class="chip${rec?" new":""}">🏅 ${rec?"¡Nuevo récord! Peldaño":"Tu récord: peldaño"} ${D.lad}</span>`:""}`}
   if(rush){const rec=g.ok>(D.rush||0);if(rec)D.rush=g.ok;extra+=`<span class="chip new">🏅 ${rec?"¡Nuevo récord!":"Tu récord"}: ${D.rush}</span>`}
   const nm=checkMedals();
   const gs=mapInfo().stars-(g.st0||0);if(gs>0)extra+=`<span class="chip new">🗺️ +${gs} ⭐ en el mapa</span>`;
   if(g.mode==="rev"){const left=missed().length;extra+=`<span class="chip new">✅ ${g.ok} dominada${g.ok===1?"":"s"}</span><span class="chip">${left?left+" por repasar":"¡Sin pendientes!"}</span>`}
   sv();const rk=rank(),ratio=n?g.ok/n:0;
-  const stars=rush?(g.ok>=15?3:g.ok>=10?2:g.ok>=5?1:0):(ratio>=.9?3:ratio>=.7?2:ratio>=.4?1:0),good=rush?g.ok>=10:ratio>=.7;
-  const msg=g.mode==="kids"?kidMsg(ratio):rush?(g.ok>=15?"¡Increíble velocidad!":g.ok>=8?"¡Muy buen tiempo!":"¡Buen intento, inténtalo otra vez!"):(ratio===1&&n>=3?"¡Perfecto! Eres un erudito bíblico.":ratio>=.7?"¡Muy bien! Sigue creciendo en la Palabra.":ratio>=.4?"Vas por buen camino, ¡sigue practicando!":"Sigue estudiando, ¡la Palabra es una luz!");
-  const trophy=rush?(g.ok>=15?"🏆":g.ok>=10?"🎉":"⏱️"):(ratio===1&&n>=3?"🏆":ratio>=.7?"🎉":ratio>=.4?"📖":"🌱");
+  const sr=rush||g.mode==="lad",stars=sr?(g.ok>=15?3:g.ok>=10?2:g.ok>=5?1:0):(ratio>=.9?3:ratio>=.7?2:ratio>=.4?1:0),good=sr?g.ok>=10:ratio>=.7;
+  const msg=g.mode==="kids"?kidMsg(ratio):g.mode==="lad"?ladMsg(g):rush?(g.ok>=15?"¡Increíble velocidad!":g.ok>=8?"¡Muy buen tiempo!":"¡Buen intento, inténtalo otra vez!"):(ratio===1&&n>=3?"¡Perfecto! Eres un erudito bíblico.":ratio>=.7?"¡Muy bien! Sigue creciendo en la Palabra.":ratio>=.4?"Vas por buen camino, ¡sigue practicando!":"Sigue estudiando, ¡la Palabra es una luz!");
+  const trophy=g.mode==="lad"?(g.ok>=15?"🏔️":g.ok>=10?"🧗":g.ok>=5?"🛡️":"🌱"):rush?(g.ok>=15?"🏆":g.ok>=10?"🎉":"⏱️"):(ratio===1&&n>=3?"🏆":ratio>=.7?"🎉":ratio>=.4?"📖":"🌱");
   let btns=`${g.mode==="daily"?"":'<button class="btn gold" id="again">Jugar de nuevo</button>'}<button class="btn ghost" id="shr">📣 Compartir resultado</button><button class="btn ghost" id="hm">Inicio</button>`;
   if(g.mode==="kids")btns=`<button class="btn gold" id="again">▶️ Jugar otra vez</button><button class="btn ghost" id="kal">🖼️ Mi álbum de figuritas</button><button class="btn ghost" id="hm">Inicio</button>`;
   if(g.mode==="reto")btns=g.rival?`<button class="btn gold" id="again">🔁 Revancha: ahora retas tú</button><button class="btn ghost" id="shr">📣 Contarle a ${esc(g.rival.n)}</button><button class="btn ghost" id="hm">Inicio</button>`
     :`<button class="btn gold" id="rsend">⚔️ Mandar el reto a un amigo</button><button class="btn ghost" id="again">Jugar otro reto</button><button class="btn ghost" id="hm">Inicio</button>`;
   view(`<div class="res"><div class="trophy">${trophy}</div>
   <div class="stars" aria-label="${stars} de 3 estrellas">${[0,1,2].map(i=>`<span class="${i<stars?"on":""}" style="animation-delay:${.35+i*.22}s">⭐</span>`).join("")}</div>
-  <div class="score" id="scn">0</div><p class="sub" style="margin:.1rem 0 0">puntos · ${g.ok}/${n} correctas</p>
+  <div class="score" id="scn">0</div><p class="sub" style="margin:.1rem 0 0">puntos · ${g.mode==="lad"?`peldaño ${g.ok} de ${n}`:`${g.ok}/${n} correctas`}</p>
   <p class="msg">${msg}</p>${duelTxt}
   <div class="chips">${extra}${nm.map(m=>`<span class="chip new">${m.e} ${m.t}</span>`).join("")}${rk.i>before?`<span class="chip new">${rk.e} Nuevo rango: ${rk.n}</span>`:""}${g.best>=3?`<span class="chip">⚡ Mejor racha: ${g.best}</span>`:""}</div>
   ${g.mode==="online"?'<div class="card rank" id="rk"></div>':""}</div>
@@ -3706,6 +3784,7 @@ function endGame(){
   const ag=$("#again");if(ag)ag.onclick=()=>{const m=g.mode;
     if(m==="kids")startKids();
     else if(m==="mix"||m==="duel"||m==="rush")startGame(shuffle(inF()),m);
+    else if(m==="lad")startLadder();
     else if(m==="cloze")startCloze();
     else if(m==="reto")startReto();
     else if(m==="online")lobby();
@@ -3716,6 +3795,56 @@ function endGame(){
   const rs=$("#rsend");if(rs)rs.onclick=()=>retoShare(g);
   $("#hm").onclick=goHome;
 }
+
+/* ---------- Escalera de la fe (v4.1) ----------
+   15 peldaños de toda la Biblia: 5 fáciles, 5 intermedios y 5 difíciles. Cada peldaño vale más (LADV) y los puntos que tienes son los del último peldaño que subiste.
+   Seguros en el peldaño 5 y en el 10: si fallas o se acaba el tiempo, te quedas con el último seguro que pasaste.
+   Antes de cada pregunta (desde la 2.ª) puedes retirarte y llevarte tus puntos.
+   Ayudas, una vez cada una: 50/50, 👥 Público (porcentajes) y Cambiar (otra pregunta del mismo nivel, ya apartada en G.sp).
+   Reloj: 30 s por pregunta, o sin reloj si en Ajustes está «Sin tiempo». D.lad = mejor peldaño alcanzado (0 a 15). G.how: "top" · "fall" · "retire". */
+const LADV=[50,100,150,200,300,400,500,650,800,1000,1250,1500,2000,2500,3000],LADN=15;
+const ladSafe=k=>k>=10?LADV[9]:k>=5?LADV[4]:0; /* puntos que te quedan si fallas en el peldaño k (0 = el primero) */
+const LAD_RULES=`<h3>🧗 Escalera de la fe</h3><p>Sube <b>15 peldaños</b>: 5 fáciles, 5 intermedios y 5 difíciles. Cada uno vale más puntos.</p><p>🛡️ En los peldaños <b>5 y 10</b> hay un <b>seguro</b>: si fallas, te quedas con el último que pasaste.</p><p>💰 Puedes <b>retirarte</b> antes de una pregunta y llevarte tus puntos.</p><p>💡 Tienes 3 ayudas, una de cada una: <b>50/50</b>, <b>👥 Público</b> y <b>Cambiar</b>.</p>`;
+function startLadder(){
+  const qs=[],sp=[];
+  [0,1,2].forEach(l=>{const p=shuffle(QS.filter(q=>q.l===l));qs.push(...p.slice(0,5));sp.push(...p.slice(5,10))});
+  startGame(qs,"lad",{sp,how:""})}
+function ladGo(){ /* la primera vez explica las reglas */
+  if(D.lai){startLadder();return}
+  modal(LAD_RULES,[{t:"Volver",cls:"ghost"},{t:"¡A subir!",cls:"gold",fn:()=>{D.lai=1;sv();startLadder()}}])}
+const ladBar=()=>{const k=G.i,s=ladSafe(k);
+  return`<div class="ladbar" role="group" aria-label="Peldaño ${k+1} de ${G.n}. Esta pregunta vale ${LADV[k]} puntos. ${s?"Si fallas te quedas con "+s+" puntos.":"Si fallas no te quedas con puntos."}"><span>🧗 Peldaño ${k+1} de ${G.n}</span><span class="lv">Vale ${LADV[k]} pts</span><span class="sf">🛡️ Seguro: ${s}</span></div>`};
+function ladPoll(){ /* 👥 Público: porcentajes entre las respuestas que quedan (suman 100); el público acierta más en lo fácil y menos en lo difícil */
+  const live=G.o.map((_,x)=>x).filter(x=>!G.gone.includes(x)),c=G.o.indexOf(G.q.a),n=live.length;
+  const base=[.8,.6,.42][G.q.l]+(n<=2?.2:0),cs=Math.max(.3,Math.min(.95,base+(Math.random()-.5)*.16));
+  const wr=live.filter(x=>x!==c),w=wr.map(()=>.35+Math.random()),sw=w.reduce((s,v)=>s+v,0);
+  const top=Math.round(cs*100),rest=100-top,pc=w.map(v=>Math.floor(rest*v/sw));
+  for(let j=0,left=rest-pc.reduce((s,v)=>s+v,0);left>0;j=(j+1)%pc.length,left--)pc[j]++;
+  const out={};out[c]=top;wr.forEach((x,j)=>out[x]=pc[j]);
+  live.forEach(x=>{const o=$$(".opt")[x];if(o&&!$(".pc",o)){const e=document.createElement("b");e.className="pc";e.textContent=out[x]+"%";o.appendChild(e)}});
+  G.poll=out}
+function ladPick(good,i,q){
+  const k=G.i,top=k>=G.n-1,rb=$("#ret");if(rb)rb.disabled=true;
+  G.res[k]=good?1:0;logAnswer(q,good);
+  let title,note="",btn="Ver resultado";
+  if(good){
+    G.combo++;G.best=Math.max(G.best,G.combo);D.combo=Math.max(D.combo||0,G.combo);G.ok++;G.pts=LADV[k];Snd.play("ok");vib(30);
+    title=`¡Correcto! <b>${LADV[k]} pts</b>`;
+    if(top){G.how="top";note="🏔️ ¡Llegaste a la cima de la escalera!"}
+    else{btn="Siguiente peldaño";if(k===4)note="🛡️ ¡Primer seguro! Aunque falles, te quedas con "+LADV[4]+" pts";else if(k===9)note="🛡️ ¡Segundo seguro! Ya tienes "+LADV[9]+" pts a salvo"}
+  }else{
+    G.combo=0;G.how="fall";G.pts=ladSafe(k);Snd.play("bad");vib([60,40,60]);
+    title=i<0?"¡Se acabó el tiempo!":"Incorrecto";
+    note=G.pts?"🛡️ Te quedas con "+G.pts+" pts (tu último seguro)":"Esta vez no quedan puntos a salvo. ¡Vuelve a subir!"}
+  const sc=$("#sc");if(sc)sc.textContent="⭐ "+G.pts;
+  showSheet({good,q,title,note,btn,btnCls:good?"green":"blue",next:()=>{if(good&&!top){G.i++;ask()}else endGame()}})}
+function ladRetire(){
+  if(!G||G.mode!=="lad"||G.done||G.over||G.i<1)return;
+  Tm.pause();Tts.stop();
+  const s=ladSafe(G.i);
+  modal(`<h3>💰 ¿Retirarte ahora?</h3><p>Te llevas <b>${G.pts} puntos</b> y termina la partida. Si sigues y fallas, ${s?"te quedas con "+s+" (tu seguro)":"te quedas sin puntos"}.</p>`,
+    [{t:"Seguir jugando",cls:"green"},{t:"Retirarme con "+G.pts,cls:"gold",fn:()=>{G.done=1;G.over=1;G.how="retire";endGame()}}],"col")}
+const ladMsg=g=>g.how==="top"?"¡Llegaste a la cima! Eres un erudito de la fe.":g.how==="retire"?"Te retiraste a tiempo y te llevas tus puntos.":g.pts>=LADV[9]?"¡Casi llegas! El segundo seguro te dejó "+g.pts+" pts.":g.pts>=LADV[4]?"Te caíste, pero el primer seguro te dejó "+g.pts+" pts.":"Te caíste en los primeros peldaños. ¡Vuelve a subir!";
 
 /* ---------- Reta a un amigo con un enlace (sin servidor) ----------
    Las 10 preguntas salen de un número («semilla») con el que se mezcla el banco: quien abre el enlace recibe las MISMAS 10, en el mismo orden.
@@ -4053,7 +4182,7 @@ addEventListener("appinstalled",()=>{IP=null;toast("¡App instalada! 🎉");if(V
 addEventListener("pagehide",()=>{if(RM&&RM.leaveNow)RM.leaveNow()});
 $$("#nav button").forEach(b=>b.onclick=()=>{Snd.play("click");const t=b.dataset.go;if(t==="home"){if(VIEW!=="home")goHome()}else if(t==="stats")stats();else settings()});
 document.addEventListener("keydown",e=>{
-  if(VIEW!=="play"||e.target.tagName==="INPUT"||e.ctrlKey||e.metaKey||e.altKey)return;
+  if(VIEW!=="play"||$("#modal")||e.target.tagName==="INPUT"||e.ctrlKey||e.metaKey||e.altKey)return;
   const k=e.key.toLowerCase();let i="abcd".indexOf(k);if(i<0)i="1234".indexOf(k);
   if(i>=0&&k.length===1){const b=$$(".opt")[i];if(b&&!b.disabled){b.click();e.preventDefault()}}});
 function route(){
@@ -4072,7 +4201,7 @@ if("serviceWorker" in navigator&&location.protocol.startsWith("http")){
     let had=!!navigator.serviceWorker.controller;
     navigator.serviceWorker.register("sw.js").catch(()=>{});
     navigator.serviceWorker.addEventListener("controllerchange",()=>{if(had)toast("Hay una versión nueva de la app",{act:"Actualizar",fn:()=>location.reload(),ms:15000});had=true})})}
-window.__tb={get G(){return G},get R(){return R},get D(){return D},get RM(){return RM},get VIEW(){return VIEW},QS,BLK,V,home,startGame,rSetup,lobby,stats,settings,optsOf,APPV,NETV,PICS,get RVR_OK(){return RVR_OK}};
+window.__tb={get G(){return G},get R(){return R},get D(){return D},get RM(){return RM},get VIEW(){return VIEW},QS,BLK,V,home,startGame,startLadder,rSetup,lobby,stats,settings,optsOf,APPV,NETV,PICS,get RVR_OK(){return RVR_OK}};
 try{history.replaceState({tb:0},"")}catch(e){}
 home();
 const routed=route();

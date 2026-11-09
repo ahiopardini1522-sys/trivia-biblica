@@ -1,5 +1,39 @@
-TRIVIA BÍBLICA · versión 4.0.0
+TRIVIA BÍBLICA · versión 4.1.0
 ==============================
+
+NOVEDADES DE LA 4.1
+  - 🧗 Escalera de la fe (tarjeta nueva en el inicio, junto a «Reta a un amigo»):
+    15 peldaños de toda la Biblia (5 fáciles, 5 intermedios y 5 difíciles). Cada
+    peldaño vale más: 50, 100, 150, 200, 300, 400, 500, 650, 800, 1000, 1250,
+    1500, 2000, 2500 y 3000 puntos. Los puntos que tienes son los del último
+    peldaño que subiste. En el peldaño 5 (300 pts) y en el 10 (1000 pts) hay un
+    🛡️ seguro: si fallas, o se acaba el tiempo, te quedas con el último seguro que
+    pasaste (si fallas antes del primero, con 0). Desde el peldaño 2 puedes
+    💰 retirarte antes de contestar y llevarte tus puntos (la ventana avisa cuánto
+    te llevas y cuánto te quedaría si sigues y fallas; mientras está abierta el
+    reloj se detiene). 30 segundos por pregunta (sin reloj si en Ajustes elegiste
+    «Sin tiempo»). Ayudas, una de cada una por escalera: 50/50, 👥 Público (muestra
+    un porcentaje en cada respuesta que queda; suman 100 y el público acierta más
+    en lo fácil que en lo difícil) y Cambiar (otra pregunta del mismo nivel).
+    La primera vez se explican las reglas. Se guarda el mejor peldaño (récord),
+    que entra en la copia de seguridad, y hay 3 logros nuevos: «Primer seguro»
+    (peldaño 5), «Escalador» (peldaño 10) y «En la cima» (los 15). Las respuestas
+    cuentan para el mapa y el repaso de errores como en las otras partidas.
+  - 📣 Compartir mi progreso: en «Logros», botón dorado que arma una imagen
+    (1080×1350) con tu foto (o la inicial de tu nombre), tu nombre, rango, puntos,
+    barra hasta el siguiente rango, logros, estrellas del mapa, respuestas
+    correctas, mejor racha, coronas y tu peldaño de la Escalera. Se ve antes de
+    compartir; se manda por WhatsApp, estados, etc., o se guarda si el teléfono
+    no sabe compartir archivos. Si la imagen no se puede armar, comparte solo el
+    texto. Los nombres largos y los números enormes se achican para que entren.
+  - Las ventanas con dos botones (por ejemplo «Cerrar» y «Compartir») ahora ponen
+    un botón debajo del otro cuando no entran lado a lado (celulares de 320 px con
+    letra muy grande): antes uno se salía de la pantalla.
+  - Con una ventana abierta (por ejemplo «¿Salir de la partida?») las teclas A–D
+    ya no contestan la pregunta que está detrás.
+  - El juego en línea y los retos siguen en la versión 3.7.0 (no cambió el banco de
+    preguntas ni las reglas): los amigos NO necesitan actualizar para jugar juntos.
+
 
 NOVEDADES DE LA 4.0
   - 🧒 Modo niños (para la escuela dominical y los más chicos): tarjeta nueva al
