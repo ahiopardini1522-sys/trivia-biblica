@@ -1101,7 +1101,7 @@ function burstAt(el,n=16){
    Secciones: núcleo · inicio / logros / ajustes · partida solo ·
               ruleta · en línea · arranque (PWA)
    ============================================================ */
-const APPV="4.5.0";
+const APPV="4.5.1";
 /* NETV = versión del juego EN LÍNEA (preguntas y reglas). Súbela solo cuando cambien las
    preguntas o las reglas del juego: así quien tenga la app un poco más vieja puede seguir
    jugando con los demás. (La 3.2 y la 3.3 solo agregaron fotos y el lector de la RVR1960, por eso
@@ -3994,8 +3994,19 @@ function btRef(r){
   if(BT1.includes(b))return c==="1"&&!c2?b+" 1":b+" 1:"+c+(c2?"-"+c2:"");
   return b+" "+c}
 const btUrl=r=>"https://www.bibliatodo.com/concordancia-biblica?s="+encodeURIComponent(btRef(r)).replace(/%20/g,"+")+"&version=RV1960&ant=tb";
+/* Dónde se abre la Reina-Valera 1960 (Ajustes → «Leer la Reina-Valera 1960 en»): BibliaTodo (la de siempre), YouVersion (abre la app «Biblia» si está
+   instalada) o BibleGateway. En los tres casos solo se abre su página: la app NO copia el texto (el permiso de la Sociedad Bíblica Americana es
+   por escrito y para apps hay que pedirlo). Si algo no se puede armar para YouVersion, cae a BibliaTodo. */
+const RVN={bt:"BibliaTodo",yv:"YouVersion",bg:"BibleGateway"};
+const rvKey=()=>RVN[D.set&&D.set.rv]?D.set.rv:"bt";
+function rvUrl(r){const k=rvKey();
+  if(k==="yv"){const u=usfmOf(r)||usfmOf(btRef(r)); /* un rango de capítulos («Apocalipsis 2-3») abre el primero, igual que en BibliaTodo */
+    if(u)return`https://www.bible.com/bible/${YVID}/${u}.RVR1960`}
+  if(k==="bg")return"https://www.biblegateway.com/passage/?search="+encodeURIComponent(btRef(r))+"&version=RVR1960";
+  return btUrl(r)}
+const rvHint=()=>({bt:"Se abre en el navegador (bibliatodo.com).",yv:"Si tienes la app «Biblia» de YouVersion, se abre ahí; si no, en el navegador.",bg:"Se abre en el navegador (biblegateway.com)."})[rvKey()];
 function verseInfo(q){let t=V[q.r]||"",label=q.r;const m=t.match(/^\((\d+:\d+)\)\s*(.*)$/);if(m){label=bookOf(q.r)+" "+m[1];t=m[2]}
-  return{label,text:t,url:btUrl(label)}}
+  return{label,text:t,url:rvUrl(label)}}
 /* ---------- Lector de la Reina-Valera 1960 con la Plataforma de YouVersion: APAGADO (YV_ON=false) ----------
    Se probó con la clave de la app el 02/11/2026: YouVersion contesta «404 No encontrada» a la Biblia 149 (Reina-Valera 1960),
    o sea que no la ofrece en su Plataforma (el texto es de la American Bible Society / Sociedades Bíblicas Unidas); otro
@@ -4070,7 +4081,7 @@ async function rvrRead(ref,label){
   const u=usfmOf(ref);if(!u||!yvKey())return;const bk=u.split(".")[0];
   const o=modal(`<h3>📖 ${esc(label||ref)}</h3><div class="rv"><div class="rvt" id="rvb">Cargando…</div></div><p class="rvd" id="rvd"></p><p class="rvc" id="rvc"></p>
     <a class="rvl" href="https://www.bible.com/bible/${YVID}/${u}.RVR1960" target="_blank" rel="noopener">Abrir en la app de YouVersion ↗</a>
-    <a class="rvl" href="${verseInfo({r:ref}).url}" target="_blank" rel="noopener">Abrir en BibliaTodo ↗</a>`,[{t:"Cerrar",cls:"gold"}]);
+    <a class="rvl" href="${btUrl(verseInfo({r:ref}).label)}" target="_blank" rel="noopener">Abrir en BibliaTodo ↗</a>`,[{t:"Cerrar",cls:"gold"}]);
   try{
     const[p,m]=await Promise.all([yvPassage(u),yvGet(`/bibles/${YVID}`)]);
     const tx=String(p&&p.content||"").trim(),cp=String(m&&(m.copyright||m.promotional_content)||"").trim();
@@ -4118,12 +4129,12 @@ async function yvTest(out){
   else if(ps.e)why="Juan 3:16 se lee bien, pero Salmos 37:4 no. "+yvMsg(ps.e);
   else why="Todo en orden: el botón «Leer en la Reina-Valera 1960» aparece en las preguntas.";
   say(lines.join("\n")+"\n👉 "+why,good?(ps.e?"":"ok"):"bad")}
-const verseHTML=q=>{const v=verseInfo(q);return`<div class="verse">📖 <b>${esc(v.label)}</b>${v.text?`<i>«${esc(v.text)}» <small>(RV 1909)</small></i>`:""}${rvrOn(q.r)?'<button class="vrv" type="button">📖 Leer en la Reina-Valera 1960</button>':`<a href="${v.url}" target="_blank" rel="noopener">Leer en BibliaTodo · Reina-Valera 1960 ↗</a>`}${v.text?'<button class="vsh" type="button">🖼️ Compartir como imagen</button>':""}${v.text&&Tts.ok?'<button class="vsp" type="button">🔊 Escuchar el versículo</button>':""}</div>`};
+const verseHTML=q=>{const v=verseInfo(q);return`<div class="verse">📖 <b>${esc(v.label)}</b>${v.text?`<i>«${esc(v.text)}» <small>(RV 1909)</small></i>`:""}${rvrOn(q.r)?'<button class="vrv" type="button">📖 Leer en la Reina-Valera 1960</button>':`<a href="${v.url}" target="_blank" rel="noopener">Leer en ${RVN[rvKey()]} · Reina-Valera 1960 ↗</a>`}${v.text?'<button class="vsh" type="button">🖼️ Compartir como imagen</button>':""}${v.text&&Tts.ok?'<button class="vsp" type="button">🔊 Escuchar el versículo</button>':""}</div>`};
 const VOD=["Juan 3:16","Salmos 23:1","Proverbios 3:5","Isaías 40:31","Filipenses 4:13","Romanos 8:28","Salmos 119:105","Jeremías 1:5","2 Corintios 5:17","Efesios 2:8","Romanos 12:2","1 Juan 4:8","Hebreos 11:1","Santiago 1:5","1 Pedro 5:7","Apocalipsis 3:20","Miqueas 6:8","Zacarías 4:6","Salmos 121:1","Mateo 6:9","Proverbios 9:10","Romanos 6:23","2 Timoteo 3:16","Hebreos 13:8","Lamentaciones 3:23","Habacuc 3:18","Eclesiastés 3:1","Isaías 53:7","Mateo 5:13","Juan 10:11","1 Tesalonicenses 5:17","Colosenses 3:23"];
-function verseOfDay(){const n=new Date(),i=Math.floor((new Date(n.getFullYear(),n.getMonth(),n.getDate())-new Date(2026,0,1))/864e5);const r=VOD[((i%VOD.length)+VOD.length)%VOD.length];return{r,t:V[r]||"",url:btUrl(r)}}
+function verseOfDay(){const n=new Date(),i=Math.floor((new Date(n.getFullYear(),n.getMonth(),n.getDate())-new Date(2026,0,1))/864e5);const r=VOD[((i%VOD.length)+VOD.length)%VOD.length];return{r,t:V[r]||"",url:rvUrl(r)}}
 
 /* ---------- progreso guardado ---------- */
-const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",pic:"",picS:"",yvk:"",miss:{},bq:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0,tts:0,vr:0,kv:1,fon:1},kg:0,kst:[],lad:0,lai:0,whi:0,fid:"",fr:[],fsh:0});
+const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",pic:"",picS:"",yvk:"",miss:{},bq:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0,tts:0,vr:0,kv:1,fon:1,rv:"bt"},kg:0,kst:[],lad:0,lai:0,whi:0,fid:"",fr:[],fsh:0});
 let D=DEF();
 try{const s=JSON.parse(localStorage.getItem("tb")||"{}");Object.assign(D,s);D.set=Object.assign(DEF().set,s.set||{});if(!Array.isArray(D.pass))D.pass=[0,0,0];if(!D.medals||typeof D.medals!=="object")D.medals={};if(!D.bk)D.bk={};if(!D.st)D.st={};if(!D.miss||typeof D.miss!=="object")D.miss={};if(!D.bq||typeof D.bq!=="object"||Array.isArray(D.bq))D.bq={};D.kst=Array.isArray(D.kst)?[...new Set(D.kst.filter(i=>Number.isInteger(i)&&i>=0&&i<64))]:[];D.kg=Number.isFinite(+D.kg)&&+D.kg>0?Math.floor(+D.kg):0;D.lad=Number.isFinite(+D.lad)?Math.max(0,Math.min(15,Math.floor(+D.lad))):0;D.lai=D.lai?1:0;if(!okPic(D.pic)||!okPic(D.picS,12000)){D.pic="";D.picS=""}}catch(e){}
 const sv=()=>{try{localStorage.setItem("tb",JSON.stringify(D))}catch(e){}};
@@ -4426,7 +4437,7 @@ function bkClean(o){
   R.kst=Array.isArray(o.kst)?[...new Set(o.kst.filter(i=>Number.isInteger(i)&&i>=0&&i<KST.length))].sort((a,b)=>a-b):[];
   R.medals={};if(o.medals&&typeof o.medals==="object")MEDALS.forEach(m=>{if(o.medals[m.id])R.medals[m.id]=String(o.medals[m.id]).replace(/[^\d-]/g,"").slice(0,10)});
   const s=o.set&&typeof o.set==="object"?o.set:{};
-  R.set={snd:s.snd===0||s.snd===false?0:1,vib:s.vib===0||s.vib===false?0:1,big:s.big===2?2:s.big===1||s.big===true?1:0,tts:s.tts===1||s.tts===true?1:0,vr:s.vr===1||s.vr===true?1:0,kv:s.kv===0||s.kv===false?0:1,fon:s.fon===0||s.fon===false?0:1,theme:["auto","light","dark"].includes(s.theme)?s.theme:"auto",time:[0,15,30].includes(+s.time)?+s.time:15};
+  R.set={snd:s.snd===0||s.snd===false?0:1,vib:s.vib===0||s.vib===false?0:1,big:s.big===2?2:s.big===1||s.big===true?1:0,tts:s.tts===1||s.tts===true?1:0,vr:s.vr===1||s.vr===true?1:0,kv:s.kv===0||s.kv===false?0:1,fon:s.fon===0||s.fon===false?0:1,theme:["auto","light","dark"].includes(s.theme)?s.theme:"auto",time:[0,15,30].includes(+s.time)?+s.time:15,rv:Object.keys(RVN).includes(s.rv)?s.rv:"bt"};
   return R}
 async function bkRead(code){
   const m=String(code||"").match(/TBP1([zu])\.([A-Za-z0-9_\-\s]+)\.([0-9a-z]{7})/);
@@ -4487,6 +4498,8 @@ function settings(){
   ${Tts.ok?`${sw("sTts",s.tts,"Leer cada pregunta sola","Al empezar cada pregunta (menos en Contrarreloj)")}
   <div class="srow" style="display:block"><b>Velocidad de la voz</b><div class="seg" id="sVr"><button data-v="0">Normal</button><button data-v="1">Lenta</button></div></div>
   <button class="btn ghost sm" id="sTest" type="button" style="margin-top:.6rem;width:100%">▶️ Probar la voz</button><p class="note" id="sTestR" role="status" hidden></p>`:'<p class="note">Este navegador no puede leer en voz alta.</p>'}</div>
+  <div class="card" style="margin-top:.8rem"><div class="srow" style="display:block;padding-top:0"><b>📖 Leer la Reina-Valera 1960 en</b><small>Los versículos de la app son de la Reina-Valera 1909. La 1960 tiene derechos de autor, por eso la app abre el pasaje en el sitio o la app que elijas.</small></div>
+  <div class="seg" id="sRv"><button data-v="bt">BibliaTodo</button><button data-v="yv">YouVersion</button><button data-v="bg">BibleGateway</button></div><p class="note" id="sRvH" style="margin-top:.6rem">${rvHint()}</p></div>
   <div class="card" style="margin-top:.8rem"><div class="srow" style="display:block;padding-top:0"><b>💾 Copia de seguridad</b><small>Guarda tu progreso en un código y recupéralo en otro celular o si se borran los datos. No incluye tu foto.</small></div>
     <div class="two"><button class="btn ghost sm" id="bkC">📋 Copiar código</button><button class="btn ghost sm" id="bkS">📤 Compartir</button></div>
     <button class="btn ghost sm" id="bkR" style="margin-top:.6rem;width:100%">📥 Recuperar progreso</button></div>
@@ -4512,6 +4525,7 @@ function settings(){
     $("#sTest").onclick=()=>{Tts.say("Hola, esta es la voz de Trivia Bíblica. «Lámpara es a mis pies tu palabra».");const v=Tts.voice(),r=$("#sTestR");r.hidden=false;
       r.textContent=v?"Voz: "+v.name+" ("+v.lang+")":"No encontré una voz en español instalada: se usa la que trae el teléfono. En Android puedes instalar una en Ajustes › Idioma › Texto a voz."}}
   seg("sTh",()=>D.set.theme,v=>{D.set.theme=v;applyTheme()});seg("sTm",()=>D.set.time,v=>D.set.time=+v);
+  seg("sRv",rvKey,v=>{D.set.rv=v;$("#sRvH").textContent=rvHint()});
   if($("#sIn"))$("#sIn").onclick=installApp;
   $("#sSh").onclick=()=>shareTxt("✝️ Trivia Bíblica: pon a prueba tu conocimiento de la Palabra. ¡Juega conmigo!",APPURL);
   $("#sHl").onclick=help;$("#sAb").onclick=about;
@@ -4539,7 +4553,7 @@ function help(){
   <h3>💡 Comodines</h3><p>En partidas individuales tienes uno de cada uno: <b>50/50</b> quita dos respuestas, <b>+10 s</b> suma tiempo y <b>Cambiar</b> te da otra pregunta.</p>
   <h3>⭐ Puntos</h3><p>Cada acierto suma 100 puntos, más hasta 50 por rapidez y un bonus si encadenas aciertos.</p></div>`,[{t:"¡A jugar!",cls:"gold"}])}
 function about(){
-  modal(`<h3>✝️ Trivia Bíblica</h3><p>Versión ${APPV} · ${QS.length} preguntas de los 66 libros de la Biblia.</p><p>Los versículos que se muestran son de la Reina-Valera 1909 (dominio público). ${RVR_OK===true?"Con internet, el botón «Leer en la Reina-Valera 1960» muestra el pasaje desde YouVersion, con su aviso de derechos.":"Con el enlace de cada pregunta puedes leer el pasaje en la Reina-Valera 1960 en BibliaTodo. La app no copia ese texto: solo abre su página (Reina-Valera 1960 © Sociedades Bíblicas en América Latina)."}</p><p>Hecha para crecer juntos en la Palabra.</p>`,[{t:"Cerrar",cls:"gold"}])}
+  modal(`<h3>✝️ Trivia Bíblica</h3><p>Versión ${APPV} · ${QS.length} preguntas de los 66 libros de la Biblia.</p><p>Los versículos que se muestran son de la Reina-Valera 1909 (dominio público). ${RVR_OK===true?"Con internet, el botón «Leer en la Reina-Valera 1960» muestra el pasaje desde YouVersion, con su aviso de derechos.":"Con el enlace de cada pregunta puedes leer el pasaje en la Reina-Valera 1960 (en BibliaTodo, YouVersion o BibleGateway: lo eliges en Ajustes). La app no copia ese texto: solo abre su página (Reina-Valera 1960 © Sociedades Bíblicas en América Latina)."}</p><p>Hecha para crecer juntos en la Palabra.</p>`,[{t:"Cerrar",cls:"gold"}])}
 
 
 /* ============================================================

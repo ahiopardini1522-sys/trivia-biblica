@@ -1,5 +1,29 @@
-TRIVIA BÍBLICA · versión 4.5.0
+TRIVIA BÍBLICA · versión 4.5.1
 ==============================
+
+NOVEDADES DE LA 4.5.1 · LA REINA-VALERA 1960, A UN TOQUE (y qué hace falta para tenerla dentro)
+  - 📖 Ajustes → «Leer la Reina-Valera 1960 en»: se elige dónde abren los enlaces «Leer»
+    de cada pregunta y del Versículo del día: BibliaTodo (como siempre), YouVersion (abre
+    la app «Biblia» si está instalada: bible.com/bible/149/…RVR1960) o BibleGateway
+    (biblegateway.com/passage/?search=…&version=RVR1960). Se guarda en el celular y viaja
+    en la copia de seguridad. En los tres casos la app solo abre la página: NO copia el texto.
+  - El texto que se muestra dentro de la app sigue siendo la Reina-Valera 1909 (dominio público).
+  - No cambió nada del juego en línea (sigue 3.8.0): se puede jugar con quien tenga la 4.4.x o la 4.5.0.
+  - POR QUÉ NO ESTÁ EL TEXTO DE LA RVR1960 DENTRO (revisado el 12/11/2026): la Sociedad Bíblica
+    Americana (ABS, que maneja los permisos de la Reina-Valera 1960) deja citar hasta 500
+    versículos sin pedir permiso, pero aclara que «Mobile phone applications, other new media
+    platforms (websites, etc.) … written permission is required». Es decir: una app o una página
+    web SIEMPRE necesita permiso por escrito. Y la app usa 1.393 versículos (≈33.500 palabras),
+    mucho más que esos 500. Se pide a licensing@americanbible.org con el «Permission Request
+    Form» (página «Rights and Permissions» de ABS). Hace falta, además, poner el aviso:
+    «El texto bíblico ha sido tomado de la versión Reina-Valera © 1960 Sociedades Bíblicas en
+    América Latina; © renovado 1988 Sociedades Bíblicas Unidas. Utilizado con permiso.»
+    Tampoco sirven las APIs «gratis» no oficiales que ofrecen la RVR1960: que el texto esté
+    disponible no da derecho a mostrarlo. API.Bible (de ABS) no menciona la RVR1960 en sus
+    términos (solo la CEV y la GNT de ABS) y YouVersion contesta 404 para la Biblia 149.
+    Si algún día llega el permiso: reemplazar verses.txt por el texto autorizado (o conectar
+    el lector, que sigue en reserva: const YV_ON=false), agregar el aviso en «Acerca de» y
+    en cada versículo, y subir de versión.
 
 NOVEDADES DE LA 4.5.0 · MÁS COLOR Y MÁS ESCENAS (mejora gráfica)
   - 🖼️ Escenas de fondo en las preguntas. La parte de abajo de la pantalla, que antes
