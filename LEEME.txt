@@ -1,5 +1,34 @@
-TRIVIA BÍBLICA · versión 4.5.1
+TRIVIA BÍBLICA · versión 4.6.0
 ==============================
+
+NOVEDADES DE LA 4.6.0 · TRES COMPAÑEROS DIBUJADOS Y PULIDO PARA CELULARES CHICOS
+  - 🐑 Lanita (corderita), 🕊️ Paloma (con su ramita de olivo) y 🦁 Leo (leoncito). Son dibujos propios,
+    hechos con código (sin imágenes que bajar: funcionan sin internet) y cada uno tiene 4 caras:
+    tranquilo, contento, triste y festejando.
+  - Dónde aparecen:
+      · Inicio: una fila con el compañero y su globito. Saluda según la hora y tu nombre, te avisa del
+        Desafío diario, de tu racha o de cuántas preguntas tienes para repasar; al tocarlo cuenta otro
+        consejo. La primera vez se presenta y avisa que se puede cambiar.
+      · Hoja de respuesta: contento si aciertas, apenado si fallas (en Modo niños siempre contento o
+        tranquilo, nunca llorando).
+      · Resultado (y ganador del juego en línea): festeja con chispas si te fue bien; si te fue mal solo
+        pone cara tranquila, para no desanimar.
+  - Ajustes → «Tu compañero»: Lanita, Paloma, Leo o «Ninguno» (la app queda exactamente como antes).
+    Cada uno se presenta con algo de la Biblia (David y las ovejas, Noé y la paloma, Daniel y los leones).
+    Se guarda en el celular y viaja en la copia de seguridad.
+  - Movimiento cuidado: solo un saltito cuando aparece o reacciona; nada se mueve todo el tiempo y con el
+    ajuste «reducir movimiento» del teléfono se queda quieto.
+  - El compañero es solo tuyo: no se manda a los amigos ni cambia nada del juego en línea (sigue 3.8.0).
+  - PULIDO tras revisar todas las pantallas en celulares de 320×568, 360×640 y 412×915 (claro, oscuro y
+    «Texto muy grande»):
+      · Botones más fáciles de tocar: el nombre, 🔊 y «Compartir» del Versículo del día (ahora en su propia
+        fila, ya no se aprietan), el enlace «Leer en … · Reina-Valera 1960» de cada respuesta y los
+        interruptores de Ajustes (se ven igual, pero el toque cubre unos 48 px).
+      · Letra chica un poco más grande (logros, rangos, etiquetas) y «Reina-Valera 1960 ↗» ya no se corta
+        en dos líneas dejando la flecha sola.
+      · Colores de las iniciales (avatares) más oscuros: la letra blanca se lee bien en los 8 colores (el
+        ámbar y el verde claro se leían mal; ahora hay un verde oliva en lugar del ámbar).
+      · Tema claro: el verde de «¡Correcto! +puntos» y el rojo tienen más contraste.
 
 NOVEDADES DE LA 4.5.1 · LA REINA-VALERA 1960, A UN TOQUE (y qué hace falta para tenerla dentro)
   - 📖 Ajustes → «Leer la Reina-Valera 1960 en»: se elige dónde abren los enlaces «Leer»

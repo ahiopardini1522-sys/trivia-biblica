@@ -51,7 +51,7 @@
 --paper:#ffffff;--paper2:#fbf3dc;--paperink:#16224b;--papermut:#56628f;
 --gold:#e8a817;--gold2:#c98300;--goldd:#8a5a00;--goldtxt:#8a5700;--goldink:#3a2500;
 --blue:#2f6fe0;--blued:#1a4aa8;
---ok:#178a55;--bad:#d64040;--onok:#ffffff;
+--ok:#15834f;--bad:#d03a3a;--onok:#ffffff;
 --glow:rgba(232,168,23,.3);
 --sheetbg:#fffdf5;--navbg:rgba(255,252,242,.95);
 --titleA:#8f5a00;--titleB:#b07200;
@@ -72,7 +72,7 @@ html[data-theme="light"]{--bg0:#efe2bf;--bg1:#f9f1dc;--bg2:#fdf8ea;
 --paper:#ffffff;--paper2:#fbf3dc;--paperink:#16224b;--papermut:#56628f;
 --gold:#e8a817;--gold2:#c98300;--goldd:#8a5a00;--goldtxt:#8a5700;--goldink:#3a2500;
 --blue:#2f6fe0;--blued:#1a4aa8;
---ok:#178a55;--bad:#d64040;--onok:#ffffff;
+--ok:#15834f;--bad:#d03a3a;--onok:#ffffff;
 --glow:rgba(232,168,23,.3);
 --sheetbg:#fffdf5;--navbg:rgba(255,252,242,.95);
 --titleA:#8f5a00;--titleB:#b07200;
@@ -138,7 +138,7 @@ button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visibl
 .card{background:var(--panel);border:1px solid var(--line);border-radius:1.25rem;padding:1rem;box-shadow:var(--sh)}
 .prof{display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:center}
 .av{--avc:var(--blue);width:3.5rem;height:3.5rem;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:1.4rem;color:#fff;background:var(--avc);border:3px solid var(--gold);box-shadow:0 4px 12px rgba(0,0,0,.3);flex:none;text-shadow:0 1px 2px rgba(0,0,0,.3)}
-.prof .nm{display:block;max-width:100%;text-align:left;font-weight:800;font-size:1.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prof .nm{display:block;max-width:100%;text-align:left;font-weight:800;font-size:1.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:.5rem .6rem .5rem 0;margin:-.5rem 0}
 .prof .nm::after{content:" ✏️";font-size:.72em;opacity:.7}
 /* foto de perfil: llena el círculo; sin foto se ve la inicial */
 .av.ph{padding:0;overflow:hidden;background:var(--panel2)}
@@ -151,19 +151,24 @@ button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visibl
 .prof .rk{color:var(--goldtxt);font-size:.9rem;font-weight:700}
 .xp{height:.6rem;border-radius:1rem;background:rgba(127,127,170,.28);overflow:hidden;margin-top:.45rem}
 .xp i{display:block;height:100%;width:var(--w,0%);background:linear-gradient(90deg,var(--gold2),var(--gold));border-radius:inherit;transition:width .9s ease}
-.xpl{font-size:.74rem;color:var(--mut);margin-top:.25rem;display:flex;justify-content:space-between;gap:.5rem}
+.xpl{font-size:.76rem;color:var(--mut);margin-top:.25rem;display:flex;justify-content:space-between;gap:.5rem}
+.xpl{flex-wrap:wrap;row-gap:.05rem}
+.xpl span:first-child{white-space:nowrap;flex:none}
 .stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.9rem}
 .st3{background:var(--panel);border:1px solid var(--line);border-radius:.95rem;padding:.55rem .3rem;text-align:center}
 .st3 b{display:block;font-size:1.2rem;font-family:var(--f-disp);color:var(--goldtxt);line-height:1.2}
-.st3 span{font-size:.72rem;color:var(--mut)}
+.st3 span{font-size:.76rem;color:var(--mut)}
 
 /* ---- versículo del día ---- */
 .vod{margin-top:.9rem;padding:1rem 1.15rem;border-radius:1.25rem;background:linear-gradient(135deg,var(--paper),var(--paper2));color:var(--paperink);position:relative;overflow:hidden;box-shadow:var(--sh)}
 .vod:before{content:"“";position:absolute;top:-.9rem;left:.5rem;font:900 6rem/1 var(--f-disp);color:#e0a21c;opacity:.28;pointer-events:none}
-.vod small{font-weight:800;text-transform:uppercase;letter-spacing:.09em;font-size:.68rem;color:#8a5a06;position:relative}
+.vod small{font-weight:800;text-transform:uppercase;letter-spacing:.09em;font-size:.74rem;color:#8a5a06;position:relative}
 .vod p{margin:.3rem 0 .5rem;font-family:var(--f-disp);font-size:1.1rem;line-height:1.38;position:relative}
-.vod .vr{display:flex;justify-content:space-between;align-items:center;gap:.5rem;font-size:.85rem;color:var(--papermut);font-weight:700;position:relative}
-.vod .vr a,.vod .vr button{color:#7a4f05;font-weight:800;text-decoration:none;padding:.2rem .1rem}
+.vod .vr{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.1rem .6rem;font-size:.85rem;color:var(--papermut);font-weight:700;position:relative}
+/* v4.6: la referencia y los tres botones ya no se pisan en celulares angostos: si no entran, los botones bajan a su propia fila */
+.vod .vact{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:.3rem .4rem;margin-left:auto;max-width:100%}
+.vod .vref{min-width:0;overflow-wrap:anywhere}
+.vod .vr a,.vod .vr button{display:inline-flex;align-items:center;justify-content:center;min-height:2.4rem;min-width:2.4rem;padding:0 .8rem;border-radius:1.2rem;background:rgba(122,79,5,.12);color:#7a4f05;font-weight:800;text-decoration:none;white-space:nowrap}
 
 /* ---- CTA y fichas ---- */
 .cta{display:flex;align-items:center;gap:1rem;width:100%;margin-top:1rem;padding:1rem 1.1rem;border-radius:1.5rem;text-align:left;color:var(--goldink);background:linear-gradient(135deg,#ffd870,#f2a916);box-shadow:0 6px 0 #a86d07,0 16px 26px rgba(0,0,0,.35);position:relative;overflow:hidden;transition:transform .08s,box-shadow .08s}
@@ -181,12 +186,12 @@ button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visibl
 .tile.wide{grid-column:1/-1;flex-direction:row;align-items:center;gap:.9rem;min-height:0}
 .tile.wide b{margin-top:0;display:block}
 .tile:disabled{opacity:.7}
-.tile .tag{position:absolute;top:.7rem;right:.7rem;font-size:.7rem;font-weight:800;padding:.15rem .5rem;border-radius:1rem;background:var(--gold);color:var(--goldink)}
+.tile .tag{position:absolute;top:.7rem;right:.7rem;font-size:.74rem;font-weight:800;padding:.15rem .5rem;border-radius:1rem;background:var(--gold);color:var(--goldink)}
 .lvls{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
 .lv{--lc:var(--blue);padding:.85rem .3rem .7rem;text-align:center;border-radius:1.15rem;background:var(--panel);border:1px solid var(--line);border-bottom:4px solid var(--lc);position:relative;transition:transform .1s}
 .lv i{font-style:normal;font-size:1.8rem;display:block;line-height:1.2}
 .lv b{display:block;font-size:.92rem;margin-top:.1rem}
-.lv small{display:block;font-size:.7rem;color:var(--mut);line-height:1.25;margin-top:.1rem}
+.lv small{display:block;font-size:.76rem;color:var(--mut);line-height:1.25;margin-top:.1rem}
 .lv:not(:disabled):active{transform:scale(.96)}
 .lv:disabled{opacity:.55;border-bottom-color:var(--line)}
 .pills{display:flex;gap:.45rem;overflow-x:auto;margin:0 -1rem;padding:.15rem 1rem .6rem;scrollbar-width:none}
@@ -199,7 +204,7 @@ button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visibl
 .nav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;padding:.4rem .8rem calc(.45rem + env(safe-area-inset-bottom,0px));pointer-events:none}
 .nav[hidden]{display:none}
 .nav>div{pointer-events:auto;display:flex;gap:.25rem;width:100%;max-width:28.5rem;background:var(--navbg);border:1px solid var(--line);border-radius:1.5rem;padding:.35rem;box-shadow:0 10px 30px rgba(0,0,0,.4)}
-.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:.05rem;padding:.4rem 0;border-radius:1.15rem;font-size:.72rem;font-weight:700;color:var(--mut);transition:background .2s,transform .1s}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:.05rem;padding:.4rem 0;border-radius:1.15rem;font-size:.76rem;font-weight:700;color:var(--mut);transition:background .2s,transform .1s}
 .nav button:active{transform:scale(.92)}
 .nav button span{font-size:1.3rem;line-height:1.2}
 .nav button.on{background:var(--gold);color:var(--goldink)}
@@ -281,13 +286,13 @@ button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visibl
 .sheet .ans{margin:.1rem 0 .2rem}
 .verse{margin:.5rem 0 .8rem;padding:.65rem .85rem;border-left:4px solid var(--gold);background:var(--panel);border-radius:.7rem;font-size:.9rem}
 .verse i{font-family:var(--f-disp);font-size:1rem;display:block;margin:.2rem 0;font-style:italic;line-height:1.35}
-.verse small{font:600 .72rem var(--f-ui);color:var(--mut);font-style:normal}
+.verse small{font:600 .76rem var(--f-ui);color:var(--mut);font-style:normal}
 .verse a,.verse .vrv{display:block;margin-top:.3rem;color:var(--goldtxt);font-weight:800;text-decoration:none;text-align:left}
 /* lector de la Reina-Valera 1960 */
 .rv{max-height:46vh;overflow:auto;margin:.3rem 0 .2rem;padding:.1rem .1rem .1rem 0}
 .rvt{white-space:pre-line;font-family:var(--f-disp);font-size:1.08rem;line-height:1.5;text-align:left;color:var(--ink)}
 .rvt.err{font-family:var(--f-ui);font-size:.95rem;color:var(--bad);font-weight:700}
-.rvc{font-size:.72rem;color:var(--mut);text-align:left;margin:.5rem 0 0!important}
+.rvc{font-size:.76rem;color:var(--mut);text-align:left;margin:.5rem 0 0!important}
 .rvd{font-size:.7rem;color:var(--mut);text-align:left;margin:.45rem 0 0!important;word-break:break-all;opacity:.85}.rvd:empty{display:none}
 .rvl{display:block;margin-top:.5rem;color:var(--goldtxt);font-weight:800;text-decoration:none;text-align:left}
 .adv{margin-top:1rem}.adv summary{cursor:pointer;font-weight:800;padding:.1rem 0}
@@ -329,7 +334,7 @@ button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visibl
 .spinning .bulb{animation-duration:.25s}
 .catpill{--cc:var(--gold);--on:#fff;display:flex;align-items:center;justify-content:center;gap:.6rem;min-height:3.4rem;border-radius:1.15rem;background:var(--cc);color:var(--on);font-weight:900;font-size:1.15rem;animation:pop .4s both;box-shadow:0 5px 0 var(--ccd,rgba(0,0,0,.3))}
 .legend{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-top:1rem}
-.legend span{display:flex;align-items:center;gap:.35rem;font-size:.72rem;font-weight:700;color:var(--mut);padding:.3rem .45rem;border-radius:.7rem;background:var(--panel)}
+.legend span{display:flex;align-items:center;gap:.35rem;font-size:.76rem;font-weight:700;color:var(--mut);padding:.3rem .45rem;border-radius:.7rem;background:var(--panel)}
 .legend i{width:.7rem;height:.7rem;border-radius:50%;background:var(--cc);flex:none}
 .cats{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.9rem}
 .cat{--cc:var(--blue);--on:#fff;padding:1rem .5rem;border-radius:1.2rem;text-align:center;font-weight:800;color:var(--on);background:linear-gradient(180deg,var(--ccl,var(--cc)),var(--cc));box-shadow:0 5px 0 var(--ccd,rgba(0,0,0,.3)),0 12px 18px rgba(0,0,0,.25);transition:transform .08s;line-height:1.2}
@@ -368,6 +373,7 @@ textarea.bkt{width:100%;font:inherit;font-size:.82rem;line-height:1.35;color:var
 .srow b{display:block}
 .srow small{color:var(--mut);font-size:.8rem}
 .switch{width:3.2rem;height:1.85rem;border-radius:1rem;background:rgba(127,127,170,.45);position:relative;transition:background .2s;flex:none}
+.switch:before{content:"";position:absolute;inset:-.6rem -.45rem}
 .switch:after{content:"";position:absolute;top:.2rem;left:.2rem;width:1.45rem;height:1.45rem;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 2px 4px rgba(0,0,0,.3)}
 .switch[aria-checked=true]{background:var(--ok)}
 .switch[aria-checked=true]:after{transform:translateX(1.35rem)}
@@ -385,7 +391,7 @@ textarea.bkt{width:100%;font:inherit;font-size:.82rem;line-height:1.35;color:var
 .md{padding:.75rem .3rem;border-radius:1.05rem;background:var(--panel);border:1px solid var(--line);text-align:center}
 .md i{font-style:normal;font-size:2.1rem;display:block;line-height:1.2}
 .md b{font-size:.78rem;display:block;line-height:1.2;margin-top:.1rem}
-.md small{font-size:.66rem;color:var(--mut);display:block;line-height:1.25;margin-top:.15rem}
+.md small{font-size:.76rem;color:var(--mut);display:block;line-height:1.25;margin-top:.15rem}
 .md.off{opacity:.5}
 .md.off i{filter:grayscale(1)}
 .md.on{border-color:var(--gold);background:var(--panel2)}
@@ -464,7 +470,7 @@ noscript{display:block;padding:2rem;text-align:center;color:var(--ink)}
 /* arma el versículo */
 .arn{flex:none;font-weight:900;font-size:.85rem;padding:.2rem .65rem;border-radius:2rem;background:rgba(0,0,0,.22);color:var(--on)}
 .arref{margin:.9rem 1.1rem 0;font-weight:800;font-size:.9rem;color:var(--paperink);opacity:.85}
-.arref small{font-weight:700;opacity:.7;font-size:.72rem}
+.arref small{font-weight:700;opacity:.7;font-size:.76rem}
 .arv{margin:.45rem 1.1rem .1rem;font-family:var(--f-disp);font-size:1.22rem;line-height:1.95;font-weight:600;text-align:left;color:var(--paperink)}
 .aw{display:inline-block;vertical-align:baseline}
 .aw.e{height:1.15em;vertical-align:-.28em;margin:0 .05em;border-bottom:3px solid var(--cc);border-radius:.25em .25em 0 0;background:rgba(120,120,120,.14);background:color-mix(in srgb,var(--cc) 14%,transparent)}
@@ -515,7 +521,7 @@ noscript{display:block;padding:2rem;text-align:center;color:var(--ink)}
 .spk.on{background:var(--gold);animation:pulse 1s ease-in-out infinite}
 .verse .vsp{display:block;margin-top:.4rem;color:var(--goldtxt);font-weight:800;text-align:left}
 .verse .vsp.on{text-decoration:underline}
-.vod .vr #vsp.on{background:rgba(122,79,5,.18);border-radius:.6rem}
+.vod .vr #vsp.on{background:rgba(122,79,5,.32)}
 
 /* ---- tamaño del texto: Normal 16 px · Grande 19 px · Muy grande 22 px (Ajustes o el botón Aa) ---- */
 html.xbig{font-size:22px}
@@ -782,7 +788,7 @@ body:after{content:"";position:fixed;inset:0 0 auto 0;height:250px;pointer-event
 .chh b{font-family:var(--f-disp);font-size:1.02rem}
 .chlist{overflow-y:auto;overscroll-behavior:contain;max-height:11.5rem;min-height:5.5rem;margin:.5rem 0;padding:.15rem;display:flex;flex-direction:column;gap:.35rem}
 .chm{align-self:flex-start;max-width:88%;padding:.4rem .7rem;border-radius:1rem 1rem 1rem .3rem;background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--avc,var(--line));font-size:.92rem;line-height:1.3;overflow-wrap:anywhere}
-.chm b{display:block;font-size:.72rem;color:var(--mut);margin-bottom:.05rem}
+.chm b{display:block;font-size:.76rem;color:var(--mut);margin-bottom:.05rem}
 .chm.me{align-self:flex-end;background:var(--gold);color:var(--goldink);border-color:transparent;border-radius:1rem 1rem .3rem 1rem}
 .chm.me b{color:inherit;opacity:.8}
 .chempty{color:var(--mut);text-align:center;font-size:.86rem;margin:auto 0}
@@ -857,7 +863,7 @@ html.big .legend,html.xbig .legend{grid-template-columns:repeat(2,minmax(0,1fr))
 .trr .mav{margin:0;width:2rem;height:2rem;font-size:.85rem;top:0}
 .trr .trn{flex:1;min-width:0;display:flex;flex-direction:column}
 .trr .trn>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.trr .trn small{color:var(--mut);font-weight:600;font-size:.74rem;line-height:1.3}
+.trr .trn small{color:var(--mut);font-weight:600;font-size:.76rem;line-height:1.3}
 .trr>b{flex:none;font-family:var(--f-disp);font-size:1.2rem}
 .trr.me .trn>span,.trr.me>b{color:var(--goldtxt)}
 .trr.wait{opacity:.75}
@@ -875,7 +881,9 @@ html.big .legend,html.xbig .legend{grid-template-columns:repeat(2,minmax(0,1fr))
 @keyframes rise{from{transform:scaleY(.15);opacity:0}to{transform:none;opacity:1}}
 
 /* Tarjeta del versículo (v4.4): «Compartir como imagen» y «Escuchar el versículo» eran renglones de 20 px; ahora el toque cubre unos 38 px de alto sin mover el texto */
+.nw{white-space:nowrap}
 .verse .vsh,.verse .vsp{margin-top:0;padding:.55rem 0;min-height:2.4rem;display:flex;align-items:center}
+.verse a,.verse .vrv{margin-top:0;padding:.55rem 0;min-height:2.4rem}
 /* v4.4: los 4 botones de modo (2 por fila) tienen más alto para tocarlos bien en celulares angostos */
 .seg.s4 button{min-height:2.8rem}
 
@@ -935,6 +943,39 @@ html.big .legend,html.xbig .legend{grid-template-columns:repeat(2,minmax(0,1fr))
 .stars span.on .sa{fill:#ffe07a}.stars span.on .sb{fill:#f0aa1c}
 .stars span.on .sr{stroke:#a46603;stroke-width:1.7}
 .stars span.on svg{filter:drop-shadow(0 3px 0 rgba(120,68,0,.55)) drop-shadow(0 0 12px rgba(246,195,80,.55))}
+
+/* ---- Compañeros (v4.6): Lanita, Paloma y Leo ---- */
+.mc{display:inline-block;width:var(--mcs,4.4rem);height:var(--mcs,4.4rem);flex:none;vertical-align:middle;transform-origin:50% 88%;pointer-events:none}
+.mc svg{display:block;width:100%;height:100%}
+button.mc{pointer-events:auto;cursor:pointer;padding:0;background:none;-webkit-tap-highlight-color:transparent}
+@keyframes mchop{0%{transform:none}28%{transform:translateY(-16%) scale(1.05,.98)}52%{transform:scale(.97,1.04)}72%{transform:translateY(-6%)}100%{transform:none}}
+@keyframes mcsag{0%{transform:none}40%{transform:translateY(6%) scale(1.04,.93)}100%{transform:translateY(2%) scale(1,.98)}}
+@keyframes mcin{0%{transform:scale(.4) translateY(14%);opacity:0}100%{transform:none;opacity:1}}
+.mc.hop{animation:mchop .8s ease-out}
+.mc.sag{animation:mcsag .6s ease-out forwards}
+.mc.in{animation:mcin .5s cubic-bezier(.2,1.5,.4,1) both}
+/* hoja de respuesta: el compañero va a la derecha del título y la respuesta */
+.shh{display:flex;align-items:flex-start;gap:.5rem}
+.shh .shm{flex:1;min-width:0}
+.shh .mc{--mcs:3.7rem;margin:-.25rem 0 -.2rem}
+.sheet.kid .shh .mc{--mcs:4.8rem}
+/* inicio: fila con el compañero y su globito */
+.mcrow{display:flex;align-items:center;gap:.7rem;margin-top:.9rem}
+.mcrow .mc{--mcs:5rem}
+.mcrow .bub{position:relative;flex:1;min-width:0;padding:.6rem .85rem .65rem;border-radius:1.2rem;background:var(--panel);border:1px solid var(--line);box-shadow:var(--sh);cursor:pointer}
+.mcrow .bub:before{content:"";position:absolute;left:-.42rem;top:1.35rem;width:.8rem;height:.8rem;background:var(--panel);border-left:1px solid var(--line);border-bottom:1px solid var(--line);transform:rotate(45deg);border-radius:0 0 0 .2rem}
+.mcrow .bub b{display:block;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--goldtxt)}
+.mcrow .bub p{margin:.1rem 0 0;font-size:.95rem;line-height:1.35;color:var(--ink)}
+/* resultado: el compañero al lado del trofeo (se mueve con él) */
+.res .trophy .mc.rs{position:absolute;left:calc(50% + min(5rem,22vw));bottom:-.7rem;--mcs:min(4.4rem,21vw)}
+/* Ajustes: selector de compañero */
+.mcpick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.45rem;margin-top:.7rem}
+html.big .mcpick,html.xbig .mcpick{grid-template-columns:repeat(2,minmax(0,1fr))}
+.mcpick button{display:flex;flex-direction:column;align-items:center;gap:.1rem;padding:.45rem .2rem .5rem;border-radius:1rem;background:var(--panel);border:2px solid transparent;color:var(--mut);font-size:.8rem;min-height:5.6rem}
+.mcpick button.on{border-color:var(--gold);background:var(--panel2);color:var(--ink)}
+.mcpick .mc{--mcs:3.4rem}
+.mcpick .mcx{display:grid;place-items:center;width:3.4rem;height:3.4rem;font-size:1.7rem;opacity:.7}
+.mcpick b{font-size:.82rem;overflow-wrap:anywhere;text-align:center}
 
 </style>
 </head>
@@ -1095,13 +1136,167 @@ function burstAt(el,n=16){
         if(p.ro){x.beginPath();x.arc(0,0,p.s/2,0,6.283);x.fill()}else x.fillRect(-p.s/2,-p.s/3,p.s,p.s*.62);x.restore()}}
     if(alive&&c.isConnected)requestAnimationFrame(f);else c.remove()})(t0)}
 
+/* ============================================================
+   COMPAÑEROS · tres personajes dibujados con código (cordero, paloma y leoncito)
+   Todo es SVG liviano, sin imágenes y sin degradados: sale igual con o sin internet.
+   Cada uno tiene 4 caras: idle (tranquilo), happy (contento), sad (triste) y cheer (festejo).
+   Los nombres de este archivo llevan el prefijo mc/MC para no chocar con los demás.
+   ============================================================ */
+const MC_INK="#3b2a63";
+const MCN={lamb:"Lanita",dove:"Paloma",lion:"Leo"}; /* quién es quién */
+const MCK=["lamb","dove","lion"];
+const mcLn=w=>`stroke="${MC_INK}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"`;
+/* Une varios círculos en una sola silueta con un solo borde: primero se dibujan gruesos y con borde, y encima los mismos sin borde */
+const mcBlob=(arr,fill)=>{const c=arr.map(([x,y,r])=>`<circle cx="${+x.toFixed(1)}" cy="${+y.toFixed(1)}" r="${r}"/>`).join("");return`<g fill="${fill}" stroke="${MC_INK}" stroke-width="6.2" stroke-linejoin="round">${c}</g><g fill="${fill}">${c}</g>`};
+/* Chispa de 4 puntas (festejo) */
+const mcStar=(x,y,s,c)=>`<path d="M${x} ${y-s}Q${x+s*.2} ${y-s*.2} ${x+s} ${y}Q${x+s*.2} ${y+s*.2} ${x} ${y+s}Q${x-s*.2} ${y+s*.2} ${x-s} ${y}Q${x-s*.2} ${y-s*.2} ${x} ${y-s}Z" fill="${c||"#ffd84d"}" stroke="${MC_INK}" stroke-width="1.5" stroke-linejoin="round"/>`;
+const mcSpark=k=>(k?mcStar(11,11,7.5)+mcStar(109,10,9):mcStar(12,22,9.5)+mcStar(108,16,11.5))+(k?mcStar(60,6.5,4.5,"#fff3b0"):mcStar(113,47,6,"#fff3b0")+mcStar(8,50,5,"#fff3b0"));
+/* Ojos: abiertos con brillo (idle), arcos felices (happy/cheer) o con cejas y lágrima (sad) */
+function mcEyes(x,y,sp,m){
+  const L=x-sp,R=x+sp;
+  if(m==="happy"||m==="cheer")return`<path d="M${L-5.5} ${y+2.5}Q${L} ${y-5.5} ${L+5.5} ${y+2.5}M${R-5.5} ${y+2.5}Q${R} ${y-5.5} ${R+5.5} ${y+2.5}" fill="none" ${mcLn(3.4)}/>`;
+  const e=c=>`<ellipse cx="${c}" cy="${y}" rx="4.7" ry="5.7" fill="${MC_INK}"/><circle cx="${c+1.7}" cy="${y-2.1}" r="1.8" fill="#fff"/>`;
+  let s=e(L)+e(R);
+  if(m==="sad")s+=`<path d="M${L-6.5} ${y-8}L${L+5} ${y-13.5}M${R+6.5} ${y-8}L${R-5} ${y-13.5}" fill="none" ${mcLn(2.8)}/><path d="M${R+5} ${y+7.5}q-3.6 4.4-3.6 7a3.6 3.6 0 0 0 7.2 0c0-2.6-3.6-7-3.6-7z" fill="#7fd0ff" stroke="${MC_INK}" stroke-width="1.7"/>`;
+  return s;
+}
+/* Mejillas rosadas (menos en la cara triste) */
+const mcCheeks=(x,y,sp,m)=>m==="sad"?"":`<ellipse cx="${x-sp}" cy="${y}" rx="5.6" ry="3.5" fill="#ff7f9d" opacity=".5"/><ellipse cx="${x+sp}" cy="${y}" rx="5.6" ry="3.5" fill="#ff7f9d" opacity=".5"/>`;
+/* Boca debajo de (x,y): sonrisa chica, sonrisa grande, boca abierta con lengüita, o tristeza */
+function mcMouth(x,y,m){
+  if(m==="sad")return`<path d="M${x-6.5} ${y+3.5}Q${x} ${y-3.5} ${x+6.5} ${y+3.5}" fill="none" ${mcLn(3)}/>`;
+  if(m==="happy")return`<path d="M${x-8} ${y-1}Q${x} ${y+9} ${x+8} ${y-1}" fill="none" ${mcLn(3.2)}/>`;
+  if(m==="cheer")return`<path d="M${x-10} ${y-2}Q${x} ${y+17} ${x+10} ${y-2}Z" fill="${MC_INK}" ${mcLn(2.6)}/><path d="M${x-5.6} ${y+7.4}Q${x} ${y+3.4} ${x+5.6} ${y+7.4}Q${x} ${y+12.2} ${x-5.6} ${y+7.4}Z" fill="#ff7f9d"/>`;
+  return`<path d="M${x-5.5} ${y}Q${x} ${y+5.5} ${x+5.5} ${y}" fill="none" ${mcLn(2.9)}/>`;
+}
+
+/* ---------- Lanita, la corderita ---------- */
+function mcLamb(m){
+  const ring=[];for(let i=0;i<10;i++){const a=i/10*6.2832-1.5708;ring.push([60+30*Math.cos(a),58+29*Math.sin(a),13.6])}
+  const fringe=[[45,40,9.6],[60,35.5,10.8],[75,40,9.6]];
+  /* orejas largas casi horizontales (caídas si está triste) */
+  const ear=s=>{const x=60+s*43,rot=(m==="sad"?-30:16)*-s;return`<g transform="rotate(${rot} ${x} 64)"><path d="M${x-s*13} 64Q${x-s*8} 57 ${x+s*6} 58Q${x+s*14} 60 ${x+s*14} 64Q${x+s*14} 69 ${x+s*6} 70Q${x-s*8} 71 ${x-s*13} 64Z" fill="#f6dcc0" ${mcLn(3)}/><path d="M${x-s*5} 64Q${x} 60.6 ${x+s*8} 62Q${x+s*10} 64 ${x+s*8} 66Q${x} 67.4 ${x-s*5} 64Z" fill="#ffb3c6"/></g>`};
+  const mouth=m==="cheer"
+    ?`<path d="M52.5 80Q60 95 67.5 80Z" fill="${MC_INK}" ${mcLn(2.4)}/><path d="M56.4 87.6Q60 84.6 63.6 87.6Q60 91.6 56.4 87.6Z" fill="#ff7f9d"/>`
+    :m==="sad"?`<path d="M60 77.5V79M53.5 85Q57 78 60 79.5Q63 78 66.5 85" fill="none" ${mcLn(2.8)}/>`
+    :m==="happy"?`<path d="M60 77.5V79.5M52 80Q56 87 60 79.5Q64 87 68 80" fill="none" ${mcLn(3)}/>`
+    :`<path d="M60 77.5V79.5M53.5 80Q56.8 84.6 60 79.5Q63.2 84.6 66.5 80" fill="none" ${mcLn(2.8)}/>`;
+  return ear(-1)+ear(1)
+   +mcBlob(ring,"#fffaf0")
+   +`<path d="M60 43C46 43 38.5 55 38.5 68C38.5 84 48 95 60 95C72 95 81.5 84 81.5 68C81.5 55 74 43 60 43Z" fill="#f6dcc0" ${mcLn(3)}/>`
+   +mcBlob(fringe,"#fffaf0")
+   +`<ellipse cx="60" cy="81" rx="13" ry="10.5" fill="#ffefdc"/>`
+   +mcEyes(60,66,12.2,m)+mcCheeks(60,76,21,m)
+   +`<path d="M55.6 73.6Q60 70.6 64.4 73.6Q63 78 60 78.4Q57 78 55.6 73.6Z" fill="#e0788f" ${mcLn(1.8)}/>`
+   +mouth
+   +(m==="cheer"?mcSpark():"");
+}
+
+/* ---------- Paloma ---------- */
+function mcDove(m){
+  const up=m==="cheer",dn=m==="sad";
+  const wing=s=>{const rot=up?96:dn?-8:0;const t=s<0?"":"matrix(-1 0 0 1 120 0)";
+    return`<g transform="${t}"><g transform="rotate(${rot} 40 62)"><path d="M37 52C16 50 1 68 7 95C14 91 19 96 25 93C30 98 35 91 41 91C48 82 48 64 37 52Z" fill="#f4f7ff" ${mcLn(3)}/><path d="M15 76Q24 79 32 73M13 86Q25 89 36 81" fill="none" stroke="#b4c4ea" stroke-width="2.4" stroke-linecap="round"/></g></g>`};
+  const beak=(m==="happy"||m==="cheer")
+    ?`<path d="M53.5 65.5Q60 61 66.5 65.5L60 72.5Z" fill="#ffa73a" ${mcLn(2.4)}/><path d="M55.5 73.5L60 80L64.5 73.5Z" fill="#ff8f1f" ${mcLn(2.4)}/>`
+    :`<path d="M53.5 65.5Q60 61 66.5 65.5L60 77Z" fill="#ffa73a" ${mcLn(2.6)}/>`;
+  /* ramita de olivo que lleva en el pico */
+  const leaf=(x,y,r)=>`<ellipse cx="${x}" cy="${y}" rx="7.6" ry="3.7" transform="rotate(${r} ${x} ${y})" fill="#7fcf52" ${mcLn(1.9)}/>`;
+  const olive=`<path d="M61 75Q80 76 95 93" fill="none" stroke="#3f8f36" stroke-width="3.6" stroke-linecap="round"/><path d="M61 75Q80 76 95 93" fill="none" stroke="#5aa845" stroke-width="1.2" stroke-linecap="round"/>`
+   +leaf(72,70,-34)+leaf(76,83,32)+leaf(86,80,-42)+leaf(88,93,36)+leaf(99,95,60);
+  return wing(-1)+wing(1)
+   +`<ellipse cx="47" cy="102.5" rx="7.4" ry="3.6" fill="#ff9f2e" ${mcLn(2.4)}/><ellipse cx="73" cy="102.5" rx="7.4" ry="3.6" fill="#ff9f2e" ${mcLn(2.4)}/>`
+   +`<circle cx="60" cy="65" r="36" fill="#fff" ${mcLn(3.2)}/>`
+   +`<path d="M27 78Q60 106 93 78Q90 96 60 100Q30 96 27 78Z" fill="#e1e9f9"/>`
+   +mcEyes(60,56,15,m)+mcCheeks(60,66,27,m)+olive+beak
+   +(up?mcSpark(1):"");
+}
+
+/* ---------- Leo, el leoncito ---------- */
+function mcLion(m){
+  const back=[],front=[];
+  for(let i=0;i<12;i++){const a=i/12*6.2832+.13;back.push([60+36*Math.cos(a),61+35*Math.sin(a),12.4])}
+  for(let i=0;i<12;i++){const a=i/12*6.2832+.4;front.push([60+29*Math.cos(a),61+28*Math.sin(a),11.2])}
+  const ear=s=>{const x=60+s*27;return`<circle cx="${x}" cy="32" r="10" fill="#ffcf5c" ${mcLn(3)}/><circle cx="${x}" cy="32" r="4.8" fill="#ff9fb4"/>`};
+  const sad=m==="sad";
+  let mouth;
+  if(m==="cheer")mouth=`<path d="M49 76Q60 94 71 76Z" fill="${MC_INK}" ${mcLn(2.6)}/><path d="M54.6 85Q60 80.6 65.4 85Q60 90.4 54.6 85Z" fill="#ff7f9d"/>`;
+  else if(m==="happy")mouth=`<path d="M60 74.5V77M49.5 76.5Q55 84 60 77Q65 84 70.5 76.5" fill="none" ${mcLn(3)}/>`;
+  else if(sad)mouth=`<path d="M60 74.5V77M50 82Q55 74.5 60 77Q65 74.5 70 82" fill="none" ${mcLn(3)}/>`;
+  else mouth=`<path d="M60 74.5V77.5M51.5 77Q55.5 82 60 77.5Q64.5 82 68.5 77" fill="none" ${mcLn(2.9)}/>`;
+  return mcBlob(back,"#c7701a")+mcBlob(front,"#e78d22")
+   +ear(-1)+ear(1)
+   +`<circle cx="60" cy="62" r="27" fill="#ffcf5c" ${mcLn(3)}/>`
+   +`<ellipse cx="60" cy="74" rx="15.5" ry="11.5" fill="#fff1d2"/>`
+   +mcEyes(60,56,13.2,m)+mcCheeks(60,68,25,m)
+   +`<path d="M54.4 67.2Q60 63.6 65.6 67.2Q63.4 73.6 60 74.6Q56.6 73.6 54.4 67.2Z" fill="#b5483a" ${mcLn(2.2)}/>`
+   +mouth
+   +`<g fill="${MC_INK}" opacity=".55"><circle cx="46.5" cy="71.5" r="1.1"/><circle cx="44.5" cy="75" r="1.1"/><circle cx="73.5" cy="71.5" r="1.1"/><circle cx="75.5" cy="75" r="1.1"/></g>`
+   +(m==="cheer"?mcSpark():"");
+}
+
+const MCF={lamb:mcLamb,dove:mcDove,lion:mcLion};
+const MCC={};
+/* Dibujo ya armado: el mismo personaje con la misma cara se arma una sola vez */
+function mcArt(id,m){
+  const k=id+"/"+m;if(MCC[k])return MCC[k];
+  const f=MCF[id]||mcLamb;
+  return MCC[k]=`<svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">${f(m||"idle")}</svg>`;
+}
+
+/* ---------- Quién está y qué dice ---------- */
+const MCI={ /* cómo se presenta cada uno (la primera vez y en Ajustes) */
+  lamb:"Soy Lanita, la corderita. David cuidaba ovejas como yo antes de ser rey. ¡Ahora yo te acompaño a ti!",
+  dove:"Soy Paloma. A Noé le llevé una ramita de olivo, ¡y ahora te traigo buenas respuestas!",
+  lion:"¡Soy Leo! Dios cuidó a Daniel entre los leones. Yo solo cuido tus aciertos."};
+/* El compañero que elegiste: "lamb", "dove" o "lion" (o "" si elegiste no tener) */
+function mcOn(){const k=D.set&&D.set.mc;return k==="off"?"":MCF[k]?k:"lamb"}
+/* El dibujo listo para poner en pantalla: m = cara, cls = clases de tamaño/movimiento. Si no hay compañero, no devuelve nada */
+function mcHTML(m,cls){const k=mcOn();return k?`<span class="mc ${cls||""}" data-k="${k}" aria-hidden="true">${mcArt(k,m)}</span>`:""}
+/* Frases del inicio: la primera es el saludo del momento; las demás son consejos que salen al tocarlo */
+function mcLines(){
+  const k=mcOn(),me=D.name?", "+esc(D.name):"",h=new Date().getHours(),hi=h<12?"Buenos días":h<20?"Buenas tardes":"Buenas noches",
+    st=streakNow(),done=D.last===todayS(),nm=missed().length,L=[];
+  L.push(!D.mcHi?`¡Hola${me}! Soy ${MCN[k]}, tu compañer${k==="lion"?"o":"a"} de estudio. Cámbiame cuando quieras en Ajustes.`
+    :`¡${hi}${me}! ${!done?(st>=2?`Llevas ${st} días seguidos 🔥 Hoy toca el Desafío diario para no cortar la racha.`:"Hoy te espera el Desafío diario: 10 preguntas."):(st>=2?`¡${st} días seguidos! 🔥 Mañana te espero.`:"¡Ya hiciste el Desafío de hoy! 🎉")}`);
+  if(nm)L.push(`Tienes ${nm} pregunta${nm>1?"s":""} para repasar. ¡Corrígelas y no se te escapan!`); /* lo más útil va primero */
+  const T=[];
+  T.push("Con amigos puedes jugar en línea: crea una sala y comparte el código.",
+    "En el Mapa de la Biblia practicas libro por libro y ganas estrellas ⭐.",
+    "Prueba la Escalera de la fe: 15 peldaños, ¡no te caigas!",
+    "En «Adivina el personaje», con menos pistas ganas más puntos.",
+    "«Arma el versículo»: toca las palabras en orden.",
+    "«Reta a un amigo»: juegas y le mandas el enlace.");
+  if(Tts.ok)T.push("En Ajustes puedes hacer que lea las preguntas en voz alta 🔊.");
+  const o=Math.abs(hstr(todayS()))%T.length;
+  for(let i=0;i<T.length;i++)L.push(T[(o+i)%T.length]);
+  return L;
+}
+
+/* La fila del inicio: el compañero y su globito de texto. Al tocarlo cuenta otro consejo */
+function mcRow(L){const k=mcOn();if(!k||!L.length)return"";
+  return`<div class="mcrow"><button class="mc in" id="mcb" type="button" aria-label="${MCN[k]}, tu compañer${k==="lion"?"o":"a"}. Toca para ver otro consejo">${mcArt(k,"idle")}</button><div class="bub" id="mcbub"><b>${MCN[k]}</b><p id="mct" aria-live="polite">${L[0]}</p></div></div>`}
+function mcBind(L){const b=$("#mcb");if(!b)return;let i=0;
+  const say=()=>{i=(i+1)%L.length;$("#mct").innerHTML=L[i];b.innerHTML=mcArt(mcOn(),i%2?"happy":"idle");b.classList.remove("hop","in");void b.offsetWidth;b.classList.add("hop");Snd.play("click")};
+  b.onclick=say;$("#mcbub").onclick=say}
+/* Selector de Ajustes: 3 compañeros o ninguno. El elegido se ve festejando */
+function mcPick(){
+  const cur=D.set.mc==="off"?"off":MCF[D.set.mc]?D.set.mc:"lamb";
+  return`<div class="mcpick" id="sMc" role="radiogroup" aria-label="Tu compañero">${[...MCK,"off"].map(k=>`<button type="button" role="radio" data-v="${k}" aria-checked="${k===cur}" aria-label="${k==="off"?"Sin compañero":MCN[k]}">${k==="off"?'<span class="mcx" aria-hidden="true">🚫</span>':`<span class="mc sm">${mcArt(k,k===cur?"cheer":"idle")}</span>`}<b>${k==="off"?"Ninguno":MCN[k]}</b></button>`).join("")}</div><p class="note" id="sMcH" style="margin-top:.6rem">${mcHint()}</p>`}
+const mcHint=()=>D.set.mc==="off"?"Sin compañero: la app se ve como antes.":MCI[mcOn()];
+function mcPickBind(){
+  const mark=()=>{const cur=D.set.mc==="off"?"off":mcOn();$$("#sMc button").forEach(b=>{const k=b.dataset.v,on=k===cur;b.classList.toggle("on",on);b.setAttribute("aria-checked",on);const m=$(".mc",b);if(m)m.innerHTML=mcArt(k,on?"cheer":"idle")});$("#sMcH").textContent=mcHint()};
+  mark();
+  $$("#sMc button").forEach(b=>b.onclick=()=>{D.set.mc=b.dataset.v;sv();Snd.play("click");mark();const m=$(".mc",b);if(m){m.classList.remove("hop");void m.offsetWidth;m.classList.add("hop")}});
+}
+
 "use strict";
 /* ============================================================
    Trivia Bíblica · v3
    Secciones: núcleo · inicio / logros / ajustes · partida solo ·
               ruleta · en línea · arranque (PWA)
    ============================================================ */
-const APPV="4.5.1";
+const APPV="4.6.0";
 /* NETV = versión del juego EN LÍNEA (preguntas y reglas). Súbela solo cuando cambien las
    preguntas o las reglas del juego: así quien tenga la app un poco más vieja puede seguir
    jugando con los demás. (La 3.2 y la 3.3 solo agregaron fotos y el lector de la RVR1960, por eso
@@ -4129,12 +4324,12 @@ async function yvTest(out){
   else if(ps.e)why="Juan 3:16 se lee bien, pero Salmos 37:4 no. "+yvMsg(ps.e);
   else why="Todo en orden: el botón «Leer en la Reina-Valera 1960» aparece en las preguntas.";
   say(lines.join("\n")+"\n👉 "+why,good?(ps.e?"":"ok"):"bad")}
-const verseHTML=q=>{const v=verseInfo(q);return`<div class="verse">📖 <b>${esc(v.label)}</b>${v.text?`<i>«${esc(v.text)}» <small>(RV 1909)</small></i>`:""}${rvrOn(q.r)?'<button class="vrv" type="button">📖 Leer en la Reina-Valera 1960</button>':`<a href="${v.url}" target="_blank" rel="noopener">Leer en ${RVN[rvKey()]} · Reina-Valera 1960 ↗</a>`}${v.text?'<button class="vsh" type="button">🖼️ Compartir como imagen</button>':""}${v.text&&Tts.ok?'<button class="vsp" type="button">🔊 Escuchar el versículo</button>':""}</div>`};
+const verseHTML=q=>{const v=verseInfo(q);return`<div class="verse">📖 <b>${esc(v.label)}</b>${v.text?`<i>«${esc(v.text)}» <small>(RV 1909)</small></i>`:""}${rvrOn(q.r)?'<button class="vrv" type="button">📖 Leer en la Reina-Valera 1960</button>':`<a href="${v.url}" target="_blank" rel="noopener">Leer en ${RVN[rvKey()]} · <span class="nw">Reina-Valera 1960 ↗</span></a>`}${v.text?'<button class="vsh" type="button">🖼️ Compartir como imagen</button>':""}${v.text&&Tts.ok?'<button class="vsp" type="button">🔊 Escuchar el versículo</button>':""}</div>`};
 const VOD=["Juan 3:16","Salmos 23:1","Proverbios 3:5","Isaías 40:31","Filipenses 4:13","Romanos 8:28","Salmos 119:105","Jeremías 1:5","2 Corintios 5:17","Efesios 2:8","Romanos 12:2","1 Juan 4:8","Hebreos 11:1","Santiago 1:5","1 Pedro 5:7","Apocalipsis 3:20","Miqueas 6:8","Zacarías 4:6","Salmos 121:1","Mateo 6:9","Proverbios 9:10","Romanos 6:23","2 Timoteo 3:16","Hebreos 13:8","Lamentaciones 3:23","Habacuc 3:18","Eclesiastés 3:1","Isaías 53:7","Mateo 5:13","Juan 10:11","1 Tesalonicenses 5:17","Colosenses 3:23"];
 function verseOfDay(){const n=new Date(),i=Math.floor((new Date(n.getFullYear(),n.getMonth(),n.getDate())-new Date(2026,0,1))/864e5);const r=VOD[((i%VOD.length)+VOD.length)%VOD.length];return{r,t:V[r]||"",url:rvUrl(r)}}
 
 /* ---------- progreso guardado ---------- */
-const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",pic:"",picS:"",yvk:"",miss:{},bq:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0,tts:0,vr:0,kv:1,fon:1,rv:"bt"},kg:0,kst:[],lad:0,lai:0,whi:0,fid:"",fr:[],fsh:0});
+const DEF=()=>({pts:0,streak:0,best:0,last:"",st:{},pass:[0,0,0],name:"",pic:"",picS:"",yvk:"",miss:{},bq:{},fixed:0,rush:0,games:0,ok:0,tot:0,bk:{},wins:0,crowns:0,perfect:0,duels:0,online:0,combo:0,medals:{},set:{snd:1,vib:1,theme:"auto",time:15,big:0,tts:0,vr:0,kv:1,fon:1,rv:"bt",mc:"lamb"},mcHi:0,kg:0,kst:[],lad:0,lai:0,whi:0,fid:"",fr:[],fsh:0});
 let D=DEF();
 try{const s=JSON.parse(localStorage.getItem("tb")||"{}");Object.assign(D,s);D.set=Object.assign(DEF().set,s.set||{});if(!Array.isArray(D.pass))D.pass=[0,0,0];if(!D.medals||typeof D.medals!=="object")D.medals={};if(!D.bk)D.bk={};if(!D.st)D.st={};if(!D.miss||typeof D.miss!=="object")D.miss={};if(!D.bq||typeof D.bq!=="object"||Array.isArray(D.bq))D.bq={};D.kst=Array.isArray(D.kst)?[...new Set(D.kst.filter(i=>Number.isInteger(i)&&i>=0&&i<64))]:[];D.kg=Number.isFinite(+D.kg)&&+D.kg>0?Math.floor(+D.kg):0;D.lad=Number.isFinite(+D.lad)?Math.max(0,Math.min(15,Math.floor(+D.lad))):0;D.lai=D.lai?1:0;if(!okPic(D.pic)||!okPic(D.picS,12000)){D.pic="";D.picS=""}}catch(e){}
 const sv=()=>{try{localStorage.setItem("tb",JSON.stringify(D))}catch(e){}};
@@ -4184,7 +4379,7 @@ const MEDALS=[
   {id:"torw",e:"🥇",t:"Campeón",d:"Gana un torneo con amigos",ok:()=>(D.torw||0)>=1}
 ];
 function checkMedals(){const nw=[];for(const m of MEDALS)if(!D.medals[m.id]&&m.ok()){D.medals[m.id]=todayS();nw.push(m)}if(nw.length)sv();return nw}
-const AVC=["#3e82f7","#2fbf7e","#e5484d","#9b5de5","#e49b12","#d2601f","#14a39a","#d6409f"];
+const AVC=["#2f6fe4","#14814f","#d93a41","#8648d8","#587f0e","#c4510d","#0f847b","#c2308f"]; /* v4.6: los 8 colores dan 4,5:1 o más con la letra blanca (antes el ámbar y el verde se leían mal) */
 const avc=n=>AVC[Math.abs(hstr(String(n)))%AVC.length];
 const ini=n=>(String(n).trim()[0]||"?").toUpperCase();
 /* círculo de jugador: foto si la hay, si no la inicial del nombre */
@@ -4297,6 +4492,7 @@ const miniWheel=()=>{let s='<svg viewBox="-50 -50 100 100" aria-hidden="true"><c
   return s+'<circle r="10" fill="#fff6d6" stroke="#7a4a00" stroke-width="2"/><path d="M-1.8-6h3.6v4.2h4.2v3.6h-4.2v6.6h-3.6v-6.6h-4.2v-3.6h4.2z" fill="#7a4a00"/></svg>'};
 function home(){
   stopAll();
+  const mcL=mcOn()?mcLines():[];if(mcL.length&&!D.mcHi){D.mcHi=1;sv()}
   const rk=rank(),me=D.name||"Jugador",done=D.last===todayS(),vr=verseOfDay(),acc=D.tot?Math.round(100*D.ok/D.tot):0,nmiss=missed().length;
   const canInstall=!standalone()&&(IP||isIOS);
   view(`
@@ -4308,7 +4504,8 @@ function home(){
     <div style="min-width:0"><button class="nm" id="nmb" type="button" aria-label="Cambiar mi nombre">${esc(me)}</button><div class="rk">${rk.e} ${rk.n}</div><div class="xp"><i style="--w:${rk.pct}%"></i></div>
     <div class="xpl"><span>${D.pts.toLocaleString("es")} pts</span><span>${rk.next?"Sigue: "+rk.next:"¡Rango máximo!"}</span></div></div></div>
     <div class="stats3"><div class="st3"><b>🔥 ${streakNow()}</b><span>Racha diaria</span></div><div class="st3"><b>👑 ${D.crowns}</b><span>Coronas</span></div><div class="st3"><b>${acc}%</b><span>Aciertos</span></div></div></section>
-  <section class="vod"><small>Versículo del día</small><p>«${esc(vr.t.replace(/^\(\d+:\d+\)\s*/,""))}»</p><div class="vr"><span>${esc(vr.r)} · RV 1909</span><span>${rvrOn(vr.r)?'<button id="vrd" type="button">Leer</button>':`<a href="${vr.url}" target="_blank" rel="noopener">Leer ↗</a>`} &nbsp; ${Tts.ok?'<button id="vsp" type="button" aria-label="Escuchar el versículo">🔊</button> &nbsp; ':""}<button id="vsh" type="button" aria-label="Compartir versículo como imagen">Compartir</button></span></div></section>
+  ${mcRow(mcL)}
+  <section class="vod"><small>Versículo del día</small><p>«${esc(vr.t.replace(/^\(\d+:\d+\)\s*/,""))}»</p><div class="vr"><span class="vref">${esc(vr.r)} · RV 1909</span><span class="vact">${rvrOn(vr.r)?'<button id="vrd" type="button">Leer</button>':`<a href="${vr.url}" target="_blank" rel="noopener">Leer ↗</a>`}${Tts.ok?'<button id="vsp" type="button" aria-label="Escuchar el versículo">🔊</button>':""}<button id="vsh" type="button" aria-label="Compartir versículo como imagen">Compartir</button></span></div></section>
   <button class="cta" id="rl">${miniWheel()}<div><b>Ruleta de coronas</b><span>Gira, responde y gana ${3} coronas</span></div></button>
   <div class="tiles">
     <button class="tile wide kidt" id="kd" style="--tc:#e0732f"><span class="ic" style="--tc:#e0732f">${ico("smile")}</span><span><b>Modo niños</b><small>Preguntas fáciles, sin reloj${Tts.ok?" y con voz":""}</small></span><span class="tag">Nuevo</span></button>
@@ -4333,7 +4530,7 @@ function home(){
   $("#snd").onclick=()=>{D.set.snd=D.set.snd?0:1;sv();Snd.play("click");home()};
   $("#fzb").onclick=()=>{D.set.big=(fsz()+1)%3;sv();applyTheme();Snd.play("click");home();toast(FSN[fsz()])};
   $("#hlp").onclick=help;
-  tintTiles();
+  tintTiles();mcBind(mcL);
   $("#avb").onclick=()=>pickPhoto(home);
   $("#nmb").onclick=()=>askName(home);
   $("#vsh").onclick=()=>shareVerse(vr.r,vr.t.replace(/^\(\d+:\d+\)\s*/,""));
@@ -4437,7 +4634,7 @@ function bkClean(o){
   R.kst=Array.isArray(o.kst)?[...new Set(o.kst.filter(i=>Number.isInteger(i)&&i>=0&&i<KST.length))].sort((a,b)=>a-b):[];
   R.medals={};if(o.medals&&typeof o.medals==="object")MEDALS.forEach(m=>{if(o.medals[m.id])R.medals[m.id]=String(o.medals[m.id]).replace(/[^\d-]/g,"").slice(0,10)});
   const s=o.set&&typeof o.set==="object"?o.set:{};
-  R.set={snd:s.snd===0||s.snd===false?0:1,vib:s.vib===0||s.vib===false?0:1,big:s.big===2?2:s.big===1||s.big===true?1:0,tts:s.tts===1||s.tts===true?1:0,vr:s.vr===1||s.vr===true?1:0,kv:s.kv===0||s.kv===false?0:1,fon:s.fon===0||s.fon===false?0:1,theme:["auto","light","dark"].includes(s.theme)?s.theme:"auto",time:[0,15,30].includes(+s.time)?+s.time:15,rv:Object.keys(RVN).includes(s.rv)?s.rv:"bt"};
+  R.set={snd:s.snd===0||s.snd===false?0:1,vib:s.vib===0||s.vib===false?0:1,big:s.big===2?2:s.big===1||s.big===true?1:0,tts:s.tts===1||s.tts===true?1:0,vr:s.vr===1||s.vr===true?1:0,kv:s.kv===0||s.kv===false?0:1,fon:s.fon===0||s.fon===false?0:1,theme:["auto","light","dark"].includes(s.theme)?s.theme:"auto",time:[0,15,30].includes(+s.time)?+s.time:15,rv:Object.keys(RVN).includes(s.rv)?s.rv:"bt",mc:["lamb","dove","lion","off"].includes(s.mc)?s.mc:"lamb"};
   return R}
 async function bkRead(code){
   const m=String(code||"").match(/TBP1([zu])\.([A-Za-z0-9_\-\s]+)\.([0-9a-z]{7})/);
@@ -4491,6 +4688,7 @@ function settings(){
   <div class="srow" style="display:block"><b>Tamaño del texto</b><small>Para leer mejor en toda la app. También lo cambias con el botón <b>Aa</b> del inicio</small><div class="seg" id="sFs"><button data-v="0" style="font-size:16px">Normal</button><button data-v="1" style="font-size:19px">Grande</button><button data-v="2" style="font-size:22px">Muy grande</button></div></div>
   <div class="srow" style="display:block"><b>Tema</b><div class="seg" id="sTh"><button data-v="auto">Automático</button><button data-v="light">Claro</button><button data-v="dark">Oscuro</button></div></div>
   <div class="srow" style="display:block"><b>Tiempo por pregunta</b><small>Normal: 15 s · Relajado: 30 s. En línea siempre son 15 s</small><div class="seg" id="sTm"><button data-v="15">15 s</button><button data-v="30">30 s</button><button data-v="0">Sin tiempo</button></div></div></div>
+  <div class="card" style="margin-top:.8rem"><div class="srow" style="display:block;padding-top:0"><b>🐑 Tu compañero</b><small>Te saluda en el inicio, se alegra cuando aciertas y te anima cuando fallas.</small></div>${mcPick()}</div>
   <div class="card" style="margin-top:.8rem"><div class="srow" style="display:block;padding-top:0"><b>👥 Amigos</b><small>Agrégalos una vez y después los invitas a jugar con un toque.</small></div>
   ${sw("sFon",s.fon!==0,"Aparecer en línea","Tus amigos ven que tienes la app abierta y pueden invitarte")}
   <button class="btn ghost sm" id="sFr" type="button" style="margin-top:.6rem;width:100%">👥 Mis amigos${D.fr.length?" ("+D.fr.length+")":""}</button></div>
@@ -4519,6 +4717,7 @@ function settings(){
     $("#yvT").onclick=()=>{D.yvk=($("#yvk").value||"").replace(/["'\s]/g,"");$("#yvk").value=D.yvk;sv();$("#yvX").disabled=!D.yvk;RVR_OK=null;$("#yvS").textContent=yvState();if(!D.yvk){$("#yvR").textContent="Pega primero la clave.";return}yvTest($("#yvR")).then(()=>{const s=$("#yvS");if(s)s.textContent=yvState()})};
     $("#yvX").onclick=()=>{D.yvk="";sv();$("#yvk").value="";$("#yvX").disabled=true;$("#yvR").textContent="";RVR_OK=null;$("#yvS").textContent=yvState();toast("Clave quitada");yvProbe().then(()=>{const s=$("#yvS");if(s)s.textContent=yvState()})};}
   const tg=(id,k,fn)=>$("#"+id).onclick=e=>{D.set[k]=D.set[k]?0:1;sv();e.currentTarget.setAttribute("aria-checked",!!D.set[k]);fn&&fn();Snd.play("click");if(k==="vib")vib(40)};
+  mcPickBind();
   tg("sSnd","snd");tg("sVib","vib");seg("sFs",fsz,v=>{D.set.big=+v;applyTheme()});
   tg("sFon","fon",()=>{frQuiet=0;frBeat()});$("#sFr").onclick=()=>{Snd.play("click");amigos()};
   if(Tts.ok){tg("sTts","tts");seg("sVr",()=>D.set.vr,v=>{D.set.vr=+v;Tts.stop()});
@@ -4583,7 +4782,8 @@ function rushEnd(){if(!G||G.over)return;G.over=1;clearTimeout(G.adv);Tm.stop();e
 function showSheet({good,title,q,btn,btnCls,wait,next,kid,auto,note}){ /* auto: undefined = lo normal (leer el versículo si está activado); un texto = leerlo; false = no leer nada */
   document.body.classList.add("sheeted");
   const el=document.createElement("div");el.className="sheet "+(good?"ok":"bad")+(kid?" kid":"");el.setAttribute("role","status");
-  el.innerHTML=`<div><h3>${title}</h3>${note?`<p class="lnote">${note}</p>`:""}${good||!q?"":`<p class="ans">Respuesta correcta: <b>${q.a}</b></p>`}${q?verseHTML(q):""}${btn?`<button class="btn ${btnCls||"blue"}" id="nx">${btn}</button>`:`<p class="sub" style="margin:.2rem 0 0">${wait||""}</p>`}</div>`;
+  const mc=mcHTML(good?(kid?"cheer":"happy"):(kid?"idle":"sad"),"sh "+(good?"hop":"sag")); /* el compañero (si lo hay) se alegra o se apena al lado del título */
+  el.innerHTML=`<div>${mc?'<div class="shh"><div class="shm">':""}<h3>${title}</h3>${note?`<p class="lnote">${note}</p>`:""}${good||!q?"":`<p class="ans">Respuesta correcta: <b>${q.a}</b></p>`}${mc?`</div>${mc}</div>`:""}${q?verseHTML(q):""}${btn?`<button class="btn ${btnCls||"blue"}" id="nx">${btn}</button>`:`<p class="sub" style="margin:.2rem 0 0">${wait||""}</p>`}</div>`;
   document.body.appendChild(el);
   const vb=$(".vsh",el);if(vb&&q){const v=verseInfo(q);vb.onclick=()=>shareVerse(v.label,v.text)}
   const rb=$(".vrv",el);if(rb&&q){const v=verseInfo(q);rb.onclick=()=>rvrRead(q.r,v.label)}
@@ -5010,7 +5210,7 @@ function arEnd(){
   D.pts+=a.pts;D.games++;D.arm=(D.arm||0)+a.n;D.armP=(D.armP||0)+a.perf;
   const nm=checkMedals();sv();const rk=rank();
   const trophy=["🌱","📖","🎉","🏆"][stars],msg=["No te desanimes: repetir es la clave para memorizar.","¡Buen comienzo! Con práctica se te van a quedar.","¡Muy bien! Estás guardando la Palabra en tu corazón.","¡Impecable! Tu memoria bíblica va creciendo."][stars];
-  view(`<div class="res"><div class="trophy${stars?"":" dim"}">${laurelArt()}${trophy}</div>
+  view(`<div class="res"><div class="trophy${stars?"":" dim"}">${laurelArt()}${trophy}${mcHTML(stars>=2?"cheer":stars===1?"happy":"idle","rs"+(stars?" hop":""))}</div>
   <div class="stars" aria-label="${stars} de 3 estrellas">${[0,1,2].map(i=>`<span class="${i<stars?"on":""}" style="animation-delay:${.35+i*.22}s">${starArt()}</span>`).join("")}</div>
   <div class="score" id="scn">0</div><p class="sub" style="margin:.1rem 0 0">puntos · ${a.n} versículos armados</p>
   <p class="msg">${msg}</p>
@@ -5123,7 +5323,7 @@ function endGame(){
   if(g.mode==="reto")btns=g.rival?`<button class="btn gold" id="again">🔁 Revancha: ahora retas tú</button><button class="btn ghost" id="shr">📣 Contarle a ${esc(g.rival.n)}</button><button class="btn ghost" id="hm">Inicio</button>`
     :`<button class="btn gold" id="rsend">⚔️ Mandar el reto a un amigo</button><button class="btn ghost" id="again">Jugar otro reto</button><button class="btn ghost" id="hm">Inicio</button>`;
   if(g.mode==="online"&&RM)btns=btns.replace('<button class="btn ghost" id="shr">',chRes()+'<button class="btn ghost" id="shr">');
-  view(`<div class="res"><div class="trophy${stars?"":" dim"}">${laurelArt()}${trophy}</div>
+  view(`<div class="res"><div class="trophy${stars?"":" dim"}">${laurelArt()}${trophy}${mcHTML(stars>=2?"cheer":stars===1?"happy":"idle","rs"+(stars?" hop":""))}</div>
   <div class="stars" aria-label="${stars} de 3 estrellas">${[0,1,2].map(i=>`<span class="${i<stars?"on":""}" style="animation-delay:${.35+i*.22}s">${starArt()}</span>`).join("")}</div>
   <div class="score" id="scn">0</div><p class="sub" style="margin:.1rem 0 0">puntos · ${g.mode==="lad"?`peldaño ${g.ok} de ${n}`:`${g.ok}/${n} correctas`}</p>
   <p class="msg">${msg}</p>${duelTxt}
@@ -5372,7 +5572,7 @@ function rEnd(w){ /* w: el jugador ganador o, por equipos, el equipo ganador */
   D.games++;if(won)D.wins++;if(R.on)D.online++;const nm=checkMedals();sv();
   const rows=T?R.TM.map((t,ti)=>`<div class="${ti===wi?"me":""}"><span>${TMN[ti]}<small style="display:block;color:var(--mut);font-weight:600">${t.mem.map(k=>esc(R.ps[k].n)).join(", ")}</small></span><span>${"👑".repeat(t.cr)||"—"}</span></div>`).join("")
     :R.ps.map((q,i)=>`<div class="${q===w?"me":""}"><span><i class="mav" style="--avc:${avc(q.n)}">${avIn(q.n,picOf(q,i))}</i>${esc(q.n)}${q.bot?" 🤖":""}</span><span>${"👑".repeat(q.cr)||"—"}</span></div>`).join("");
-  view(`<div class="res"><div class="trophy">${laurelArt()}🏆</div><h1 class="h1" style="font-size:1.9rem">¡${T?TMN[wi]:esc(w.n)} ganó!</h1><p class="sub">${won?"¡Felicidades, buen trabajo!":"¡Buena partida!"}</p>
+  view(`<div class="res"><div class="trophy">${laurelArt()}🏆${mcHTML(won?"cheer":"happy","rs hop")}</div><h1 class="h1" style="font-size:1.9rem">¡${T?TMN[wi]:esc(w.n)} ganó!</h1><p class="sub">${won?"¡Felicidades, buen trabajo!":"¡Buena partida!"}</p>
   <div class="card rank">${rows}</div>
   <div class="chips">${nm.map(m=>`<span class="chip new">${m.e} ${m.t}</span>`).join("")}</div></div>
   <button class="btn gold" id="ag">${R.on?"Volver a la sala":"Revancha"}</button>${R.on&&RM?chRes():""}<button class="btn ghost" id="hm">Inicio</button>`,"result");
