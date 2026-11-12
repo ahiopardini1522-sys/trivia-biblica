@@ -82,7 +82,7 @@ color-scheme:light;
 html[data-theme="dark"]{color-scheme:dark}
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{font-size:16px;-webkit-text-size-adjust:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+html{font-size:16px;-webkit-text-size-adjust:100%;scroll-padding-top:env(safe-area-inset-top,0px);overscroll-behavior-y:contain} /* evita que deslizar hacia abajo arriba de todo recargue la app en medio de una partida */
 html.big{font-size:19px}
 body{margin:0;min-height:100vh;min-height:100dvh;font-family:var(--f-ui);color:var(--ink);line-height:1.4;overflow-x:hidden;
   background:radial-gradient(900px 480px at 50% -140px,var(--glow),transparent 70%),radial-gradient(560px 460px at 110% 105%,rgba(67,136,255,.16),transparent 70%),linear-gradient(180deg,var(--bg1),var(--bg0)) fixed;
@@ -98,7 +98,7 @@ a{color:var(--goldtxt)}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0;touch-action:manipulation;-webkit-user-select:none;user-select:none}
 button:disabled{cursor:default}
 button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-.screen{animation:in .32s ease both}
+.screen{animation:in .2s ease-out both}
 .center{text-align:center}
 .sub{color:var(--mut);text-align:center;margin:.35rem 0 1rem;font-size:.95rem}
 .h1{font-size:1.7rem;text-align:center;margin:.2rem 0 .3rem;background:linear-gradient(90deg,var(--titleA),var(--titleB));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -160,7 +160,7 @@ button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visibl
 /* ---- CTA y fichas ---- */
 .cta{display:flex;align-items:center;gap:1rem;width:100%;margin-top:1rem;padding:1rem 1.1rem;border-radius:1.5rem;text-align:left;color:var(--goldink);background:linear-gradient(135deg,#ffd870,#f2a916);box-shadow:0 6px 0 #a86d07,0 16px 26px rgba(0,0,0,.35);position:relative;overflow:hidden;transition:transform .08s,box-shadow .08s}
 .cta:active{transform:translateY(5px);box-shadow:0 1px 0 #a86d07,0 4px 10px rgba(0,0,0,.3)}
-.cta:after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-18deg);animation:shine 4.5s ease-in-out infinite}
+.cta:after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:translateX(0) skewX(-18deg);will-change:transform;animation:shine 4.5s ease-in-out infinite}
 .cta svg{width:4.6rem;height:4.6rem;flex:none;animation:spin 16s linear infinite;filter:drop-shadow(0 4px 6px rgba(0,0,0,.3))}
 .cta b{display:block;font-family:var(--f-disp);font-size:1.5rem;line-height:1.1}
 .cta span{font-size:.92rem;font-weight:600;opacity:.85}
@@ -191,7 +191,8 @@ button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visibl
 .nav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;padding:.4rem .8rem calc(.45rem + env(safe-area-inset-bottom,0px));pointer-events:none}
 .nav[hidden]{display:none}
 .nav>div{pointer-events:auto;display:flex;gap:.25rem;width:100%;max-width:28.5rem;background:var(--navbg);border:1px solid var(--line);border-radius:1.5rem;padding:.35rem;box-shadow:0 10px 30px rgba(0,0,0,.4)}
-.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:.05rem;padding:.4rem 0;border-radius:1.15rem;font-size:.72rem;font-weight:700;color:var(--mut);transition:background .2s}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:.05rem;padding:.4rem 0;border-radius:1.15rem;font-size:.72rem;font-weight:700;color:var(--mut);transition:background .2s,transform .1s}
+.nav button:active{transform:scale(.92)}
 .nav button span{font-size:1.3rem;line-height:1.2}
 .nav button.on{background:var(--gold);color:var(--goldink)}
 
@@ -215,15 +216,15 @@ button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visibl
 .ring svg{position:relative;width:100%;height:100%;transform:rotate(-90deg)}
 .ring circle{fill:none;stroke-width:4.5}
 .ring .tr{stroke:rgba(255,255,255,.3)}
-.ring .pg{stroke:#fff;stroke-linecap:round;stroke-dasharray:100.53;stroke-dashoffset:0;transition:stroke-dashoffset .12s linear,stroke .3s}
+.ring .pg{stroke:#fff;stroke-linecap:round;stroke-dasharray:100.53;stroke-dashoffset:0;transition:stroke .3s}
 .ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:.95rem;font-weight:900;color:#fff}
 .ring.warn{animation:pulse .6s infinite}
 .ring.warn .pg{stroke:#ffd23f}.ring.warn b{color:#ffd23f}
 .combo{display:flex;justify-content:center;min-height:1.9rem;margin-top:.3rem}
 .combo span{padding:.25rem .8rem;border-radius:2rem;background:linear-gradient(180deg,#d4531a,#bf410d);color:#fff;font-weight:900;font-size:.85rem;animation:pop .4s both;box-shadow:0 3px 0 #9b3208}
 .opts{display:grid;gap:.65rem;margin-top:.4rem}
-.opt{display:flex;align-items:center;gap:.8rem;width:100%;text-align:left;padding:.8rem .9rem;min-height:3.6rem;border-radius:1.1rem;background:var(--panel);border:2px solid var(--line);box-shadow:0 4px 0 rgba(0,0,0,.2);font-size:1.05rem;font-weight:650;transition:transform .08s,background .2s,border-color .2s,opacity .25s;line-height:1.25;animation:in .35s both}
-.opt:nth-child(2){animation-delay:.05s}.opt:nth-child(3){animation-delay:.1s}.opt:nth-child(4){animation-delay:.15s}
+.opt{display:flex;align-items:center;gap:.8rem;width:100%;text-align:left;padding:.8rem .9rem;min-height:3.6rem;border-radius:1.1rem;background:var(--panel);border:2px solid var(--line);box-shadow:0 4px 0 rgba(0,0,0,.2);font-size:1.05rem;font-weight:650;transition:transform .08s,background .2s,border-color .2s,opacity .25s;line-height:1.25;animation:in .22s ease-out both}
+.opt:nth-child(2){animation-delay:.03s}.opt:nth-child(3){animation-delay:.06s}.opt:nth-child(4){animation-delay:.09s}
 .opt:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.2)}
 .opt .ltr{flex:none;width:2.1rem;height:2.1rem;border-radius:.7rem;display:grid;place-items:center;font-weight:900;background:var(--gold);color:var(--goldink)}
 .opt.ok{background:linear-gradient(180deg,#46dc9a,#22a869);border-color:#178a58;color:#052e1b;animation:bounce .5s}
@@ -410,7 +411,7 @@ textarea.bkt{width:100%;font:inherit;font-size:.82rem;line-height:1.35;color:var
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @keyframes blink{0%{opacity:1}50%{opacity:.25}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes shine{0%,60%{left:-60%}100%{left:130%}}
+@keyframes shine{0%,60%{transform:translateX(0) skewX(-18deg)}100%{transform:translateX(475%) skewX(-18deg)}}
 
 @media (min-width:640px){
   #app{padding-top:2rem}
@@ -626,7 +627,7 @@ html.xbig .kst{grid-template-columns:repeat(2,minmax(0,1fr))}
    tipografías incrustadas (Lora y Poppins) y brillos de festejo. Todo el movimiento se apaga con «reducir movimiento».
    ============================================================ */
 body{background:radial-gradient(760px 440px at 50% -130px,var(--glow),transparent 70%),radial-gradient(520px 520px at 112% 12%,rgba(150,92,255,.2),transparent 70%),radial-gradient(560px 480px at -12% 104%,rgba(67,136,255,.22),transparent 70%),linear-gradient(180deg,var(--bg1),var(--bg0)) fixed;background-color:var(--bg0)}
-body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-image:var(--stars-img);background-size:300px 300px;opacity:var(--star-op);animation:twk 7s ease-in-out infinite alternate;-webkit-mask-image:linear-gradient(180deg,#000 0,rgba(0,0,0,.55) 110px,transparent 250px);mask-image:linear-gradient(180deg,#000 0,rgba(0,0,0,.55) 110px,transparent 250px)}
+body:after{content:"";position:fixed;inset:0 0 auto 0;height:250px;pointer-events:none;z-index:0;background-image:var(--stars-img);background-size:300px 300px;opacity:var(--star-op);animation:twk 7s ease-in-out infinite alternate;-webkit-mask-image:linear-gradient(180deg,#000 0,rgba(0,0,0,.55) 110px,transparent 250px);mask-image:linear-gradient(180deg,#000 0,rgba(0,0,0,.55) 110px,transparent 250px)}
 @keyframes twk{from{opacity:calc(var(--star-op)*.5)}to{opacity:var(--star-op)}}
 @keyframes twk2{from{opacity:.2}to{opacity:1}}
 @keyframes hrot{from{transform:rotate(-8deg)}to{transform:rotate(8deg)}}
@@ -825,7 +826,7 @@ html.big .legend,html.xbig .legend{grid-template-columns:repeat(2,minmax(0,1fr))
 .clues li{display:flex;gap:.55rem;align-items:flex-start;padding:.45rem .6rem;border-radius:.8rem;background:rgba(120,120,120,.12);background:color-mix(in srgb,var(--cc) 10%,transparent);border:1px solid rgba(120,120,120,.2);overflow-wrap:anywhere}
 .clues li i{flex:none;display:grid;place-items:center;width:1.35rem;height:1.35rem;margin-top:.08rem;border-radius:50%;background:var(--cc);color:var(--on);font-style:normal;font-size:.75rem;font-weight:800}
 .clues li span{min-width:0}
-.clues li.new{animation:in .35s both}
+.clues li.new{animation:in .25s ease-out both}
 .clues li.off{opacity:.62}
 .clues li.off i{background:rgba(120,120,120,.55);color:#fff}
 #clue{width:100%;margin:.7rem 0 0}
@@ -976,7 +977,7 @@ function burstAt(el,n=16){
    Secciones: núcleo · inicio / logros / ajustes · partida solo ·
               ruleta · en línea · arranque (PWA)
    ============================================================ */
-const APPV="4.4.0";
+const APPV="4.4.1";
 /* NETV = versión del juego EN LÍNEA (preguntas y reglas). Súbela solo cuando cambien las
    preguntas o las reglas del juego: así quien tenga la app un poco más vieja puede seguir
    jugando con los demás. (La 3.2 y la 3.3 solo agregaron fotos y el lector de la RVR1960, por eso
@@ -991,7 +992,7 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>"&#"+c.charCodeAt(0)+";");
 const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
 function rng(seed){let a=seed;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function shuffle(arr,r=Math.random){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-const day=d=>d.toLocaleDateString("sv"),todayS=()=>day(new Date());
+const day=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"),todayS=()=>day(new Date()); /* «2026-11-09» en hora local; antes usaba toLocaleDateString, que es lento y se llama muchas veces al abrir */
 const hstr=s=>{let h=7;for(const c of s)h=(h*31+c.charCodeAt(0))|0;return h};
 const hh=s=>{let h=5381;for(const c of s)h=((h*33)^c.charCodeAt(0))>>>0;return h.toString(36)};
 function shade(hex,a){const n=parseInt(hex.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;const f=a<0?0:255,p=Math.abs(a);r=Math.round((f-r)*p+r);g=Math.round((f-g)*p+g);b=Math.round((f-b)*p+b);return"#"+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1)}
@@ -4433,7 +4434,7 @@ function logAnswer(q,good){
   if(q.who&&good){D.wh=(D.wh||0)+1;if(G&&G.wn<=2)D.whq=(D.whq||0)+1} /* «Adivina el personaje» tampoco */
   if(good){if(D.miss[q.id]){delete D.miss[q.id];D.fixed=(D.fixed||0)+1}}
   else if(!q.cz&&!q.who){D.miss[q.id]=Date.now();const ks=Object.keys(D.miss);if(ks.length>150)ks.sort((a,b)=>D.miss[a]-D.miss[b]).slice(0,ks.length-150).forEach(k=>delete D.miss[k])}}
-function ringTick(l,t){const pg=$("#pg"),r=$("#ring");if(!pg)return;pg.style.strokeDashoffset=(100.53*(1-l/t)).toFixed(2);$("#rn").textContent=Math.ceil(l);
+function ringTick(l,t){const pg=$("#pg"),r=$("#ring");if(!pg)return;pg.style.strokeDashoffset=(100.53*(1-l/t)).toFixed(2);const sg=Math.ceil(l),rn=$("#rn");if(rn&&rn.dataset.s!==String(sg)){rn.dataset.s=sg;rn.textContent=sg} /* el número se toca solo cuando cambia de segundo */
   const w=l<=5&&l>0;r.classList.toggle("warn",w);if(w&&Math.ceil(l)!==lastSec){lastSec=Math.ceil(l);Snd.play("time")}}
 function rushTick(l,t){const b=$("#gbar"),g=$("#gtime"),r=$(".rbar");if(b)b.style.width=Math.max(0,l/t*100).toFixed(1)+"%";if(g)g.textContent=Math.ceil(l);if(r){r.classList.toggle("warn",l<=10);if(l<=5&&l>0&&Math.ceil(l)!==lastSec){lastSec=Math.ceil(l);Snd.play("time")}}}
 function rushEnd(){if(!G||G.over)return;G.over=1;clearTimeout(G.adv);Tm.stop();endGame()}
@@ -5825,6 +5826,10 @@ const routed=route();
 /* ¿puede esta clave leer la Reina-Valera 1960? Si sí, aparece el botón de lectura (sin internet o si no, queda el enlace) */
 yvProbe().then(ok=>{if(ok&&VIEW==="home"&&!$("#modal"))home()});
 if(!routed&&!D.name&&!D.skipName)setTimeout(()=>{if(VIEW==="home")askName(home)},500);
+
+/* Precarga las tipografías en un momento libre: la primera vez que se usaban (al responder y salir el versículo) se notaba un tironcito */
+{const idle=f=>window.requestIdleCallback?requestIdleCallback(f,{timeout:3000}):setTimeout(f,1500);
+ idle(()=>{try{["400 16px TBLora","italic 400 16px TBLora","500 16px TBPoppins","800 16px TBPoppins"].forEach(f=>document.fonts.load(f).catch(()=>{}))}catch(e){}})}
 
 </script>
 </body>

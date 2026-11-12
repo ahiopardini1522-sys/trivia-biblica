@@ -1,5 +1,14 @@
-TRIVIA BÍBLICA · versión 4.4.0
+TRIVIA BÍBLICA · versión 4.4.1
 ==============================
+
+NOVEDADES DE LA 4.4.1 (la app se mueve más suave)
+  - El brillo de la tarjeta de la Ruleta y el aro del reloj ya no obligan al celular a
+    redibujar la pantalla sin parar: la app gasta mucha menos batería y responde mejor.
+  - Las pantallas y las opciones aparecen más rápido.
+  - La primera respuesta de cada partida ya no da un tironcito.
+  - Deslizar hacia abajo estando arriba de todo ya no recarga la app en medio de una
+    partida.
+  - Se puede jugar en línea con quienes tengan la 4.4.0 (no cambia nada del juego).
 
 NOVEDADES DE LA 4.4 · TORNEO CON AMIGOS, ADIVINA EL PERSONAJE Y MÁS PREGUNTAS
   - 🏆 Torneo con amigos. Al crear una sala en «Con amigos» elige «🏆 Torneo» (también
