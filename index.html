@@ -65,7 +65,7 @@ color-scheme:light;
 --mde1:#ffffff;--mde2:#f1e7cb;--mdr1:#c3c9e3;--mdr2:#8a94bf;
 --soff1:rgba(22,34,75,.13);--soff2:rgba(22,34,75,.06);--soffr:rgba(22,34,75,.3);
 --h0:#c4d8f3;--clo:.85;
---s-f:.2;--s-m:.24;--s-n:.38;--s-w:.9;--s-wf:#ffffff;}}
+--s-f:.2;--s-m:.24;--s-n:.38;--s-w:.9;--s-wf:#ffffff;--s-rb:.58;}}
 html[data-theme="light"]{--bg0:#efe2bf;--bg1:#f9f1dc;--bg2:#fdf8ea;
 --panel:rgba(255,255,255,.82);--panel2:#f6ecd0;--line:rgba(24,36,79,.17);
 --ink:#16224b;--mut:#4f5b88;--soft:#7a86b0;
@@ -86,7 +86,7 @@ color-scheme:light;
 --mde1:#ffffff;--mde2:#f1e7cb;--mdr1:#c3c9e3;--mdr2:#8a94bf;
 --soff1:rgba(22,34,75,.13);--soff2:rgba(22,34,75,.06);--soffr:rgba(22,34,75,.3);
 --h0:#c4d8f3;--clo:.85;
---s-f:.2;--s-m:.24;--s-n:.38;--s-w:.9;--s-wf:#ffffff;}
+--s-f:.2;--s-m:.24;--s-n:.38;--s-w:.9;--s-wf:#ffffff;--s-rb:.58;}
 html[data-theme="dark"]{color-scheme:dark}
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -699,9 +699,13 @@ body:after{content:"";position:fixed;inset:0 0 auto 0;height:250px;pointer-event
 .dots i.bad{background:linear-gradient(180deg,#ff9494,var(--bad))}
 .dots i.cur{background:linear-gradient(180deg,#ffe699,var(--gold));box-shadow:0 0 0 3px var(--glow),0 0 12px var(--glow)}
 .ring .pg{filter:drop-shadow(0 0 3px rgba(255,255,255,.65))}
-.opt{font-family:var(--f-btn);font-weight:500;background:linear-gradient(180deg,var(--g1),var(--g2));border-radius:1.2rem;box-shadow:0 4px 0 rgba(0,0,0,.24),inset 0 1px 0 var(--hl)}
+.opt{font-family:var(--f-btn);font-weight:500;background:linear-gradient(90deg,color-mix(in srgb,var(--lc,var(--gold)) 17%,transparent),transparent 52%),linear-gradient(180deg,var(--g1),var(--g2));border-radius:1.2rem;box-shadow:0 4px 0 rgba(0,0,0,.24),inset 0 1px 0 var(--hl)}
 .opt>span:nth-child(2){flex:1;min-width:0}
-.opt .ltr{width:2.25rem;height:2.25rem;border-radius:50%;font-family:var(--f-btn);background:radial-gradient(circle at 32% 26%,#fff0b8,var(--gold) 52%,var(--gold2));box-shadow:0 2px 0 var(--goldd),inset 0 1px 0 rgba(255,255,255,.7)}
+.opt .ltr{width:2.25rem;height:2.25rem;border-radius:50%;font-family:var(--f-btn);background:radial-gradient(circle at 32% 26%,var(--lc1,#fff0b8),var(--lc,var(--gold)) var(--lcs,52%),var(--lc2,var(--gold2)));color:var(--lci,var(--goldink));box-shadow:0 2px 0 var(--lcd,var(--goldd)),inset 0 1px 0 rgba(255,255,255,.7)}
+/* cada respuesta tiene su color (A azul, B violeta, C dorado, D turquesa): se ubican de un vistazo; el modo niños tiene los suyos */
+#app:not(.kids) .opt:nth-child(1){--lc1:#4d7fe6;--lc:#2c5fd0;--lc2:#1d3c9c;--lcs:22%;--lcd:#132a73;--lci:#fff}
+#app:not(.kids) .opt:nth-child(2){--lc1:#9068f0;--lc:#6f3fdc;--lc2:#4a25a4;--lcs:22%;--lcd:#2f186f;--lci:#fff}
+#app:not(.kids) .opt:nth-child(4){--lc1:#b0f4ea;--lc:#2cc2b3;--lc2:#14907f;--lcd:#0a574d;--lci:#032d27}
 .opt.ok{box-shadow:0 4px 0 #0f7a4a,0 0 26px rgba(47,191,126,.5)}
 .opt.bad{box-shadow:0 4px 0 #8f1f25,0 0 24px rgba(239,90,90,.4)}
 .opt.ok:after,.opt.bad:after{flex:none;width:1.75rem;height:1.75rem;border-radius:50%;display:grid;place-items:center;font:900 1rem/1 var(--f-ui);animation:pop .4s .1s both}
@@ -908,10 +912,11 @@ html.big .legend,html.xbig .legend{grid-template-columns:repeat(2,minmax(0,1fr))
 
 /* Escenas de fondo de la pantalla de pregunta: siluetas del color del bloque que llenan la parte de abajo (se desvanecen hacia arriba) */
 :root{--h0:#4a4aa4;--cl:#fff;--clo:.06}
-:root{--s-f:.21;--s-m:.27;--s-n:.62;--s-w:.5;--s-wf:#fff4d4}
+:root{--s-f:.21;--s-m:.27;--s-n:.62;--s-w:.5;--s-wf:#fff4d4;--s-rb:.82}
 #bgs{position:fixed;left:0;right:0;bottom:0;height:min(64vw,350px);z-index:0;pointer-events:none;opacity:0;transition:opacity .45s;-webkit-mask-image:linear-gradient(0deg,#000 58%,transparent);mask-image:linear-gradient(0deg,#000 58%,transparent)}
 #bgs.on{opacity:1}
 #bgs.on.dim{opacity:.28}
+#bgs.on.off{opacity:0}
 #bgs svg{display:block;width:100%;height:100%}
 #bgs .f,.bkh .f{fill:var(--ccl);opacity:var(--s-f)}
 #bgs .m,.bkh .m{fill:var(--cc);opacity:var(--s-m)}
@@ -919,6 +924,7 @@ html.big .legend,html.xbig .legend{grid-template-columns:repeat(2,minmax(0,1fr))
 #bgs .g,.bkh .g{fill:#ffe49a}
 #bgs .w,.bkh .w{fill:var(--s-wf);opacity:var(--s-w)}
 #bgs .s,.bkh .s{fill:none;stroke:var(--ccd);opacity:var(--s-n)}
+#bgs .rb{opacity:var(--s-rb)}
 /* Mapa de la Biblia: cada bloque abre con su escena (la misma de la pantalla de pregunta) */
 .h2.bkh{position:relative;isolation:isolate;overflow:hidden;border-radius:1.15rem;align-items:flex-end;margin:1.4rem 0 .7rem;padding:3.1rem .95rem .7rem;border:1px solid var(--line);border-bottom:3px solid var(--cc);background:var(--panel);font-size:1.25rem}
 .bkh svg{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;display:block}
@@ -976,6 +982,38 @@ html.big .mcpick,html.xbig .mcpick{grid-template-columns:repeat(2,minmax(0,1fr))
 .mcpick .mc{--mcs:3.4rem}
 .mcpick .mcx{display:grid;place-items:center;width:3.4rem;height:3.4rem;font-size:1.7rem;opacity:.7}
 .mcpick b{font-size:.82rem;overflow-wrap:anywhere;text-align:center}
+
+/* ---- 4.7.0 · estadísticas: cada número con su ícono de color; la precisión lleva un aro ---- */
+.sbox{display:flex;align-items:center;gap:.7rem;text-align:left;padding:.7rem .75rem;background:linear-gradient(135deg,color-mix(in srgb,var(--sc,var(--gold)) 17%,transparent),transparent 64%),linear-gradient(180deg,var(--g1),var(--g2));border:1px solid color-mix(in srgb,var(--sc,var(--gold)) 36%,var(--line));box-shadow:0 3px 0 rgba(0,0,0,.16),inset 0 1px 0 var(--hl)}
+.sbox{min-width:0}
+.sgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.sbox>div{flex:1;min-width:0}
+.sbox span{overflow-wrap:anywhere}
+.sbox b{font-size:1.5rem;line-height:1.05}
+.sbox span{display:block;margin-top:.12rem;line-height:1.2}
+.sbi{position:relative;flex:none;display:grid;place-items:center;width:2.6rem;height:2.6rem;border-radius:.85rem;font-style:normal;font-size:1.3rem;line-height:1;background:linear-gradient(150deg,color-mix(in srgb,var(--sc) 88%,transparent),color-mix(in srgb,var(--sc) 50%,transparent));box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 2px 0 color-mix(in srgb,var(--sc) 55%,#000)}
+.sbi.pr{border-radius:50%;background:none;box-shadow:none}
+.sbi.pr s{position:absolute;inset:0;border-radius:50%;background:conic-gradient(var(--sc) calc(var(--p)*1%),rgba(127,127,170,.3) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4.5px))}
+html.big .sbi,html.xbig .sbi{width:2.3rem;height:2.3rem;font-size:1.15rem}
+html.big .sbox b{font-size:1.35rem}html.xbig .sbox b{font-size:1.2rem}
+html.xbig .sbox{gap:.5rem;padding:.6rem}
+
+/* ---- 4.7.0 · ajustes: cada sección con su ícono de color ---- */
+.sch{align-items:center;gap:.75rem;padding-top:0;margin-bottom:.1rem}
+.sch>div{flex:1;min-width:0}
+.sch b{font-family:var(--f-btn);font-weight:600;font-size:1.02rem}
+.sch+.srow{border-top:0}
+.sci{flex:none;display:grid;place-items:center;width:2.6rem;height:2.6rem;border-radius:.85rem;font-style:normal;font-size:1.3rem;line-height:1;background:linear-gradient(150deg,color-mix(in srgb,var(--ic) 90%,transparent),color-mix(in srgb,var(--ic) 52%,transparent));box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 2px 0 color-mix(in srgb,var(--ic) 55%,#000)}
+html.big .sci,html.xbig .sci{width:2.3rem;height:2.3rem;font-size:1.15rem}
+
+/* ---- 4.7.0 · el aro de tu foto en el inicio toma el color de tu rango ---- */
+.avw .av{border-color:var(--rkc,var(--gold));box-shadow:0 0 0 3px color-mix(in srgb,var(--rkc,var(--gold)) 34%,transparent),0 4px 12px rgba(0,0,0,.3)}
+/* botones un poco más altos para el pulgar (en 320 px de ancho medían 33–34 px) */
+button.pill{min-height:2.4rem}
+.seg button{min-height:2.5rem}
+/* texto grande: los recuadros de estadísticas van de a uno por fila para que ninguna palabra se corte ni se salga */
+@media (max-width:400px){html.big .sgrid{grid-template-columns:minmax(0,1fr)}}
+html.xbig .sgrid{grid-template-columns:minmax(0,1fr)}
 
 </style>
 </head>
@@ -1098,23 +1136,28 @@ const SCN=[
   /* 4 · Evangelios y Hechos: la estrella de Belén, una cruz en la colina, el mar de Galilea y una barca */
   ()=>`<g class="g"></g>${GLW(64,70,52,.7)}<g class="g"><path d="M64 36Q66.6 66 96 70Q66.6 74 64 104Q61.4 74 32 70Q61.4 66 64 36Z" style="opacity:.72"/></g><g class="f"><path d="M0 152C50 136 100 148 160 142S280 130 360 146V200H0Z"/></g><g class="m"><path d="M258 152C268 134 282 128 292 130C304 132 314 142 324 152Z"/><path d="${wvs(160,6,12)}"/></g><g class="w" style="opacity:.55"><rect x="289" y="112" width="3.4" height="20"/><rect x="282" y="118" width="17" height="3.4"/></g><g class="n"><path d="${wvs(180,7,9,40)}"/><path d="M0 193C60 187 120 197 180 193S300 187 360 195V200H0Z"/></g><path class="w" d="M146 172h66l-10 15h-46Z" style="opacity:.42"/><path class="s" d="M180 172V128" style="stroke-width:2.2"/><g class="w"><path d="M182 130L212 168H182Z"/><path d="M178 136L154 168H178Z" style="opacity:.8"/></g><g class="w" style="opacity:.5"><path d="M290 164h22l-4 6h-14z"/><path d="M301 164v-14l9 12z"/></g>`,
   /* 5 · Cartas y Apocalipsis: la ciudad de luz en el horizonte y la nave de Pablo */
-  ()=>`${GLW(180,112,104,.7)}<g class="m"><path d="M108 158V104h18V158Z"/><path d="M128 158V84h14V158Z"/><path d="M128 84l7-18 7 18Z"/><path d="M144 158V76a12 12 0 0 1 24 0V158Z"/><path d="M170 158V70h20V158Z"/><path d="M170 70l10-40 10 40Z"/><path d="M192 158V76a12 12 0 0 1 24 0V158Z"/><path d="M218 158V84h14V158Z"/><path d="M218 84l7-18 7 18Z"/><path d="M234 158V104h18V158Z"/></g><path class="g" d="M173 158V134a7 7 0 0 1 14 0V158ZM111 120h4v8h-4zM131 100h4v8h-4zM151 96h4v8h-4zM197 96h4v8h-4zM221 100h4v8h-4zM240 120h4v8h-4z" style="opacity:.55"/><g class="f"><path d="M0 158H360V200H0Z"/></g><g class="m"><path d="${wvs(172,6,12)}"/></g><g class="n"><path d="${wvs(193,6,9,40)}"/></g><path class="w" d="M222 175H314L306 187C298 192 282 194 268 194S240 192 230 187Z" style="opacity:.45"/><g class="w"><rect x="266.8" y="126" width="2.6" height="52" style="opacity:.6"/><rect x="245" y="136" width="46" height="2.4" style="opacity:.6"/><path d="M248 139H288L285 167C277 172 259 172 251 167Z" style="opacity:.72"/></g><path class="g" d="M269 126l16-4v9Z" style="opacity:.7"/>`
+  ()=>`${GLW(180,112,104,.7)}<g class="m"><path d="M108 158V104h18V158Z"/><path d="M128 158V84h14V158Z"/><path d="M128 84l7-18 7 18Z"/><path d="M144 158V76a12 12 0 0 1 24 0V158Z"/><path d="M170 158V70h20V158Z"/><path d="M170 70l10-40 10 40Z"/><path d="M192 158V76a12 12 0 0 1 24 0V158Z"/><path d="M218 158V84h14V158Z"/><path d="M218 84l7-18 7 18Z"/><path d="M234 158V104h18V158Z"/></g><path class="g" d="M173 158V134a7 7 0 0 1 14 0V158ZM111 120h4v8h-4zM131 100h4v8h-4zM151 96h4v8h-4zM197 96h4v8h-4zM221 100h4v8h-4zM240 120h4v8h-4z" style="opacity:.55"/><g class="f"><path d="M0 158H360V200H0Z"/></g><g class="m"><path d="${wvs(172,6,12)}"/></g><g class="n"><path d="${wvs(193,6,9,40)}"/></g><path class="w" d="M222 175H314L306 187C298 192 282 194 268 194S240 192 230 187Z" style="opacity:.45"/><g class="w"><rect x="266.8" y="126" width="2.6" height="52" style="opacity:.6"/><rect x="245" y="136" width="46" height="2.4" style="opacity:.6"/><path d="M248 139H288L285 167C277 172 259 172 251 167Z" style="opacity:.72"/></g><path class="g" d="M269 126l16-4v9Z" style="opacity:.7"/>`,
+  /* 6 · Campamento (Ruleta, Con amigos, salas y amigos): dos tiendas, una fogata que alumbra, una palmera y estrellitas */
+  ()=>`<g class="f"><path d="M0 134C54 112 112 128 176 120S292 106 360 126V200H0Z"/></g>${[[70,100,.8],[118,88,.65],[236,96,.75],[292,82,.6]].map(([x,y,k])=>`<path class="g" d="M${x} ${y-7*k}Q${x+k} ${y-k} ${x+7*k} ${y}Q${x+k} ${y+k} ${x} ${y+7*k}Q${x-k} ${y+k} ${x-7*k} ${y}Q${x-k} ${y-k} ${x} ${y-7*k}Z" style="opacity:.8"/>`).join("")}<g class="m"><path d="M0 164C66 146 138 164 206 158S318 146 360 160V200H0Z"/></g>${GLW(180,168,66,.85)}<path class="s" d="M324 192C322 172 327 152 336 134M336 134q-14-11-30-5M336 134q-5-17-23-19M336 134q9-14 25-11M336 134q15-3 25 9M336 134q-11 1-17 13" style="stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round"/><g class="n"><path d="M38 184L76 128L114 184Z"/><path d="M228 186L258 142L288 186Z"/><path d="M0 191C70 182 150 194 230 188S322 182 360 191V200H0Z"/></g><path class="g" d="M76 142L66 184H86Z" style="opacity:.6"/><path class="g" d="M258 154L250 186H266Z" style="opacity:.55"/><path class="g" d="M180 148Q192 164 189 176Q185 183 180 183Q175 183 171 176Q168 164 180 148Z" style="opacity:.95"/><path class="s" d="M164 189L196 181M164 181L196 189" style="stroke-width:4.4;stroke-linecap:round"/>`,
+  /* 7 · Pradera (Modo niños y álbum): sol, arcoíris, nubecita, corderitos y florecitas */
+  ()=>`${GLW(62,118,60,.85)}<circle class="g" cx="62" cy="118" r="13" style="opacity:.92"/><g fill="none" stroke-linecap="round" class="rb"><path d="M190 178A72 72 0 0 1 334 178" stroke="#ff7070" stroke-width="6.4"/><path d="M196.5 178A65.5 65.5 0 0 1 327.5 178" stroke="#ffb64d" stroke-width="6.4"/><path d="M203 178A59 59 0 0 1 321 178" stroke="#ffe34d" stroke-width="6.4"/><path d="M209.5 178A52.5 52.5 0 0 1 314.5 178" stroke="#5ad19a" stroke-width="6.4"/><path d="M216 178A46 46 0 0 1 308 178" stroke="#5aa2ff" stroke-width="6.4"/></g><g class="w" style="opacity:.78"><ellipse cx="146" cy="108" rx="25" ry="8"/><circle cx="138" cy="102" r="9"/><circle cx="155" cy="99" r="11.5"/></g><g class="f"><path d="M0 150C54 132 118 148 184 140S300 128 360 144V200H0Z"/></g><g class="m"><path d="M0 172C70 156 150 172 226 166S322 156 360 168V200H0Z"/></g><path class="n" d="M36 192V170h5V192Z"/><circle class="m" cx="38.5" cy="162" r="13" style="opacity:.55"/>${[[84,172,1.4],[126,178,1.1],[164,174,1.25]].map(([x,y,k])=>`<g transform="translate(${x} ${y}) scale(${k})"><g class="w" style="opacity:.85"><ellipse rx="8.5" ry="5.8"/><circle cx="8.5" cy="-2.4" r="3.4"/></g><path class="s" d="M-4.5 4.5v6M3.5 4.5v6" style="stroke-width:2"/></g>`).join("")}<g class="n"><path d="M0 190C80 181 160 194 244 188S330 181 360 190V200H0Z"/></g>${[[72,189],[118,192],[170,189],[228,192],[274,188],[312,192]].map(([x,y],i)=>`<circle class="g" cx="${x}" cy="${y}" r="2.3" style="opacity:${i%2?.7:.9}"/>`).join("")}`
 ];
 let GID="bgg"; /* cada dibujo lleva su propio id de degradado (la misma escena sale también en el Mapa) */
 const GLW=(x,y,r,o)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="url(#${GID})" style="opacity:${o}"/>`; /* resplandor suave */
 const sceneArt=(i,id="bgg",vb="0 0 360 200")=>(GID=id,`<svg viewBox="${vb}" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false"><defs><radialGradient id="${id}"><stop offset="0" stop-color="#ffd26e" stop-opacity=".95"/><stop offset=".4" stop-color="#ffb43b" stop-opacity=".4"/><stop offset="1" stop-color="#ffb43b" stop-opacity="0"/></radialGradient></defs>${SCN[i]()}</svg>`);
+const SCX=[{c:"#7c5cf0",d:"#3b2a8f",l:"#a690ff"},{c:"#35b97b",d:"#14724a",l:"#8fe0b8"}]; /* colores de las escenas 6 (campamento) y 7 (pradera); las 0–5 usan los de su bloque */
 /* pone la escena del bloque i detrás de la pantalla de pregunta (si ya es esa, no la toca); con otro número o sin pregunta, la apaga */
 function setScene(i){
   let el=document.getElementById("bgs");
   if(!(i>=0&&i<SCN.length)){if(el)el.classList.remove("on");return}
   if(!el){el=document.createElement("div");el.id="bgs";el.setAttribute("aria-hidden","true");document.body.insertBefore(el,document.body.firstChild)}
-  if(el.dataset.i!==String(i)){const b=BLK[i];el.style.cssText=`--cc:${b.c};--ccd:${b.d};--ccl:${b.l}`;el.innerHTML=sceneArt(i);el.dataset.i=i}
+  if(el.dataset.i!==String(i)){const b=BLK[i]||SCX[i-BLK.length];el.style.cssText=`--cc:${b.c};--ccd:${b.d};--ccl:${b.l}`;el.innerHTML=sceneArt(i);el.dataset.i=i}
   requestAnimationFrame(()=>{el.classList.add("on");sceneFit()})}
 /* si el contenido de la pantalla llega hasta abajo (celulares bajitos, preguntas largas o varias pistas) la escena se atenúa para no estorbar la lectura */
 function sceneFit(){
   const el=document.getElementById("bgs"),sc=document.querySelector("#app .screen");if(!el||!sc)return;
   const free=innerHeight-(sc.getBoundingClientRect().bottom+(window.scrollY||0));
-  el.classList.toggle("dim",free<150)}
+  el.classList.toggle("dim",free<150);el.classList.toggle("off",free<40&&+el.dataset.i>=BLK.length)} /* las escenas de preparación (campamento, pradera) se apagan del todo si el contenido llena la pantalla: no se transparentan detrás de las tarjetas */
 addEventListener("resize",()=>{try{sceneFit()}catch(e){}});
 
 /* chispitas de colores al acertar: salen del centro de un botón y se borran solas (con «reducir movimiento» no se muestran) */
@@ -1296,7 +1339,7 @@ function mcPickBind(){
    Secciones: núcleo · inicio / logros / ajustes · partida solo ·
               ruleta · en línea · arranque (PWA)
    ============================================================ */
-const APPV="4.6.0";
+const APPV="4.7.0";
 /* NETV = versión del juego EN LÍNEA (preguntas y reglas). Súbela solo cuando cambien las
    preguntas o las reglas del juego: así quien tenga la app un poco más vieja puede seguir
    jugando con los demás. (La 3.2 y la 3.3 solo agregaron fotos y el lector de la RVR1960, por eso
@@ -4341,6 +4384,7 @@ applyTheme();
 try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",applyTheme)}catch(e){}
 
 /* ---------- rangos y logros ---------- */
+const RKC=["#5fcf80","#5aa2ff","#2cc2b3","#a06bff","#ff9a3d","#ff6fae","#f5b82e"]; /* color del aro de tu foto en el inicio: sube con tu rango */
 const RANKS=[[0,"🌱","Semilla de mostaza"],[1500,"🕊️","Discípulo"],[4000,"🎣","Pescador de hombres"],[9000,"🐑","Pastor"],[16000,"📜","Escriba"],[28000,"🦉","Sabio"],[45000,"👑","Erudito bíblico"]];
 function rank(p=D.pts){let i=0;while(i<RANKS.length-1&&p>=RANKS[i+1][0])i++;const[from,e,n]=RANKS[i],nx=RANKS[i+1];return{i,e,n,from,next:nx?nx[2]:null,pct:nx?Math.min(100,Math.round((p-from)/(nx[0]-from)*100)):100}}
 const MEDALS=[
@@ -4470,7 +4514,8 @@ function view(html,name,cls=""){
   A.innerHTML=`<div class="screen">${html}</div>`;window.scrollTo(0,0);try{A.focus({preventScroll:true})}catch(e){}
   const top=name==="home"||name==="stats"||name==="settings",nv=$("#nav");nv.hidden=!top;document.body.classList.toggle("hasnav",top);
   if(top)$$("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.go===name));rxBind();frPaint();chBadge();
-  const qc=A.querySelector(".qcard"),bi=qc?parseInt(qc.style.getPropertyValue("--bi"),10):-1;setScene(isNaN(bi)?-1:bi)} /* la escena de fondo sigue al bloque de la pregunta; sin pregunta, se apaga */
+  const qc=A.querySelector(".qcard"),bi=qc?parseInt(qc.style.getPropertyValue("--bi"),10):-1;setScene(qc&&!isNaN(bi)?bi:name in MENUSC?MENUSC[name]:-1)} /* la escena de fondo sigue al bloque de la pregunta; en las pantallas de preparación va el campamento o la pradera; si no, se apaga */
+const MENUSC={setup:6,menu:6,lobby:6,amigos:6,kids:7,kalbum:7};
 function pushView(){try{if(!(history.state&&history.state.tb))history.pushState({tb:1},"")}catch(e){}}
 function goHome(){const sub=history.state&&history.state.tb;VIEW="home";if(sub){try{history.back()}catch(e){}}home()}
 function confirmExit(){confirmBox("¿Salir de la partida?","Se perderá el avance de esta partida.","Salir",goHome)}
@@ -4500,7 +4545,7 @@ function home(){
     <button class="ibtn fz${fsz()?" on":""}" id="fzb" aria-label="${FSN[fsz()]}. Toca para cambiar el tamaño del texto">Aa</button>
     <button class="ibtn" id="snd" aria-label="${D.set.snd?"Silenciar":"Activar sonido"}">${ico(D.set.snd?"sound":"mute")}</button>
     <button class="ibtn hq" id="hlp" aria-label="Cómo jugar">?</button></header></div>
-  <section class="card"><div class="prof"><div class="avw"><button class="${avCls(D.pic)}" id="avb" style="--avc:${avc(me)}" aria-label="Elegir mi foto de perfil">${avIn(me,D.pic)}</button><span class="cam" aria-hidden="true">📷</span></div>
+  <section class="card"><div class="prof"><div class="avw" style="--rkc:${RKC[rk.i]}"><button class="${avCls(D.pic)}" id="avb" style="--avc:${avc(me)}" aria-label="Elegir mi foto de perfil">${avIn(me,D.pic)}</button><span class="cam" aria-hidden="true">📷</span></div>
     <div style="min-width:0"><button class="nm" id="nmb" type="button" aria-label="Cambiar mi nombre">${esc(me)}</button><div class="rk">${rk.e} ${rk.n}</div><div class="xp"><i style="--w:${rk.pct}%"></i></div>
     <div class="xpl"><span>${D.pts.toLocaleString("es")} pts</span><span>${rk.next?"Sigue: "+rk.next:"¡Rango máximo!"}</span></div></div></div>
     <div class="stats3"><div class="st3"><b>🔥 ${streakNow()}</b><span>Racha diaria</span></div><div class="st3"><b>👑 ${D.crowns}</b><span>Coronas</span></div><div class="st3"><b>${acc}%</b><span>Aciertos</span></div></div></section>
@@ -4593,10 +4638,7 @@ function stats(){
   view(`<h1 class="h1">Tu progreso</h1><p class="sub">${rk.e} ${rk.n}${rk.next?" · siguiente: "+rk.next:""}</p>
   <div class="card"><div class="xp" style="height:.8rem"><i style="--w:${rk.pct}%"></i></div><div class="xpl"><span>${D.pts.toLocaleString("es")} puntos</span><span>${rk.pct}%</span></div></div>
   <button type="button" class="btn gold" id="shp" style="margin-top:.9rem">📣 Compartir mi progreso</button>
-  <div class="sgrid" style="margin-top:1.3rem"><div class="sbox"><b>${D.games}</b><span>Partidas</span></div><div class="sbox"><b>${D.ok}</b><span>Respuestas correctas</span></div>
-    <div class="sbox"><b>${acc}%</b><span>Precisión</span></div><div class="sbox"><b>🔥 ${D.best}</b><span>Mejor racha diaria</span></div>
-    <div class="sbox"><b>👑 ${D.crowns}</b><span>Coronas ganadas</span></div><div class="sbox"><b>🏆 ${D.wins}</b><span>Ruletas ganadas</span></div>
-    <div class="sbox"><b>🥇 ${D.torw||0}</b><span>Torneos ganados</span></div><div class="sbox"><b>🕵️ ${D.wh||0}</b><span>Personajes adivinados</span></div></div>
+  <div class="sgrid" style="margin-top:1.3rem">${[["#5aa2ff","🎮",D.games,"Partidas"],["#35c98a","✅",D.ok,"Respuestas correctas"],["#ffb940","🎯",acc+"%","Precisión"],["#ff7a3d","🔥",D.best,"Mejor racha diaria"],["#f5b82e","👑",D.crowns,"Coronas ganadas"],["#a06bff","🏆",D.wins,"Ruletas ganadas"],["#ee8a2e","🥇",D.torw||0,"Torneos ganados"],["#2cc2b3","🕵️",D.wh||0,"Personajes adivinados"]].map(([c,e,v,l])=>`<div class="sbox" style="--sc:${c}"><i class="sbi${l==="Precisión"?" pr":""}">${l==="Precisión"?`<s style="--p:${acc}"></s>`:""}${e}</i><div><b>${v}</b><span>${l}</span></div></div>`).join("")}</div>
   <h2 class="h2">Aciertos por bloque</h2><div class="card">${BLK.map((b,i)=>{const s=D.bk[i]||[0,0],p=s[1]?Math.round(100*s[0]/s[1]):0;return`<div class="bk" style="--cc:${b.c};--w:${p}%"><span>${b.e}</span><div><div style="margin-bottom:.25rem">${b.n}</div><div class="bar"><i></i></div></div><em>${s[1]?p+"%":"—"}</em></div>`}).join("")}</div>
   <h2 class="h2">Logros <small>${got} de ${MEDALS.length}</small></h2>
   <div class="medals">${MEDALS.map(m=>`<div class="md ${D.medals[m.id]?"on":"off"}"><i>${m.e}</i><b>${m.t}</b><small>${m.d}</small></div>`).join("")}</div>`,"stats");
@@ -4679,26 +4721,28 @@ function bkApply(R){
 
 function settings(){
   pushView();const s=D.set,inst=!standalone()&&(IP||isIOS);
+  const sh=(c,e,t,d)=>`<div class="srow sch" style="--ic:${c}"><i class="sci" aria-hidden="true">${e}</i><div><b>${t}</b><small>${d}</small></div></div>`;
   const sw=(id,on,t,sm)=>`<div class="srow"><div><b>${t}</b><small>${sm}</small></div><button class="switch" role="switch" id="${id}" aria-checked="${!!on}" aria-label="${t}"></button></div>`;
   view(`<h1 class="h1">Ajustes</h1><p class="sub">Personaliza tu experiencia</p>
   <div class="card"><div class="srow" style="padding-top:0"><span class="${avCls(D.pic)}" id="sav" style="--avc:${avc(D.name||"Jugador")}">${avIn(D.name||"Jugador",D.pic)}</span><div style="flex:1;min-width:0"><b>Foto de perfil</b><small>La ven tus amigos en la ruleta, los duelos y las salas</small></div></div>
   <div class="two"><button class="btn ghost sm" id="sPic">📷 ${D.pic?"Cambiar foto":"Elegir foto"}</button><button class="btn ghost sm" id="sPicX" ${D.pic?"":"disabled"}>Quitar foto</button></div>
-  <label class="lbl" for="sname">Mi nombre</label><input id="sname" maxlength="14" placeholder="Tu nombre" value="${esc(D.name||"")}">
-  ${sw("sSnd",s.snd,"Sonidos","Efectos de acierto, error y ruleta")}${sw("sVib",s.vib,"Vibración","Al responder (solo en celulares compatibles)")}
+  <label class="lbl" for="sname">Mi nombre</label><input id="sname" maxlength="14" placeholder="Tu nombre" value="${esc(D.name||"")}"></div>
+  <div class="card" style="margin-top:.8rem">${sh("#ff9f43","🔔","Sonido y vibración","Efectos de juego y toques al responder")}${sw("sSnd",s.snd,"Sonidos","Efectos de acierto, error y ruleta")}${sw("sVib",s.vib,"Vibración","Al responder (solo en celulares compatibles)")}</div>
+  <div class="card" style="margin-top:.8rem">${sh("#5aa2ff","🎨","Pantalla y juego","Cómo se ve la app y cuánto tiempo tienes")}
   <div class="srow" style="display:block"><b>Tamaño del texto</b><small>Para leer mejor en toda la app. También lo cambias con el botón <b>Aa</b> del inicio</small><div class="seg" id="sFs"><button data-v="0" style="font-size:16px">Normal</button><button data-v="1" style="font-size:19px">Grande</button><button data-v="2" style="font-size:22px">Muy grande</button></div></div>
   <div class="srow" style="display:block"><b>Tema</b><div class="seg" id="sTh"><button data-v="auto">Automático</button><button data-v="light">Claro</button><button data-v="dark">Oscuro</button></div></div>
   <div class="srow" style="display:block"><b>Tiempo por pregunta</b><small>Normal: 15 s · Relajado: 30 s. En línea siempre son 15 s</small><div class="seg" id="sTm"><button data-v="15">15 s</button><button data-v="30">30 s</button><button data-v="0">Sin tiempo</button></div></div></div>
-  <div class="card" style="margin-top:.8rem"><div class="srow" style="display:block;padding-top:0"><b>🐑 Tu compañero</b><small>Te saluda en el inicio, se alegra cuando aciertas y te anima cuando fallas.</small></div>${mcPick()}</div>
-  <div class="card" style="margin-top:.8rem"><div class="srow" style="display:block;padding-top:0"><b>👥 Amigos</b><small>Agrégalos una vez y después los invitas a jugar con un toque.</small></div>
+  <div class="card" style="margin-top:.8rem">${sh("#ff8fab","🐑","Tu compañero","Te saluda en el inicio, se alegra cuando aciertas y te anima cuando fallas.")}${mcPick()}</div>
+  <div class="card" style="margin-top:.8rem">${sh("#35c98a","👥","Amigos","Agrégalos una vez y después los invitas a jugar con un toque.")}
   ${sw("sFon",s.fon!==0,"Aparecer en línea","Tus amigos ven que tienes la app abierta y pueden invitarte")}
   <button class="btn ghost sm" id="sFr" type="button" style="margin-top:.6rem;width:100%">👥 Mis amigos${D.fr.length?" ("+D.fr.length+")":""}</button></div>
-  <div class="card" style="margin-top:.8rem"><div class="srow" style="display:block;padding-top:0"><b>🔊 Leer en voz alta</b><small>El teléfono lee las preguntas y los versículos con su propia voz en español. Los botones 🔊 aparecen en cada pregunta y en cada versículo.</small></div>
+  <div class="card" style="margin-top:.8rem">${sh("#a06bff","🔊","Leer en voz alta","El teléfono lee las preguntas y los versículos con su propia voz en español. Los botones 🔊 aparecen en cada pregunta y en cada versículo.")}
   ${Tts.ok?`${sw("sTts",s.tts,"Leer cada pregunta sola","Al empezar cada pregunta (menos en Contrarreloj)")}
   <div class="srow" style="display:block"><b>Velocidad de la voz</b><div class="seg" id="sVr"><button data-v="0">Normal</button><button data-v="1">Lenta</button></div></div>
   <button class="btn ghost sm" id="sTest" type="button" style="margin-top:.6rem;width:100%">▶️ Probar la voz</button><p class="note" id="sTestR" role="status" hidden></p>`:'<p class="note">Este navegador no puede leer en voz alta.</p>'}</div>
-  <div class="card" style="margin-top:.8rem"><div class="srow" style="display:block;padding-top:0"><b>📖 Leer la Reina-Valera 1960 en</b><small>Los versículos de la app son de la Reina-Valera 1909. La 1960 tiene derechos de autor, por eso la app abre el pasaje en el sitio o la app que elijas.</small></div>
+  <div class="card" style="margin-top:.8rem">${sh("#e8a817","📖","Leer la Reina-Valera 1960 en","Los versículos de la app son de la Reina-Valera 1909. La 1960 tiene derechos de autor, por eso la app abre el pasaje en el sitio o la app que elijas.")}
   <div class="seg" id="sRv"><button data-v="bt">BibliaTodo</button><button data-v="yv">YouVersion</button><button data-v="bg">BibleGateway</button></div><p class="note" id="sRvH" style="margin-top:.6rem">${rvHint()}</p></div>
-  <div class="card" style="margin-top:.8rem"><div class="srow" style="display:block;padding-top:0"><b>💾 Copia de seguridad</b><small>Guarda tu progreso en un código y recupéralo en otro celular o si se borran los datos. No incluye tu foto.</small></div>
+  <div class="card" style="margin-top:.8rem">${sh("#2cc2b3","💾","Copia de seguridad","Guarda tu progreso en un código y recupéralo en otro celular o si se borran los datos. No incluye tu foto.")}
     <div class="two"><button class="btn ghost sm" id="bkC">📋 Copiar código</button><button class="btn ghost sm" id="bkS">📤 Compartir</button></div>
     <button class="btn ghost sm" id="bkR" style="margin-top:.6rem;width:100%">📥 Recuperar progreso</button></div>
   ${YV_ON?`<details class="card adv"><summary>📖 Reina-Valera 1960 dentro de la app (avanzado)</summary>

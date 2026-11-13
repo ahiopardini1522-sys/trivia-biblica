@@ -1,5 +1,23 @@
-TRIVIA BÍBLICA · versión 4.6.0
+TRIVIA BÍBLICA · versión 4.7.0
 ==============================
+
+NOVEDADES DE LA 4.7.0 · MÁS COLOR Y MÁS VIDA EN LAS PANTALLAS
+  - Respuestas con color propio: la A es azul, la B violeta, la C dorada y la D turquesa, y cada botón
+    tiene un leve resplandor de su color a la izquierda. Se ubican de un vistazo. (El Modo niños conserva
+    sus colores de siempre; al responder, verde y rojo se ven igual que antes.)
+  - Fondos dibujados en las pantallas que tenían mucho espacio vacío:
+      · Modo niños y Álbum de figuritas: una pradera con sol, arcoíris, nubecita, corderitos y flores.
+      · Ruleta (preparación), Con amigos, salas y Amigos: un campamento de noche con tiendas, fogata,
+        palmera y estrellitas.
+    Son dibujos fijos (no se mueven, no gastan batería) y se apagan solos si la pantalla está llena.
+  - Estadísticas («Logros»): cada número lleva su ícono de color (🎮 ✅ 🔥 👑 🏆 🥇 🕵️) y la Precisión
+    tiene un aro que se llena según tu porcentaje.
+  - Ajustes ordenados en secciones con ícono de color: Perfil, Sonido y vibración, Pantalla y juego, Tu
+    compañero, Amigos, Leer en voz alta, Reina-Valera 1960 y Copia de seguridad. Todo funciona igual.
+  - El aro de tu foto en el Inicio cambia de color según tu rango (verde, azul, turquesa, violeta,
+    naranja, rosa y dorado para «Erudito bíblico»).
+  - Claro y oscuro, «Texto grande» y «Texto muy grande» revisados. Nada cambia en cómo se juega ni en
+    el juego en línea (sigue 3.8.0).
 
 NOVEDADES DE LA 4.6.0 · TRES COMPAÑEROS DIBUJADOS Y PULIDO PARA CELULARES CHICOS
   - 🐑 Lanita (corderita), 🕊️ Paloma (con su ramita de olivo) y 🦁 Leo (leoncito). Son dibujos propios,
